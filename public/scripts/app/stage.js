@@ -41,8 +41,8 @@ function setupStage(grid){
 
     if (hex.unit){
       hex.unit.animatePath = (node, path) => getUnitMoveAnim(unitLayer, path, node, center);
-      hex.unit.sceneNode.setX(center.x + hex.center.x - 23);
-      hex.unit.sceneNode.setY(center.y + hex.center.y - 28);
+      hex.unit.sceneNode.setX(center.x + hex.center.x);
+      hex.unit.sceneNode.setY(center.y + hex.center.y);
       unitLayer.add(hex.unit.sceneNode);
     }
   }
@@ -71,6 +71,6 @@ function setupStage(grid){
     layer = new Konva.Layer();
   }
   stage.add(hlLayer);
-  stage.add(unitLayer);
   stage.add(effectLayer);
+  stage.add(unitLayer);
 }
