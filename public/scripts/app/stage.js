@@ -49,15 +49,12 @@ function setupStage(grid){
   
     grid.initDrawing(center);
     
-    var chunks = chunkArray(grid.hexes, 100);
+    var chunks = chunkArray(grid.getHexes(), 100);
     for(var n = 0; n < chunks.length; n++){
       var layer = new Konva.Layer();
       for(var i = 0; i < chunks[n].length; i++){
         var hex = chunks[n][i];
-        if (hex.center.x + center.x > 0 && hex.center.x + center.x < width
-          && hex.center.y + center.y > 0 && hex.center.y + center.y < height){  
-          addNode(hex, layer);
-        }
+        addNode(hex, layer);
       }
       stage.add(layer);
       layer = new Konva.Layer();

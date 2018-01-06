@@ -15,7 +15,7 @@ Game.Battle.prototype.load = function(){
 }
 
 Game.Battle.prototype.getTerrain = function() {
-	return this.terrain.slice();
+	return this.terrain;
 };
 
 Game.Battle.prototype.getUnits = function() {
