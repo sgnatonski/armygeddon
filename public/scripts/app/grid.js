@@ -22,7 +22,9 @@ function initGrid(battle){
   }
 
   function getPathInRange (sourceHex, targetHex, range) {
-    var path = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y));
+    var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y));
+    var terrain = battle.getTerrain();
+    var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
     var inRange = path.reduce((acc, curr) => {
       var accCost = acc.map(x => x.cost).reduce((a,b) => a + b, -sourceHex.cost);
       if (accCost + curr.cost <= range){
@@ -87,7 +89,9 @@ function initGrid(battle){
       var range = grid.selectedHex.unit.mobility > 0
         ? grid.selectedHex.unit.mobility
         : grid.selectedHex.unit.range;
-      range = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), range);
+      var gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), range);
+      var terrain = battle.getTerrain();
+      range = gridRange.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
     }
     return range;
   };
@@ -108,7 +112,7 @@ function initGrid(battle){
       return [];
     }
     var path = getPathInRange(grid.selectedHex, targetHex, grid.selectedHex.unit.mobility);
-    return path
+    return path;
   };
 
   function initDrawing(center) {
