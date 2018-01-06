@@ -27,6 +27,7 @@ function initScene(battle){
     grid.hexSelected = (hex) => {
       return new Promise(function(resolve,reject){
         var selectedHex = grid.selectedHex;
+        grid.setSelectedHex();
 
         function resolveAction(results){
           var movedUnit = results[0];
@@ -48,7 +49,6 @@ function initScene(battle){
             var unit = selectedHex.unit;
             var movePromise = battle.unitMoving(unit, hex.x, hex.y);
             var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
-            grid.setSelectedHex();
             Promise.all([movePromise, animPromise]).then(resolveAction);
           }
         }
@@ -58,7 +58,6 @@ function initScene(battle){
             var unit = selectedHex.unit;
             var movePromise = battle.unitAttacking(unit, hex.x, hex.y);
             //var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
-            grid.setSelectedHex();
             Promise.all([movePromise/*, animPromise*/]).then(resolveAction);
           }
         }
@@ -97,6 +96,14 @@ function initScene(battle){
         return acc;
       }, [sourceHex]);
       return inRange;
+    };
+
+    grid.getPathFromSelectedHex = (targetHex) => {
+      if (!grid.selectedHex || !grid.selectedHex.unit){
+        return [];
+      }
+      var path = grid.getPathInRange(grid.selectedHex, targetHex, grid.selectedHex.unit.mobility);
+      return path
     };
 
     grid.initDrawing = function(center){

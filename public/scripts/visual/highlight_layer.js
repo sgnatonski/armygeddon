@@ -1,8 +1,8 @@
-function createHighlightLayer(stage){
+function createHighlightLayer(center){
     var layer = new Konva.Layer();
     var overNode = null;
 
-    layer.highlightNode = (hex, center) => {
+    layer.highlightNode = (hex) => {
         if (overNode){
             overNode.remove();
             overNode.destroy();
@@ -17,7 +17,7 @@ function createHighlightLayer(stage){
         layer.draw();
     };
 
-    function highlightMoveRange (hexes, center) {
+    function highlightMoveRange (hexes) {
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
@@ -29,7 +29,7 @@ function createHighlightLayer(stage){
         }
     };
 
-    function highlightAttackRange (hexes, center) {
+    function highlightAttackRange (hexes) {
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
@@ -42,7 +42,7 @@ function createHighlightLayer(stage){
         }
     };
 
-    layer.highlightRange = (hexes, highlightType, center) => {
+    layer.highlightRange = (hexes, highlightType) => {
         switch(highlightType){
             case "move":
                 highlightMoveRange(hexes, center);

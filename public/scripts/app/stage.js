@@ -9,37 +9,35 @@ function setupStage(grid){
       height: height
     });
   
-    var effectLayer = createEffectLayer();
+    var effectLayer = createEffectLayer(center);
     var unitLayer = new Konva.Layer();
-    var hlLayer = createHighlightLayer();
+    var hlLayer = createHighlightLayer(center);
   
-    function addNode(hex, layer) {    
-      //var text = createHexCoordVisual(hex, center);
+    function addNode(hex, layer) {
       var node = createHexVisual(hex, center);
 
       node.on('click', () => {
-        hlLayer.highlightNode(null, center);
-        effectLayer.drawPath(grid, null, null, center);
-        hlLayer.highlightRange([], grid.getSelectedHexState(), center);
+        hlLayer.highlightNode(null);
+        effectLayer.drawPath([]);
+        hlLayer.highlightRange([], grid.getSelectedHexState());
         grid.hexSelected(hex).then(() => {
-            hlLayer.highlightNode(hex, center);
-            effectLayer.drawPath(grid, grid.selectedHex, hex, center);
-            hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState(), center);
+            hlLayer.highlightNode(hex);
+            effectLayer.drawPath(grid.getPathFromSelectedHex(hex));
+            hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
         });
       });
   
       node.on('mouseenter', () => {
-        hlLayer.highlightNode(hex, center);
-        effectLayer.drawPath(grid, grid.selectedHex, hex, center);
-        hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState(), center);
+        hlLayer.highlightNode(hex);
+        effectLayer.drawPath(grid.getPathFromSelectedHex(hex));
+        hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
       });
       
       node.on('mouseleave', () => {
-        hlLayer.highlightNode(null, center);
+        hlLayer.highlightNode(null);
       });
   
       layer.add(node);
-      //layer.add(text);
   
       if (hex.unit){
         hex.unit.animatePath = (node, path) => getUnitMoveAnim(unitLayer, path, node, center);

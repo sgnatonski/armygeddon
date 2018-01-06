@@ -1,23 +1,19 @@
-function createEffectLayer(stage){
+function createEffectLayer(center){
     var layer = new Konva.Layer();
 
-    function getMoveLinePoints (grid, fromHex, toHex, center) {
-        if (!fromHex || !fromHex.unit){
-          return [];
-        }
-        var path = grid.getPathInRange(fromHex, toHex, fromHex.unit.mobility);
+    function getMoveLinePoints (path) {
         var linepoints = path.map(h => h.center).reduce((acc, curr) => acc.concat([center.x + curr.x, center.y + curr.y]), []);
         return linepoints;
       }
 
-    layer.drawPath = (grid, fromHex, toHex, center) => {
+    layer.drawPath = (path) => {
         var moveLines = layer.find('.move_line');
         moveLines.each(line => {          
           line.remove();
           line.destroy();
         });
   
-        var linepoints = getMoveLinePoints(grid, fromHex, toHex, center);
+        var linepoints = getMoveLinePoints(path, center);
         if (linepoints && linepoints.length){
           var moveLine = createMoveLineVisual(linepoints);  
           layer.add(moveLine);
