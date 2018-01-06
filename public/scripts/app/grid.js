@@ -89,7 +89,8 @@ function initGrid(battle){
       var range = grid.selectedHex.unit.mobility > 0
         ? grid.selectedHex.unit.mobility
         : grid.selectedHex.unit.range;
-      var gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), range);
+      var ignoreInertia = getSelectedHexState() == 'attack';
+      var gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), range, ignoreInertia);
       var terrain = battle.getTerrain();
       range = gridRange.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
     }
