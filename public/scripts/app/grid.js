@@ -41,7 +41,7 @@ function initGrid(battle){
         var unit = battle.nextUnit();
         var nextHex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
         setSelectedHex(nextHex.x, nextHex.y);
-        resolve();
+        resolve(nextHex);
         return;
       }
       
@@ -50,21 +50,21 @@ function initGrid(battle){
 
       function resolveAction(results){
         var movedUnit = results[0];
-        selectedHex.unit = null;
-        selectedHex.blocked = false;
         var hex = grid.getHexAt(new BHex.Axial(movedUnit.pos.x, movedUnit.pos.y));
         hex.blocked = true;
         hex.unit = movedUnit;
+        selectedHex.unit = null;
+        selectedHex.blocked = false;
         
         var nextUnit = battle.nextUnit();
         var nextHex = grid.getHexAt(new BHex.Axial(nextUnit.pos.x, nextUnit.pos.y));
         setSelectedHex(nextHex.x, nextHex.y);
-        resolve();
+        resolve(nextHex);
       }
 
       if (selectedHex.unit.mobility > 0){        
         var path = getPathInRange(selectedHex, hex, selectedHex.unit.mobility);
-        if (path.length){
+        if (path.length && path[path.length - 1].x == hex.x && path[path.length - 1].y){
           var unit = selectedHex.unit;
           var movePromise = battle.unitMoving(unit, hex.x, hex.y);
           var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
@@ -73,7 +73,7 @@ function initGrid(battle){
       }
       else if (selectedHex.unit.attacks > 0 && hex.unit){
         var path = getPathInRange(selectedHex, hex, selectedHex.unit.range);
-        if (path.length){
+        if (path.length && path[path.length - 1].x == hex.x && path[path.length - 1].y){
           var unit = selectedHex.unit;
           var movePromise = battle.unitAttacking(unit, hex.x, hex.y);
           //var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);

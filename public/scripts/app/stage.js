@@ -20,9 +20,9 @@ function setupStage(grid){
       hlLayer.highlightNode(null);
       effectLayer.drawPath([]);
       hlLayer.highlightRange([], grid.getSelectedHexState());
-      grid.hexSelected(hex).then(() => {
-          hlLayer.highlightNode(hex);
-          effectLayer.drawPath(grid.getPathFromSelectedHex(hex));
+      grid.hexSelected(hex).then(h => {
+          hlLayer.highlightNode(h);
+          effectLayer.drawPath(grid.getPathFromSelectedHex(h));
           hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
       });
     });

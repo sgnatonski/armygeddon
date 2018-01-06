@@ -3,7 +3,7 @@ function attachUnitVisual(unit){
     listening: false,
     offset: {
       x: 19,
-      y: 20
+      y: 15
     }
   });
   var unitPath = new Konva.Path({
@@ -12,20 +12,38 @@ function attachUnitVisual(unit){
     scale: {
       x: 0.08,
       y: 0.08
-    }
+    },
+    offsetY: 60
   });
+  var healthGroup = new Konva.Group();
   var healthStatus = new Konva.Rect({
     x: 0,
-    y: 5,
+    y: 0,
     width: 3,
     height: 30,
     fill: 'white',
-    stroke: '#333333',
+    stroke: 'black',
+    strokeWidth: 1
+  });
+  var healthStatusBar = new Konva.Shape({
+    sceneFunc: function(context) {
+      var fillValue = 0.75;//unit.endurance / unit.lifetime.endurance;
+      var off = Math.floor(30 * fillValue);
+      context.beginPath();
+      context.rect(0, 30 - off, 3, off);
+      context.closePath();
+      // Konva specific method
+      context.fillStrokeShape(this);
+    },
+    fill: 'green',
+    stroke: 'black',
     strokeWidth: 0.5
   });
+  healthGroup.add(healthStatus);
+  healthGroup.add(healthStatusBar);
   var moveStatus = new Konva.Rect({
     x: 33,
-    y: 5,
+    y: 0,
     width: 3,
     height: 30,
     fill: 'white',
@@ -34,7 +52,7 @@ function attachUnitVisual(unit){
   });
   var attacksStatus = new Konva.Rect({
     x: 37,
-    y: 5,
+    y: 0,
     width: 3,
     height: 30,
     fill: 'white',
@@ -42,7 +60,7 @@ function attachUnitVisual(unit){
     strokeWidth: 0.5
   });
   group.add(unitPath);
-  group.add(healthStatus);
+  group.add(healthGroup);
   group.add(moveStatus);
   group.add(attacksStatus);
   unit.sceneNode = group;
