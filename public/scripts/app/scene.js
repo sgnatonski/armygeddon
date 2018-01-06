@@ -26,6 +26,14 @@ function initScene(battle){
   
     grid.hexSelected = (hex) => {
       return new Promise(function(resolve,reject){
+        if (!grid.selectedHex){
+          var unit = battle.nextUnit();
+          var nextHex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
+          grid.setSelectedHex(nextHex.x, nextHex.y);
+          resolve();
+          return;
+        }
+        
         var selectedHex = grid.selectedHex;
         grid.setSelectedHex();
 
