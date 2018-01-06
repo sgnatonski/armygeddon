@@ -1,4 +1,5 @@
-function createHexVisual(hex, center){
+function createHexVisual(hex, c){
+    var center = c;
     function nextCoord(idx){
         return [center.x + hex.points[idx].x, center.y + hex.points[idx].y]
     }

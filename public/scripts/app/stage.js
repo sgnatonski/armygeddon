@@ -9,43 +9,27 @@ function setupStage(grid){
       height: height
     });
   
-    var effectLayer = new Konva.Layer();
+    var effectLayer = createEffectLayer();
     var unitLayer = new Konva.Layer();
-    
+    var hlLayer = createHighlightLayer();
+  
     function addNode(hex, layer) {    
       //var text = createHexCoordVisual(hex, center);
       var node = createHexVisual(hex, center);
-  
+
       node.on('click', () => {
         grid.hexSelected(hex);
-        node.fire('mouseover');
+        node.fire('mouseenter');
       });
   
-      node.on('mouseover', () => {
-        grid.hexHover(hex);
-        var moveLines = effectLayer.find('.move_line');
-        moveLines.each(line => {          
-          line.remove();
-          line.destroy();
-        });
-  
-        var linepoints = grid.getMoveLinePoints(hex, center);
-        if (linepoints && linepoints.length){
-          var moveLine = createMoveLineVisual(linepoints);  
-          effectLayer.add(moveLine);
-        }
-  
-        var dirtyLayers = new Set([layer, effectLayer]);
-        var hexes = grid.highlightSelectedUnitRange();
-        if (hexes && hexes.length){
-          hexes.forEach(h => dirtyLayers.add(h.sceneNode.getLayer()));
-        }
-        dirtyLayers.forEach(l => l.draw());
+      node.on('mouseenter', () => {
+        hlLayer.highlightNode(hex, center);
+        effectLayer.drawPath(grid, grid.selectedHex, hex, center);
+        hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState(), center);
       });
       
-      node.on('mouseout', () => {
-        grid.hexHoverEnd(hex);
-        layer.draw();
+      node.on('mouseleave', () => {
+        hlLayer.highlightNode(null, center);
       });
   
       layer.add(node);
@@ -74,6 +58,7 @@ function setupStage(grid){
       stage.add(layer);
       layer = new Konva.Layer();
     }
+    stage.add(hlLayer);
     stage.add(unitLayer);
     stage.add(effectLayer);
   }

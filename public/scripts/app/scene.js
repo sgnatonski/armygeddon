@@ -13,26 +13,18 @@ function initScene(battle){
     var grid = new BHex.Grid(calculateSceneSize(battle.getTerrain()));
     grid.setSelectedHex = (x, y) => {
       var selectedHex = grid.selectedHex;
-      if (selectedHex){
-        selectedHex.sceneNode.resetFill();
-        selectedHex.sceneNode.resetBorder();
-      }
   
       grid.selectedHex = null;
 
       if (x != undefined && y != undefined){
         var hex = grid.getHexAt(new BHex.Axial(x, y));
-        if (hex.sceneNode && hex !== selectedHex){
-          grid.selectedHex = hex;
-          hex.sceneNode.setSelectedFill();   
-          hex.sceneNode.setSelectedBorder();      
+        if (hex !== selectedHex){
+          grid.selectedHex = hex;   
         }
       }
     }
   
     grid.isHexSelected = (hex) => grid.selectedHex == hex;
-  
-    grid.highlightedhexes = [];
   
     grid.hexSelected = (hex) => {
       var selectedHex = grid.selectedHex;
@@ -54,7 +46,7 @@ function initScene(battle){
             var nextUnit = battle.nextUnit();
             var nextHex = grid.getHexAt(new BHex.Axial(nextUnit.pos.x, nextUnit.pos.y));
             grid.setSelectedHex(nextHex.x, nextHex.y);
-            nextHex.sceneNode.fire('mouseover');
+            nextHex.sceneNode.fire('mouseenter');
           });
         }
       }
@@ -76,78 +68,33 @@ function initScene(battle){
             var nextUnit = battle.nextUnit();
             var nextHex = grid.getHexAt(new BHex.Axial(nextUnit.pos.x, nextUnit.pos.y));
             grid.setSelectedHex(nextHex.x, nextHex.y);
-            nextHex.sceneNode.fire('mouseover');
+            nextHex.sceneNode.fire('mouseenter');
           });
         }
       }
     };
-  
-    grid.highlightSelectedUnitRange = () => {
-      var highlightedHexes = grid.highlightedhexes || [];
-      grid.highlightedhexes.forEach(h => {
-        h.sceneNode.resetFill();
-      });   
-      grid.highlightedhexes = [];
-  
+
+    grid.getSelectedHexRange = () => {
+      var range = [];
       if (grid.selectedHex && grid.selectedHex.unit){
         var range = grid.selectedHex.unit.mobility > 0
           ? grid.selectedHex.unit.mobility
           : grid.selectedHex.unit.range;
-        var range = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), range);
-        for (var i = 0; i < range.length; i++){
-          if (range[i].sceneNode){
-            grid.highlightedhexes.push(range[i]);
-            if (grid.selectedHex.unit.mobility > 0){
-              range[i].sceneNode.setHighlightedMoveFill();
-            }
-            else{
-              range[i].sceneNode.setHighlightedAttackFill();
-            }
-          }
-        }
+        range = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), range);
       }
-
-      var changedHexes = grid.highlightedhexes.filter(i => highlightedHexes.indexOf(i) < 0)
-        .concat(highlightedHexes.filter(i => grid.highlightedhexes.indexOf(i) < 0));
-
-      return changedHexes;
+      return range;
     };
 
-    grid.getMoveLinePoints = (hex, center) => {
-      if (!grid.selectedHex || !grid.selectedHex.unit){
-        return [];
+    grid.getSelectedHexState = () => {
+      if (grid.selectedHex && grid.selectedHex.unit){
+        return grid.selectedHex.unit.mobility > 0
+            ? 'move'
+            : grid.selectedHex.unit.attacks > 0
+              ? 'attack'
+              : 'done';
       }
-      var path = grid.getPathInRange(grid.selectedHex, hex, grid.selectedHex.unit.mobility);
-      var linepoints = path.map(h => h.center).reduce((acc, curr) => acc.concat([center.x + curr.x, center.y + curr.y]), []);
-      return linepoints;
+      return '';
     }
-
-    grid.hexHover = (hex) => {
-      if (!grid.isHexSelected(hex)){
-        hex.sceneNode.setHoverFill();
-      }
-    };
-  
-    grid.hexHoverEnd = (hex) => {
-      if (grid.selectedHex){
-        if (grid.highlightedhexes.indexOf(hex) == -1){
-          hex.sceneNode.resetFill();
-          hex.sceneNode.resetBorder();
-        }
-        else if (!grid.isHexSelected(hex)){
-          if (grid.selectedHex.unit.mobility > 0){
-            hex.sceneNode.setHighlightedMoveFill();
-          }
-          else{
-            hex.sceneNode.setHighlightedAttackFill();
-          }
-        }
-      }
-      else if (!grid.isHexSelected(hex)){
-        hex.sceneNode.resetFill();
-        hex.sceneNode.resetBorder();
-      }
-    };
 
     grid.getPathInRange = (sourceHex, targetHex, range) => {
       var path = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y));
