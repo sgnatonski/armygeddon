@@ -18,8 +18,14 @@ function setupStage(grid){
       var node = createHexVisual(hex, center);
 
       node.on('click', () => {
-        grid.hexSelected(hex);
-        node.fire('mouseenter');
+        hlLayer.highlightNode(null, center);
+        effectLayer.drawPath(grid, null, null, center);
+        hlLayer.highlightRange([], grid.getSelectedHexState(), center);
+        grid.hexSelected(hex).then(() => {
+            hlLayer.highlightNode(hex, center);
+            effectLayer.drawPath(grid, grid.selectedHex, hex, center);
+            hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState(), center);
+        });
       });
   
       node.on('mouseenter', () => {

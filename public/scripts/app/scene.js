@@ -24,54 +24,45 @@ function initScene(battle){
       }
     }
   
-    grid.isHexSelected = (hex) => grid.selectedHex == hex;
-  
     grid.hexSelected = (hex) => {
-      var selectedHex = grid.selectedHex;
-      if (selectedHex.unit.mobility > 0){        
-        var path = grid.getPathInRange(selectedHex, hex, selectedHex.unit.mobility);
-        if (path.length){
-          var unit = selectedHex.unit;
-          var movePromise = battle.unitMoving(unit, hex.x, hex.y);
-          var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
-          grid.setSelectedHex();
-          Promise.all([movePromise, animPromise]).then(values => {
-            var movedUnit = values[0];
-            selectedHex.unit = null;
-            selectedHex.blocked = false;
-            var hex = grid.getHexAt(new BHex.Axial(movedUnit.pos.x, movedUnit.pos.y));
-            hex.blocked = true;
-            hex.unit = movedUnit;
-            
-            var nextUnit = battle.nextUnit();
-            var nextHex = grid.getHexAt(new BHex.Axial(nextUnit.pos.x, nextUnit.pos.y));
-            grid.setSelectedHex(nextHex.x, nextHex.y);
-            nextHex.sceneNode.fire('mouseenter');
-          });
+      return new Promise(function(resolve,reject){
+        var selectedHex = grid.selectedHex;
+
+        function resolveAction(results){
+          var movedUnit = results[0];
+          selectedHex.unit = null;
+          selectedHex.blocked = false;
+          var hex = grid.getHexAt(new BHex.Axial(movedUnit.pos.x, movedUnit.pos.y));
+          hex.blocked = true;
+          hex.unit = movedUnit;
+          
+          var nextUnit = battle.nextUnit();
+          var nextHex = grid.getHexAt(new BHex.Axial(nextUnit.pos.x, nextUnit.pos.y));
+          grid.setSelectedHex(nextHex.x, nextHex.y);
+          resolve();
         }
-      }
-      else if (selectedHex.unit.attacks > 0 && hex.unit){
-        var path = grid.getPathInRange(selectedHex, hex, selectedHex.unit.range);
-        if (path.length){
-          var unit = selectedHex.unit;
-          var movePromise = battle.unitAttacking(unit, hex.x, hex.y);
-          //var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
-          grid.setSelectedHex();
-          Promise.all([movePromise/*, animPromise*/]).then(values => {
-            var movedUnit = values[0];
-            selectedHex.unit = null;
-            selectedHex.blocked = false;
-            var hex = grid.getHexAt(new BHex.Axial(movedUnit.pos.x, movedUnit.pos.y));
-            hex.blocked = true;
-            hex.unit = movedUnit;
-            
-            var nextUnit = battle.nextUnit();
-            var nextHex = grid.getHexAt(new BHex.Axial(nextUnit.pos.x, nextUnit.pos.y));
-            grid.setSelectedHex(nextHex.x, nextHex.y);
-            nextHex.sceneNode.fire('mouseenter');
-          });
+
+        if (selectedHex.unit.mobility > 0){        
+          var path = grid.getPathInRange(selectedHex, hex, selectedHex.unit.mobility);
+          if (path.length){
+            var unit = selectedHex.unit;
+            var movePromise = battle.unitMoving(unit, hex.x, hex.y);
+            var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
+            grid.setSelectedHex();
+            Promise.all([movePromise, animPromise]).then(resolveAction);
+          }
         }
-      }
+        else if (selectedHex.unit.attacks > 0 && hex.unit){
+          var path = grid.getPathInRange(selectedHex, hex, selectedHex.unit.range);
+          if (path.length){
+            var unit = selectedHex.unit;
+            var movePromise = battle.unitAttacking(unit, hex.x, hex.y);
+            //var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
+            grid.setSelectedHex();
+            Promise.all([movePromise/*, animPromise*/]).then(resolveAction);
+          }
+        }
+      });
     };
 
     grid.getSelectedHexRange = () => {

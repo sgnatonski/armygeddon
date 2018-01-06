@@ -17,21 +17,7 @@ function createHighlightLayer(stage){
         layer.draw();
     };
 
-    layer.highlightRange = (hexes, highlightType, center) => {
-        switch(highlightType){
-            case "move":
-                layer.highlightMoveRange(hexes, center);
-                break;
-            case "attack":
-                layer.highlightAttackRange(hexes, center);
-                break;
-            default:
-                layer.destroyChildren();
-        }
-        layer.draw();
-    };
-
-    layer.highlightMoveRange = (hexes, center) => {
+    function highlightMoveRange (hexes, center) {
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
@@ -41,25 +27,39 @@ function createHighlightLayer(stage){
                 layer.add(node);
             }
         }
-        if (overNode){
-            layer.add(overNode);
-        }
     };
 
-    layer.highlightAttackRange = (hexes, center) => {
+    function highlightAttackRange (hexes, center) {
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
                 var node = createHexVisual(hexes[i], center);
-                node.setFill('#775353');
+                node.setFill('#DD1111');
+                node.opacity(0.5);
                 node.setListening(false);
                 layer.add(node);
             }
         }
+    };
+
+    layer.highlightRange = (hexes, highlightType, center) => {
+        switch(highlightType){
+            case "move":
+                highlightMoveRange(hexes, center);
+                break;
+            case "attack":
+                highlightAttackRange(hexes, center);
+                break;
+            default:
+                layer.destroyChildren();
+        }
         if (overNode){
             layer.add(overNode);
         }
+        layer.draw();
     };
+
+    
 
     return layer;
 }

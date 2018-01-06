@@ -23,28 +23,6 @@ function createHexVisual(hex, c){
         strokeWidth: 1
     });
 
-    hexShape.resetFill = function(){
-        hexShape.setFill('#2d862d');
-    }
-    hexShape.setHoverFill = function(){
-        hexShape.setFill('#3399ff');
-    }
-    hexShape.setSelectedFill = function(){
-        hexShape.setFill('#53c653');
-    }
-    hexShape.setHighlightedMoveFill = function(){
-        hexShape.setFill('#39ac39');
-    }
-    hexShape.setHighlightedAttackFill = function(){
-        hexShape.setFill('#775353');
-    }
-    hexShape.resetBorder = function(){
-        hexShape.setStrokeWidth(1);
-    }
-    hexShape.setSelectedBorder = function(){
-        hexShape.setStrokeWidth(3);
-    }
-
     hex.sceneNode = hexShape;
 
     return hexShape;
