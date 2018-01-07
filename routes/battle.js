@@ -7,8 +7,7 @@ var battleLogic = require('../logic/battle');
 router.get('/', function(req, res, next) {
     fs.readFile('./data/init.battle.json', 'utf8', function (err, data) {
         if (err) throw err; // we'll not consider error handling for now
-        var battle = JSON.parse(data);
-        battle = battleLogic.init(battle);
+        var battle = battleLogic.init(JSON.parse(data));
 
         fs.writeFile("./data/battle.json", JSON.stringify(battle), function(err) {
             if (err) throw err; // we'll not consider error handling for now
@@ -19,17 +18,16 @@ router.get('/', function(req, res, next) {
 
 router.post('/:pid/:uid/move/:x/:y', function(req, res, next) {
     fs.readFile('./data/battle.json', 'utf8', function (err, data) {
-        if (err) throw err; // we'll not consider error handling for now
-        var battle = JSON.parse(data);        
+        if (err) throw err; // we'll not consider error handling for now       
         var result = battleLogic.processMove(
-            battle, 
+            JSON.parse(data), 
             req.params.pid, 
             req.params.uid, 
             parseInt(req.params.x), 
             parseInt(req.params.y)
         );
         if (result.success){
-            fs.writeFile("./data/battle.json", JSON.stringify(battle), function(err) {
+            fs.writeFile("./data/battle.json", JSON.stringify(result.battle), function(err) {
                 if (err) throw err; // we'll not consider error handling for now
                 res.json({
                     currUnit: result.unit, 
@@ -47,16 +45,15 @@ router.post('/:pid/:uid/move/:x/:y', function(req, res, next) {
 router.post('/:pid/:uid/attack/:x/:y', function(req, res, next) {
     fs.readFile('./data/battle.json', 'utf8', function (err, data) {
         if (err) throw err; // we'll not consider error handling for now
-        var battle = JSON.parse(data);
         var result = battleLogic.processAttack(
-            battle, 
+            JSON.parse(data), 
             req.params.pid, 
             req.params.uid, 
             parseInt(req.params.x), 
             parseInt(req.params.y)
         );
         if (result.success){
-            fs.writeFile("./data/battle.json", JSON.stringify(battle), function(err) {
+            fs.writeFile("./data/battle.json", JSON.stringify(result.battle), function(err) {
                 if (err) throw err; // we'll not consider error handling for now
                 res.json({
                     currUnit: result.unit, 

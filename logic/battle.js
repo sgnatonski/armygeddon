@@ -83,10 +83,10 @@ var battleLogic = {
             var nextUnit = allUnits.find(u => u.id == nextUnitId);
             var unitQueue = battle.turns[battle.turns.length - 1].readyUnits;
 
-            return {unit: unit, nextUnit: nextUnit, unitQueue: unitQueue, success: true};
+            return {unit: unit, nextUnit: nextUnit, unitQueue: unitQueue, battle: battle, success: true};
         }
         else{
-            return {unit: null, nextUnit: null, unitQueue: null, success: false};
+            return {unit: null, nextUnit: null, unitQueue: null, battle: null, success: false};
         }
     },
     processAttack: (battle, playerId, unitId, x, y) => {
@@ -140,10 +140,10 @@ var battleLogic = {
             var nextUnit = allUnits.find(u => u.id == nextUnitId);
             var unitQueue = battle.turns[battle.turns.length - 1].readyUnits;
 
-            return {unit: unit, nextUnit: nextUnit, unitQueue: unitQueue, success: true};
+            return {unit: unit, nextUnit: nextUnit, unitQueue: unitQueue, battle: battle, success: true};
         }
         else{
-            return {unit: null, nextUnit: null, unitQueue: null, success: false};
+            return {unit: null, nextUnit: null, unitQueue: null, battle: battle, success: false};
         }
     }
 };
