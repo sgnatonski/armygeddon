@@ -14,6 +14,49 @@ function isSameArmy(army, unit){
     return Object.keys(army.units).map(unitId => army.units[unitId]).find(u => u.id == unit.id);
 }
 
+function finalizeInvalidAction(battle, turn, unit){
+    var isTurnMove = turn.readyUnits[0] == unit.id;
+    if (!isTurnMove){
+        return {unit: null, nextUnit: null, unitQueue: null, battle: battle, success: false};
+    }
+}
+
+function finalizeAction(battle, turn, unit, targetUnit){
+    if (unit.mobility == 0 && unit.attacks == 0){
+        var id = turn.readyUnits.shift();
+        turn.movedUnits.push(id);
+    }
+    if (targetUnit && targetUnit.endurance <= 0){
+        var tidx = turn.readyUnits.indexOf(targetUnit.id);
+        if (tidx >= 0){
+            turn.readyUnits.splice(tidx, 1);
+        }
+        else{
+            tidx = turn.movedUnits.indexOf(targetUnit.id);
+            turn.movedUnits.splice(tidx, 1);
+        }
+    }
+    if (!turn.readyUnits.length){
+        battle.turns.push({
+            readyUnits: turn.movedUnits,
+            movedUnits: [],
+            moves: []
+        });
+
+        getAllUnits(battle).forEach(u => {
+            u = unitRestore.nextTurn(u, battle.unitTypes[u.type])
+        });
+    }
+
+    var nextUnitId = battle.turns[battle.turns.length - 1].readyUnits[0];
+
+    var allUnits = getAllUnits(battle);
+    var nextUnit = allUnits.find(u => u.id == nextUnitId);
+    var unitQueue = battle.turns[battle.turns.length - 1].readyUnits;
+
+    return {unit: unit, nextUnit: nextUnit, unitQueue: unitQueue, battle: battle, success: true};
+}
+
 var unitRestore = {
     firstTurn: (unit, unitType) => {
         return Object.assign(unit, unitType, unitType.lifetime);
@@ -42,13 +85,16 @@ var battleLogic = {
 
         var unit = battle.armies[playerId].units[unitId];
 
-        var isTurnMove = turn.readyUnits[0] == unit.id;
-        
+        var r = finalizeInvalidAction(battle, turn, unit);
+        if (r){
+            return r;
+        }
+
         var isSkippingMove = unit.pos.x == x && unit.pos.y == y;
         var isValidMove = false;
         var moveCost = unit.mobility;
 
-        if (isTurnMove && !isSkippingMove){
+        if (!isSkippingMove){
             var grid = new BHex.Grid(battle.terrainSize);
             getAllUnits(battle).forEach(u => {
                 grid.getHexAt(new BHex.Axial(u.pos.x, u.pos.y)).blocked = true;
@@ -58,38 +104,12 @@ var battleLogic = {
             moveCost = path.map(x => x.cost).reduce((a,b) => a + b, 0);
         }
 
-        if (isSkippingMove || isValidMove){
-            turn.moves.push({ unit: id, from: unit.pos, to: { x: x, y: y } });
-            unit.pos = { x: x, y: y };
-            unit.mobility -= moveCost;
-            unit.charge += moveCost;
-            if (unit.mobility == 0 && unit.attacts == 0){
-                var id = turn.readyUnits.shift();
-                turn.movedUnits.push(id);
-            }
-            if (!turn.readyUnits.length){
-                battle.turns.push({
-                    readyUnits: turn.movedUnits,
-                    movedUnits: [],
-                    moves: []
-                });
+        turn.moves.push({ unit: unit.id, from: unit.pos, to: { x: x, y: y } });
+        unit.pos = { x: x, y: y };
+        unit.mobility -= moveCost;
+        unit.charge += moveCost;
 
-                getAllUnits(battle).forEach(u => {
-                    u = unitRestore.nextTurn(u, battle.unitTypes[u.type])
-                });
-            }
-
-            var nextUnitId = battle.turns[battle.turns.length - 1].readyUnits[0];
-
-            var allUnits = getAllUnits(battle);
-            var nextUnit = allUnits.find(u => u.id == nextUnitId);
-            var unitQueue = battle.turns[battle.turns.length - 1].readyUnits;
-
-            return {unit: unit, nextUnit: nextUnit, unitQueue: unitQueue, battle: battle, success: true};
-        }
-        else{
-            return {unit: null, nextUnit: null, unitQueue: null, battle: null, success: false};
-        }
+        return finalizeAction(battle, turn, unit);
     },
     processAttack: (battle, playerId, unitId, x, y) => {
         var turn = battle.turns[battle.turns.length - 1];
@@ -97,56 +117,28 @@ var battleLogic = {
         var unit = battle.armies[playerId].units[unitId];
         var targetUnit = getUnitAt(battle, x, y);
 
-        var isTurnMove = turn.readyUnits[0] == unit.id;
+        var r = finalizeInvalidAction(battle, turn, unit);
+        if (r){
+            return r;
+        }
+
         var isSkippingAttack = unit.pos.x == x && unit.pos.y == y;
         var isValidAttack = targetUnit != null 
             ? !isSameArmy(battle.armies[playerId], targetUnit)
             : false;
+        var grid = new BHex.Grid(battle.terrainSize);
+        var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
+        var inRangeAttack = gridRange.some(r => r.x == x && r.y == y) ;
 
-        if (isSkippingAttack || isTurnMove && isValidAttack){
-            unit.attacks -= 1;
-            if (!isSkippingAttack){
-                dmg_calc.applyAttackDamage(unit, targetUnit);
-
-                if (targetUnit.endurance <= 0){
-                    var tidx = turn.readyUnits.indexOf(targetUnit.id);
-                    if (tidx >= 0){
-                        turn.readyUnits.splice(tidx, 1);
-                    }
-                    else{
-                        tidx = turn.movedUnits.indexOf(targetUnit.id);
-                        turn.movedUnits.splice(tidx, 1);
-                    }
-                }
-            }
-
-            if (unit.mobility == 0 && unit.attacks == 0){
-                var id = turn.readyUnits.shift();
-                turn.movedUnits.push(id);
-            }
-            if (!turn.readyUnits.length){
-                battle.turns.push({
-                    readyUnits: turn.movedUnits,
-                    movedUnits: [],
-                    moves: []
-                });
-
-                getAllUnits(battle).forEach(u => {
-                    u = unitRestore.nextTurn(u, battle.unitTypes[u.type])
-                });
-            }
-
-            var nextUnitId = battle.turns[battle.turns.length - 1].readyUnits[0];
-
-            var allUnits = getAllUnits(battle);
-            var nextUnit = allUnits.find(u => u.id == nextUnitId);
-            var unitQueue = battle.turns[battle.turns.length - 1].readyUnits;
-
-            return {unit: unit, nextUnit: nextUnit, unitQueue: unitQueue, battle: battle, success: true};
+        if (isSkippingAttack || isValidAttack || inRangeAttack){
+            unit.attacks -= 1;            
         }
-        else{
-            return {unit: null, nextUnit: null, unitQueue: null, battle: battle, success: false};
+
+        if (!isSkippingAttack && isValidAttack && inRangeAttack){
+            dmg_calc.applyAttackDamage(unit, targetUnit);
         }
+
+        return finalizeAction(battle, turn, unit, targetUnit);
     }
 };
 
