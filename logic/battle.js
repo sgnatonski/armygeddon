@@ -1,4 +1,5 @@
 var BHex = require('../dist/bhex');
+var dmg_calc = require('./damage_calculator');
 
 function getAllUnits(battle){
     return Object.keys(battle.armies).map(key => Object.keys(battle.armies[key].units).map(unitId => battle.armies[key].units[unitId]))
@@ -61,6 +62,7 @@ var battleLogic = {
             turn.moves.push({ unit: id, from: unit.pos, to: { x: x, y: y } });
             unit.pos = { x: x, y: y };
             unit.mobility -= moveCost;
+            unit.charge += moveCost;
             if (unit.mobility == 0 && unit.attacts == 0){
                 var id = turn.readyUnits.shift();
                 turn.movedUnits.push(id);
@@ -104,7 +106,7 @@ var battleLogic = {
         if (isSkippingAttack || isTurnMove && isValidAttack){
             unit.attacks -= 1;
             if (!isSkippingAttack){
-                targetUnit.endurance -= unit.damage;
+                dmg_calc.applyAttackDamage(unit, targetUnit);
 
                 if (targetUnit.endurance <= 0){
                     var tidx = turn.readyUnits.indexOf(targetUnit.id);
