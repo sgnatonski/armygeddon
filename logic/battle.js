@@ -128,15 +128,19 @@ var battleLogic = {
             : false;
         var grid = new BHex.Grid(battle.terrainSize);
         var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
-        var inRangeAttack = gridRange.some(r => r.x == x && r.y == y) ;
+        var inRangeAttack = gridRange.some(r => r.x == x && r.y == y);
 
-        if (isSkippingAttack || isValidAttack || inRangeAttack){
-            unit.attacks -= 1;            
+        var attacksUsed = 1;
+
+        if (isSkippingAttack){
+            attacksUsed = unit.attacks;          
         }
 
         if (!isSkippingAttack && isValidAttack && inRangeAttack){
             dmg_calc.applyAttackDamage(unit, targetUnit);
         }
+
+        unit.attacks -= attacksUsed;
 
         return finalizeAction(battle, turn, unit, targetUnit);
     }
