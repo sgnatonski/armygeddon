@@ -41,8 +41,7 @@ function setupStage(grid){
 
     if (hex.unit){
       hex.unit.animatePath = (node, path) => getUnitMoveAnim(unitLayer, path, node, center);
-      hex.unit.sceneNode.setX(center.x + hex.center.x);
-      hex.unit.sceneNode.setY(center.y + hex.center.y);
+      hex.unit.sceneNode = createUnitVisual(hex.unit, center, hex.center);
       unitLayer.add(hex.unit.sceneNode);
     }
   }

@@ -136,7 +136,7 @@ function initGrid(battle){
 
   battle.getUnits().forEach(unit => {
       var hex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
-      hex.unit = attachUnitVisual(unit);
+      hex.unit = unit;
       hex.blocked = true;
   });
 

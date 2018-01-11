@@ -1,6 +1,8 @@
-function attachUnitVisual(unit){
+function createUnitVisual(unit, center, hexCenter){
   var group = new Konva.Group({
     listening: false,
+    x: center.x + hexCenter.x,
+    y: center.y + hexCenter.y,
     offset: {
       x: 19,
       y: 15
@@ -27,7 +29,7 @@ function attachUnitVisual(unit){
   });
   var healthStatusBar = new Konva.Shape({
     sceneFunc: function(context) {
-      var fillValue = 0.75;//unit.endurance / unit.lifetime.endurance;
+      var fillValue = unit.endurance / unit.lifetime.endurance;
       var off = Math.floor(30 * fillValue);
       context.beginPath();
       context.rect(0, 30 - off, 3, off);
@@ -63,6 +65,5 @@ function attachUnitVisual(unit){
   group.add(healthGroup);
   group.add(moveStatus);
   group.add(attacksStatus);
-  unit.sceneNode = group;
-  return unit;
+  return group;
 }
