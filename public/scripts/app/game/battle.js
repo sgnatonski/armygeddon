@@ -57,3 +57,18 @@ Game.Battle.prototype.unitAttacking = function(unit, x, y) {
 		return unit;
 	});
 };
+
+Game.Battle.prototype.getUnitState = function(unit) {
+	if (!unit){
+		return 'none';
+	}
+	if (unit.endurance <= 0){
+		return 'dead';
+	}
+	if (unit.mobility > 0){
+		return 'moving';
+	}
+	if (unit.attacks > 0){
+		return 'attacking';
+	}
+};

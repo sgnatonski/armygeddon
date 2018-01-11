@@ -45,9 +45,6 @@ function initGrid(battle){
         return;
       }
       
-      var selectedHex = grid.selectedHex;
-      setSelectedHex();
-
       function resolveAction(results){
         var movedUnit = results[0];
         var hex = grid.getHexAt(new BHex.Axial(movedUnit.pos.x, movedUnit.pos.y));
@@ -62,23 +59,32 @@ function initGrid(battle){
         resolve(nextHex);
       }
 
-      if (selectedHex.unit.mobility > 0){        
-        var path = getPathInRange(selectedHex, hex, selectedHex.unit.mobility);
-        if (path.length && path[path.length - 1].x == hex.x && path[path.length - 1].y){
-          var unit = selectedHex.unit;
-          var movePromise = battle.unitMoving(unit, hex.x, hex.y);
-          var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
-          Promise.all([movePromise, animPromise]).then(resolveAction);
-        }
-      }
-      else if (selectedHex.unit.attacks > 0 && hex.unit){
-        var path = getPathInRange(selectedHex, hex, selectedHex.unit.range);
-        if (path.length && path[path.length - 1].x == hex.x && path[path.length - 1].y){
-          var unit = selectedHex.unit;
-          var movePromise = battle.unitAttacking(unit, hex.x, hex.y);
-          //var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
-          Promise.all([movePromise/*, animPromise*/]).then(resolveAction);
-        }
+      var selectedHex = grid.selectedHex;
+      setSelectedHex();
+
+      var unitState = battle.getUnitState(selectedHex.unit);
+      switch(unitState){
+        case 'moving': 
+          var path = getPathInRange(selectedHex, hex, selectedHex.unit.mobility);
+          if (path.length && path[path.length - 1].x == hex.x && path[path.length - 1].y){
+            var unit = selectedHex.unit;
+            var movePromise = battle.unitMoving(unit, hex.x, hex.y);
+            var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
+            Promise.all([movePromise, animPromise]).then(resolveAction);
+          }
+          break;
+        case 'attacking':
+          var path = getPathInRange(selectedHex, hex, selectedHex.unit.range);
+          if (path.length && path[path.length - 1].x == hex.x && path[path.length - 1].y){
+            var unit = selectedHex.unit;
+            var movePromise = battle.unitAttacking(unit, hex.x, hex.y);
+            //var animPromise = selectedHex.unit.animatePath(unit.sceneNode, path);
+            Promise.all([movePromise/*, animPromise*/]).then(resolveAction);
+          }
+          break;
+        default:
+          setSelectedHex(selectedHex.x, selectedHex.y);
+          break;
       }
     });
   };
