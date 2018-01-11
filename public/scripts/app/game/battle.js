@@ -10,7 +10,7 @@ Game.Battle.prototype.load = function(){
 		this.firstArmy = new Game.Army(armies[0], data.unitTypes);
 		this.secondArmy = new Game.Army(armies[1], data.unitTypes);
 		this.terrain = data.terrain;
-		this.unitQueue = data.turns[0].readyUnits;    
+		this.unitQueue = data.turns[data.turns.length - 1].readyUnits;    
   	});
 }
 
