@@ -33,6 +33,7 @@ function setupStage(grid, animator){
           hlLayer.highlightNode(h);
           effectLayer.drawPath(grid.getPathFromSelectedHex(h));
           hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
+          unitLayer.draw();
       });
     });
 
