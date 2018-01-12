@@ -9,8 +9,9 @@ function createHighlightLayer(center){
         }
         if (hex){
             var node = createHexVisual(hex, center);
-            node.setFill('#3399ff');
+            node.setFill('#ffffff');
             node.setListening(false);
+            node.opacity(0.2);
             layer.add(node);
             overNode = node;
         }
@@ -22,8 +23,9 @@ function createHighlightLayer(center){
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
                 var node = createHexVisual(hexes[i], center);
-                node.setFill('#39ac39');
+                node.setFill('#ffffff');
                 node.setListening(false);
+                node.opacity(0.2);
                 layer.add(node);
             }
         }
