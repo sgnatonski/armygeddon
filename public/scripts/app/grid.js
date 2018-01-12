@@ -36,15 +36,7 @@ function initGrid(battle, animator){
   }
   
   function hexSelected(hex) {
-    return new Promise(function(resolve,reject){
-      if (!grid.selectedHex){
-        var unit = battle.nextUnit();
-        var nextHex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
-        setSelectedHex(nextHex.x, nextHex.y);
-        resolve(nextHex);
-        return;
-      }
-      
+    return new Promise(function(resolve,reject){      
       var selectedHex = grid.selectedHex;
       
       function resolveAction(results){
@@ -59,14 +51,15 @@ function initGrid(battle, animator){
         resolve(nextHex);
       }
 
-      var unit = battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y);
+      var unit = grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
       setSelectedHex();
 
       var unitState = battle.getUnitState(unit);
       switch(unitState){
         case 'moving': 
           var path = getPathInRange(selectedHex, hex, unit.mobility);
-          if (path.length && path[path.length - 1].x == hex.x && path[path.length - 1].y){
+          var lastStep = path[path.length - 1];
+          if (lastStep.x == hex.x && lastStep.y == hex.y){
             var movePromise = battle.unitMoving(unit, hex.x, hex.y);
             var animPromise = animator.getAnimation(unit.id, path);
             Promise.all([movePromise, animPromise]).then(resolveAction);
@@ -74,13 +67,17 @@ function initGrid(battle, animator){
           break;
         case 'attacking':
           var path = getPathInRange(selectedHex, hex, unit.range, true);
-          if (path.length && path[path.length - 1].x == hex.x && path[path.length - 1].y){
+          var lastStep = path[path.length - 1];
+          if (lastStep.x == hex.x && lastStep.y == hex.y){
             var movePromise = battle.unitAttacking(unit, hex.x, hex.y);
             Promise.all([movePromise]).then(resolveAction);
           }
           break;
         default:
-          setSelectedHex(selectedHex.x, selectedHex.y);
+          var unit = battle.nextUnit();
+          var nextHex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
+          setSelectedHex(nextHex.x, nextHex.y);
+          resolve(nextHex);
           break;
       }
     });
