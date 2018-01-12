@@ -21,8 +21,8 @@ function initGrid(battle, animator){
     }
   }
 
-  function getPathInRange (sourceHex, targetHex, range) {
-    var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y));
+  function getPathInRange (sourceHex, targetHex, range, ignoreInertia) {
+    var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y), ignoreInertia);
     var terrain = battle.getTerrain();
     var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
     var inRange = path.reduce((acc, curr) => {
@@ -50,8 +50,8 @@ function initGrid(battle, animator){
       function resolveAction(results){
         var movedUnit = results[0];
         var hex = grid.getHexAt(new BHex.Axial(movedUnit.pos.x, movedUnit.pos.y));
-        hex.blocked = true;
         selectedHex.blocked = false;
+        hex.blocked = true;
         
         var nextUnit = battle.nextUnit();
         var nextHex = grid.getHexAt(new BHex.Axial(nextUnit.pos.x, nextUnit.pos.y));
@@ -73,7 +73,7 @@ function initGrid(battle, animator){
           }
           break;
         case 'attacking':
-          var path = getPathInRange(selectedHex, hex, unit.range);
+          var path = getPathInRange(selectedHex, hex, unit.range, true);
           if (path.length && path[path.length - 1].x == hex.x && path[path.length - 1].y){
             var movePromise = battle.unitAttacking(unit, hex.x, hex.y);
             Promise.all([movePromise]).then(resolveAction);

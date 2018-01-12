@@ -455,7 +455,7 @@ BHex.Grid.prototype.getRange = function (start, movement, ignoreInertia) {
  * @param {BHex.Axial} end - The ending axial position.
  * @returns {BHex.Hexagon[]} The path from the first hex to the last hex (excluding the starting position).
  */
-BHex.Grid.prototype.findPath = function (start, end) {
+BHex.Grid.prototype.findPath = function (start, end, ignoreInertia) {
 	var grid = this,
 		openHeap = new BHex.Grid.Search.Heap(),
 		closedHexes = {},
@@ -484,10 +484,10 @@ BHex.Grid.prototype.findPath = function (start, end) {
 		var neighbors = grid.getNeighbors(current.hex);
 		neighbors.forEach(function(n) {
 			// Make sure the neighbor is not blocked and that we haven't already processed it.
-			if (n.blocked || closedHexes[n.getKey()]) return;
+			if ((!ignoreInertia && n.blocked) || closedHexes[n.getKey()]) return;
 			
 			// Get the total cost of going to this neighbor.
-			var g = current.G + n.cost,
+			var g = current.G + (ignoreInertia ? 1: n.cost),
 				visited = visitedNodes[n.getKey()];
 			
 			// Is it cheaper the previously best path to get here?
