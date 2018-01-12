@@ -21,6 +21,15 @@ function finalizeInvalidAction(battle, turn, unit){
     }
 }
 
+var unitRestore = {
+    firstTurn: (unit, unitType) => {
+        return Object.assign(unit, unitType, unitType.lifetime);
+    },
+    nextTurn: (unit, unitType) => {
+        return Object.assign(unit, unitType);
+    }
+}
+
 function finalizeAction(battle, turn, unit, targetUnit){
     if (unit.mobility == 0 && unit.attacks == 0){
         var id = turn.readyUnits.shift();
@@ -55,15 +64,6 @@ function finalizeAction(battle, turn, unit, targetUnit){
     var unitQueue = battle.turns[battle.turns.length - 1].readyUnits;
 
     return {unit: unit, nextUnit: nextUnit, unitQueue: unitQueue, battle: battle, success: true};
-}
-
-var unitRestore = {
-    firstTurn: (unit, unitType) => {
-        return Object.assign(unit, unitType, unitType.lifetime);
-    },
-    nextTurn: (unit, unitType) => {
-        return Object.assign(unit, unitType);
-    }
 }
 
 var battleLogic = {
