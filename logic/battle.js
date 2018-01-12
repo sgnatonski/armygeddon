@@ -17,7 +17,14 @@ function isSameArmy(army, unit){
 function finalizeInvalidAction(battle, turn, unit){
     var isTurnMove = turn.readyUnits[0] == unit.id;
     if (!isTurnMove){
-        return {unit: null, nextUnit: null, unitQueue: null, battle: battle, success: false};
+        return {
+            unit: null, 
+            nextUnit: null, 
+            targetUnit: null,
+            unitQueue: null, 
+            battle: battle, 
+            success: false
+        };
     }
 }
 
@@ -63,7 +70,14 @@ function finalizeAction(battle, turn, unit, targetUnit){
     var nextUnit = allUnits.find(u => u.id == nextUnitId);
     var unitQueue = battle.turns[battle.turns.length - 1].readyUnits;
 
-    return {unit: unit, nextUnit: nextUnit, unitQueue: unitQueue, battle: battle, success: true};
+    return {
+        unit: unit, 
+        nextUnit: nextUnit, 
+        targetUnit: targetUnit,
+        unitQueue: unitQueue, 
+        battle: battle, 
+        success: true
+    };
 }
 
 var battleLogic = {

@@ -39,6 +39,10 @@ Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
 	.then(data => {
 		this.unitQueue = data.unitQueue;
 		army.restoreUnit(data.currUnit);
+		if (data.targetUnit){
+			var targetArmy = this.getArmy(data.targetUnit.id);
+			targetArmy.restoreUnit(data.targetUnit);
+		}
 		var nextUnitArmy = this.getArmy(data.nextUnit.id);
 		nextUnitArmy.restoreUnit(data.nextUnit);
 		return data.currUnit;
@@ -52,6 +56,10 @@ Game.Battle.prototype.unitAttacking = function(unit, x, y) {
 	.then(data => {
 		this.unitQueue = data.unitQueue;
 		army.restoreUnit(data.currUnit);
+		if (data.targetUnit){
+			var targetArmy = this.getArmy(data.targetUnit.id);
+			targetArmy.restoreUnit(data.targetUnit);
+		}
 		var nextUnitArmy = this.getArmy(data.nextUnit.id);
 		nextUnitArmy.restoreUnit(data.nextUnit);
 		return data.currUnit;

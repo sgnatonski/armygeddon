@@ -32,6 +32,7 @@ router.post('/:pid/:uid/move/:x/:y', function(req, res, next) {
                 res.json({
                     currUnit: result.unit, 
                     nextUnit: result.nextUnit,
+                    targetUnit: result.targetUnit,
                     unitQueue: result.unitQueue
                 });
             });
@@ -58,6 +59,7 @@ router.post('/:pid/:uid/attack/:x/:y', function(req, res, next) {
                 res.json({
                     currUnit: result.unit, 
                     nextUnit: result.nextUnit,
+                    targetUnit: result.targetUnit,
                     unitQueue: result.unitQueue
                 });
             });

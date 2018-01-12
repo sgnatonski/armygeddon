@@ -27,7 +27,7 @@ function initGrid(battle, animator){
     var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
     var inRange = path.reduce((acc, curr) => {
       var accCost = acc.map(x => x.cost).reduce((a,b) => a + b, -sourceHex.cost);
-      if (accCost + curr.cost <= range){
+      if (ignoreInertia || accCost + curr.cost <= range){
         acc.push(curr);
       }
       return acc;
