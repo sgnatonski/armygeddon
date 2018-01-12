@@ -1,4 +1,4 @@
-function getUnitMoveAnim(layer, steps, node, center){
+function getUnitMoveAnim(steps, node, center){
   return new Promise(function(resolve,reject){
     if (steps.length <= 1){
       resolve();
@@ -28,7 +28,7 @@ function getUnitMoveAnim(layer, steps, node, center){
               resolve();
             }
           }
-        }, layer);
+        }, node.getLayer());
       anim.start();
     }
   });

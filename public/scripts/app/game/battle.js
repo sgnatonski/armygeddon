@@ -41,7 +41,7 @@ Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
 		army.restoreUnit(data.currUnit);
 		var nextUnitArmy = this.getArmy(data.nextUnit.id);
 		nextUnitArmy.restoreUnit(data.nextUnit);
-		return unit;
+		return data.nextUnit;
 	});
 };
 
@@ -54,7 +54,7 @@ Game.Battle.prototype.unitAttacking = function(unit, x, y) {
 		army.restoreUnit(data.currUnit);
 		var nextUnitArmy = this.getArmy(data.nextUnit.id);
 		nextUnitArmy.restoreUnit(data.nextUnit);
-		return unit;
+		return data.nextUnit;
 	});
 };
 
@@ -71,4 +71,8 @@ Game.Battle.prototype.getUnitState = function(unit) {
 	if (unit.attacks > 0){
 		return 'attacking';
 	}
+};
+
+Game.Battle.prototype.getUnitAt = function(x, y) {
+	return this.getUnits().find(u => u.pos.x == x && u.pos.y == y);
 };

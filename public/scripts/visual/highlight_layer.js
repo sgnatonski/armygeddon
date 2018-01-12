@@ -44,10 +44,10 @@ function createHighlightLayer(center){
 
     layer.highlightRange = (hexes, highlightType) => {
         switch(highlightType){
-            case "move":
+            case "moving":
                 highlightMoveRange(hexes, center);
                 break;
-            case "attack":
+            case "attacking":
                 highlightAttackRange(hexes, center);
                 break;
             default:

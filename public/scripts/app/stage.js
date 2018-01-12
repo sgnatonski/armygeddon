@@ -1,4 +1,4 @@
-function setupStage(grid){
+function setupStage(grid, animator){
   var width = window.innerWidth;
   var height = window.innerHeight;
   var center = { x: width / 2, y: height / 2 };
@@ -12,6 +12,15 @@ function setupStage(grid){
   var effectLayer = createEffectLayer(center);
   var unitLayer = new Konva.Layer();
   var hlLayer = createHighlightLayer(center);
+
+  grid.initDrawing(center);
+
+  grid.getUnits().forEach(unit => {
+    var hex = grid.getHexAt(unit.pos.x, unit.pos.y);
+    var unitSceneNode = createUnitVisual(unit, center, hex.center);
+    animator.registerAnimation(unit.id, unitSceneNode, center);
+    unitLayer.add(unitSceneNode);
+  });
 
   function addNode(hex, layer) {
     var node = createHexVisual(hex, center);
@@ -38,15 +47,7 @@ function setupStage(grid){
     });
 
     layer.add(node);
-
-    if (hex.unit){
-      hex.unit.animatePath = (node, path) => getUnitMoveAnim(unitLayer, path, node, center);
-      hex.unit.sceneNode = createUnitVisual(hex.unit, center, hex.center);
-      unitLayer.add(hex.unit.sceneNode);
-    }
   }
-
-  grid.initDrawing(center);
 
   function chunkArray(array, chunk_size){
     var arr = array.slice();
