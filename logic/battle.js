@@ -121,7 +121,9 @@ var battleLogic = {
         turn.moves.push({ unit: unit.id, from: unit.pos, to: { x: x, y: y } });
         unit.pos = { x: x, y: y };
         unit.mobility -= moveCost;
-        unit.charge += moveCost;
+        if (!isSkippingMove){
+            unit.charge += moveCost;
+        }
 
         return finalizeAction(battle, turn, unit);
     },

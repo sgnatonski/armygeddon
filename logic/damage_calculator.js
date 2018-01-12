@@ -1,12 +1,34 @@
 var calculator = {
     applyAttackDamage: (attacker, defender) => {
-        defender.endurance -= attacker.damage - defender.armor;
+        if (attacker.type == 'arch'){
+            calculator.applyRangeDamage(attacker, defender);
+        }
+        else{
+            calculator.applyChargeDamage(attacker, defender);
+        }
     },
     applyRangeDamage: (attacker, defender) => {
-        defender.endurance -= attacker.damage * (1 + Math.random()) - defender.armor;
+        var dmg = attacker.damage + (attacker.charge / 2) - defender.armor;
+        var distance = Math.max(...[Math.abs(attacker.pos.x - defender.pos.x), Math.abs(attacker.pos.y - defender.pos.y)]);
+        if (distance == 1){
+            distance = attacker.range * 2;
+        }
+        var distanceDamage = Math.floor(dmg * attacker.range / distance);
+        defender.endurance -= distanceDamage;
+        if (defender.endurance < 0){
+            defender.endurance = 0;
+        }
+        attacker.charge = 0;
     },
     applyChargeDamage: (attacker, defender) =>{
-        defender.endurance -= attacker.damage + (attacker.charge * (1 + Math.random())) - defender.armor;
+        var charge = attacker.charge - 1;
+        if (charge < 0){
+            charge = 0;
+        }
+        defender.endurance -= attacker.damage + charge - defender.armor;
+        if (defender.endurance < 0){
+            defender.endurance = 0;
+        }
         attacker.charge = 0;
     }
 };
