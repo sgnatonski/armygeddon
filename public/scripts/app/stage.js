@@ -15,9 +15,21 @@ function setupStage(grid, animator){
 
   grid.initDrawing(center);
 
+  var armyColors = [
+    '#00cc00',
+    '#c80b04'
+  ];
+  var colId = 0;
+  var armyColorSelection = {  };
+
   grid.getUnits().forEach(unit => {
     var hex = grid.getHexAt(unit.pos.x, unit.pos.y);
-    var unitSceneNode = createUnitVisual(unit, center, hex.center);
+    var armyId = grid.getArmyId(unit.id);
+    if (!armyColorSelection[armyId]){
+      armyColorSelection[armyId] = armyColors[colId];
+      colId++;
+    }
+    var unitSceneNode = createUnitVisual(unit, center, hex.center, armyColorSelection[armyId]);
     animator.registerAnimation(unit.id, unitSceneNode, center);
     unitLayer.add(unitSceneNode);
   });

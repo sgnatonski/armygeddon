@@ -181,6 +181,7 @@ function initGrid(battle, animator){
     getHexes: getHexes,
     getHexAt: (x, y) => grid.getHexAt(new BHex.Axial(x, y)),
     getUnits: getUnits,
+    getArmyId: (unitId) => battle.getArmy(unitId).playerId,
     hexSelected: hexSelected,
     getSelectedHexRange: getSelectedHexRange,
     getSelectedHexState: getSelectedHexState,
