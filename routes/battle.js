@@ -43,6 +43,33 @@ router.post('/:pid/:uid/move/:x/:y', function(req, res, next) {
     });
 });
 
+router.post('/:pid/:uid/turn/:x/:y', function(req, res, next) {
+    fs.readFile('./data/battle.json', 'utf8', function (err, data) {
+        if (err) throw err; // we'll not consider error handling for now       
+        var result = battleLogic.processTurn(
+            JSON.parse(data), 
+            req.params.pid, 
+            req.params.uid, 
+            parseInt(req.params.x), 
+            parseInt(req.params.y)
+        );
+        if (result.success){
+            fs.writeFile("./data/battle.json", JSON.stringify(result.battle), function(err) {
+                if (err) throw err; // we'll not consider error handling for now
+                res.json({
+                    currUnit: result.unit, 
+                    nextUnit: result.nextUnit,
+                    targetUnit: result.targetUnit,
+                    unitQueue: result.unitQueue
+                });
+            });
+        }
+        else{
+            res.status(403);
+        }
+    });
+});
+
 router.post('/:pid/:uid/attack/:x/:y', function(req, res, next) {
     fs.readFile('./data/battle.json', 'utf8', function (err, data) {
         if (err) throw err; // we'll not consider error handling for now

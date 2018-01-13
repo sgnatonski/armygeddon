@@ -49,6 +49,23 @@ Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
 	});
 };
 
+Game.Battle.prototype.unitTurning = function(unit, x, y) {
+	var army = this.getArmy(unit.id);
+
+	return Game.fetch().post(`/battle/${army.playerId}/${unit.id}/turn/${x}/${y}`)
+	.then(data => {
+		this.unitQueue = data.unitQueue;
+		army.restoreUnit(data.currUnit);
+		if (data.targetUnit){
+			var targetArmy = this.getArmy(data.targetUnit.id);
+			targetArmy.restoreUnit(data.targetUnit);
+		}
+		var nextUnitArmy = this.getArmy(data.nextUnit.id);
+		nextUnitArmy.restoreUnit(data.nextUnit);
+		return data.currUnit;
+	});
+};
+
 Game.Battle.prototype.unitAttacking = function(unit, x, y) {
 	var army = this.getArmy(unit.id);
 
@@ -75,6 +92,9 @@ Game.Battle.prototype.getUnitState = function(unit) {
 	}
 	if (unit.mobility > 0){
 		return 'moving';
+	}
+	if (unit.agility > 0){
+		return 'turning';
 	}
 	if (unit.attacks > 0){
 		return 'attacking';

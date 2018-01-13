@@ -20,12 +20,13 @@ var calculator = {
         }
         attacker.charge = 0;
     },
-    applyChargeDamage: (attacker, defender) =>{
+    applyChargeDamage: (attacker, defender) => {
         var charge = attacker.charge - 1;
         if (charge < 0){
             charge = 0;
         }
-        defender.endurance -= attacker.damage + charge - defender.armor;
+        var dmg = attacker.damage + charge - defender.armor;
+        defender.endurance -= dmg;
         if (defender.endurance < 0){
             defender.endurance = 0;
         }

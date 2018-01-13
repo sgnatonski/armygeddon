@@ -38,7 +38,7 @@ var unitRestore = {
 }
 
 function finalizeAction(battle, turn, unit, targetUnit){
-    if (unit.mobility == 0 && unit.attacks == 0){
+    if (unit.mobility == 0 && unit.agility == 0 && unit.attacks == 0){
         var id = turn.readyUnits.shift();
         turn.movedUnits.push(id);
     }
@@ -124,6 +124,37 @@ var battleLogic = {
         if (!isSkippingMove){
             unit.charge += moveCost;
         }
+
+        return finalizeAction(battle, turn, unit);
+    },
+    processTurn: (battle, playerId, unitId, x, y) => {
+        var turn = battle.turns[battle.turns.length - 1];
+
+        var unit = battle.armies[playerId].units[unitId];
+
+        var r = finalizeInvalidAction(battle, turn, unit);
+        if (r){
+            return r;
+        }
+
+        var grid = new BHex.Grid(battle.terrainSize);
+        var neighbors = grid.getNeighbors(new BHex.Axial(unit.pos.x, unit.pos.y));
+        var isValidTurn = neighbors.some(e => e.x == x && e.y == y);
+        if (isValidTurn){
+            var turns = [
+                {x: 1, y: 0},
+                {x: 0, y: 1},
+                {x: -1, y: 1},
+                {x: -1, y: 0},
+                {x: 0, y: -1},
+                {x: 1, y: -1},
+            ];
+            var diffX = x - unit.pos.x;
+            var diffY = y - unit.pos.y;
+            var direction = turns.findIndex(t => t.x == diffX && t.y == diffY) + 1;
+            unit.direction = direction;
+        }
+        unit.agility = 0;
 
         return finalizeAction(battle, turn, unit);
     },

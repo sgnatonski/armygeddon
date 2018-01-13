@@ -31,6 +31,19 @@ function createHighlightLayer(center){
         }
     };
 
+    function highlightTurnRange (hexes) {
+        layer.destroyChildren();
+        if (hexes){
+            for (var i = 0; i < hexes.length; i++){
+                var node = createHexVisual(hexes[i], center);
+                node.setFill('#ffad33');
+                node.setListening(false);
+                node.opacity(0.2);
+                layer.add(node);
+            }
+        }
+    };
+
     function highlightAttackRange (hexes) {
         layer.destroyChildren();
         if (hexes){
@@ -48,6 +61,9 @@ function createHighlightLayer(center){
         switch(highlightType){
             case "moving":
                 highlightMoveRange(hexes, center);
+                break;
+            case "turning":
+                highlightTurnRange(hexes, center);
                 break;
             case "attacking":
                 highlightAttackRange(hexes, center);

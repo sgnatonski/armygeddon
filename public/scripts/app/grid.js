@@ -65,6 +65,10 @@ function initGrid(battle, animator){
             Promise.all([movePromise, animPromise]).then(resolveAction);
           }
           break;
+        case 'turning':
+          var movePromise = battle.unitTurning(unit, hex.x, hex.y);
+          Promise.all([movePromise]).then(resolveAction);
+          break;
         case 'attacking':
           var path = getPathInRange(selectedHex, hex, unit.range, true);
           var lastStep = path[path.length - 1];
@@ -83,6 +87,32 @@ function initGrid(battle, animator){
     });
   };
 
+  function getTurnAngle(unit) {
+    var turns = [
+      {x: 1, y: 0},
+      {x: 0, y: 1},
+      {x: -1, y: 1},
+      {x: -1, y: 0},
+      {x: 0, y: -1},
+      {x: 1, y: -1},
+    ];
+    
+    var t = [turns[unit.direction - 1]];
+    for (var i = 1; i <= unit.agility; i++){
+      var n1 = unit.direction - 1 - i;
+      if (n1 < 0){
+        n1 = turns.length + n1;
+      }
+      var n2 = unit.direction - 1 + i;
+      if (n2 > turns.length - 1){
+        n2 = n2 - turns.length;
+      }
+      t.push(turns[n1]);
+      t.push(turns[n2]);
+    }
+    return t;
+  }
+
   function getSelectedHexRange() {
     var range = [];
     if (!grid.selectedHex){
@@ -90,13 +120,21 @@ function initGrid(battle, animator){
     }
     var unit = battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y);
     if (unit){
-      var range = battle.getUnitState(unit) == 'moving'
-        ? unit.mobility
-        : unit.range;
-      var ignoreInertia = getSelectedHexState() == 'attacking';
-      var gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), range, ignoreInertia);
-      var terrain = battle.getTerrain();
-      range = gridRange.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
+      var state = battle.getUnitState(unit);
+      if (state == 'turning'){
+        var angle = getTurnAngle(unit).map(a => grid.getHexAt(new BHex.Axial(unit.pos.x + a.x, unit.pos.y + a.y)));        
+        var terrain = battle.getTerrain();
+        range = angle.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
+      }
+      else{        
+        var range = state == 'moving'
+          ? unit.mobility
+          : unit.range;
+        var ignoreInertia = getSelectedHexState() == 'attacking';
+        var gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), range, ignoreInertia);
+        var terrain = battle.getTerrain();
+        range = gridRange.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));      
+      }
     }
     return range;
   };
