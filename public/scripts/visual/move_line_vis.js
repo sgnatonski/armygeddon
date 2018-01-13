@@ -9,7 +9,8 @@ function createMoveLineVisual(linepoints){
         dash: [1, 12, 1, 15],
         tension : 0.3,
         name: 'move_line',
-        listening: false
+        listening: false,
+        strokeHitEnabled: false
       });
     return moveLine;
 }

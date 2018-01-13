@@ -20,7 +20,8 @@ function createHexVisual(hex, c){
         },
         fill: '#2d862d',
         stroke: '#003300',
-        strokeWidth: 0.7
+        strokeWidth: 0.7,
+        strokeHitEnabled: false
     });
 
     hex.sceneNode = hexShape;
