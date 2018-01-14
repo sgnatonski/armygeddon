@@ -34,6 +34,19 @@ function setupStage(grid, animator){
     unitLayer.add(unitSceneNode);
   });
 
+  var tooltip = new Konva.Text({
+    text: "",
+    fontFamily: "Calibri",
+    fontSize: 12,
+    padding: 5,
+    textFill: "white",
+    fill: "black",
+    alpha: 0.75,
+    visible: false
+  });
+
+  unitLayer.add(tooltip);
+
   function addNode(hex, layer) {
     var node = createHexVisual(hex, center);
 
@@ -53,10 +66,30 @@ function setupStage(grid, animator){
       hlLayer.highlightNode(hex);
       effectLayer.drawPath(grid.getPathFromSelectedHex(hex));
       hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
+      var mousePos = stage.getPointerPosition();
+      tooltip.position({
+          x : mousePos.x + 5,
+          y : mousePos.y + 5
+      });
+      var aUnit = null;
+      var selHex = grid.getSelectedHex();
+      if (selHex){
+        aUnit = grid.getUnitAt(selHex.x, selHex.y);
+      }
+      var tUnit = grid.getUnitAt(hex.x, hex.y);
+
+      if (aUnit && tUnit){
+        var dmg = Damage().getChargeDamage(aUnit, tUnit);
+        tooltip.text("Damage: " + dmg);
+        tooltip.show();
+        unitLayer.batchDraw();
+      }
     });
     
     node.on('mouseleave', () => {
       hlLayer.highlightNode(null);
+      tooltip.hide();
+      unitLayer.draw();
     });
 
     layer.add(node);
