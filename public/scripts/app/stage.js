@@ -10,33 +10,21 @@ function setupStage(grid, animator){
   });
 
   var effectLayer = createEffectLayer(center);
-  var unitLayer = new Konva.Layer();
+  var unitLayer = createUnitLayer(center, animator);
   var hlLayer = createHighlightLayer(center);
+  var tooltipLayer = new Konva.Layer();
 
   grid.initDrawing(center);
-
-  var armyColors = [
-    '#00cc00',
-    '#c80b04'
-  ];
-  var colId = 0;
-  var armyColorSelection = {  };
 
   grid.getUnits().forEach(unit => {
     var hex = grid.getHexAt(unit.pos.x, unit.pos.y);
     var armyId = grid.getArmyId(unit.id);
-    if (!armyColorSelection[armyId]){
-      armyColorSelection[armyId] = armyColors[colId];
-      colId++;
-    }
-    var unitSceneNode = createUnitVisual(unit, center, hex.center, armyColorSelection[armyId]);
-    animator.registerAnimation(unit.id, unitSceneNode, center);
-    unitLayer.add(unitSceneNode);
+    unitLayer.addUnit(unit, hex.center, armyId);
   });
 
   var tooltip = createTooltipVisual();
 
-  unitLayer.add(tooltip.node);
+  tooltipLayer.add(tooltip.node);
 
   function addNode(hex, layer) {
     var node = createHexVisual(hex, center);
@@ -49,7 +37,7 @@ function setupStage(grid, animator){
           hlLayer.highlightNode(h);
           effectLayer.drawPath(grid.getPathFromSelectedHex(h));
           hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
-          unitLayer.draw();
+          unitLayer.refresh(grid.getUnits());
       });
     });
 
@@ -76,7 +64,7 @@ function setupStage(grid, animator){
           }
           var dmgText = '-' + dmg + ' damage';
           tooltip.show(endText + '\n' + chrText + '\n' + dmgText, mousePos);
-          unitLayer.batchDraw();
+          tooltipLayer.batchDraw();
         }
       }
     });
@@ -84,7 +72,7 @@ function setupStage(grid, animator){
     node.on('mouseleave', () => {
       hlLayer.highlightNode(null);
       tooltip.hide();
-      unitLayer.draw();
+      tooltipLayer.draw();
     });
 
     layer.add(node);
@@ -113,5 +101,6 @@ function setupStage(grid, animator){
   }
   stage.add(hlLayer);
   stage.add(effectLayer);
-  stage.add(unitLayer);
+  stage.add(unitLayer.node);
+  stage.add(tooltipLayer);
 }

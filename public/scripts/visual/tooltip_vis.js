@@ -4,7 +4,7 @@ function createTooltipVisual(){
         height: 50,
         cornerRadius: 3,
         fill: 'grey',
-        stroke: 'black',
+        stroke: '#252525',
         strokeWidth: 3,
         alpha: 0.75,
         listening: false,
