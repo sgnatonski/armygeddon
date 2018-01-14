@@ -1,5 +1,6 @@
 var BHex = require('../dist/bhex');
-var dmg_calc = require('./damage_calculator');
+var directions = require('./directions');
+var resolver = require('./action_resolver');
 
 function getAllUnits(battle){
     return Object.keys(battle.armies).map(key => Object.keys(battle.armies[key].units).map(unitId => battle.armies[key].units[unitId]))
@@ -36,15 +37,6 @@ var unitRestore = {
         return Object.assign(unit, unitType);
     }
 }
-
-var turns = [
-    {x: 1, y: 0},
-    {x: 0, y: 1},
-    {x: -1, y: 1},
-    {x: -1, y: 0},
-    {x: 0, y: -1},
-    {x: 1, y: -1},
-];
 
 function finalizeAction(battle, turn, unit, targetUnit){
     if (unit.mobility == 0 && unit.agility == 0 && unit.attacks == 0){
@@ -150,10 +142,7 @@ var battleLogic = {
         var neighbors = grid.getNeighbors(new BHex.Axial(unit.pos.x, unit.pos.y));
         var isValidTurn = neighbors.some(e => e.x == x && e.y == y);
         if (isValidTurn){
-            var diffX = x - unit.pos.x;
-            var diffY = y - unit.pos.y;
-            var direction = turns.findIndex(t => t.x == diffX && t.y == diffY) + 1;
-            unit.direction = direction;
+            unit.direction = directions(unit.pos.x, unit.pos.y, x, y);
         }
         unit.agility = 0;
 
@@ -184,17 +173,8 @@ var battleLogic = {
             attacksUsed = unit.attacks;          
         }
 
-        if (!isSkippingAttack && isValidAttack && inRangeAttack){
-            var diffAttackX = x - unit.pos.x;
-            var diffAttackY = y - unit.pos.y;
-            var attackDirection = turns.findIndex(t => t.x == diffAttackX && t.y == diffAttackY) + 1;
-            var diffDefenseX = unit.pos.x - x;
-            var diffDefenseY = unit.pos.y - y;
-            var defenseDirection = turns.findIndex(t => t.x == diffDefenseX && t.y == diffDefenseY) + 1;
-            var dirAttack = attackDirection == unit.direction;
-            var dirDefense = defenseDirection == targetUnit.direction;
-
-            dmg_calc.applyAttackDamage(unit, targetUnit, dirAttack, dirDefense);
+        if (!isSkippingAttack && isValidAttack && inRangeAttack){            
+            resolver.applyAttackDamage(unit, targetUnit);
         }
 
         unit.attacks -= attacksUsed;
