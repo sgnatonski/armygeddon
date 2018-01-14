@@ -60,7 +60,7 @@ function setupStage(grid, animator){
           var endText = 'Endurance: ' + tUnit.endurance;
           var chrText = '';
           if (aUnit.charge){
-            chrText = aUnit.charge + ' charge';
+            chrText = Math.pow(aUnit.charge - 1, 2); + ' charge';
           }
           var dmgText = '-' + dmg + ' damage';
           tooltip.show(endText + '\n' + chrText + '\n' + dmgText, mousePos);

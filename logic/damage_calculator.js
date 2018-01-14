@@ -14,7 +14,7 @@ var calculator = {
         return distanceDamage;
     },
     getChargeDamage: (attacker, defender) => {
-        var charge = attacker.charge - 1;
+        var charge = Math.pow(attacker.charge - 1, 2);
         var attackDirection = directions(attacker.pos.x, attacker.pos.y, defender.pos.x, defender.pos.y);
         var defenseDirection = directions(defender.pos.x, defender.pos.y, attacker.pos.x, attacker.pos.y);
         var dirAttack = attackDirection == attacker.direction;
