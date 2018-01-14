@@ -34,18 +34,9 @@ function setupStage(grid, animator){
     unitLayer.add(unitSceneNode);
   });
 
-  var tooltip = new Konva.Text({
-    text: "",
-    fontFamily: "Calibri",
-    fontSize: 12,
-    padding: 5,
-    textFill: "white",
-    fill: "black",
-    alpha: 0.75,
-    visible: false
-  });
+  var tooltip = createTooltipVisual();
 
-  unitLayer.add(tooltip);
+  unitLayer.add(tooltip.node);
 
   function addNode(hex, layer) {
     var node = createHexVisual(hex, center);
@@ -66,23 +57,27 @@ function setupStage(grid, animator){
       hlLayer.highlightNode(hex);
       effectLayer.drawPath(grid.getPathFromSelectedHex(hex));
       hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
-      var mousePos = stage.getPointerPosition();
-      tooltip.position({
-          x : mousePos.x + 5,
-          y : mousePos.y + 5
-      });
-      var aUnit = null;
-      var selHex = grid.getSelectedHex();
-      if (selHex){
-        aUnit = grid.getUnitAt(selHex.x, selHex.y);
-      }
-      var tUnit = grid.getUnitAt(hex.x, hex.y);
+      var state = grid.getSelectedHexState();
+      if (state == 'turning' || state == 'attacking'){
+        var aUnit = null;
+        var selHex = grid.getSelectedHex();
+        if (selHex){
+          aUnit = grid.getUnitAt(selHex.x, selHex.y);
+        }
+        var tUnit = grid.getUnitAt(hex.x, hex.y);
 
-      if (aUnit && tUnit){
-        var dmg = Damage().getChargeDamage(aUnit, tUnit);
-        tooltip.text("Damage: " + dmg);
-        tooltip.show();
-        unitLayer.batchDraw();
+        if (aUnit && tUnit){
+          var dmg = Damage().getChargeDamage(aUnit, tUnit);
+          var mousePos = stage.getPointerPosition();
+          var endText = 'Endurance: ' + tUnit.endurance;
+          var chrText = '';
+          if (aUnit.charge){
+            chrText = aUnit.charge + ' charge';
+          }
+          var dmgText = '-' + dmg + ' damage';
+          tooltip.show(endText + '\n' + chrText + '\n' + dmgText, mousePos);
+          unitLayer.batchDraw();
+        }
       }
     });
     
