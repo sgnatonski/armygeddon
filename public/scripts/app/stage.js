@@ -26,8 +26,8 @@ function setupStage(grid, animator){
 
   tooltipLayer.add(tooltip.node);
 
-  function addNode(hex, layer) {
-    var node = createHexVisual(hex, center);
+  function addNode(hex) {
+    var node = createTerrainVisual(hex, center);
 
     node.on('click', () => {
       hlLayer.highlightNode(null);
@@ -75,30 +75,28 @@ function setupStage(grid, animator){
       tooltipLayer.draw();
     });
 
-    layer.add(node);
+    return {
+      node: node,
+      coord: createHexCoordVisual(hex, center)
+    }
   }
 
-  function chunkArray(array, chunk_size){
-    var arr = array.slice();
-    var results = [];
-    
-    while (arr.length) {
-        results.push(arr.splice(0, chunk_size));
-    }
-    
-    return results;
-  }
-  
-  var chunks = chunkArray(grid.getHexes(), 100);
-  for(var n = 0; n < chunks.length; n++){
-    var layer = new Konva.Layer();
-    for(var i = 0; i < chunks[n].length; i++){
-      var hex = chunks[n][i];
-      addNode(hex, layer);
-    }
-    stage.add(layer);
-    layer = new Konva.Layer();
-  }
+  var terrainLayer = new Konva.Layer();
+  var nodes = grid.getHexes().sort((a, b) => {
+    if (a.y > b.y) return 1;
+    if (a.y < b.y) return -1;
+
+    if (a.x > b.x) return 1;
+    if (a.x < b.x) return -1;
+
+    return 0;
+  }).map(hex => addNode(hex));
+  nodes.forEach(node => {
+    terrainLayer.add(node.node);
+    terrainLayer.add(node.coord);
+  });
+
+  stage.add(terrainLayer);
   stage.add(hlLayer);
   stage.add(effectLayer);
   stage.add(unitLayer.node);

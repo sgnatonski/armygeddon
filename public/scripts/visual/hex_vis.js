@@ -1,3 +1,29 @@
+var t01 = new Image();
+t01.src = '/images/Tiles/WWT-01.png';
+var t02 = new Image();
+t02.src = '/images/Tiles/WWT-07.png';
+
+function createTerrainVisual(hex, center){
+    var group = new Konva.Group();
+    var terrain = new Konva.Image({
+        x: center.x + hex.center.x,
+        y: center.y + hex.center.y,
+        image: hex.cost == 1 ? t01 : t02,
+        width: 70,
+        height:70,
+        offset: {
+            x: 35,
+            y: 35
+        },
+        rotation: -30
+      });
+
+      group.add(terrain);
+      group.add(createHexVisual(hex, center));
+    
+    return group;
+}
+
 function createHexVisual(hex, c){
     var center = c;
     function nextCoord(idx){
@@ -18,13 +44,11 @@ function createHexVisual(hex, c){
           // Konva specific method
           context.fillStrokeShape(this);
         },
-        fill: '#2d862d',
+        //fill: '#2d862d',
         stroke: '#003300',
         strokeWidth: 0.7,
         strokeHitEnabled: false
     });
-
-    hex.sceneNode = hexShape;
 
     return hexShape;
 }
