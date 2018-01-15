@@ -125,6 +125,10 @@ var battleLogic = {
         if (!isSkippingMove){
             unit.charge += moveCost;
         }
+        if (unit.mobility > 0){
+            unit.agility += 1;
+            unit.mobility = 0;
+        }
 
         return finalizeAction(battle, turn, unit);
     },

@@ -35,6 +35,10 @@ function Damage(){
             var dirAttack = attackDirection == attacker.direction;
             var dirDefense = defenseDirection == defender.direction;
     
+            if (dirAttack && attacker.direction == defender.direction){
+                charge = charge * 2;
+            }
+            
             if (charge < 0 || !dirAttack){
                 charge = 0;
             }
