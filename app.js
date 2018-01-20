@@ -9,6 +9,8 @@ var index = require('./routes/index');
 var battle = require('./routes/battle');
 var users = require('./routes/users');
 
+process.chdir(__dirname);
+
 var app = express();
 
 // view engine setup
