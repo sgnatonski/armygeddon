@@ -101,4 +101,6 @@ function setupStage(grid, animator, images){
   stage.add(effectLayer);
   stage.add(unitLayer.node);
   stage.add(tooltipLayer);
+
+  grid.hexSelected();
 }

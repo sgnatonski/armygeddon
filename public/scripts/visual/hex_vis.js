@@ -1,15 +1,16 @@
 function createTerrainVisual(hex, center, images){
     function getHexTerrainImage(hex){
         if (hex.cost == 1){
-            return images[0];
+            var gNumber = Math.floor(Math.random() * 6);
+            return images.plains[gNumber];
         }
         else{
-            return images[1];
+            return images.forrests[0];
         }
     }
 
     var group = new Konva.Group();
-    var gNumber = Math.floor(Math.random() * 3) + 1;
+    
     var terrain = new Konva.Image({
         x: center.x + hex.center.x,
         y: center.y + hex.center.y,
