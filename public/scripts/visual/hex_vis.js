@@ -5,7 +5,8 @@ function createTerrainVisual(hex, center, images){
             return images.plains[gNumber];
         }
         else{
-            return images.forrests[0];
+            var gNumber = Math.floor(Math.random() * 2);
+            return images.forrests[gNumber];
         }
     }
 

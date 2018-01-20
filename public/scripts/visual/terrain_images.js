@@ -11,7 +11,7 @@ function loadImages(){
     ]).then(imgs =>{
         return {
             plains: imgs.slice(0, 6),
-            forrests: [imgs[6]]
+            forrests: [imgs[6], imgs[7]]
         };
     });
 }

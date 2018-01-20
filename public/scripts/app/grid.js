@@ -21,6 +21,14 @@ function initGrid(battle, animator){
     }
   }
 
+  function getMoveCost(sourceHex, targetHex, range){
+    var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y));
+    var terrain = battle.getTerrain();
+    var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
+    var cost = path.map(x => x.cost).reduce((a,b) => a + b);
+    return cost;
+  }
+
   function getPathInRange (sourceHex, targetHex, range, ignoreInertia) {
     var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y), ignoreInertia);
     var terrain = battle.getTerrain();
@@ -190,6 +198,7 @@ function initGrid(battle, animator){
     getSelectedHexRange: getSelectedHexRange,
     getSelectedHexState: getSelectedHexState,
     getPathFromSelectedHex: getPathFromSelectedHex,
+    getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new BHex.Axial(x, y)), battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
     initDrawing: initDrawing
   }
 }

@@ -46,24 +46,49 @@ function setupStage(grid, animator, images){
       effectLayer.drawPath(grid.getPathFromSelectedHex(hex));
       hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
       var state = grid.getSelectedHexState();
-      if (state == 'turning' || state == 'attacking'){
-        var aUnit = null;
-        var selHex = grid.getSelectedHex();
-        if (selHex){
-          aUnit = grid.getUnitAt(selHex.x, selHex.y);
-        }
-        var tUnit = grid.getUnitAt(hex.x, hex.y);
+      var aUnit = null;
+      var selHex = grid.getSelectedHex();
+      if (selHex){
+        aUnit = grid.getUnitAt(selHex.x, selHex.y);
+      }
+      var tUnit = grid.getUnitAt(hex.x, hex.y);
 
+      if (state == 'moving' || state == 'turning'){
+        if (aUnit && tUnit){
+          var mousePos = stage.getPointerPosition();
+          var texts = [
+            'Endurance: ' + tUnit.endurance + ' / ' + tUnit.lifetime.endurance,
+            'Mobility: ' + tUnit.mobility + ' / ' + tUnit.lifetime.mobility,
+            'Agility: ' + tUnit.agility + ' / ' + tUnit.lifetime.agility,
+            'Damage: ' + tUnit.damage,
+            'Armor: ' + tUnit.armor,
+            'Range: ' + tUnit.range,
+          ];
+          tooltip.show(texts, mousePos, texts.length);
+          tooltipLayer.batchDraw();
+        }
+        else if (!tUnit){
+          var mousePos = stage.getPointerPosition();
+          var cost = grid.getSelectedHexMoveCost(hex.x, hex.y);  
+          if (cost <= aUnit.mobility){
+            var texts = [
+              'Moves: ' + cost + ' / ' + aUnit.mobility,
+              'Charge: ' + cost
+            ];
+            tooltip.show(texts, mousePos, texts.length);
+            tooltipLayer.batchDraw();
+          }
+        }
+      }
+      else if (state == 'attacking'){        
         if (aUnit && tUnit){
           var dmg = Damage().getChargeDamage(aUnit, tUnit);
           var mousePos = stage.getPointerPosition();
-          var endText = 'Endurance: ' + tUnit.endurance;
-          var chrText = '';
-          if (aUnit.charge){
-            chrText = Math.pow(aUnit.charge - 1, 2); + ' charge';
-          }
-          var dmgText = '-' + dmg + ' damage';
-          tooltip.show(endText + '\n' + chrText + '\n' + dmgText, mousePos);
+          var texts = [
+            'Endurance: ' + tUnit.endurance,
+            '-' + dmg + ' damage'
+          ];
+          tooltip.show(texts, mousePos, texts.length);
           tooltipLayer.batchDraw();
         }
       }

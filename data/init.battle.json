@@ -2290,8 +2290,6 @@
     ],
     "unitTypes": {
       "inf": {
-        "mobility": 2,
-        "agility": 2,
         "damage": 3,
         "maxDirections": 3,
         "armor": 1,
@@ -2300,12 +2298,12 @@
         "range": 1,
         "charge": 0,
         "lifetime":{
-          "endurance": 12 
+          "endurance": 12,
+          "mobility": 2,
+          "agility": 2
         }
       },
       "arch": {
-        "mobility": 2,
-        "agility": 2,
         "damage": 5,
         "maxDirections": 1,
         "armor": 0,
@@ -2314,12 +2312,12 @@
         "range": 3,
         "charge": 0,
         "lifetime":{
-          "endurance": 8               
+          "endurance": 8,
+          "mobility": 2,
+          "agility": 2
         }
       },
-      "cav":{
-        "mobility": 3,
-        "agility": 1,
+      "cav":{        
         "damage": 3,
         "maxDirections": 1,
         "armor": 2,
@@ -2328,7 +2326,9 @@
         "range": 1,
         "charge": 0 ,
         "lifetime":{
-          "endurance": 15 
+          "endurance": 15,
+          "mobility": 3,
+          "agility": 1
         }
       }
     },

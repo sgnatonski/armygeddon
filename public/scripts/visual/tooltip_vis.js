@@ -6,10 +6,10 @@ function createTooltipVisual(){
         fill: 'grey',
         stroke: '#252525',
         strokeWidth: 2,
-        alpha: 0.75,
+        opacity: 0.8,
         listening: false,
         shadowColor: 'black',
-        shadowBlur: 10,
+        shadowBlur: 5,
         shadowOffset: {x : 6, y : 6},
         shadowOpacity: 0.5
     });
@@ -17,9 +17,12 @@ function createTooltipVisual(){
         fontFamily: "Calibri",
         fontSize: 11,
         padding: 5,
-        textFill: "white",
-        fill: "black",
-        listening: false
+        fill: "#dedede",
+        listening: false/*,
+        shadowColor: 'black',
+        shadowBlur: 0,
+        shadowOffset: {x : 2, y : 2},
+        shadowOpacity: 0.5*/
     });
 
     var group = new Konva.Group({
@@ -30,12 +33,16 @@ function createTooltipVisual(){
     group.add(text);
 
     return {
-        show: (txt, position) => {
-            text.text(txt);
+        show: (txt, position, lines) => {
+            if (!lines){
+                lines = 1;
+            }
+            text.text(txt.join('\n'));
             group.position({
                 x : position.x + 5,
                 y : position.y + 5
             });
+            rect.height(10 + lines * 11);
             group.show();
         },
         hide: () => {
