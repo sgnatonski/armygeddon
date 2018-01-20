@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var battle = require('./routes/battle');
-var users = require('./routes/users');
+var design = require('./routes/design');
 
 process.chdir(__dirname);
 
@@ -28,7 +28,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/battle', battle);
-app.use('/users', users);
+if (app.get('env') === 'development'){
+  app.use('/design', design);
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
