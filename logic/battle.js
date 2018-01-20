@@ -178,6 +178,13 @@ var battleLogic = {
         }
         unit.agility = 0;
 
+        var grid = new BHex.Grid(battle.terrainSize);
+        var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
+        var unitsToAttack = gridRange.map(r => getUnitAt(battle, r.x, r.y)).filter(r => r);
+        var canAttack = unitsToAttack.some(u => !isSameArmy(battle.armies[playerId], u));
+        if (!canAttack){
+            unit.attacks = 0;
+        }
         return finalizeAction(battle, turn, unit);
     },
     processAttack: (battle, playerId, unitId, x, y) => {
