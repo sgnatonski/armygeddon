@@ -53,34 +53,25 @@ function createUnitVisual(unit, center, hexCenter, color){
   healthGroup.add(healthStatus);
   healthGroup.add(healthStatusBar);
   var direction = new Konva.Shape({
-    x: 0,
-    y: 0,
-    fill: '#ffad33',
-    stroke: '#333333',
-    strokeWidth: 0.5,
-    strokeHitEnabled: false,
-    listening: false,
+    x: 19,
+    y: 15,
+    fill: '#ffff66',
+    opacity: 0.35,
     sceneFunc: function(context){
-      var outerRadius = 36;
-      var innerRadius = 33;
-      var angle = Konva.getAngle(60);
-      var rotation = 0;
-      var x = 0;
-      var y = 0;
-      switch(unit.direction){
-        case 1: rotation = 12; x = 1; y = 20; break;
-        case 2: rotation = 13.05; x = 17; y = 0; break;
-        case 3: rotation = 14.1; x = 8; y = -20; break;
-        case 4: rotation = 15.15; x = -16; y = -26; break;
-        case 5: rotation = 16.2; x = -30; y = -8; break;
-        case 6: rotation = 17.35; x = -20; y = 14; break;
-      }
+      var rotationDeg = -30 + (unit.directions[0] - 1) * 60;
+      var rotation = Konva.getAngle(rotationDeg);
       context.rotate(rotation);
       context.beginPath();
-      context.arc(x, y, outerRadius, 0, angle, false);
-      context.arc(x, y, innerRadius, angle, 0, true);
+      context.arc(
+        0,
+        0,
+        30,
+        0,
+        Konva.getAngle(60),
+        false
+      );
+      context.lineTo(0, 0);
       context.closePath();
-      // Konva specific method
       context.fillStrokeShape(this);
     }
   });
@@ -93,10 +84,10 @@ function createUnitVisual(unit, center, hexCenter, color){
       y: 15
     }
   });
+  group.add(direction);
   group.add(unitBack);
   group.add(unitPath);
   group.add(healthGroup);
-  group.add(direction);
   return group;
 }
 function createDeadUnitVisual(unit, center, hexCenter){

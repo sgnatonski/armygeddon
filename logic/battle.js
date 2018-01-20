@@ -146,7 +146,7 @@ var battleLogic = {
         var neighbors = grid.getNeighbors(new BHex.Axial(unit.pos.x, unit.pos.y));
         var isValidTurn = neighbors.some(e => e.x == x && e.y == y);
         if (isValidTurn){
-            unit.direction = directions(unit.pos.x, unit.pos.y, x, y);
+            unit.directions = [directions(unit.pos.x, unit.pos.y, x, y)];
         }
         unit.agility = 0;
 

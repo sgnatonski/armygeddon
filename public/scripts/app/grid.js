@@ -96,14 +96,16 @@ function initGrid(battle, animator){
       {x: 0, y: -1},
       {x: 1, y: -1},
     ];
+
+    var dir = unit.directions[0];
     
-    var t = [turns[unit.direction - 1]];
+    var t = [turns[dir - 1]];
     for (var i = 1; i <= unit.agility; i++){
-      var n1 = unit.direction - 1 - i;
+      var n1 = dir - 1 - i;
       if (n1 < 0){
         n1 = turns.length + n1;
       }
-      var n2 = unit.direction - 1 + i;
+      var n2 = dir - 1 + i;
       if (n2 > turns.length - 1){
         n2 = n2 - turns.length;
       }
