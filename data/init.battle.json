@@ -2290,6 +2290,8 @@
     ],
     "unitTypes": {
       "inf": {
+        "mobility": 2,
+        "agility": 2,
         "damage": 3,
         "maxDirections": 3,
         "armor": 1,
@@ -2304,6 +2306,8 @@
         }
       },
       "arch": {
+        "mobility": 2,
+        "agility": 2,
         "damage": 5,
         "maxDirections": 1,
         "armor": 0,
@@ -2317,7 +2321,9 @@
           "agility": 2
         }
       },
-      "cav":{        
+      "cav":{
+        "mobility": 3,
+        "agility": 1,
         "damage": 3,
         "maxDirections": 1,
         "armor": 2,
