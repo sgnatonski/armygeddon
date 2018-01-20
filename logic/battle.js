@@ -81,6 +81,27 @@ function finalizeAction(battle, turn, unit, targetUnit){
     };
 }
 
+function ensureDirRange(dir){
+    if (dir > 6) return 1;
+    if (dir < 1) return 6;
+    return dir;
+}
+
+function setDirections(unit, dirSize){
+    if (dirSize > unit.maxDirections){
+        dirSize = unit.maxDirections;
+    }
+    currentDir = unit.directions[0];
+    unit.directions = Array(dirSize);
+    unit.directions[0] = currentDir;
+    var i = 1;
+    while(i < dirSize){
+        unit.directions[i] = ensureDirRange(unit.directions[0] + i);
+        unit.directions[i + 1] = ensureDirRange(unit.directions[0] - i);
+        i = i + 2;
+    }
+}
+
 var battleLogic = {
     init: (battle) => {
         allUnits = getAllUnits(battle);
@@ -124,6 +145,11 @@ var battleLogic = {
         unit.mobility -= moveCost;
         if (!isSkippingMove){
             unit.charge += moveCost;
+            setDirections(unit, 1);
+        }
+        else{
+            var dirSize = unit.directions.length + 2;
+            setDirections(unit, dirSize);
         }
         if (unit.mobility > 0){
             unit.agility += 1;
@@ -146,7 +172,9 @@ var battleLogic = {
         var neighbors = grid.getNeighbors(new BHex.Axial(unit.pos.x, unit.pos.y));
         var isValidTurn = neighbors.some(e => e.x == x && e.y == y);
         if (isValidTurn){
+            var dirSize = unit.directions.length;
             unit.directions = [directions(unit.pos.x, unit.pos.y, x, y)];
+            setDirections(unit, dirSize);
         }
         unit.agility = 0;
 

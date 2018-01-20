@@ -58,18 +58,15 @@ function createUnitVisual(unit, center, hexCenter, color){
     fill: '#ffff66',
     opacity: 0.35,
     sceneFunc: function(context){
-      var rotationDeg = -30 + (unit.directions[0] - 1) * 60;
-      var rotation = Konva.getAngle(rotationDeg);
-      context.rotate(rotation);
+      var x = 0;
+      if (unit.directions.length > 1){
+        x = 1;
+      }
+      var rotation = -30 + (unit.directions[0] - 1) * 60 - (x * 60);
+      var angle = 60 * unit.directions.length;
+      context.rotate(Konva.getAngle(rotation));
       context.beginPath();
-      context.arc(
-        0,
-        0,
-        30,
-        0,
-        Konva.getAngle(60),
-        false
-      );
+      context.arc(0, 0, 32, 0, Konva.getAngle(angle), false);
       context.lineTo(0, 0);
       context.closePath();
       context.fillStrokeShape(this);
