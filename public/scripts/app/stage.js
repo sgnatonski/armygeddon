@@ -1,4 +1,4 @@
-function setupStage(grid, animator){
+function setupStage(grid, animator, images){
   var width = window.innerWidth;
   var height = window.innerHeight;
   var center = { x: width / 2, y: height / 2 };
@@ -27,7 +27,7 @@ function setupStage(grid, animator){
   tooltipLayer.add(tooltip.node);
 
   function addNode(hex) {
-    var node = createTerrainVisual(hex, center);
+    var node = createTerrainVisual(hex, center, images);
 
     node.on('click', () => {
       hlLayer.highlightNode(null);

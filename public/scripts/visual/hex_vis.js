@@ -1,21 +1,26 @@
-var t01 = new Image();
-t01.src = '/images/Tiles/WWT-01.png';
-var t02 = new Image();
-t02.src = '/images/Tiles/WWT-07.png';
+function createTerrainVisual(hex, center, images){
+    function getHexTerrainImage(hex){
+        if (hex.cost == 1){
+            return images[0];
+        }
+        else{
+            return images[1];
+        }
+    }
 
-function createTerrainVisual(hex, center){
     var group = new Konva.Group();
+    var gNumber = Math.floor(Math.random() * 3) + 1;
     var terrain = new Konva.Image({
         x: center.x + hex.center.x,
         y: center.y + hex.center.y,
-        image: hex.cost == 1 ? t01 : t02,
+        image: getHexTerrainImage(hex),
         width: 70,
         height:70,
         offset: {
             x: 35,
             y: 35
         },
-        rotation: -30
+        rotation: 30
       });
 
       group.add(terrain);

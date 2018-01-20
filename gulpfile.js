@@ -8,6 +8,12 @@ gulp.task('bundle-hex', function() {
       .pipe(gulp.dest('./dist/'));
   });
 
+gulp.task('bundle-3rdparty', function() {
+    gulp.src(['./node_modules/image-promise/dist/image-promise.common-js.js'])
+      .pipe(concat('3rd.js'))
+      .pipe(gulp.dest('./dist/'));
+});
+
 gulp.task('bundle-app', function() {
     gulp.src([
         './public/scripts/app/battle.js', 
@@ -19,7 +25,7 @@ gulp.task('bundle-app', function() {
       .pipe(gulp.dest('./dist/'));
   });
      
-gulp.task('compress', ['bundle-hex', 'bundle-app'], function() {
+gulp.task('compress', ['bundle-hex', 'bundle-app', 'bundle-3rdparty'], function() {
   gulp.src('dist/*.js')
     .pipe(minify({
         ext:{
