@@ -32,6 +32,12 @@ Game.Battle.prototype.getArmy = function(unitId) {
 	: this.secondArmy;
 };
 
+Game.Battle.prototype.getOtherArmy = function(unitId) {
+	return this.firstArmy.getArmy().some(x => x.id == unitId)
+	? this.secondArmy
+	: this.firstArmy;
+};
+
 Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
 	var army = this.getArmy(unit.id);
 
@@ -104,3 +110,15 @@ Game.Battle.prototype.getUnitState = function(unit) {
 Game.Battle.prototype.getUnitAt = function(x, y) {
 	return this.getUnits().find(u => u.pos.x == x && u.pos.y == y);
 };
+
+Game.Battle.prototype.isWinningArmy = function(unitId) {
+	var army = this.getOtherArmy(unitId);
+	var stillAlive = army.units.some(u => u.endurance > 0);
+	return !stillAlive;
+}
+
+Game.Battle.prototype.isDefeatedArmy = function(unitId) {
+	var army = this.getArmy(unitId);
+	var stillAlive = army.units.some(u => u.endurance > 0);
+	return !stillAlive;
+}

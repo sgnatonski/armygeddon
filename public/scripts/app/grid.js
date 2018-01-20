@@ -49,6 +49,12 @@ function initGrid(battle, animator){
       
       function resolveAction(results){
         var movedUnit = results[0];
+        if (battle.isDefeatedArmy(movedUnit.id)){
+          debugger;
+        }
+        if (battle.isWinningArmy(movedUnit.id)){
+          debugger;
+        }
         var hex = grid.getHexAt(new BHex.Axial(movedUnit.pos.x, movedUnit.pos.y));
         selectedHex.blocked = false;
         hex.blocked = true;

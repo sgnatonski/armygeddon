@@ -2416,5 +2416,6 @@
       }
     },
     "startingArmy": "1",
-    "turns": []
+    "turns": [],
+    "winningArmy": null
 }

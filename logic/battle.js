@@ -17,12 +17,12 @@ function isSameArmy(army, unit){
 
 function finalizeInvalidAction(battle, turn, unit){
     var isTurnMove = turn.readyUnits[0] == unit.id;
-    if (!isTurnMove){
+    if (battle.winningArmy || !isTurnMove){
         return {
-            unit: null, 
-            nextUnit: null, 
-            targetUnit: null,
-            unitQueue: null, 
+            unit: unit, 
+            nextUnit: unit, 
+            targetUnit: unit,
+            unitQueue: battle.unitQueue, 
             battle: battle, 
             success: false
         };
@@ -38,7 +38,7 @@ var unitRestore = {
     }
 }
 
-function finalizeAction(battle, turn, unit, targetUnit){
+function finalizeAction(battle, turn, playerId, unit, targetUnit){
     if (unit.mobility == 0 && unit.agility == 0 && unit.attacks == 0){
         var id = turn.readyUnits.shift();
         turn.movedUnits.push(id);
@@ -53,6 +53,8 @@ function finalizeAction(battle, turn, unit, targetUnit){
             turn.movedUnits.splice(tidx, 1);
         }
     }
+    var allUnits = getAllUnits(battle);
+    
     if (!turn.readyUnits.length){
         battle.turns.push({
             readyUnits: turn.movedUnits,
@@ -60,16 +62,35 @@ function finalizeAction(battle, turn, unit, targetUnit){
             moves: []
         });
 
-        getAllUnits(battle).forEach(u => {
+        allUnits.forEach(u => {
             u = unitRestore.nextTurn(u, battle.unitTypes[u.type])
         });
     }
 
     var nextUnitId = battle.turns[battle.turns.length - 1].readyUnits[0];
 
-    var allUnits = getAllUnits(battle);
     var nextUnit = allUnits.find(u => u.id == nextUnitId);
     var unitQueue = battle.turns[battle.turns.length - 1].readyUnits;
+
+    var armiesState = Object.keys(battle.armies)
+        .map(a => battle.armies[a])
+        .map(army => {
+            return { 
+                id: army.id, 
+                army: Object.keys(army.units).map(u => army.units[u])
+            }
+        })
+        .map(x => {
+            return { 
+                id: x.id,
+                remaining: x.army.map(u => u.endurance).reduce((a, b) => a + b, 0)
+            }
+        });
+
+    if (armiesState.find(s => s.remaining == 0)){
+        var winner = armiesState.find(s => s.remaining > 0);
+        battle.winningArmy = winner.id;
+    }
 
     return {
         unit: unit, 
@@ -116,7 +137,7 @@ var battleLogic = {
         });
         return battle;
     },
-    processMove: (battle, playerId, unitId, x, y) => {
+    processMove: (battle, playerId, unitId, x, y) => {        
         var turn = battle.turns[battle.turns.length - 1];
 
         var unit = battle.armies[playerId].units[unitId];
@@ -156,7 +177,7 @@ var battleLogic = {
             unit.mobility = 0;
         }
 
-        return finalizeAction(battle, turn, unit);
+        return finalizeAction(battle, turn, playerId, unit);
     },
     processTurn: (battle, playerId, unitId, x, y) => {
         var turn = battle.turns[battle.turns.length - 1];
@@ -185,7 +206,10 @@ var battleLogic = {
         if (!canAttack){
             unit.attacks = 0;
         }
-        return finalizeAction(battle, turn, unit);
+
+        turn.moves.push({ unit: unit.id, directions: unit.directions});
+
+        return finalizeAction(battle, turn, playerId, unit);
     },
     processAttack: (battle, playerId, unitId, x, y) => {
         var turn = battle.turns[battle.turns.length - 1];
@@ -206,6 +230,7 @@ var battleLogic = {
         var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
         var inRangeAttack = gridRange.some(r => r.x == x && r.y == y);
 
+        var oldTargetEndurance = targetUnit.endurance;
         var attacksUsed = 1;
 
         if (isSkippingAttack){
@@ -218,7 +243,9 @@ var battleLogic = {
 
         unit.attacks -= attacksUsed;
 
-        return finalizeAction(battle, turn, unit, targetUnit);
+        turn.moves.push({ unit: unit.id, target: targetUnit.id, damage: oldTargetEndurance - targetUnit.endurance});
+
+        return finalizeAction(battle, turn, playerId, unit, targetUnit);
     }
 };
 
