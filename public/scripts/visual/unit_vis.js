@@ -92,9 +92,7 @@ function createUnitVisual(unit, center, hexCenter, color){
   }
   var healthGroup = new Konva.Group();
   var healthStatus = new Konva.Rect({
-    x: 0,
-    y: 0,
-    width: 3,
+    width: 2,
     height: 30,
     fill: 'white',
     stroke: 'black',
@@ -109,7 +107,7 @@ function createUnitVisual(unit, center, hexCenter, color){
       }
       var off = Math.floor(30 * fillValue);
       context.beginPath();
-      context.rect(0, 30 - off, 3, off);
+      context.rect(0, 30 - off, 2, off);
       context.closePath();
       // Konva specific method
       context.fillStrokeShape(this);
