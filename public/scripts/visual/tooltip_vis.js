@@ -31,6 +31,7 @@ function createTooltipVisual(){
 
     group.add(rect);
     group.add(text);
+    group.hide();
 
     return {
         show: (txt, position, lines) => {
