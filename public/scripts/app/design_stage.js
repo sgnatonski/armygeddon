@@ -9,7 +9,7 @@ function setupStage(grid, animator, images){
     height: height
   });
 
-  var terrainLayer = new Konva.Layer();
+  var terrainLayer = createTerrainLayer();
   var hlLayer = createHighlightLayer(center);
   var tooltipLayer = new Konva.Layer();
 
@@ -24,7 +24,7 @@ function setupStage(grid, animator, images){
 
     node.on('click', () => {
       hex.cost = hex.cost == 1 ? 2 : 1;
-      addNodes();
+      terrainLayer.addGridNodes(grid, addNode);
       terrainLayer.draw();
     });
 
@@ -44,25 +44,7 @@ function setupStage(grid, animator, images){
     }
   }
 
-  function addNodes(){
-    terrainLayer.destroyChildren();
-    grid.getHexes().sort((a, b) => {
-      if (a.y > b.y) return 1;
-      if (a.y < b.y) return -1;
-
-      if (a.x > b.x) return 1;
-      if (a.x < b.x) return -1;
-
-      return 0;
-    })
-    .map(hex => addNode(hex))
-    .forEach(node => {
-      terrainLayer.add(node.node);
-      terrainLayer.add(node.coord);
-    });
-  }
-
-  addNodes();
+  terrainLayer.addGridNodes(grid, addNode);
 
   stage.add(terrainLayer);
   stage.add(hlLayer);

@@ -12,6 +12,7 @@ function setupStage(grid, animator, images){
   var effectLayer = createEffectLayer(center);
   var unitLayer = createUnitLayer(center, animator);
   var hlLayer = createHighlightLayer(center);
+  var terrainLayer = createTerrainLayer();
   var tooltipLayer = new Konva.Layer();
 
   grid.initDrawing(center);
@@ -105,21 +106,8 @@ function setupStage(grid, animator, images){
       coord: createHexCoordVisual(hex, center)
     }
   }
-
-  var terrainLayer = new Konva.Layer();
-  var nodes = grid.getHexes().sort((a, b) => {
-    if (a.y > b.y) return 1;
-    if (a.y < b.y) return -1;
-
-    if (a.x > b.x) return 1;
-    if (a.x < b.x) return -1;
-
-    return 0;
-  }).map(hex => addNode(hex));
-  nodes.forEach(node => {
-    terrainLayer.add(node.node);
-    terrainLayer.add(node.coord);
-  });
+  
+  terrainLayer.addGridNodes(grid, addNode);
 
   stage.add(terrainLayer);
   stage.add(hlLayer);
