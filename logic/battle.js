@@ -201,7 +201,7 @@ var battleLogic = {
 
         var grid = new BHex.Grid(battle.terrainSize);
         var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
-        var unitsToAttack = gridRange.map(r => getUnitAt(battle, r.x, r.y)).filter(r => r);
+        var unitsToAttack = gridRange.map(r => getUnitAt(battle, r.x, r.y)).filter(r => r && r.endurance > 0);
         var canAttack = unitsToAttack.some(u => !isSameArmy(battle.armies[playerId], u));
         if (!canAttack){
             unit.attacks = 0;
