@@ -3,6 +3,17 @@ var Game = Game || {};
 Game.Battle = function () {	
 };
 
+Game.Battle.prototype.getSceneSize = function(){
+    var tx = this.terrain.map(x => x.x);
+    var ty = this.terrain.map(x => x.y);
+    var minX = Math.abs(Math.min(...tx));
+    var maxX = Math.abs(Math.max(...tx));
+    var minY = Math.abs(Math.min(...ty));
+    var maxY = Math.abs(Math.max(...ty));
+    var sceneSize = Math.max(...[minX, maxX, minY, maxY]);
+    return sceneSize;
+} 
+
 Game.Battle.prototype.load = function(){
 	return Game.fetch().get('/battle')
   	.then(data => {

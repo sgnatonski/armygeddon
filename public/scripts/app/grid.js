@@ -1,15 +1,4 @@
-function initGrid(battle, animator){ 
-  function calculateSceneSize(terrain){
-    var tx = terrain.map(x => x.x);
-    var ty = terrain.map(x => x.y);
-    var minX = Math.abs(Math.min(...tx));
-    var maxX = Math.abs(Math.max(...tx));
-    var minY = Math.abs(Math.min(...ty));
-    var maxY = Math.abs(Math.max(...ty));
-    var sceneSize = Math.max(...[minX, maxX, minY, maxY]);
-    return sceneSize;
-  } 
-
+function initGrid(battle, animator){
   function setSelectedHex (x, y) {
     var selectedHex = grid.selectedHex;  
     grid.selectedHex = null;
@@ -101,8 +90,8 @@ function initGrid(battle, animator){
     });
   };
 
-  function getTurnAngle(unit) {
-    var turns = [
+  function getTurnCoords(){
+    return [
       {x: 1, y: 0},
       {x: 0, y: 1},
       {x: -1, y: 1},
@@ -110,6 +99,10 @@ function initGrid(battle, animator){
       {x: 0, y: -1},
       {x: 1, y: -1},
     ];
+  }
+
+  function getTurnAngle(unit) {
+    var turns = getTurnCoords();
 
     var dir = unit.directions[0];
     
@@ -130,29 +123,33 @@ function initGrid(battle, animator){
   }
 
   function getSelectedHexRange() {
-    var range = [];
-    if (!grid.selectedHex){
-      return range;
-    }
-    var unit = battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y);
+    var unit = grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
     if (unit){
       var state = battle.getUnitState(unit);
-      if (state == 'turning'){
-        var angle = getTurnAngle(unit).map(a => grid.getHexAt(new BHex.Axial(unit.pos.x + a.x, unit.pos.y + a.y)));        
-        var terrain = battle.getTerrain();
-        range = angle.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
+      var gridRange = [];
+      if (state == 'moving'){
+        gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), unit.mobility);
+        //var turns = getTurnCoords();
+        //var dir = unit.directions[0];    
+        //var t = turns[dir - 1];
+        //var chargePos = { 
+        //  x: unit.pos.x + t.x,
+        //  y: unit.pos.y + t.y
+        //};
+        //gridRange = gridRange.concat(grid.getRange(new BHex.Axial(chargePos.x, chargePos.y), unit.mobility - 1));
+        //gridRange = [...new Set(gridRange)];
       }
-      else{        
-        var range = state == 'moving'
-          ? unit.mobility
-          : unit.range;
-        var ignoreInertia = getSelectedHexState() == 'attacking';
-        var gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), range, ignoreInertia);
-        var terrain = battle.getTerrain();
-        range = gridRange.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));      
+      else if (state == 'turning'){
+        gridRange = getTurnAngle(unit).map(a => grid.getHexAt(new BHex.Axial(unit.pos.x + a.x, unit.pos.y + a.y)));
       }
+      else{
+        gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), unit.range, true);    
+      }
+
+      var terrain = battle.getTerrain();
+      return gridRange.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));        
     }
-    return range;
+    return [];
   };
 
   function getSelectedHexState(){
@@ -182,7 +179,7 @@ function initGrid(battle, animator){
     return battle.getUnits();
   }
 
-  var grid = new BHex.Grid(calculateSceneSize(battle.getTerrain()));
+  var grid = new BHex.Grid(battle.getSceneSize());
 
   battle.getUnits().forEach(unit => {
       var hex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));

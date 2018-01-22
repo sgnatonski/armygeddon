@@ -42,10 +42,10 @@ function setupStage(grid, animator, images){
     });
 
     node.on('mouseenter', () => {
+      var state = grid.getSelectedHexState();
       hlLayer.highlightNode(hex);
       effectLayer.drawPath(grid.getPathFromSelectedHex(hex));
-      hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
-      var state = grid.getSelectedHexState();
+      hlLayer.highlightRange(grid.getSelectedHexRange(), state);
       var aUnit = null;
       var selHex = grid.getSelectedHex();
       if (selHex){
