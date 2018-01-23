@@ -8,6 +8,11 @@ function setupStage(grid, animator, images){
     width: width,
     height: height
   });
+  
+  window.addEventListener('resize', function(event){
+    stage.width(window.innerWidth);
+    stage.height(window.innerHeight);
+  });
 
   var terrainLayer = createTerrainLayer();
   var hlLayer = createHighlightLayer(center);
