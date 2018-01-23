@@ -27,6 +27,10 @@ router.post('/', function(req, res, next) {
   res.status(200).send({ auth: true, token: token });  
 });
 
+router.get('/register', function(req, res, next) {
+  res.render('register', { title: 'Register'} );
+});
+
 router.post('/register', function(req, res, next) {
   var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
@@ -41,7 +45,9 @@ router.post('/register', function(req, res, next) {
   var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
     expiresIn: 86400 // expires in 24 hours
   });
-  res.status(200).send({ auth: true, token: token });  
+
+  res.cookie('a_token', token, { maxAge: 86400, httpOnly: true });
+  res.redirect('/');
 });
 
 module.exports = router;

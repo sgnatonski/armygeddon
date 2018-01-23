@@ -1,10 +1,12 @@
 var fetchOpts = {
     get: {
           method: 'GET',
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json' }
       },
       post: {
           method: 'POST',
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json' }
     }
 }
