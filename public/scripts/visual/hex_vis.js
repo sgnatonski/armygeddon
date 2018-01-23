@@ -1,32 +1,48 @@
+var imageShapes;
+
 function createTerrainVisual(hex, center, images){
-    function getHexTerrainImage(hex){
+    if (!imageShapes){
+        function createShape(img){
+            return new Konva.Image({
+                image: img,
+                width: 70,
+                height:70,
+                offset: {
+                    x: 35,
+                    y: 35
+                },
+                rotation: 30
+              });
+        };
+        
+        imageShapes = {
+            plains: images.plains.map(createShape),
+            forrests: images.forrests.map(createShape)
+        };
+    }
+    
+    function getHexTerrainImage(hex, center){
+        var shape;
         if (hex.cost == 1){
             var gNumber = Math.floor(Math.random() * 6);
-            return images.plains[gNumber];
+            shape = imageShapes.plains[gNumber].clone();
         }
         else{
             var gNumber = Math.floor(Math.random() * 2);
-            return images.forrests[gNumber];
+            shape = imageShapes.forrests[gNumber].clone();
         }
+
+        shape.x(center.x + hex.center.x);
+        shape.y(center.y + hex.center.y);
+        return shape;
     }
 
     var group = new Konva.Group();
     
-    var terrain = new Konva.Image({
-        x: center.x + hex.center.x,
-        y: center.y + hex.center.y,
-        image: getHexTerrainImage(hex),
-        width: 70,
-        height:70,
-        offset: {
-            x: 35,
-            y: 35
-        },
-        rotation: 30
-      });
+    var terrain = getHexTerrainImage(hex, center);
 
-      group.add(terrain);
-      group.add(createHexVisual(hex, center));
+    group.add(terrain);
+    group.add(createHexVisual(hex, center));
     
     return group;
 }
