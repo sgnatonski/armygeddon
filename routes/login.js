@@ -1,10 +1,34 @@
 var express = require('express');
 var crypto = require("crypto");
 var bcrypt = require("bcryptjs");
-var router = express.Router();
 var jwt = require('jsonwebtoken');
+var fs = require('fs');
 
-var users = [];
+var router = express.Router();
+
+function getUsers() {
+  return new Promise((resolve, reject) => {
+    fs.readFile('./data/users.json', 'utf8', function (err, data) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(JSON.parse(data));
+    });
+  });  
+}
+
+function storeUsers(users) {
+  return new Promise((resolve, reject) => {
+    fs.writeFile("./data/users.json", JSON.stringify(users), function(err) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve();
+    });
+  });  
+}
 
 router.get('/', function(req, res, next) {
   res.render('login', { title: 'Login'} );
@@ -13,18 +37,22 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
-  var user = users.find(u => u.pwdHash == hashedPassword);
-  if (!user){
-    var err = new Error('User not found');
-    err.status = 401;
-    next(err);
-    return;
-  }
-  
-  var token = jwt.sign({ id: user._id }, req.app.get('TOKEN_SECRET'), {
-    expiresIn: 86400 // expires in 24 hours
+  getUsers().then(users => {
+    var user = users.find(u => bcrypt.compareSync(req.body.password, u.pwdHash));
+    if (!user){
+      var err = new Error('User not found');
+      err.status = 401;
+      next(err);
+      return;
+    }
+    
+    var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
+      expiresIn: 86400 // expires in 24 hours
+    });
+
+    res.cookie('a_token', token, { maxAge: 86400, httpOnly: true });
+    res.redirect('/');
   });
-  res.status(200).send({ auth: true, token: token });  
 });
 
 router.get('/register', function(req, res, next) {
@@ -40,14 +68,26 @@ router.post('/register', function(req, res, next) {
     pwdHash: hashedPassword
   };
 
-  users.push(user);
-  
-  var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
-    expiresIn: 86400 // expires in 24 hours
-  });
+  getUsers().then(users => {
+    var existing = users.find(u => u.name == user.name);
+    if (existing){
+      var err = new Error('User name conflict');
+      err.status = 400;
+      next(err);
+      return;
+    }
 
-  res.cookie('a_token', token, { maxAge: 86400, httpOnly: true });
-  res.redirect('/');
+    users.push(user);
+
+    storeUsers(users).then(() => {
+      var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
+        expiresIn: 86400 // expires in 24 hours
+      });
+  
+      res.cookie('a_token', token, { maxAge: 86400, httpOnly: true });
+      res.redirect('/');
+    })
+  });
 });
 
 module.exports = router;
