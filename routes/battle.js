@@ -14,7 +14,7 @@ router.post('/join/:battleid?', function(req, res, next) {
                 var battle = battleLogic.init(data, req.user.id, req.params.battleid);
     
                 fs.store(`battle_${battle.id}`, battle)
-                    .then(data => res.json(data));
+                    .then(result => res.json(data));
             });
         }
     });
