@@ -1,3 +1,4 @@
 node_modules/*
-data/battle.json
+data/battle_*.json
+data/users.json
 .vscode/*
