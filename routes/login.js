@@ -18,8 +18,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   fs.get('users').then(users => {
-    var user = users.find(u => bcrypt.compareSync(req.body.password, u.pwdHash));
-    if (!user){
+    var user = users.find(u => u.name == req.body.name);
+    if (!user || !bcrypt.compareSync(req.body.password, user.pwdHash)){
       var err = new Error('User not found');
       err.status = 401;
       next(err);
