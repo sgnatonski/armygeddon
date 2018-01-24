@@ -4,6 +4,12 @@ var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
 var fs = require('../storage/file_storage');
 
+fs.exists('users').then(exist => {
+  if (!exist){
+    fs.store('users', []);
+  }
+});  
+
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -60,7 +66,7 @@ router.post('/register', function(req, res, next) {
   
       res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
       res.redirect('/');
-    })
+    });
   });
 });
 
