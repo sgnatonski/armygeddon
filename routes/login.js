@@ -47,10 +47,10 @@ router.post('/', function(req, res, next) {
     }
     
     var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
-      expiresIn: 86400 // expires in 24 hours
+      expiresIn: 86400000 // expires in 24 hours
     });
 
-    res.cookie('a_token', token, { maxAge: 86400, httpOnly: true });
+    res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
     res.redirect('/');
   });
 });
@@ -81,10 +81,10 @@ router.post('/register', function(req, res, next) {
 
     storeUsers(users).then(() => {
       var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
-        expiresIn: 86400 // expires in 24 hours
+        expiresIn: 86400000 // expires in 24 hours
       });
   
-      res.cookie('a_token', token, { maxAge: 86400, httpOnly: true });
+      res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
       res.redirect('/');
     })
   });
