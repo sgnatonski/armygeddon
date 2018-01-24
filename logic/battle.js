@@ -197,8 +197,10 @@ var battleLogic = {
         var turn = battle.turns[battle.turns.length - 1];
 
         var unit = battle.armies[playerId].units[unitId];
+        var fixClone = false;
         if (!unit){
             unit = battle.armies[playerId + '[clone]'].units[unitId];
+            fixClone = true;
         }
 
         var r = finalizeInvalidAction(battle, turn, unit);
@@ -219,7 +221,7 @@ var battleLogic = {
         var grid = new BHex.Grid(battle.terrainSize);
         var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
         var unitsToAttack = gridRange.map(r => getUnitAt(battle, r.x, r.y)).filter(r => r && r.endurance > 0);
-        var canAttack = unitsToAttack.some(u => !isSameArmy(battle.armies[playerId], u));
+        var canAttack = unitsToAttack.some(u => !isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], u));
         if (!canAttack){
             unit.attacks = 0;
         }
@@ -232,10 +234,12 @@ var battleLogic = {
         var turn = battle.turns[battle.turns.length - 1];
 
         var unit = battle.armies[playerId].units[unitId];
+        var fixClone = false;
         if (!unit){
             unit = battle.armies[playerId + '[clone]'].units[unitId];
+            fixClone = true;
         }
-        
+
         var targetUnit = getUnitAt(battle, x, y);
 
         var r = finalizeInvalidAction(battle, turn, unit);
@@ -245,7 +249,7 @@ var battleLogic = {
 
         var isSkippingAttack = unit.pos.x == x && unit.pos.y == y;
         var isValidAttack = targetUnit != null 
-            ? !isSameArmy(battle.armies[playerId], targetUnit)
+            ? !isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], targetUnit)
             : false;
         var grid = new BHex.Grid(battle.terrainSize);
         var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
