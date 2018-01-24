@@ -1,3 +1,4 @@
+var crypto = require("crypto");
 var BHex = require('../dist/bhex');
 var directions = require('./directions');
 var resolver = require('./action_resolver');
@@ -124,7 +125,7 @@ function setDirections(unit, dirSize){
 }
 
 var battleLogic = {
-    init: (battle) => {
+    init: (battle, playerId, battleId) => {
         allUnits = getAllUnits(battle);
         allUnits.forEach(u => {
             u = unitRestore.firstTurn(u, battle.unitTypes[u.type])
@@ -135,12 +136,25 @@ var battleLogic = {
             movedUnits: [],
             moves: []
         });
+        if (battle.armies['1']){
+            battle.armies[playerId] = battle.armies['1'];
+            battle.armies[playerId].id = playerId;
+            delete battle.armies['1'];
+        
+            battle.armies[playerId + '[clone]'] = battle.armies['2'];
+            battle.armies[playerId + '[clone]'].id = playerId + '[clone]';
+            delete battle.armies['2'];
+        }
+        battle.id = battleId ? battleId : crypto.randomBytes(8).toString("hex");
         return battle;
     },
     processMove: (battle, playerId, unitId, x, y) => {        
         var turn = battle.turns[battle.turns.length - 1];
 
         var unit = battle.armies[playerId].units[unitId];
+        if (!unit){
+            unit = battle.armies[playerId + '[clone]'].units[unitId];
+        }
 
         var r = finalizeInvalidAction(battle, turn, unit);
         if (r){
@@ -183,6 +197,9 @@ var battleLogic = {
         var turn = battle.turns[battle.turns.length - 1];
 
         var unit = battle.armies[playerId].units[unitId];
+        if (!unit){
+            unit = battle.armies[playerId + '[clone]'].units[unitId];
+        }
 
         var r = finalizeInvalidAction(battle, turn, unit);
         if (r){
@@ -215,6 +232,10 @@ var battleLogic = {
         var turn = battle.turns[battle.turns.length - 1];
 
         var unit = battle.armies[playerId].units[unitId];
+        if (!unit){
+            unit = battle.armies[playerId + '[clone]'].units[unitId];
+        }
+        
         var targetUnit = getUnitAt(battle, x, y);
 
         var r = finalizeInvalidAction(battle, turn, unit);

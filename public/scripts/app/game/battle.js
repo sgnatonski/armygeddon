@@ -15,13 +15,20 @@ Game.Battle.prototype.getSceneSize = function(){
 } 
 
 Game.Battle.prototype.load = function(){
-	return Game.fetch().get('/battle')
+	var battleid = sessionStorage.getItem('battleid');
+	var url = '/battle/join';
+	if (battleid){
+		url +=  '/' + battleid;
+	}
+	return Game.fetch().post(url)
   	.then(data => {
 		var armies = Object.keys(data.armies).map(key => data.armies[key]);
+		this.id = data.id;
 		this.firstArmy = new Game.Army(armies[0], data.unitTypes);
 		this.secondArmy = new Game.Army(armies[1], data.unitTypes);
 		this.terrain = data.terrain;
-		this.unitQueue = data.turns[data.turns.length - 1].readyUnits;    
+		this.unitQueue = data.turns[data.turns.length - 1].readyUnits;
+		sessionStorage.setItem('battleid', data.id);
   	});
 }
 
@@ -52,7 +59,7 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
 	var army = this.getArmy(unit.id);
 
-	return Game.fetch().post(`/battle/${army.playerId}/${unit.id}/move/${x}/${y}`)
+	return Game.fetch().post(`/battle/${this.id}/${unit.id}/move/${x}/${y}`)
 	.then(data => {
 		this.unitQueue = data.unitQueue;
 		army.restoreUnit(data.currUnit);
@@ -69,7 +76,7 @@ Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
 Game.Battle.prototype.unitTurning = function(unit, x, y) {
 	var army = this.getArmy(unit.id);
 
-	return Game.fetch().post(`/battle/${army.playerId}/${unit.id}/turn/${x}/${y}`)
+	return Game.fetch().post(`/battle/${this.id}/${unit.id}/turn/${x}/${y}`)
 	.then(data => {
 		this.unitQueue = data.unitQueue;
 		army.restoreUnit(data.currUnit);
@@ -86,7 +93,7 @@ Game.Battle.prototype.unitTurning = function(unit, x, y) {
 Game.Battle.prototype.unitAttacking = function(unit, x, y) {
 	var army = this.getArmy(unit.id);
 
-	return Game.fetch().post(`/battle/${army.playerId}/${unit.id}/attack/${x}/${y}`)
+	return Game.fetch().post(`/battle/${this.id}/${unit.id}/attack/${x}/${y}`)
 	.then(data => {
 		this.unitQueue = data.unitQueue;
 		army.restoreUnit(data.currUnit);
