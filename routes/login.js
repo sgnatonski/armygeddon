@@ -6,22 +6,12 @@ var fs = require('../storage/file_storage');
 
 var router = express.Router();
 
-function getUsers() {
-  return fs.get('users'); 
-}
-
-function storeUsers(users) {
-  return fs.store('users');
-}
-
 router.get('/', function(req, res, next) {
   res.render('login', { title: 'Login'} );
 });
 
 router.post('/', function(req, res, next) {
-  var hashedPassword = bcrypt.hashSync(req.body.password, 8);
-
-  getUsers().then(users => {
+  fs.get('users').then(users => {
     var user = users.find(u => bcrypt.compareSync(req.body.password, u.pwdHash));
     if (!user){
       var err = new Error('User not found');
@@ -52,7 +42,7 @@ router.post('/register', function(req, res, next) {
     pwdHash: hashedPassword
   };
 
-  getUsers().then(users => {
+  fs.get('users').then(users => {
     var existing = users.find(u => u.name == user.name);
     if (existing){
       var err = new Error('User name conflict');
@@ -63,7 +53,7 @@ router.post('/register', function(req, res, next) {
 
     users.push(user);
 
-    storeUsers(users).then(() => {
+    fs.store('users', users).then(() => {
       var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
         expiresIn: 86400000 // expires in 24 hours
       });

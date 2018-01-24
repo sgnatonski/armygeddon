@@ -14,7 +14,7 @@ function createTerrainVisual(hex, center, images){
                 rotation: 30
               });
         };
-        
+
         imageShapes = {
             plains: images.plains.map(createShape),
             forrests: images.forrests.map(createShape)
@@ -27,7 +27,7 @@ function createTerrainVisual(hex, center, images){
             var gNumber = Math.floor(Math.random() * 6);
             shape = imageShapes.plains[gNumber].clone();
         }
-        else{
+        else {
             var gNumber = Math.floor(Math.random() * 2);
             shape = imageShapes.forrests[gNumber].clone();
         }
@@ -63,11 +63,8 @@ function createHexVisual(hex, c){
           context.lineTo(...nextCoord(4));
           context.lineTo(...nextCoord(5));
           context.closePath();
-  
-          // Konva specific method
           context.fillStrokeShape(this);
         },
-        //fill: '#2d862d',
         stroke: '#003300',
         strokeWidth: 0.7,
         strokeHitEnabled: false

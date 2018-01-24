@@ -129,15 +129,6 @@ function initGrid(battle, animator){
       var gridRange = [];
       if (state == 'moving'){
         gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), unit.mobility);
-        //var turns = getTurnCoords();
-        //var dir = unit.directions[0];    
-        //var t = turns[dir - 1];
-        //var chargePos = { 
-        //  x: unit.pos.x + t.x,
-        //  y: unit.pos.y + t.y
-        //};
-        //gridRange = gridRange.concat(grid.getRange(new BHex.Axial(chargePos.x, chargePos.y), unit.mobility - 1));
-        //gridRange = [...new Set(gridRange)];
       }
       else if (state == 'turning'){
         gridRange = getTurnAngle(unit).map(a => grid.getHexAt(new BHex.Axial(unit.pos.x + a.x, unit.pos.y + a.y)));
