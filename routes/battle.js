@@ -1,43 +1,36 @@
 var express = require('express');
-var fs = require('fs');
 var router = express.Router();
+var fs = require('../storage/file_storage');
 var battleLogic = require('../logic/battle');
 
 router.post('/join/:battleid?', function(req, res, next) {
-    fs.exists(`./data/battle_${req.params.battleid}.json`, function (exists) {
+    fs.exists(`battle_${req.params.battleid}`).then(exists => {
         if (exists){
-            fs.readFile(`./data/battle_${req.params.battleid}.json`, 'utf8', function (err, data) {
-                if (err) throw err; // we'll not consider error handling for now
-                res.json(JSON.parse(data));
-            });
+            fs.get(`battle_${req.params.battleid}`)
+                .then(data => res.json(data));
         }
         else{
-            fs.readFile('./data/init.battle.json', 'utf8', function (err, data) {
-                if (err) throw err; // we'll not consider error handling for now
-                var battle = battleLogic.init(JSON.parse(data), req.user.id, req.params.battleid);
+            fs.get('init.battle').then(data => {
+                var battle = battleLogic.init(data, req.user.id, req.params.battleid);
     
-                fs.writeFile(`./data/battle_${battle.id}.json`, JSON.stringify(battle), function(err) {
-                    if (err) throw err; // we'll not consider error handling for now
-                    res.json(battle);
-                });
+                fs.store(`battle_${battle.id}`, battle)
+                    .then(data => res.json(data));
             });
         }
     });
 });
 
 router.post('/:battleid/:uid/move/:x/:y', function(req, res, next) {
-    fs.readFile(`./data/battle_${req.params.battleid}.json`, 'utf8', function (err, data) {
-        if (err) throw err; // we'll not consider error handling for now       
+    fs.get(`battle_${req.params.battleid}`).then(data => {
         var result = battleLogic.processMove(
-            JSON.parse(data), 
+            data, 
             req.user.id, 
             req.params.uid, 
             parseInt(req.params.x), 
             parseInt(req.params.y)
         );
         if (result.success){
-            fs.writeFile(`./data/battle_${req.params.battleid}.json`, JSON.stringify(result.battle), function(err) {
-                if (err) throw err; // we'll not consider error handling for now
+            fs.store(`battle_${result.battle.id}`, result.battle).then(data => {
                 res.json({
                     currUnit: result.unit, 
                     nextUnit: result.nextUnit,
@@ -53,18 +46,16 @@ router.post('/:battleid/:uid/move/:x/:y', function(req, res, next) {
 });
 
 router.post('/:battleid/:uid/turn/:x/:y', function(req, res, next) {
-    fs.readFile(`./data/battle_${req.params.battleid}.json`, 'utf8', function (err, data) {
-        if (err) throw err; // we'll not consider error handling for now       
+    fs.get(`battle_${req.params.battleid}`).then(data => {     
         var result = battleLogic.processTurn(
-            JSON.parse(data), 
+            data, 
             req.user.id, 
             req.params.uid, 
             parseInt(req.params.x), 
             parseInt(req.params.y)
         );
         if (result.success){
-            fs.writeFile(`./data/battle_${req.params.battleid}.json`, JSON.stringify(result.battle), function(err) {
-                if (err) throw err; // we'll not consider error handling for now
+            fs.store(`battle_${result.battle.id}`, result.battle).then(data => {
                 res.json({
                     currUnit: result.unit, 
                     nextUnit: result.nextUnit,
@@ -80,18 +71,16 @@ router.post('/:battleid/:uid/turn/:x/:y', function(req, res, next) {
 });
 
 router.post('/:battleid/:uid/attack/:x/:y', function(req, res, next) {
-    fs.readFile(`./data/battle_${req.params.battleid}.json`, 'utf8', function (err, data) {
-        if (err) throw err; // we'll not consider error handling for now
+    fs.get(`battle_${req.params.battleid}`).then(data => {
         var result = battleLogic.processAttack(
-            JSON.parse(data), 
+            data, 
             req.user.id, 
             req.params.uid, 
             parseInt(req.params.x), 
             parseInt(req.params.y)
         );
         if (result.success){
-            fs.writeFile(`./data/battle_${req.params.battleid}.json`, JSON.stringify(result.battle), function(err) {
-                if (err) throw err; // we'll not consider error handling for now
+            fs.store(`battle_${result.battle.id}`, result.battle).then(data => {
                 res.json({
                     currUnit: result.unit, 
                     nextUnit: result.nextUnit,

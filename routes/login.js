@@ -2,32 +2,16 @@ var express = require('express');
 var crypto = require("crypto");
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
-var fs = require('fs');
+var fs = require('../storage/file_storage');
 
 var router = express.Router();
 
 function getUsers() {
-  return new Promise((resolve, reject) => {
-    fs.readFile('./data/users.json', 'utf8', function (err, data) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(JSON.parse(data));
-    });
-  });  
+  return fs.get('users'); 
 }
 
 function storeUsers(users) {
-  return new Promise((resolve, reject) => {
-    fs.writeFile("./data/users.json", JSON.stringify(users), function(err) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve();
-    });
-  });  
+  return fs.store('users');
 }
 
 router.get('/', function(req, res, next) {
