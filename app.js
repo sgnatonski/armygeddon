@@ -8,6 +8,7 @@ var jwt = require('express-jwt');
 
 var index = require('./routes/index');
 var login = require('./routes/login');
+var singlebattle = require('./routes/single_battle');
 var battle = require('./routes/battle');
 var design = require('./routes/design');
 
@@ -38,6 +39,7 @@ app.use(jwt({
 app.use('/', index);
 app.use('/login', login);
 app.use('/battle', battle);
+app.use('/singlebattle', singlebattle);
 if (app.get('env') === 'development'){
   app.use('/design', design);
 }

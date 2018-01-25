@@ -16,7 +16,7 @@ Game.Battle.prototype.getSceneSize = function(){
 
 Game.Battle.prototype.load = function(){
 	var battleid = sessionStorage.getItem('battleid');
-	var url = `/battle/join/${battleid ? battleid : ''}`;
+	var url = `/singlebattle/join/${battleid ? battleid : ''}`;
 	return Game.fetch().post(url)
   	.then(data => {
 		var armies = Object.keys(data.armies).map(key => data.armies[key]);
@@ -56,7 +56,7 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
 	var army = this.getArmy(unit.id);
 
-	return Game.fetch().post(`/battle/${this.id}/${unit.id}/move/${x}/${y}`)
+	return Game.fetch().post(`/singlebattle/${this.id}/${unit.id}/move/${x}/${y}`)
 	.then(data => {
 		this.unitQueue = data.unitQueue;
 		army.restoreUnit(data.currUnit);
@@ -73,7 +73,7 @@ Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
 Game.Battle.prototype.unitTurning = function(unit, x, y) {
 	var army = this.getArmy(unit.id);
 
-	return Game.fetch().post(`/battle/${this.id}/${unit.id}/turn/${x}/${y}`)
+	return Game.fetch().post(`/singlebattle/${this.id}/${unit.id}/turn/${x}/${y}`)
 	.then(data => {
 		this.unitQueue = data.unitQueue;
 		army.restoreUnit(data.currUnit);
@@ -90,7 +90,7 @@ Game.Battle.prototype.unitTurning = function(unit, x, y) {
 Game.Battle.prototype.unitAttacking = function(unit, x, y) {
 	var army = this.getArmy(unit.id);
 
-	return Game.fetch().post(`/battle/${this.id}/${unit.id}/attack/${x}/${y}`)
+	return Game.fetch().post(`/singlebattle/${this.id}/${unit.id}/attack/${x}/${y}`)
 	.then(data => {
 		this.unitQueue = data.unitQueue;
 		army.restoreUnit(data.currUnit);

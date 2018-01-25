@@ -31,7 +31,7 @@ router.post('/', function(req, res, next) {
     });
 
     res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
-    res.redirect('/');
+    res.redirect('/start');
   });
 });
 
@@ -65,7 +65,7 @@ router.post('/register', function(req, res, next) {
       });
   
       res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
-      res.redirect('/');
+      res.redirect('/start');
     });
   });
 });
