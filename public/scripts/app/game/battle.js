@@ -16,10 +16,7 @@ Game.Battle.prototype.getSceneSize = function(){
 
 Game.Battle.prototype.load = function(){
 	var battleid = sessionStorage.getItem('battleid');
-	var url = '/battle/join';
-	if (battleid){
-		url +=  '/' + battleid;
-	}
+	var url = `/battle/join/${battleid ? battleid : ''}`;
 	return Game.fetch().post(url)
   	.then(data => {
 		var armies = Object.keys(data.armies).map(key => data.armies[key]);
