@@ -18,7 +18,7 @@ function validateAction(battle, turn, unit){
     }
 }
 
-function finalizeAction(battle, turn, playerId, unit, targetUnit){
+function finalizeAction(battle, turn, unit, targetUnit){
     if (unit.mobility == 0 && unit.agility == 0 && unit.attacks == 0){
         var id = turn.readyUnits.shift();
         turn.movedUnits.push(id);
@@ -85,12 +85,16 @@ var battleLogic = {
             battle.armies[playerId] = battle.armies['1'];
             battle.armies[playerId].id = playerId;
             delete battle.armies['1'];
-        
-            battle.armies[playerId + '[clone]'] = battle.armies['2'];
-            battle.armies[playerId + '[clone]'].id = playerId + '[clone]';
-            delete battle.armies['2'];
         }
         battle.id = battleId ? battleId : crypto.randomBytes(8).toString("hex");
+        return battle;
+    },
+    join: (battle, playerId) =>{
+        if (battle.armies['2']){
+            battle.armies[playerId] = battle.armies['2'];
+            battle.armies[playerId].id = playerId;
+            delete battle.armies['2'];
+        }
         return battle;
     },
     processMove: (battle, playerId, unitId, x, y) => {        
@@ -102,11 +106,9 @@ var battleLogic = {
             return r;
         }
 
-        var isSkippingMove = unit.pos.x == x && unit.pos.y == y;
-        var {isValidMove, moveCost} = isSkippingMove 
-            ? [false, unit.mobility]
-            : bh.isValidMove(battle, unit, x, y);
-
+        var {isValidMove, moveCost} = bh.isValidMove(battle, unit, x, y);
+        var isSkippingMove = moveCost == 0;
+        
         turn.moves.push({ unit: unit.id, from: unit.pos, to: { x: x, y: y } });
         unit.pos = { x: x, y: y };
         unit.mobility -= moveCost;
@@ -123,12 +125,11 @@ var battleLogic = {
             unit.mobility = 0;
         }
 
-        return finalizeAction(battle, turn, playerId, unit);
+        return finalizeAction(battle, turn, unit);
     },
     processTurn: (battle, playerId, unitId, x, y) => {
         var turn = bh.getCurrentTurn(battle);
         var unit = bh.getPlayerUnit(battle, playerId, unitId);
-        var fixClone = playerId.endsWith('[clone]');
         
         var r = validateAction(battle, turn, unit);
         if (r){
@@ -149,12 +150,11 @@ var battleLogic = {
 
         turn.moves.push({ unit: unit.id, directions: unit.directions});
 
-        return finalizeAction(battle, turn, playerId, unit);
+        return finalizeAction(battle, turn, unit);
     },
     processAttack: (battle, playerId, unitId, x, y) => {
         var turn = bh.getCurrentTurn(battle);
         var unit = bh.getPlayerUnit(battle, playerId, unitId);
-        var fixClone = playerId.endsWith('[clone]');
         
         var targetUnit = bh.getUnitAt(battle, x, y);
 
@@ -164,9 +164,7 @@ var battleLogic = {
         }
 
         var isSkippingAttack = unit.pos.x == x && unit.pos.y == y;
-        var isValidAttack = targetUnit != null 
-            ? !bh.isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], targetUnit)
-            : false;
+        var isValidAttack = !bh.isSameArmy(battle, unit, targetUnit);
         var inRangeAttack = bh.isValidAttack(battle, unit, x, y);
 
         var oldTargetEndurance = targetUnit.endurance;
@@ -184,7 +182,7 @@ var battleLogic = {
 
         turn.moves.push({ unit: unit.id, target: targetUnit.id, damage: oldTargetEndurance - targetUnit.endurance});
 
-        return finalizeAction(battle, turn, playerId, unit, targetUnit);
+        return finalizeAction(battle, turn, unit, targetUnit);
     }
 };
 

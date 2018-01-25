@@ -9,20 +9,51 @@ function getUnitAt(battle, x, y){
     return getAllUnits(battle).find(u => u.pos.x == x && u.pos.y == y);
 }
 
-function isSameArmy(army, unit){
-    return Object.keys(army.units).map(unitId => army.units[unitId]).find(u => u.id == unit.id);
+function isSameArmy(battle, unit1, unit2){
+    if (!unit1 || !unit2){
+        return false;
+    }
+    
+    var armies = Object.keys(battle.armies)
+        .map(a => battle.armies[a])
+        .map(army => {
+            return { 
+                id: army.id, 
+                army: Object.keys(army.units).map(u => army.units[u])
+            }
+        });
+    var unit1Army = armies[0].army.find(u => u.id == unit1.id);
+    var army = armies[0].army;
+    if (!unit1Army){
+        unit1Army = armies[1].army.find(u => u.id == unit1.id);
+        army = armies[1].army;
+    }
+    return army.some(u => u.id == unit2.id);
 }
 
 function getPlayerUnit(battle, playerId, unitId) {
-    if (!battle.armies[playerId]){
-        return null;
-    }
+    if (Array.isArray(playerId)){
+        if (!battle.armies[playerId[0]]){
+            return null;
+        }
+        if (!battle.armies[playerId[1]]){
+            return null;
+        }
 
-    var unit = battle.armies[playerId].units[unitId];
-    if (!unit){
-        unit = battle.armies[playerId + '[clone]'].units[unitId];
+        var unit = battle.armies[playerId[0]].units[unitId];
+        if (!unit){
+            unit = battle.armies[playerId[1]].units[unitId];
+        }
+        return unit;
     }
-    return unit;
+    else{
+        if (!battle.armies[playerId]){
+            return null;
+        }
+    
+        var unit = battle.armies[playerId].units[unitId];
+        return unit;
+    }
 }
 function getCurrentTurn(battle){
     return battle.turns[battle.turns.length - 1];
@@ -64,26 +95,29 @@ function isValidMove(battle, unit, x, y){
     var path = grid.findPath(new BHex.Axial(unit.pos.x, unit.pos.y), new BHex.Axial(x, y));
     isValidMove = path.some(e => e.x == x && e.y == y);
     moveCost = path.map(x => x.cost).reduce((a,b) => a + b, 0);
-    return [isValidMove && moveCost <= unit.mobility, moveCost];
+    return {
+        isValidMove: isValidMove && moveCost <= unit.mobility, 
+        moveCost
+    };
 }
 
 function isValidTurn(battle, unit, x, y){
-    var grid = new BHex.Grid(bh.getBattleSize(battle));
+    var grid = new BHex.Grid(getBattleSize(battle));
     var neighbors = grid.getNeighbors(new BHex.Axial(unit.pos.x, unit.pos.y));
     return neighbors.some(e => e.x == x && e.y == y);
 }
 
 function isValidAttack(battle, unit, x, y){
-    var grid = new BHex.Grid(bh.getBattleSize(battle));
+    var grid = new BHex.Grid(getBattleSize(battle));
     var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
     return gridRange.some(r => r.x == x && r.y == y);
 }
 
 function canAttack(battle, unit){
-    var grid = new BHex.Grid(bh.getBattleSize(battle));
+    var grid = new BHex.Grid(getBattleSize(battle));
     var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
-    var unitsToAttack = gridRange.map(r => bh.getUnitAt(battle, r.x, r.y)).filter(r => r && r.endurance > 0);
-    return unitsToAttack.some(u => !bh.isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], u));        
+    var unitsToAttack = gridRange.map(r => getUnitAt(battle, r.x, r.y)).filter(r => r && r.endurance > 0);
+    return unitsToAttack.some(u => !isSameArmy(battle, unit, u));        
 }
 
 module.exports = {
