@@ -63,12 +63,12 @@ function setupStage(grid, animator, images){
         if (aUnit && tUnit){
           var mousePos = stage.getPointerPosition();
           var texts = [
-            'Endurance: ' + tUnit.endurance + ' / ' + tUnit.lifetime.endurance,
-            'Mobility: ' + tUnit.mobility + ' / ' + tUnit.lifetime.mobility,
-            'Agility: ' + tUnit.agility + ' / ' + tUnit.lifetime.agility,
-            'Damage: ' + tUnit.damage,
-            'Armor: ' + tUnit.armor,
-            'Range: ' + tUnit.range,
+            `Endurance: ${tUnit.endurance} / ${tUnit.lifetime.endurance}`,
+            `Mobility: ${tUnit.mobility} / ${tUnit.lifetime.mobility}`,
+            `Agility: ${tUnit.agility} / ${tUnit.lifetime.agility}`,
+            `Damage: ${tUnit.damage}`,
+            `Armor: ${tUnit.armor}`,
+            `Range: ${tUnit.range}`,
           ];
           tooltip.show(texts, mousePos, texts.length);
           tooltipLayer.batchDraw();
@@ -78,9 +78,12 @@ function setupStage(grid, animator, images){
           var cost = grid.getSelectedHexMoveCost(hex.x, hex.y);  
           if (cost <= aUnit.mobility){
             var texts = [
-              'Moves: ' + cost + ' / ' + aUnit.mobility,
-              'Charge: ' + cost
+              `Moves: ${cost} / ${aUnit.mobility}`,
+              `Charge: ${cost}`
             ];
+            if (cost == aUnit.mobility){
+              texts.push(`Agility: -${aUnit.agility}`);
+            }
             tooltip.show(texts, mousePos, texts.length);
             tooltipLayer.batchDraw();
           }
@@ -91,8 +94,8 @@ function setupStage(grid, animator, images){
           var dmg = Damage().getChargeDamage(aUnit, tUnit);
           var mousePos = stage.getPointerPosition();
           var texts = [
-            'Endurance: ' + tUnit.endurance,
-            '-' + dmg + ' damage'
+            `Endurance: ${tUnit.endurance}`,
+            `-${dmg} damage`
           ];
           tooltip.show(texts, mousePos, texts.length);
           tooltipLayer.batchDraw();
