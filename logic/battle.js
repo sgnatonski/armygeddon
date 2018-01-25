@@ -121,8 +121,14 @@ var battleLogic = {
             uh.setDirections(unit, dirSize);
         }
         if (unit.mobility > 0){
-            unit.agility += 1;
             unit.mobility = 0;
+        }
+        else{
+            unit.agility = 0
+        }
+
+        if (!bh.canAttack(battle, unit)){
+            unit.attacks = 0;
         }
 
         return finalizeAction(battle, turn, unit);
@@ -167,6 +173,17 @@ var battleLogic = {
         var isValidAttack = !bh.isSameArmy(battle, unit, targetUnit);
         var inRangeAttack = bh.isValidAttack(battle, unit, x, y);
 
+        if (!isValidAttack || !inRangeAttack){
+            return {
+                unit: unit, 
+                nextUnit: unit, 
+                targetUnit: unit,
+                unitQueue: battle.unitQueue, 
+                battle: battle, 
+                success: false
+            }
+        }
+        
         var oldTargetEndurance = targetUnit.endurance;
         var attacksUsed = 1;
 

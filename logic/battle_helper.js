@@ -13,7 +13,7 @@ function isSameArmy(battle, unit1, unit2){
     if (!unit1 || !unit2){
         return false;
     }
-    
+
     var armies = Object.keys(battle.armies)
         .map(a => battle.armies[a])
         .map(army => {
@@ -110,7 +110,8 @@ function isValidTurn(battle, unit, x, y){
 function isValidAttack(battle, unit, x, y){
     var grid = new BHex.Grid(getBattleSize(battle));
     var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
-    return gridRange.some(r => r.x == x && r.y == y);
+    var targetUnit = getUnitAt(battle, x, y);
+    return targetUnit && gridRange.some(r => r.x == x && r.y == y);
 }
 
 function canAttack(battle, unit){
