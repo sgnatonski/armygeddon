@@ -1,3 +1,5 @@
+var BHex = require('../dist/bhex');
+
 function getAllUnits(battle){
     return Object.keys(battle.armies).map(key => Object.keys(battle.armies[key].units).map(unitId => battle.armies[key].units[unitId]))
         .reduce((a, b) => a.concat(b));
@@ -54,6 +56,36 @@ function getBattleSize(battle){
     return size; 
 }
 
+function isValidMove(battle, unit, x, y){
+    var grid = new BHex.Grid(getBattleSize(battle));
+    getAllUnits(battle).forEach(u => {
+        grid.getHexAt(new BHex.Axial(u.pos.x, u.pos.y)).blocked = true;
+    });
+    var path = grid.findPath(new BHex.Axial(unit.pos.x, unit.pos.y), new BHex.Axial(x, y));
+    isValidMove = path.some(e => e.x == x && e.y == y);
+    moveCost = path.map(x => x.cost).reduce((a,b) => a + b, 0);
+    return [isValidMove && moveCost <= unit.mobility, moveCost];
+}
+
+function isValidTurn(battle, unit, x, y){
+    var grid = new BHex.Grid(bh.getBattleSize(battle));
+    var neighbors = grid.getNeighbors(new BHex.Axial(unit.pos.x, unit.pos.y));
+    return neighbors.some(e => e.x == x && e.y == y);
+}
+
+function isValidAttack(battle, unit, x, y){
+    var grid = new BHex.Grid(bh.getBattleSize(battle));
+    var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
+    return gridRange.some(r => r.x == x && r.y == y);
+}
+
+function canAttack(battle, unit){
+    var grid = new BHex.Grid(bh.getBattleSize(battle));
+    var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
+    var unitsToAttack = gridRange.map(r => bh.getUnitAt(battle, r.x, r.y)).filter(r => r && r.endurance > 0);
+    return unitsToAttack.some(u => !bh.isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], u));        
+}
+
 module.exports = {
     getAllUnits,
     getPlayerUnit,
@@ -61,5 +93,9 @@ module.exports = {
     isSameArmy,
     getArmiesEndurance,
     getCurrentTurn,
-    getBattleSize
+    getBattleSize,
+    isValidMove,
+    isValidTurn,
+    isValidAttack,
+    canAttack
 };

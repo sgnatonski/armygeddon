@@ -1,11 +1,10 @@
 var crypto = require("crypto");
-var BHex = require('../dist/bhex');
 var directions = require('./directions');
 var resolver = require('./action_resolver');
 var uh = require('./unit_helper');
 var bh = require('./battle_helper');
 
-function finalizeInvalidAction(battle, turn, unit){
+function validateAction(battle, turn, unit){
     var isTurnMove = unit ? turn.readyUnits[0] == unit.id : false;
     if (battle.winningArmy || !isTurnMove){
         return {
@@ -98,24 +97,15 @@ var battleLogic = {
         var turn = bh.getCurrentTurn(battle);
         var unit = bh.getPlayerUnit(battle, playerId, unitId);
 
-        var r = finalizeInvalidAction(battle, turn, unit);
+        var r = validateAction(battle, turn, unit);
         if (r){
             return r;
         }
 
         var isSkippingMove = unit.pos.x == x && unit.pos.y == y;
-        var isValidMove = false;
-        var moveCost = unit.mobility;
-
-        if (!isSkippingMove){
-            var grid = new BHex.Grid(bh.getBattleSize(battle));
-            bh.getAllUnits(battle).forEach(u => {
-                grid.getHexAt(new BHex.Axial(u.pos.x, u.pos.y)).blocked = true;
-            });
-            var path = grid.findPath(new BHex.Axial(unit.pos.x, unit.pos.y), new BHex.Axial(x, y));
-            isValidMove = path.some(e => e.x == x && e.y == y);
-            moveCost = path.map(x => x.cost).reduce((a,b) => a + b, 0);
-        }
+        var {isValidMove, moveCost} = isSkippingMove 
+            ? [false, unit.mobility]
+            : bh.isValidMove(battle, unit, x, y);
 
         turn.moves.push({ unit: unit.id, from: unit.pos, to: { x: x, y: y } });
         unit.pos = { x: x, y: y };
@@ -140,14 +130,12 @@ var battleLogic = {
         var unit = bh.getPlayerUnit(battle, playerId, unitId);
         var fixClone = playerId.endsWith('[clone]');
         
-        var r = finalizeInvalidAction(battle, turn, unit);
+        var r = validateAction(battle, turn, unit);
         if (r){
             return r;
         }
 
-        var grid = new BHex.Grid(bh.getBattleSize(battle));
-        var neighbors = grid.getNeighbors(new BHex.Axial(unit.pos.x, unit.pos.y));
-        var isValidTurn = neighbors.some(e => e.x == x && e.y == y);
+        var isValidTurn = bh.isValidTurn(battle, unit, x, y);
         if (isValidTurn){
             var dirSize = unit.directions.length;
             unit.directions = [directions(unit.pos.x, unit.pos.y, x, y)];
@@ -155,10 +143,7 @@ var battleLogic = {
         }
         unit.agility = 0;
 
-        var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
-        var unitsToAttack = gridRange.map(r => bh.getUnitAt(battle, r.x, r.y)).filter(r => r && r.endurance > 0);
-        var canAttack = unitsToAttack.some(u => !bh.isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], u));
-        if (!canAttack){
+        if (!bh.canAttack(battle, unit)){
             unit.attacks = 0;
         }
 
@@ -173,7 +158,7 @@ var battleLogic = {
         
         var targetUnit = bh.getUnitAt(battle, x, y);
 
-        var r = finalizeInvalidAction(battle, turn, unit);
+        var r = validateAction(battle, turn, unit);
         if (r){
             return r;
         }
@@ -182,9 +167,7 @@ var battleLogic = {
         var isValidAttack = targetUnit != null 
             ? !bh.isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], targetUnit)
             : false;
-        var grid = new BHex.Grid(bh.getBattleSize(battle));
-        var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
-        var inRangeAttack = gridRange.some(r => r.x == x && r.y == y);
+        var inRangeAttack = bh.isValidAttack(battle, unit, x, y);
 
         var oldTargetEndurance = targetUnit.endurance;
         var attacksUsed = 1;
