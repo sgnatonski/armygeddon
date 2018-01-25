@@ -2,22 +2,11 @@ var crypto = require("crypto");
 var BHex = require('../dist/bhex');
 var directions = require('./directions');
 var resolver = require('./action_resolver');
-
-function getAllUnits(battle){
-    return Object.keys(battle.armies).map(key => Object.keys(battle.armies[key].units).map(unitId => battle.armies[key].units[unitId]))
-        .reduce((a, b) => a.concat(b));
-}
-
-function getUnitAt(battle, x, y){
-    return getAllUnits(battle).find(u => u.pos.x == x && u.pos.y == y);
-}
-
-function isSameArmy(army, unit){
-    return Object.keys(army.units).map(unitId => army.units[unitId]).find(u => u.id == unit.id);
-}
+var uh = require('./unit_helper');
+var bh = require('./battle_helper');
 
 function finalizeInvalidAction(battle, turn, unit){
-    var isTurnMove = turn.readyUnits[0] == unit.id;
+    var isTurnMove = unit ? turn.readyUnits[0] == unit.id : false;
     if (battle.winningArmy || !isTurnMove){
         return {
             unit: unit, 
@@ -27,15 +16,6 @@ function finalizeInvalidAction(battle, turn, unit){
             battle: battle, 
             success: false
         };
-    }
-}
-
-var unitRestore = {
-    firstTurn: (unit, unitType) => {
-        return Object.assign(unit, unitType, unitType.lifetime);
-    },
-    nextTurn: (unit, unitType) => {
-        return Object.assign(unit, unitType);
     }
 }
 
@@ -54,7 +34,7 @@ function finalizeAction(battle, turn, playerId, unit, targetUnit){
             turn.movedUnits.splice(tidx, 1);
         }
     }
-    var allUnits = getAllUnits(battle);
+    var allUnits = bh.getAllUnits(battle);
     
     if (!turn.readyUnits.length){
         battle.turns.push({
@@ -64,7 +44,7 @@ function finalizeAction(battle, turn, playerId, unit, targetUnit){
         });
 
         allUnits.forEach(u => {
-            u = unitRestore.nextTurn(u, battle.unitTypes[u.type])
+            u = uh.restore.nextTurn(u, battle.unitTypes[u.type])
         });
     }
 
@@ -73,20 +53,7 @@ function finalizeAction(battle, turn, playerId, unit, targetUnit){
     var nextUnit = allUnits.find(u => u.id == nextUnitId);
     var unitQueue = battle.turns[battle.turns.length - 1].readyUnits;
 
-    var armiesState = Object.keys(battle.armies)
-        .map(a => battle.armies[a])
-        .map(army => {
-            return { 
-                id: army.id, 
-                army: Object.keys(army.units).map(u => army.units[u])
-            }
-        })
-        .map(x => {
-            return { 
-                id: x.id,
-                remaining: x.army.map(u => u.endurance).reduce((a, b) => a + b, 0)
-            }
-        });
+    var armiesState = bh.getArmiesEndurance(battle);
 
     if (armiesState.find(s => s.remaining == 0)){
         var winner = armiesState.find(s => s.remaining > 0);
@@ -103,32 +70,11 @@ function finalizeAction(battle, turn, playerId, unit, targetUnit){
     };
 }
 
-function ensureDirRange(dir){
-    if (dir > 6) return 1;
-    if (dir < 1) return 6;
-    return dir;
-}
-
-function setDirections(unit, dirSize){
-    if (dirSize > unit.maxDirections){
-        dirSize = unit.maxDirections;
-    }
-    currentDir = unit.directions[0];
-    unit.directions = Array(dirSize);
-    unit.directions[0] = currentDir;
-    var i = 1;
-    while(i < dirSize){
-        unit.directions[i] = ensureDirRange(unit.directions[0] + i);
-        unit.directions[i + 1] = ensureDirRange(unit.directions[0] - i);
-        i = i + 2;
-    }
-}
-
 var battleLogic = {
     init: (battle, playerId, battleId) => {
-        allUnits = getAllUnits(battle);
+        allUnits = bh.getAllUnits(battle);
         allUnits.forEach(u => {
-            u = unitRestore.firstTurn(u, battle.unitTypes[u.type])
+            u = uh.restore.firstTurn(u, battle.unitTypes[u.type])
         });
         var sortedUnits = allUnits.sort((a, b) => a.speed < b.speed).map(x => x.id);
         battle.turns.push({
@@ -149,12 +95,8 @@ var battleLogic = {
         return battle;
     },
     processMove: (battle, playerId, unitId, x, y) => {        
-        var turn = battle.turns[battle.turns.length - 1];
-
-        var unit = battle.armies[playerId].units[unitId];
-        if (!unit){
-            unit = battle.armies[playerId + '[clone]'].units[unitId];
-        }
+        var turn = bh.getCurrentTurn(battle);
+        var unit = bh.getPlayerUnit(battle, playerId, unitId);
 
         var r = finalizeInvalidAction(battle, turn, unit);
         if (r){
@@ -166,8 +108,8 @@ var battleLogic = {
         var moveCost = unit.mobility;
 
         if (!isSkippingMove){
-            var grid = new BHex.Grid(battle.terrainSize);
-            getAllUnits(battle).forEach(u => {
+            var grid = new BHex.Grid(bh.getBattleSize(battle));
+            bh.getAllUnits(battle).forEach(u => {
                 grid.getHexAt(new BHex.Axial(u.pos.x, u.pos.y)).blocked = true;
             });
             var path = grid.findPath(new BHex.Axial(unit.pos.x, unit.pos.y), new BHex.Axial(x, y));
@@ -180,11 +122,11 @@ var battleLogic = {
         unit.mobility -= moveCost;
         if (!isSkippingMove){
             unit.charge += moveCost;
-            setDirections(unit, 1);
+            uh.setDirections(unit, 1);
         }
         else{
             var dirSize = unit.directions.length + 2;
-            setDirections(unit, dirSize);
+            uh.setDirections(unit, dirSize);
         }
         if (unit.mobility > 0){
             unit.agility += 1;
@@ -194,34 +136,28 @@ var battleLogic = {
         return finalizeAction(battle, turn, playerId, unit);
     },
     processTurn: (battle, playerId, unitId, x, y) => {
-        var turn = battle.turns[battle.turns.length - 1];
-
-        var unit = battle.armies[playerId].units[unitId];
-        var fixClone = false;
-        if (!unit){
-            unit = battle.armies[playerId + '[clone]'].units[unitId];
-            fixClone = true;
-        }
-
+        var turn = bh.getCurrentTurn(battle);
+        var unit = bh.getPlayerUnit(battle, playerId, unitId);
+        var fixClone = playerId.endsWith('[clone]');
+        
         var r = finalizeInvalidAction(battle, turn, unit);
         if (r){
             return r;
         }
 
-        var grid = new BHex.Grid(battle.terrainSize);
+        var grid = new BHex.Grid(bh.getBattleSize(battle));
         var neighbors = grid.getNeighbors(new BHex.Axial(unit.pos.x, unit.pos.y));
         var isValidTurn = neighbors.some(e => e.x == x && e.y == y);
         if (isValidTurn){
             var dirSize = unit.directions.length;
             unit.directions = [directions(unit.pos.x, unit.pos.y, x, y)];
-            setDirections(unit, dirSize);
+            uh.setDirections(unit, dirSize);
         }
         unit.agility = 0;
 
-        var grid = new BHex.Grid(battle.terrainSize);
         var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
-        var unitsToAttack = gridRange.map(r => getUnitAt(battle, r.x, r.y)).filter(r => r && r.endurance > 0);
-        var canAttack = unitsToAttack.some(u => !isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], u));
+        var unitsToAttack = gridRange.map(r => bh.getUnitAt(battle, r.x, r.y)).filter(r => r && r.endurance > 0);
+        var canAttack = unitsToAttack.some(u => !bh.isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], u));
         if (!canAttack){
             unit.attacks = 0;
         }
@@ -231,16 +167,11 @@ var battleLogic = {
         return finalizeAction(battle, turn, playerId, unit);
     },
     processAttack: (battle, playerId, unitId, x, y) => {
-        var turn = battle.turns[battle.turns.length - 1];
-
-        var unit = battle.armies[playerId].units[unitId];
-        var fixClone = false;
-        if (!unit){
-            unit = battle.armies[playerId + '[clone]'].units[unitId];
-            fixClone = true;
-        }
-
-        var targetUnit = getUnitAt(battle, x, y);
+        var turn = bh.getCurrentTurn(battle);
+        var unit = bh.getPlayerUnit(battle, playerId, unitId);
+        var fixClone = playerId.endsWith('[clone]');
+        
+        var targetUnit = bh.getUnitAt(battle, x, y);
 
         var r = finalizeInvalidAction(battle, turn, unit);
         if (r){
@@ -249,9 +180,9 @@ var battleLogic = {
 
         var isSkippingAttack = unit.pos.x == x && unit.pos.y == y;
         var isValidAttack = targetUnit != null 
-            ? !isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], targetUnit)
+            ? !bh.isSameArmy(battle.armies[fixClone ? playerId + '[clone]' : playerId], targetUnit)
             : false;
-        var grid = new BHex.Grid(battle.terrainSize);
+        var grid = new BHex.Grid(bh.getBattleSize(battle));
         var gridRange = grid.getRange(new BHex.Axial(unit.pos.x, unit.pos.y), unit.range, true);
         var inRangeAttack = gridRange.some(r => r.x == x && r.y == y);
 
