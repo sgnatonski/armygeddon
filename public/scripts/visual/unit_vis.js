@@ -125,6 +125,9 @@ function createUnitVisual(unit, center, hexCenter, color){
     fill: '#ffff66',
     opacity: 0.35,
     sceneFunc: function(context){
+      if (!unit.armor){
+        return;
+      }
       var x = 0;
       if (unit.directions.length > 1){
         x = 1;

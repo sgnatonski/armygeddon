@@ -2306,7 +2306,7 @@
       },
       "arch": {
         "mobility": 2,
-        "agility": 2,
+        "agility": 0,
         "damage": 5,
         "maxDirections": 1,
         "armor": 0,
@@ -2317,7 +2317,7 @@
         "lifetime":{
           "endurance": 8,
           "mobility": 2,
-          "agility": 2
+          "agility": 0
         }
       },
       "cav":{

@@ -81,7 +81,7 @@ function setupStage(grid, animator, images){
               `Moves: ${cost} / ${aUnit.mobility}`,
               `Charge: ${cost}`
             ];
-            if (cost == aUnit.mobility){
+            if (aUnit.agility && cost == aUnit.mobility){
               texts.push(`Agility: -${aUnit.agility}`);
             }
             tooltip.show(texts, mousePos, texts.length);
