@@ -3,6 +3,10 @@ var router = express.Router();
 var fs = require('../storage/file_storage');
 var battleLogic = require('../logic/battle');
 
+router.get('/', function(req, res, next) {
+    res.render('battle', { title: 'Battle' } );
+  });
+
 router.post('/join/:battleid?', function(req, res, next) {
     fs.exists(`battle_${req.params.battleid}`).then(exists => {
         if (exists){
