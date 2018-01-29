@@ -17,17 +17,18 @@ Game.Battle.prototype.getSceneSize = function(){
 Game.Battle.prototype.load = function(){
 	var battleid = sessionStorage.getItem('battleid');
 	var url = `/singlebattle/join/${battleid ? battleid : ''}`;
-	return Game.fetch().post(url)
-  	.then(data => {
-		var armies = Object.keys(data.armies).map(key => data.armies[key]);
-		this.id = data.id;
-		this.firstArmy = new Game.Army(armies[0], data.unitTypes);
-		this.secondArmy = new Game.Army(armies[1], data.unitTypes);
-		this.terrain = data.terrain;
-		this.unitQueue = data.turns[data.turns.length - 1].readyUnits;
-		sessionStorage.setItem('battleid', data.id);
-  	});
+	return Game.fetch().post(url).then(this.loadData);
 }
+
+Game.Battle.prototype.loadData = function(data){
+	var armies = Object.keys(data.armies).map(key => data.armies[key]);
+	this.id = data.id;
+	this.firstArmy = new Game.Army(armies[0], data.unitTypes);
+	this.secondArmy = new Game.Army(armies[1], data.unitTypes);
+	this.terrain = data.terrain;
+	this.unitQueue = data.turns[data.turns.length - 1].readyUnits;
+	sessionStorage.setItem('battleid', data.id);
+};
 
 Game.Battle.prototype.getTerrain = function() {
 	return this.terrain;

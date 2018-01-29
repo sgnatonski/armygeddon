@@ -17,6 +17,7 @@ var ws = require('./ws');
 process.chdir(__dirname);
 
 var app = express();
+var appCookieParser = cookieParser();
 
 app.set('TOKEN_SECRET', process.env.TOKEN_SECRET);
 // view engine setup
@@ -29,7 +30,7 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(appCookieParser);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(jwt({
@@ -70,6 +71,6 @@ app.use(function(err, req, res, next) {
 
 var server = http.createServer(app);
 
-ws(server);
+ws(server, appCookieParser, app);
 
 module.exports = server;
