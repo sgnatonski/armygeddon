@@ -1,3 +1,4 @@
+var http = require('http');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -11,6 +12,7 @@ var login = require('./routes/login');
 var singlebattle = require('./routes/single_battle');
 var battle = require('./routes/battle');
 var design = require('./routes/design');
+var ws = require('./ws');
 
 process.chdir(__dirname);
 
@@ -66,4 +68,8 @@ app.use(function(err, req, res, next) {
   }
 });
 
-module.exports = app;
+var server = http.createServer(app);
+
+ws(server);
+
+module.exports = server;
