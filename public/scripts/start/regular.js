@@ -8,8 +8,11 @@
       var data = JSON.parse(event.data);
       if (data.msg == 'data'){
         battle.loadData(data.data);
-        var grid = initGrid(battle, animator);
+        var grid = initGrid(battle);
         setupStage(grid, animator, imgs);
+      }
+      else if (data.msg == 'upd'){
+        var currUnit = battle.onUpdate(data.data);
       }
     };
   });

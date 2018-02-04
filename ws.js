@@ -27,16 +27,19 @@ module.exports = function webSocketSetup(server, cookieParser, app){
 
         fs.exists(`battle_${ws.battle.id}`).then(exists => {
             if (exists){
-                fs.get(`battle_${ws.battle.id}`)
-                    .then(data => ws.send(JSON.stringify({
-                        msg: 'data',
-                        data: data
-                    })));
+                fs.get(`battle_${ws.battle.id}`).then(data => {
+                    var battle = battleLogic.join(battle, ws.battle.userid2);
+        
+                    fs.store(`battle_${battle.id}`, battle)
+                        .then(result => ws.send(JSON.stringify({
+                            msg: 'data',
+                            data: data
+                        })));
+                });
             }
             else{
                 fs.get('init.battle').then(data => {
                     var battle = battleLogic.init(data, ws.battle.userid, ws.battle.id);
-                    //battleLogic.join(battle, ws.battle.userid2);
         
                     fs.store(`battle_${battle.id}`, battle)
                         .then(result => ws.send(JSON.stringify({

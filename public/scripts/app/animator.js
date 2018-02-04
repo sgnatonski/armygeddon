@@ -1,6 +1,7 @@
 function Animator(){
     var anims = [];
     var c;
+    var currentAnimation;
 
     return {
         registerAnimation: (id, node, center) => {
@@ -8,7 +9,11 @@ function Animator(){
             c = center;
         },
         getAnimation: (id, path) => {
-            return getUnitMoveAnim(path, anims[id], c);
+            currentAnimation = getUnitMoveAnim(path, anims[id], c).then(() => currentAnimation = null);
+            return currentAnimation;
+        },
+        isAnimating: () =>{
+            return currentAnimation;
         }
     }
 };

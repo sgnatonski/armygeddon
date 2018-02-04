@@ -39,15 +39,30 @@ function setupStage(grid, animator, images){
       hlLayer.highlightNode(null);
       effectLayer.drawPath([]);
       hlLayer.highlightRange([], grid.getSelectedHexState());
-      grid.hexSelected(hex).then(h => {
+      var unit;
+      var selHex = grid.getSelectedHex();
+      if (selHex){
+        unit = grid.getUnitAt(selHex.x, selHex.y);
+      }
+      if (unit){
+        var path = grid.getPathFromSelectedHex(hex);
+        var animPromise = animator.getAnimation(unit.id, path);
+        var selectPromise = grid.hexSelected(hex);
+
+        Promise.all([selectPromise, animPromise]).then(result => {
+          var h = result[0];
           hlLayer.highlightNode(h);
           effectLayer.drawPath(grid.getPathFromSelectedHex(h));
           hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
           unitLayer.refresh(grid.getUnits());
-      });
+        });
+      }
     });
 
     node.on('mouseenter', () => {
+      if (animator.isAnimating()){
+        return;
+      }
       var state = grid.getSelectedHexState();
       hlLayer.highlightNode(hex);
       effectLayer.drawPath(grid.getPathFromSelectedHex(hex));
@@ -104,6 +119,9 @@ function setupStage(grid, animator, images){
     });
     
     node.on('mouseleave', () => {
+      if (animator.isAnimating()){
+        return;
+      }
       hlLayer.highlightNode(null);
       tooltip.hide();
       tooltipLayer.draw();
@@ -124,4 +142,10 @@ function setupStage(grid, animator, images){
   stage.add(tooltipLayer);
 
   grid.hexSelected();
+
+  /*return {
+    onUpdate = function(data){
+
+    }
+  }*/
 }

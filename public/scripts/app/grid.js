@@ -1,4 +1,4 @@
-function initGrid(battle, animator){
+function initGrid(battle){
   function setSelectedHex (x, y) {
     var selectedHex = grid.selectedHex;  
     grid.selectedHex = null;
@@ -36,8 +36,7 @@ function initGrid(battle, animator){
     return new Promise(function(resolve,reject){      
       var selectedHex = grid.selectedHex;
       
-      function resolveAction(results){
-        var movedUnit = results[0];
+      function resolveAction(movedUnit){
         if (battle.isDefeatedArmy(movedUnit.id)){
           alert('DEFEAT');
         }
@@ -63,21 +62,17 @@ function initGrid(battle, animator){
           var path = getPathInRange(selectedHex, hex, unit.mobility);
           var lastStep = path[path.length - 1];
           if (lastStep.x == hex.x && lastStep.y == hex.y){
-            var movePromise = battle.unitMoving(unit, hex.x, hex.y);
-            var animPromise = animator.getAnimation(unit.id, path);
-            Promise.all([movePromise, animPromise]).then(resolveAction);
+            battle.unitMoving(unit, hex.x, hex.y).then(resolveAction);
           }
           break;
         case 'turning':
-          var movePromise = battle.unitTurning(unit, hex.x, hex.y);
-          Promise.all([movePromise]).then(resolveAction);
+          battle.unitTurning(unit, hex.x, hex.y).then(resolveAction);
           break;
         case 'attacking':
           var path = getPathInRange(selectedHex, hex, unit.range, true);
           var lastStep = path[path.length - 1];
           if (lastStep.x == hex.x && lastStep.y == hex.y){
-            var movePromise = battle.unitAttacking(unit, hex.x, hex.y);
-            Promise.all([movePromise]).then(resolveAction);
+            battle.unitAttacking(unit, hex.x, hex.y).then(resolveAction);
           }
           break;
         default:

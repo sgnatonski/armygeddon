@@ -1,6 +1,6 @@
 var Game = Game || {};
 
-Game.Battle = function () {	
+Game.Battle = function () {
 };
 
 Game.Battle.prototype.getSceneSize = function(){
@@ -17,7 +17,10 @@ Game.Battle.prototype.getSceneSize = function(){
 Game.Battle.prototype.load = function(){
 	var battleid = sessionStorage.getItem('battleid');
 	var url = `/singlebattle/join/${battleid ? battleid : ''}`;
-	return Game.fetch().post(url).then(this.loadData);
+	return Game.fetch().post(url).then(data => {
+		this.loadData(data);
+		return Promise.resolve(this);
+	});
 }
 
 Game.Battle.prototype.loadData = function(data){
@@ -54,55 +57,34 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 	: this.firstArmy;
 };
 
+Game.Battle.prototype.onUpdate = function(army, data){
+	this.unitQueue = data.unitQueue;
+	army.restoreUnit(data.currUnit);
+	if (data.targetUnit){
+		var targetArmy = this.getArmy(data.targetUnit.id);
+		targetArmy.restoreUnit(data.targetUnit);
+	}
+	var nextUnitArmy = this.getArmy(data.nextUnit.id);
+	nextUnitArmy.restoreUnit(data.nextUnit);
+	return data.currUnit;
+};
+
 Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
 	var army = this.getArmy(unit.id);
 
-	return Game.fetch().post(`/singlebattle/${this.id}/${unit.id}/move/${x}/${y}`)
-	.then(data => {
-		this.unitQueue = data.unitQueue;
-		army.restoreUnit(data.currUnit);
-		if (data.targetUnit){
-			var targetArmy = this.getArmy(data.targetUnit.id);
-			targetArmy.restoreUnit(data.targetUnit);
-		}
-		var nextUnitArmy = this.getArmy(data.nextUnit.id);
-		nextUnitArmy.restoreUnit(data.nextUnit);
-		return data.currUnit;
-	});
+	return requestMove(this.id, unit.id, x, y).then(data => this.onUpdate(army, data));
 };
 
 Game.Battle.prototype.unitTurning = function(unit, x, y) {
 	var army = this.getArmy(unit.id);
 
-	return Game.fetch().post(`/singlebattle/${this.id}/${unit.id}/turn/${x}/${y}`)
-	.then(data => {
-		this.unitQueue = data.unitQueue;
-		army.restoreUnit(data.currUnit);
-		if (data.targetUnit){
-			var targetArmy = this.getArmy(data.targetUnit.id);
-			targetArmy.restoreUnit(data.targetUnit);
-		}
-		var nextUnitArmy = this.getArmy(data.nextUnit.id);
-		nextUnitArmy.restoreUnit(data.nextUnit);
-		return data.currUnit;
-	});
+	return requestTurn(this.id, unit.id, x, y).then(data => this.onUpdate(army, data));
 };
 
 Game.Battle.prototype.unitAttacking = function(unit, x, y) {
 	var army = this.getArmy(unit.id);
 
-	return Game.fetch().post(`/singlebattle/${this.id}/${unit.id}/attack/${x}/${y}`)
-	.then(data => {
-		this.unitQueue = data.unitQueue;
-		army.restoreUnit(data.currUnit);
-		if (data.targetUnit){
-			var targetArmy = this.getArmy(data.targetUnit.id);
-			targetArmy.restoreUnit(data.targetUnit);
-		}
-		var nextUnitArmy = this.getArmy(data.nextUnit.id);
-		nextUnitArmy.restoreUnit(data.nextUnit);
-		return data.currUnit;
-	});
+	return requestAttack(this.id, unit.id, x, y).then(data => this.onUpdate(army, data));
 };
 
 Game.Battle.prototype.getUnitState = function(unit) {
