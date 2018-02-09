@@ -31,58 +31,50 @@ function initGrid(battle){
     }, [sourceHex]);
     return inRange;
   }
+
+  function updateSelection(unit){
+    var hex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
+    hex.blocked = true;
+    
+    var nextUnit = battle.nextUnit();
+    var nextHex = grid.getHexAt(new BHex.Axial(nextUnit.pos.x, nextUnit.pos.y));
+    setSelectedHex(nextHex.x, nextHex.y);
+    return nextHex;
+  }
   
   function hexSelected(hex) {
-    return new Promise(function(resolve,reject){      
-      var selectedHex = grid.selectedHex;
-      
-      function resolveAction(movedUnit){
-        if (battle.isDefeatedArmy(movedUnit.id)){
-          alert('DEFEAT');
+    var selectedHex = grid.selectedHex;
+    if (selectedHex){
+      selectedHex.blocked = false;
+    }
+    var unit = grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
+    setSelectedHex();
+
+    var unitState = battle.getUnitState(unit);
+    switch(unitState){
+      case 'moving': 
+        var path = getPathInRange(selectedHex, hex, unit.mobility);
+        var lastStep = path[path.length - 1];
+        if (lastStep.x == hex.x && lastStep.y == hex.y){
+          battle.unitMoving(unit, hex.x, hex.y);
         }
-        if (battle.isWinningArmy(movedUnit.id)){
-          alert('VICTORY');
+        break;
+      case 'turning':
+        battle.unitTurning(unit, hex.x, hex.y);
+        break;
+      case 'attacking':
+        var path = getPathInRange(selectedHex, hex, unit.range, true);
+        var lastStep = path[path.length - 1];
+        if (lastStep.x == hex.x && lastStep.y == hex.y){
+          battle.unitAttacking(unit, hex.x, hex.y);
         }
-        var hex = grid.getHexAt(new BHex.Axial(movedUnit.pos.x, movedUnit.pos.y));
-        selectedHex.blocked = false;
-        hex.blocked = true;
-        
-        var nextUnit = battle.nextUnit();
-        var nextHex = grid.getHexAt(new BHex.Axial(nextUnit.pos.x, nextUnit.pos.y));
+        break;
+      default:
+        var unit = battle.nextUnit();
+        var nextHex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
         setSelectedHex(nextHex.x, nextHex.y);
-        resolve(nextHex);
-      }
-
-      var unit = grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
-      setSelectedHex();
-
-      var unitState = battle.getUnitState(unit);
-      switch(unitState){
-        case 'moving': 
-          var path = getPathInRange(selectedHex, hex, unit.mobility);
-          var lastStep = path[path.length - 1];
-          if (lastStep.x == hex.x && lastStep.y == hex.y){
-            battle.unitMoving(unit, hex.x, hex.y).then(resolveAction);
-          }
-          break;
-        case 'turning':
-          battle.unitTurning(unit, hex.x, hex.y).then(resolveAction);
-          break;
-        case 'attacking':
-          var path = getPathInRange(selectedHex, hex, unit.range, true);
-          var lastStep = path[path.length - 1];
-          if (lastStep.x == hex.x && lastStep.y == hex.y){
-            battle.unitAttacking(unit, hex.x, hex.y).then(resolveAction);
-          }
-          break;
-        default:
-          var unit = battle.nextUnit();
-          var nextHex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
-          setSelectedHex(nextHex.x, nextHex.y);
-          resolve(nextHex);
-          break;
-      }
-    });
+        break;
+    }
   };
 
   function getTurnCoords(){
@@ -188,6 +180,7 @@ function initGrid(battle){
     getSelectedHexState: getSelectedHexState,
     getPathFromSelectedHex: getPathFromSelectedHex,
     getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new BHex.Axial(x, y)), battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
-    initDrawing: initDrawing
+    initDrawing: initDrawing,
+    updateSelection: updateSelection
   }
 }

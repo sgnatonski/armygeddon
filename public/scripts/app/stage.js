@@ -1,4 +1,4 @@
-function setupStage(grid, animator, images){
+function setupStage(grid, eventBus, animator, images){
   var width = window.innerWidth;
   var height = window.innerHeight;
   var center = { x: width / 2, y: height / 2 };
@@ -32,34 +32,29 @@ function setupStage(grid, animator, images){
 
   tooltipLayer.add(tooltip.node);
 
+  eventBus.on('battleupdated', data => {
+    var hex = grid.getHexAt(data.currUnit.pos.x, data.currUnit.pos.y);
+    var path = grid.getPathFromSelectedHex(hex);
+    animator.getAnimation(data.currUnit.id, path).then(() => {
+      var nextHex = grid.updateSelection(data.currUnit);
+      hlLayer.highlightNode(nextHex);
+      effectLayer.drawPath(grid.getPathFromSelectedHex(nextHex));
+      hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
+      unitLayer.refresh(grid.getUnits());
+    });
+  });
+
   function addNode(hex) {
     var node = createTerrainVisual(hex, center, images);
 
-    node.on('click', () => {
+    node.on('click, dbltap', () => {
       hlLayer.highlightNode(null);
       effectLayer.drawPath([]);
       hlLayer.highlightRange([], grid.getSelectedHexState());
-      var unit;
-      var selHex = grid.getSelectedHex();
-      if (selHex){
-        unit = grid.getUnitAt(selHex.x, selHex.y);
-      }
-      if (unit){
-        var path = grid.getPathFromSelectedHex(hex);
-        var animPromise = animator.getAnimation(unit.id, path);
-        var selectPromise = grid.hexSelected(hex);
-
-        Promise.all([selectPromise, animPromise]).then(result => {
-          var h = result[0];
-          hlLayer.highlightNode(h);
-          effectLayer.drawPath(grid.getPathFromSelectedHex(h));
-          hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
-          unitLayer.refresh(grid.getUnits());
-        });
-      }
+      grid.hexSelected(hex);
     });
 
-    node.on('mouseenter', () => {
+    node.on('mouseenter, touchstart', () => {
       if (animator.isAnimating()){
         return;
       }
@@ -118,7 +113,7 @@ function setupStage(grid, animator, images){
       }
     });
     
-    node.on('mouseleave', () => {
+    node.on('mouseleave, touchend', () => {
       if (animator.isAnimating()){
         return;
       }
@@ -142,10 +137,4 @@ function setupStage(grid, animator, images){
   stage.add(tooltipLayer);
 
   grid.hexSelected();
-
-  /*return {
-    onUpdate = function(data){
-
-    }
-  }*/
 }

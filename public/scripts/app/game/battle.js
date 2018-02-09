@@ -1,6 +1,8 @@
 var Game = Game || {};
 
-Game.Battle = function () {
+Game.Battle = function (eventBus) {
+	this.eventBus = eventBus;
+	this.eventBus.on('update', d => this.onUpdate(d));
 };
 
 Game.Battle.prototype.getSceneSize = function(){
@@ -57,34 +59,37 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 	: this.firstArmy;
 };
 
-Game.Battle.prototype.onUpdate = function(army, data){
-	this.unitQueue = data.unitQueue;
-	army.restoreUnit(data.currUnit);
-	if (data.targetUnit){
-		var targetArmy = this.getArmy(data.targetUnit.id);
-		targetArmy.restoreUnit(data.targetUnit);
+Game.Battle.prototype.onUpdate = function(data){
+	if (this.isDefeatedArmy(data.currUnit.id)){
+		alert('DEFEAT');
 	}
-	var nextUnitArmy = this.getArmy(data.nextUnit.id);
-	nextUnitArmy.restoreUnit(data.nextUnit);
-	return data.currUnit;
+	if (this.isWinningArmy(data.currUnit.id)){
+		alert('VICTORY');
+	}
+	else { 
+		this.unitQueue = data.unitQueue;
+		var army = this.getArmy(data.currUnit.id);
+		army.restoreUnit(data.currUnit);
+		if (data.targetUnit){
+			var targetArmy = this.getArmy(data.targetUnit.id);
+			targetArmy.restoreUnit(data.targetUnit);
+		}
+		var nextUnitArmy = this.getArmy(data.nextUnit.id);
+		nextUnitArmy.restoreUnit(data.nextUnit);
+		this.eventBus.publish('battleupdated', data);
+	}
 };
 
-Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
-	var army = this.getArmy(unit.id);
-
-	return requestMove(this.id, unit.id, x, y).then(data => this.onUpdate(army, data));
+Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {	
+	requestMove(this.eventBus, this.id, unit.id, x, y);
 };
 
 Game.Battle.prototype.unitTurning = function(unit, x, y) {
-	var army = this.getArmy(unit.id);
-
-	return requestTurn(this.id, unit.id, x, y).then(data => this.onUpdate(army, data));
+	requestTurn(this.eventBus, this.id, unit.id, x, y);
 };
 
 Game.Battle.prototype.unitAttacking = function(unit, x, y) {
-	var army = this.getArmy(unit.id);
-
-	return requestAttack(this.id, unit.id, x, y).then(data => this.onUpdate(army, data));
+	requestAttack(this.eventBus, this.id, unit.id, x, y);
 };
 
 Game.Battle.prototype.getUnitState = function(unit) {
