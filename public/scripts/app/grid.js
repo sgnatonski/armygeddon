@@ -4,9 +4,7 @@ function initGrid(battle){
     grid.selectedHex = null;
     if (x != undefined && y != undefined){
       var hex = grid.getHexAt(new BHex.Axial(x, y));
-      if (hex !== selectedHex){
-        grid.selectedHex = hex;   
-      }
+      grid.selectedHex = hex;
     }
   }
 
@@ -48,7 +46,6 @@ function initGrid(battle){
       selectedHex.blocked = false;
     }
     var unit = grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
-    setSelectedHex();
 
     var unitState = battle.getUnitState(unit);
     switch(unitState){
@@ -134,12 +131,12 @@ function initGrid(battle){
     return battle.getUnitState(grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null);
   }
 
-  function getPathFromSelectedHex(targetHex) {
-    var unit = grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
+  function getPathBetween(sourceHex, targetHex) {
+    var unit = battle.getUnitAt(sourceHex.x, sourceHex.y);
     if (!unit){
       return [];
     }
-    var path = getPathInRange(grid.selectedHex, targetHex, unit.mobility);
+    var path = getPathInRange(sourceHex, targetHex, unit.mobility);
     return path;
   };
 
@@ -178,7 +175,7 @@ function initGrid(battle){
     hexSelected: hexSelected,
     getSelectedHexRange: getSelectedHexRange,
     getSelectedHexState: getSelectedHexState,
-    getPathFromSelectedHex: getPathFromSelectedHex,
+    getPathBetween: getPathBetween,
     getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new BHex.Axial(x, y)), battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
     initDrawing: initDrawing,
     updateSelection: updateSelection

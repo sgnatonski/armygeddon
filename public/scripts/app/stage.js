@@ -32,13 +32,12 @@ function setupStage(grid, eventBus, animator, images){
 
   tooltipLayer.add(tooltip.node);
 
+  var path = null;
+
   eventBus.on('battleupdated', data => {
-    var hex = grid.getHexAt(data.currUnit.pos.x, data.currUnit.pos.y);
-    var path = grid.getPathFromSelectedHex(hex);
     animator.getAnimation(data.currUnit.id, path).then(() => {
       var nextHex = grid.updateSelection(data.currUnit);
       hlLayer.highlightNode(nextHex);
-      effectLayer.drawPath(grid.getPathFromSelectedHex(nextHex));
       hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
       unitLayer.refresh(grid.getUnits());
     });
@@ -47,20 +46,21 @@ function setupStage(grid, eventBus, animator, images){
   function addNode(hex) {
     var node = createTerrainVisual(hex, center, images);
 
-    node.on('click, dbltap', () => {
+    node.on('click', () => {
       hlLayer.highlightNode(null);
       effectLayer.drawPath([]);
       hlLayer.highlightRange([], grid.getSelectedHexState());
+      path = grid.getPathBetween(grid.getSelectedHex(), hex);
       grid.hexSelected(hex);
     });
 
-    node.on('mouseenter, touchstart', () => {
+    node.on('mouseenter', () => {
       if (animator.isAnimating()){
         return;
       }
       var state = grid.getSelectedHexState();
       hlLayer.highlightNode(hex);
-      effectLayer.drawPath(grid.getPathFromSelectedHex(hex));
+      effectLayer.drawPath(grid.getPathBetween(grid.getSelectedHex(), hex));
       hlLayer.highlightRange(grid.getSelectedHexRange(), state);
       var aUnit = null;
       var selHex = grid.getSelectedHex();
@@ -113,7 +113,7 @@ function setupStage(grid, eventBus, animator, images){
       }
     });
     
-    node.on('mouseleave, touchend', () => {
+    node.on('mouseleave', () => {
       if (animator.isAnimating()){
         return;
       }
@@ -137,4 +137,6 @@ function setupStage(grid, eventBus, animator, images){
   stage.add(tooltipLayer);
 
   grid.hexSelected();
+  hlLayer.highlightNode(grid.getSelectedHex());
+  hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
 }
