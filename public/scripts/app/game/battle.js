@@ -73,6 +73,11 @@ Game.Battle.prototype.onUpdate = function(data){
 		alert('VICTORY');
 	}
 	else { 
+		this.eventBus.publish('unitdelta', {
+			source: this.nextUnit().pos,
+			target: data.currUnit.pos
+		});
+
 		this.unitQueue = data.unitQueue;
 		var army = this.getArmy(data.currUnit.id);
 		army.restoreUnit(data.currUnit);

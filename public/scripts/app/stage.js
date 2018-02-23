@@ -34,15 +34,19 @@ function setupStage(grid, eventBus, images){
   });
   waitLayer.add(waitOverlay);
   
-  var path = null;
-
   eventBus.on('battlestarted', () => {
     waitOverlay.hide();
     waitLayer.draw();
   });
 
+  var animationPath = null;
+
+  eventBus.on('unitdelta', delta => {
+    animationPath = grid.getPathBetween(grid.getHexAt(delta.source.x, delta.source.y), grid.getHexAt(delta.target.x, delta.target.y));
+  });
+
   eventBus.on('battleupdated', data => {
-    animator.getAnimation(data.currUnit.id, path).then(() => {
+    animator.getAnimation(data.currUnit.id, animationPath).then(() => {
       var nextHex = grid.updateSelection(data.currUnit);
       hlLayer.highlightNode(nextHex);
       hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
@@ -56,8 +60,7 @@ function setupStage(grid, eventBus, images){
     node.on('click', () => {
       hlLayer.highlightNode(null);
       effectLayer.drawPath([]);
-      hlLayer.highlightRange([], grid.getSelectedHexState());
-      path = grid.getPathBetween(grid.getSelectedHex(), hex);
+      hlLayer.highlightRange([], grid.getSelectedHexState());      
       grid.hexSelected(hex);
     });
 
