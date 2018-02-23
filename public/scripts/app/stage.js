@@ -18,7 +18,7 @@ function setupStage(grid, eventBus, animator, images){
   var unitLayer = createUnitLayer(center, animator);
   var hlLayer = createHighlightLayer(center);
   var terrainLayer = createTerrainLayer();
-  var tooltipLayer = new Konva.Layer();
+  var tooltipLayer = createTooltipLayer(stage);
 
   grid.initDrawing(center);
 
@@ -27,11 +27,7 @@ function setupStage(grid, eventBus, animator, images){
     var armyId = grid.getArmyId(unit.id);
     unitLayer.addUnit(unit, hex.center, armyId);
   });
-
-  var tooltip = createTooltipVisual();
-
-  tooltipLayer.add(tooltip.node);
-
+  
   var path = null;
 
   eventBus.on('battleupdated', data => {
@@ -71,44 +67,16 @@ function setupStage(grid, eventBus, animator, images){
 
       if (state == 'moving' || state == 'turning'){
         if (aUnit && tUnit){
-          var mousePos = stage.getPointerPosition();
-          var texts = [
-            `Endurance: ${tUnit.endurance} / ${tUnit.lifetime.endurance}`,
-            `Mobility: ${tUnit.mobility} / ${tUnit.lifetime.mobility}`,
-            `Agility: ${tUnit.agility} / ${tUnit.lifetime.agility}`,
-            `Damage: ${tUnit.damage}`,
-            `Armor: ${tUnit.armor}`,
-            `Range: ${tUnit.range}`,
-          ];
-          tooltip.show(texts, mousePos, texts.length);
-          tooltipLayer.batchDraw();
+          tooltipLayer.updateTooltipWithUnitStats(tUnit);
         }
         else if (!tUnit){
-          var mousePos = stage.getPointerPosition();
           var cost = grid.getSelectedHexMoveCost(hex.x, hex.y);  
-          if (cost <= aUnit.mobility){
-            var texts = [
-              `Moves: ${cost} / ${aUnit.mobility}`,
-              `Charge: ${cost}`
-            ];
-            if (aUnit.agility && cost == aUnit.mobility){
-              texts.push(`Agility: -${aUnit.agility}`);
-            }
-            tooltip.show(texts, mousePos, texts.length);
-            tooltipLayer.batchDraw();
-          }
+          tooltipLayer.updateTooltipWithMoveStats(aUnit, cost);
         }
       }
       else if (state == 'attacking'){        
         if (aUnit && tUnit){
-          var dmg = Damage().getChargeDamage(aUnit, tUnit);
-          var mousePos = stage.getPointerPosition();
-          var texts = [
-            `Endurance: ${tUnit.endurance}`,
-            `-${dmg} damage`
-          ];
-          tooltip.show(texts, mousePos, texts.length);
-          tooltipLayer.batchDraw();
+          tooltipLayer.updateTooltipWithAttackStats(aUnit, tUnit);
         }
       }
     });
@@ -118,8 +86,7 @@ function setupStage(grid, eventBus, animator, images){
         return;
       }
       hlLayer.highlightNode(null);
-      tooltip.hide();
-      tooltipLayer.draw();
+      tooltipLayer.hideTooltip();
     });
 
     return {
@@ -134,7 +101,7 @@ function setupStage(grid, eventBus, animator, images){
   stage.add(hlLayer);
   stage.add(effectLayer);
   stage.add(unitLayer.node);
-  stage.add(tooltipLayer);
+  stage.add(tooltipLayer.node);
 
   grid.hexSelected();
   hlLayer.highlightNode(grid.getSelectedHex());
