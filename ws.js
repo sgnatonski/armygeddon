@@ -44,15 +44,21 @@ module.exports = function webSocketSetup(server, cookieParser, app){
                     result = battleLogic.processAttack(data, ws.battle.userid, cmd.uid, cmd.x, cmd.y);
                 }
                 if (result && result.success){
-                    fs.store(`battle_${ws.battle.id}`, result.battle).then(res => ws.send(JSON.stringify({
-                        msg: 'upd',
-                        data: {
-                            currUnit: result.unit, 
-                            nextUnit: result.nextUnit,
-                            targetUnit: result.targetUnit,
-                            unitQueue: result.unitQueue
-                        }
-                    })));
+                    fs.store(`battle_${ws.battle.id}`, result.battle).then(res => {
+                        wss.clients.forEach(function each(client) {
+                            if (client.readyState === WebSocket.OPEN && Object.keys(result.battle.armies).some(uid => client.battle.userid == uid)) {
+                                client.send(JSON.stringify({
+                                    msg: 'upd',
+                                    data: {
+                                        currUnit: result.unit, 
+                                        nextUnit: result.nextUnit,
+                                        targetUnit: result.targetUnit,
+                                        unitQueue: result.unitQueue
+                                    }
+                                }));
+                            }
+                        });
+                    });
                 }
             });
         });
@@ -63,11 +69,17 @@ module.exports = function webSocketSetup(server, cookieParser, app){
                     delete battle.armies['1'];
                     delete battle.armies['2'];
                 }
-                ws.send(JSON.stringify({
-                    msg: 'data',
-                    data: data
-                }));
+
+                wss.clients.forEach(function each(client) {
+                    if (client.readyState === WebSocket.OPEN && Object.keys(battle.armies).some(uid => client.battle.userid == uid)) {
+                        client.send(JSON.stringify({
+                            msg: 'data',
+                            data: data
+                        }));
+                    }
+                });
             }
+
             if (data.armies[ws.battle.userid]){
                 sendBattle(data);
             }

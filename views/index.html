@@ -1,3 +1,11 @@
+{{#yield-scripts}}
+<script>
+    function joinBattle(battleId){
+        sessionStorage.setItem('battleid', battleId);
+        window.location = '/battle';
+    }
+</script>
+{{/yield-scripts}}
 {{#yield-body}}
 <div>
     <p>Select battle:</p>
@@ -10,7 +18,7 @@
     <p>Open battles</p>
     <ul>
         {{#battles}}
-        <li><a href="/battle/{{name}}">{{name}}</a></li>
+        <li><a href="#" onclick="joinBattle('{{name}}')">{{name}}</a></li>
         {{/battles}}
     </ul>
 </div>
