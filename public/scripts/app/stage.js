@@ -1,4 +1,4 @@
-function setupStage(grid, eventBus, animator, images){
+function setupStage(grid, eventBus, images){
   var width = window.innerWidth;
   var height = window.innerHeight;
   var center = { x: width / 2, y: height / 2 };
@@ -16,15 +16,29 @@ function setupStage(grid, eventBus, animator, images){
 
   grid.initDrawing(center);
 
+  var animator = new Animator();
+
   var effectLayer = createEffectLayer(center);
   var unitLayer = createUnitLayer(center, grid, animator);
   var hlLayer = createHighlightLayer(center);
   var terrainLayer = createTerrainLayer();
   var tooltipLayer = createTooltipLayer(stage);
-
+  var waitLayer = new Konva.Layer();
+  var waitOverlay = new Konva.Rect({
+    x: 0,
+    y: 0,
+    width: width,
+    height: height,
+    fill: 'black',
+    opacity: 0.5
+  });
+  waitLayer.add(waitOverlay);
+  
   var path = null;
 
   eventBus.on('battleupdated', data => {
+    waitOverlay.hide();
+    waitLayer.draw();
     animator.getAnimation(data.currUnit.id, path).then(() => {
       var nextHex = grid.updateSelection(data.currUnit);
       hlLayer.highlightNode(nextHex);
@@ -96,6 +110,7 @@ function setupStage(grid, eventBus, animator, images){
   stage.add(effectLayer);
   stage.add(unitLayer.node);
   stage.add(tooltipLayer.node);
+  stage.add(waitLayer);
 
   grid.hexSelected();
   hlLayer.highlightNode(grid.getSelectedHex());

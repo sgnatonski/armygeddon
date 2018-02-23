@@ -2,8 +2,16 @@
 <div>
     <p>Select battle:</p>
     <ul>
-        <li><a href="/battle">Random battle</a></li>
+        <li><a href="/battle">Start new battle</a></li>
         <li><a href="/single">Hot seat</a></li>
+    </ul>
+</div>
+<div>
+    <p>Open battles</p>
+    <ul>
+        {{#battles}}
+        <li><a href="/battle/{{name}}">{{name}}</a></li>
+        {{/battles}}
     </ul>
 </div>
 {{/yield-body}}

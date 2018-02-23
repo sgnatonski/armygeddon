@@ -68,8 +68,10 @@ function initGrid(battle){
         break;
       default:
         var unit = battle.nextUnit();
-        var nextHex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
-        setSelectedHex(nextHex.x, nextHex.y);
+        if (unit){
+          var nextHex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
+          setSelectedHex(nextHex.x, nextHex.y);
+        }
         break;
     }
   };

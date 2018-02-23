@@ -1,16 +1,28 @@
 var ws = null;
 function initWebSocket(eventBus, onInitCallback){
-    ws = new WebSocket('ws://' + window.location.host + '?bid=' + sessionStorage.getItem('battleid'));
-    ws.onmessage = function (event) {
-      var data = JSON.parse(event.data);
-      if (data.msg == 'data'){
-        onInitCallback(data.data);
-      }
-      else if (data.msg == 'upd'){
-        eventBus.publish('update', data.data);
-      }
-    };
-    window.addEventListener('beforeunload', function () { ws.close(); });
+    var battleId = sessionStorage.getItem('battleid');
+    if (!battleId || battleId == 'null'){
+        return Game.fetch().post('/battle/start').then(data => {
+            openWebSocket(data);
+        });
+    }
+    else{
+        openWebSocket(battleId); 
+    }
+    
+    function openWebSocket(battleId){
+        ws = new WebSocket(`ws://${window.location.host}?bid=${battleId}`);
+        ws.onmessage = function (event) {
+            var data = JSON.parse(event.data);
+            if (data.msg == 'data'){
+                onInitCallback(data.data);
+            }
+            else if (data.msg == 'upd'){
+                eventBus.publish('update', data.data);
+            }
+        };
+        window.addEventListener('beforeunload', function () { ws.close(); });
+    }
 }
 
 function requestMove(eventBus, bid, uid, x, y){

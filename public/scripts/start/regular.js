@@ -6,8 +6,7 @@
       var battle = new Game.Battle(eventBus);
       battle.loadData(data);
       var grid = initGrid(battle);
-      var animator = new Animator();
-      setupStage(grid, eventBus, animator, imgs);
+      setupStage(grid, eventBus, imgs);
     });
   });
 })();

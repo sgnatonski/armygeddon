@@ -57,29 +57,25 @@ module.exports = function webSocketSetup(server, cookieParser, app){
             });
         });
 
-        fs.exists(`battle_${ws.battle.id}`).then(exists => {
-            if (exists){
-                fs.get(`battle_${ws.battle.id}`).then(data => {
-                    var battle = battleLogic.join(data, ws.battle.userid);
-        
-                    fs.store(`battle_${battle.id}`, battle)
-                        .then(result => ws.send(JSON.stringify({
-                            msg: 'data',
-                            data: data
-                        })));
-                });
+        fs.get(`battle_${ws.battle.id}`).then(data => {
+            function sendBattle(battle){
+                if (battle.armies['1'] || battle.armies['2']){
+                    delete battle.armies['1'];
+                    delete battle.armies['2'];
+                }
+                ws.send(JSON.stringify({
+                    msg: 'data',
+                    data: data
+                }));
+            }
+            if (data.armies[ws.battle.userid]){
+                sendBattle(data);
             }
             else{
-                fs.get('init.battle').then(data => {
-                    var battle = battleLogic.init(data, ws.battle.userid, ws.battle.id);
-        
-                    fs.store(`battle_${battle.id}`, battle)
-                        .then(result => ws.send(JSON.stringify({
-                            msg: 'data',
-                            data: data
-                        })));
-                });
-            }
+                var battle = battleLogic.join(data, ws.battle.userid);
+
+                fs.store(`battle_${battle.id}`, battle).then(result => sendBattle(data));
+            }            
         });
     });
 }
