@@ -36,9 +36,12 @@ function setupStage(grid, eventBus, images){
   
   var path = null;
 
-  eventBus.on('battleupdated', data => {
+  eventBus.on('battlestarted', () => {
     waitOverlay.hide();
     waitLayer.draw();
+  });
+
+  eventBus.on('battleupdated', data => {
     animator.getAnimation(data.currUnit.id, path).then(() => {
       var nextHex = grid.updateSelection(data.currUnit);
       hlLayer.highlightNode(nextHex);

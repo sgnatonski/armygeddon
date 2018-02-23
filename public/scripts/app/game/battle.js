@@ -34,6 +34,7 @@ Game.Battle.prototype.loadData = function(data){
 	this.firstArmy = new Game.Army(armies[0], data.unitTypes);
 	if (armies.length == 2){
 		this.secondArmy = new Game.Army(armies[1], data.unitTypes);	
+		this.eventBus.publish('battlestarted');
 	}
 };
 
