@@ -1,4 +1,4 @@
-function createUnitLayer(center, animator){
+function createUnitLayer(center, grid, animator){
     var layer = new Konva.Layer();
 
     var armyColors = [
@@ -8,6 +8,12 @@ function createUnitLayer(center, animator){
     var colId = 0;
     var armyColorSelection = {};
     var unitNodes = [];
+
+    grid.getUnits().forEach(unit => {
+        var hex = grid.getHexAt(unit.pos.x, unit.pos.y);
+        var armyId = grid.getArmyId(unit.id);
+        addUnit(unit, hex.center, armyId);
+    });
 
     function addUnitNode(unit, hexCenter, armyId) {
         var unitSceneNode = unit.endurance > 0
@@ -23,17 +29,18 @@ function createUnitLayer(center, animator){
         return unitSceneNode;
     }
 
+    function addUnit(unit, hexCenter, armyId) {
+        if (!armyColorSelection[armyId]){
+            armyColorSelection[armyId] = armyColors[colId];
+            colId++;
+        }
+        var unitNode = addUnitNode(unit, hexCenter, armyId);
+        layer.add(unitNode);
+    }
+
     return {
         node: layer,
-        addUnit: (unit, hexCenter, armyId) => {
-            if (!armyColorSelection[armyId]){
-                armyColorSelection[armyId] = armyColors[colId];
-                colId++;
-            }
-            var unitNode = addUnitNode(unit, hexCenter, armyId);
-            layer.add(unitNode);
-        },
-        refresh: (units) =>{
+        refresh: () =>{
             layer.destroyChildren();
             var nodes = unitNodes.slice();
             unitNodes = [];

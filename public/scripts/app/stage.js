@@ -9,25 +9,19 @@ function setupStage(grid, eventBus, animator, images){
     height: height
   });
 
-  window.addEventListener('resize', function(event){
+  window.addEventListener('resize', event => {
     stage.width(window.innerWidth);
     stage.height(window.innerHeight);
   });
 
+  grid.initDrawing(center);
+
   var effectLayer = createEffectLayer(center);
-  var unitLayer = createUnitLayer(center, animator);
+  var unitLayer = createUnitLayer(center, grid, animator);
   var hlLayer = createHighlightLayer(center);
   var terrainLayer = createTerrainLayer();
   var tooltipLayer = createTooltipLayer(stage);
 
-  grid.initDrawing(center);
-
-  grid.getUnits().forEach(unit => {
-    var hex = grid.getHexAt(unit.pos.x, unit.pos.y);
-    var armyId = grid.getArmyId(unit.id);
-    unitLayer.addUnit(unit, hex.center, armyId);
-  });
-  
   var path = null;
 
   eventBus.on('battleupdated', data => {
@@ -35,7 +29,7 @@ function setupStage(grid, eventBus, animator, images){
       var nextHex = grid.updateSelection(data.currUnit);
       hlLayer.highlightNode(nextHex);
       hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
-      unitLayer.refresh(grid.getUnits());
+      unitLayer.refresh();
     });
   });
 
