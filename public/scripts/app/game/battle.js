@@ -27,12 +27,14 @@ Game.Battle.prototype.load = function(){
 
 Game.Battle.prototype.loadData = function(data){
 	var armies = Object.keys(data.armies).map(key => data.armies[key]);
+	sessionStorage.setItem('battleid', data.id);
 	this.id = data.id;
-	this.firstArmy = new Game.Army(armies[0], data.unitTypes);
-	this.secondArmy = new Game.Army(armies[1], data.unitTypes);
 	this.terrain = data.terrain;
 	this.unitQueue = data.turns[data.turns.length - 1].readyUnits;
-	sessionStorage.setItem('battleid', data.id);
+	this.firstArmy = new Game.Army(armies[0], data.unitTypes);
+	if (armies.length == 2){
+		this.secondArmy = new Game.Army(armies[1], data.unitTypes);	
+	}
 };
 
 Game.Battle.prototype.getTerrain = function() {
@@ -40,6 +42,9 @@ Game.Battle.prototype.getTerrain = function() {
 };
 
 Game.Battle.prototype.getUnits = function() {
+	if (!this.secondArmy){
+		return this.firstArmy.getArmy();
+	}
 	return this.firstArmy.getArmy().concat(this.secondArmy.getArmy());
 };
 

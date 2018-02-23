@@ -90,6 +90,9 @@ var battleLogic = {
         return battle;
     },
     join: (battle, playerId) =>{
+        if (battle.armies[playerId]){
+            return battle;
+        }
         if (battle.armies['2']){
             battle.armies[playerId] = battle.armies['2'];
             battle.armies[playerId].id = playerId;
