@@ -10,6 +10,7 @@ function initWebSocket(eventBus, onInitCallback){
         eventBus.publish('update', data.data);
       }
     };
+    window.addEventListener('beforeunload', function () { ws.close(); });
 }
 
 function requestMove(eventBus, bid, uid, x, y){

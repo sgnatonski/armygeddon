@@ -25,6 +25,10 @@ module.exports = function webSocketSetup(server, cookieParser, app){
             userid: user.id
         };
 
+        ws.on('error', err => {
+            console.log("error!: " + err);
+        });
+
         ws.on('message', function incoming(command) {
             var cmd = JSON.parse(command);
 
