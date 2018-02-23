@@ -26,7 +26,7 @@ router.post('/', function(req, res, next) {
       return;
     }
     
-    var token = jwt.sign({ id: user.id, id2: crypto.randomBytes(8).toString("hex") }, req.app.get('TOKEN_SECRET'), {
+    var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
       expiresIn: 86400000 // expires in 24 hours
     });
 
@@ -60,7 +60,7 @@ router.post('/register', function(req, res, next) {
     users.push(user);
 
     fs.store('users', users).then(() => {
-      var token = jwt.sign({ id: user.id, id2: crypto.randomBytes(8).toString("hex") }, req.app.get('TOKEN_SECRET'), {
+      var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
         expiresIn: 86400000 // expires in 24 hours
       });
   

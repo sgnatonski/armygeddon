@@ -5,7 +5,8 @@ var openBattles = new Set();
 function syncBattleState(filename){
     fs.readFile(`./data/${filename}`, function (err, file) {
         var data = JSON.parse(file);
-        if (!data.winningArmy){
+        var pids = Object.keys(data.armies).map(p => p.replace(/^_+|_+$/g, ''));
+        if (!data.winningArmy && pids[0] != pids[1]){
             openBattles.add(data.id);
         }
         else{
