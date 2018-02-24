@@ -138,6 +138,12 @@ Game.Battle.prototype.isDefeatedArmy = function(unitId) {
 	return !stillAlive;
 }
 
-Game.Battle.prototype.isPlayerArmy = function(unitId) {
-	return this.selfArmy === this.getArmy(unitId).playerId;
+Game.Battle.prototype.isPlayerArmy = function(unitId, exactMatch) {
+	if (exactMatch){
+		return this.selfArmy === this.getArmy(unitId).playerId;
+	}
+
+	return this.selfArmy === this.getArmy(unitId).playerId
+		|| '_' + this.selfArmy === this.getArmy(unitId).playerId
+		|| this.selfArmy === '_' + this.getArmy(unitId).playerId;
 }

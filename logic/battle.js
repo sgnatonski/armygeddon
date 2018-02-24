@@ -96,7 +96,6 @@ var battleLogic = {
             battle.armies[playerId].id = playerId;
             delete battle.armies['2'];
         }
-        battle.selfArmy = playerId;
         return battle;
     },
     processMove: (battle, playerId, unitId, x, y) => {        

@@ -48,8 +48,10 @@ function setupStage(grid, eventBus, images){
   eventBus.on('battleupdated', data => {
     animator.getAnimation(data.currUnit.id, animationPath).then(() => {
       var nextHex = grid.updateSelection(data.currUnit);
-      hlLayer.highlightNode(nextHex);
-      hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
+      if (grid.isPlayerArmy(data.currUnit.id)){
+        hlLayer.highlightNode(nextHex);
+        hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
+      }
       unitLayer.refresh();
     });
   });
@@ -68,16 +70,19 @@ function setupStage(grid, eventBus, images){
       if (animator.isAnimating()){
         return;
       }
-      var state = grid.getSelectedHexState();
-      hlLayer.highlightNode(hex);
-      effectLayer.drawPath(grid.getPathBetween(grid.getSelectedHex(), hex));
-      hlLayer.highlightRange(grid.getSelectedHexRange(), state);
       var aUnit = null;
       var selHex = grid.getSelectedHex();
       if (selHex){
         aUnit = grid.getUnitAt(selHex.x, selHex.y);
       }
       var tUnit = grid.getUnitAt(hex.x, hex.y);
+      var state = grid.getSelectedHexState();
+      
+      if (grid.isPlayerArmy(aUnit.id)){
+        hlLayer.highlightNode(hex);
+        effectLayer.drawPath(grid.getPathBetween(grid.getSelectedHex(), hex));
+        hlLayer.highlightRange(grid.getSelectedHexRange(), state);
+      }
 
       if (state == 'moving' || state == 'turning'){
         if (aUnit && tUnit){
@@ -119,6 +124,10 @@ function setupStage(grid, eventBus, images){
   stage.add(waitLayer);
 
   grid.hexSelected();
-  hlLayer.highlightNode(grid.getSelectedHex());
-  hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
+  var selHex = grid.getSelectedHex();
+  var unit = grid.getUnitAt(selHex.x, selHex.y);
+  if (grid.isPlayerArmy(unit.id)){
+    hlLayer.highlightNode(selHex);
+    hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
+  }
 }

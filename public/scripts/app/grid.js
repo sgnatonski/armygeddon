@@ -11,7 +11,7 @@ function initGrid(battle){
   function getMoveCost(sourceHex, targetHex, range){
     var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y));
     var terrain = battle.getTerrain();
-    var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
+    var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y)) || [];
     var cost = path.map(x => x.cost).reduce((a,b) => a + b);
     return cost;
   }
@@ -173,7 +173,7 @@ function initGrid(battle){
     getHexAt: (x, y) => grid.getHexAt(new BHex.Axial(x, y)),
     getUnitAt: (x, y) => battle.getUnitAt(x, y),
     getUnits: getUnits,
-    isPlayerArmy: (unitId) => battle.isPlayerArmy(unitId),
+    isPlayerArmy: (unitId, exactMatch) => battle.isPlayerArmy(unitId, exactMatch),
     hexSelected: hexSelected,
     getSelectedHexRange: getSelectedHexRange,
     getSelectedHexState: getSelectedHexState,

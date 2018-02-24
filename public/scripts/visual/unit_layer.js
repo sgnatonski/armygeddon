@@ -27,7 +27,7 @@ function createUnitLayer(center, grid, animator){
     }
 
     function addUnit(unit, hexCenter) {
-        var unitNode = addUnitNode(unit, hexCenter, grid.isPlayerArmy(unit.id));
+        var unitNode = addUnitNode(unit, hexCenter, grid.isPlayerArmy(unit.id, true));
         layer.add(unitNode);
     }
 
