@@ -29,6 +29,7 @@ Game.Battle.prototype.loadData = function(data){
 	var armies = Object.keys(data.armies).map(key => data.armies[key]);
 	sessionStorage.setItem('battleid', data.id);
 	this.id = data.id;
+	this.selfArmy = data.selfArmy;
 	this.terrain = data.terrain;
 	this.unitQueue = data.turns[data.turns.length - 1].readyUnits;
 	this.firstArmy = new Game.Army(armies[0], data.unitTypes);
@@ -135,4 +136,8 @@ Game.Battle.prototype.isDefeatedArmy = function(unitId) {
 	var army = this.getArmy(unitId);
 	var stillAlive = army.units.some(u => u.endurance > 0);
 	return !stillAlive;
+}
+
+Game.Battle.prototype.isPlayerArmy = function(unitId) {
+	return this.selfArmy === this.getArmy(unitId).playerId;
 }

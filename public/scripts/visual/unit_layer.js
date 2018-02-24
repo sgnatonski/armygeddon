@@ -5,36 +5,29 @@ function createUnitLayer(center, grid, animator){
         '#00cc00',
         '#c80b04'
     ];
-    var colId = 0;
-    var armyColorSelection = {};
     var unitNodes = [];
 
     grid.getUnits().forEach(unit => {
         var hex = grid.getHexAt(unit.pos.x, unit.pos.y);
-        var armyId = grid.getArmyId(unit.id);
-        addUnit(unit, hex.center, armyId);
+        addUnit(unit, hex.center);
     });
 
-    function addUnitNode(unit, hexCenter, armyId) {
+    function addUnitNode(unit, hexCenter, isPlayerArmy) {
         var unitSceneNode = unit.endurance > 0
-            ? createUnitVisual(unit, center, hexCenter, armyColorSelection[armyId])
+            ? createUnitVisual(unit, center, hexCenter, isPlayerArmy ? armyColors[0] : armyColors[1])
             : createDeadUnitVisual(unit, center, hexCenter);
         animator.registerAnimation(unit.id, unitSceneNode, center);
         unitNodes.push({ 
             node: unitSceneNode, 
             unit: unit, 
-            armyId: armyId,
+            isPlayerArmy: isPlayerArmy,
             hexCenter: hexCenter 
         });
         return unitSceneNode;
     }
 
-    function addUnit(unit, hexCenter, armyId) {
-        if (!armyColorSelection[armyId]){
-            armyColorSelection[armyId] = armyColors[colId];
-            colId++;
-        }
-        var unitNode = addUnitNode(unit, hexCenter, armyId);
+    function addUnit(unit, hexCenter) {
+        var unitNode = addUnitNode(unit, hexCenter, grid.isPlayerArmy(unit.id));
         layer.add(unitNode);
     }
 
@@ -45,7 +38,7 @@ function createUnitLayer(center, grid, animator){
             var nodes = unitNodes.slice();
             unitNodes = [];
             nodes.forEach(un => {
-                var unitNode = addUnitNode(un.unit, un.hexCenter, un.armyId);
+                var unitNode = addUnitNode(un.unit, un.hexCenter, un.isPlayerArmy);
                 unitNode.setX(un.node.getX());
                 unitNode.setY(un.node.getY());
                 layer.add(unitNode);

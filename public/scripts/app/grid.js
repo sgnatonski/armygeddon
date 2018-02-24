@@ -173,7 +173,7 @@ function initGrid(battle){
     getHexAt: (x, y) => grid.getHexAt(new BHex.Axial(x, y)),
     getUnitAt: (x, y) => battle.getUnitAt(x, y),
     getUnits: getUnits,
-    getArmyId: (unitId) => battle.getArmy(unitId).playerId,
+    isPlayerArmy: (unitId) => battle.isPlayerArmy(unitId),
     hexSelected: hexSelected,
     getSelectedHexRange: getSelectedHexRange,
     getSelectedHexState: getSelectedHexState,

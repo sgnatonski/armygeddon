@@ -72,9 +72,11 @@ module.exports = function webSocketSetup(server, cookieParser, app){
 
                 wss.clients.forEach(function each(client) {
                     if (client.readyState === WebSocket.OPEN && Object.keys(battle.armies).some(uid => client.battle.userid == uid)) {
+                        battle.selfArmy = client.battle.userid;
+
                         client.send(JSON.stringify({
                             msg: 'data',
-                            data: data
+                            data: battle
                         }));
                     }
                 });
