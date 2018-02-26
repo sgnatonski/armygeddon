@@ -15,19 +15,31 @@ function syncBattleState(filename){
     });
 }
 
-fs.readdir('./data', (err, files) => {
-    files.forEach(filename => {
-        if (filename.startsWith('battle')){
+
+try {    
+    process.chdir(__dirname);
+    fs.readdir('./data', (err, files) => {
+        if (err){
+            throw err;
+        }
+
+        if (!files || !files.length){
+            return;
+        }
+
+        files.forEach(filename => {
+            if (filename.startsWith('battle')){
+                syncBattleState(filename);
+            }
+        });
+    });
+
+    fs.watch('./data', function (event, filename) {
+        if (event == 'change' && filename.startsWith('battle')) {
             syncBattleState(filename);
         }
     });
-});
-
-fs.watch('./data', function (event, filename) {
-    if (event == 'change' && filename.startsWith('battle')) {
-        syncBattleState(filename);
-    }
-});
+} catch (error) { }
 
 module.exports = {
     getOpen: () =>{
