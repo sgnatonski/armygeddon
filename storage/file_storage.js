@@ -30,7 +30,6 @@ function exists(name) {
       resolve(exists);
     });
   });  
-  
 }
 
 module.exports = {

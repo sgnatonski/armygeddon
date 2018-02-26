@@ -1,4 +1,4 @@
-function setupStage(grid, animator, images){
+function setupStage(grid, eventBus, images){
   var width = window.innerWidth;
   var height = window.innerHeight;
   var center = { x: width / 2, y: height / 2 };
@@ -9,28 +9,52 @@ function setupStage(grid, animator, images){
     height: height
   });
 
-  window.addEventListener('resize', function(event){
+  window.addEventListener('resize', event => {
     stage.width(window.innerWidth);
     stage.height(window.innerHeight);
   });
 
-  var effectLayer = createEffectLayer(center);
-  var unitLayer = createUnitLayer(center, animator);
-  var hlLayer = createHighlightLayer(center);
-  var terrainLayer = createTerrainLayer();
-  var tooltipLayer = new Konva.Layer();
-
   grid.initDrawing(center);
 
-  grid.getUnits().forEach(unit => {
-    var hex = grid.getHexAt(unit.pos.x, unit.pos.y);
-    var armyId = grid.getArmyId(unit.id);
-    unitLayer.addUnit(unit, hex.center, armyId);
+  var animator = new Animator();
+
+  var effectLayer = createEffectLayer(center);
+  var unitLayer = createUnitLayer(center, grid, animator);
+  var hlLayer = createHighlightLayer(center);
+  var terrainLayer = createTerrainLayer();
+  var tooltipLayer = createTooltipLayer(stage);
+  var waitLayer = new Konva.Layer();
+  var waitOverlay = new Konva.Rect({
+    x: 0,
+    y: 0,
+    width: width,
+    height: height,
+    fill: 'black',
+    opacity: 0.5
+  });
+  waitLayer.add(waitOverlay);
+  
+  eventBus.on('battlestarted', () => {
+    waitOverlay.hide();
+    waitLayer.draw();
   });
 
-  var tooltip = createTooltipVisual();
+  var animationPath = null;
 
-  tooltipLayer.add(tooltip.node);
+  eventBus.on('unitdelta', delta => {
+    animationPath = grid.getPathBetween(grid.getHexAt(delta.source.x, delta.source.y), grid.getHexAt(delta.target.x, delta.target.y));
+  });
+
+  eventBus.on('battleupdated', data => {
+    animator.getAnimation(data.currUnit.id, animationPath).then(() => {
+      var nextHex = grid.updateSelection(data.currUnit);
+      if (grid.isPlayerArmy(data.currUnit.id)){
+        hlLayer.highlightNode(nextHex);
+        hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
+      }
+      unitLayer.refresh();
+    });
+  });
 
   function addNode(hex) {
     var node = createTerrainVisual(hex, center, images);
@@ -38,82 +62,40 @@ function setupStage(grid, animator, images){
     node.on('click', () => {
       hlLayer.highlightNode(null);
       effectLayer.drawPath([]);
-      hlLayer.highlightRange([], grid.getSelectedHexState());
-      var unit;
-      var selHex = grid.getSelectedHex();
-      if (selHex){
-        unit = grid.getUnitAt(selHex.x, selHex.y);
-      }
-      if (unit){
-        var path = grid.getPathFromSelectedHex(hex);
-        var animPromise = animator.getAnimation(unit.id, path);
-        var selectPromise = grid.hexSelected(hex);
-
-        Promise.all([selectPromise, animPromise]).then(result => {
-          var h = result[0];
-          hlLayer.highlightNode(h);
-          effectLayer.drawPath(grid.getPathFromSelectedHex(h));
-          hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
-          unitLayer.refresh(grid.getUnits());
-        });
-      }
+      hlLayer.highlightRange([], grid.getSelectedHexState());      
+      grid.hexSelected(hex);
     });
 
     node.on('mouseenter', () => {
       if (animator.isAnimating()){
         return;
       }
-      var state = grid.getSelectedHexState();
-      hlLayer.highlightNode(hex);
-      effectLayer.drawPath(grid.getPathFromSelectedHex(hex));
-      hlLayer.highlightRange(grid.getSelectedHexRange(), state);
       var aUnit = null;
       var selHex = grid.getSelectedHex();
       if (selHex){
         aUnit = grid.getUnitAt(selHex.x, selHex.y);
       }
       var tUnit = grid.getUnitAt(hex.x, hex.y);
+      var state = grid.getSelectedHexState();
+      
+      if (grid.isPlayerArmy(aUnit.id)){
+        hlLayer.highlightNode(hex);
+        effectLayer.drawPath(grid.getPathBetween(grid.getSelectedHex(), hex));
+        hlLayer.highlightRange(grid.getSelectedHexRange(), state);
+      }
 
       if (state == 'moving' || state == 'turning'){
         if (aUnit && tUnit){
-          var mousePos = stage.getPointerPosition();
-          var texts = [
-            `Endurance: ${tUnit.endurance} / ${tUnit.lifetime.endurance}`,
-            `Mobility: ${tUnit.mobility} / ${tUnit.lifetime.mobility}`,
-            `Agility: ${tUnit.agility} / ${tUnit.lifetime.agility}`,
-            `Damage: ${tUnit.damage}`,
-            `Armor: ${tUnit.armor}`,
-            `Range: ${tUnit.range}`,
-          ];
-          tooltip.show(texts, mousePos, texts.length);
-          tooltipLayer.batchDraw();
+          tooltipLayer.updateTooltipWithUnitStats(tUnit);
         }
         else if (!tUnit){
-          var mousePos = stage.getPointerPosition();
           var cost = grid.getSelectedHexMoveCost(hex.x, hex.y);  
-          if (cost <= aUnit.mobility){
-            var texts = [
-              `Moves: ${cost} / ${aUnit.mobility}`,
-              `Charge: ${cost}`
-            ];
-            if (aUnit.agility && cost == aUnit.mobility){
-              texts.push(`Agility: -${aUnit.agility}`);
-            }
-            tooltip.show(texts, mousePos, texts.length);
-            tooltipLayer.batchDraw();
-          }
+          tooltipLayer.updateTooltipWithMoveStats(aUnit, cost);
         }
       }
       else if (state == 'attacking'){        
         if (aUnit && tUnit){
-          var dmg = Damage().getChargeDamage(aUnit, tUnit);
-          var mousePos = stage.getPointerPosition();
-          var texts = [
-            `Endurance: ${tUnit.endurance}`,
-            `-${dmg} damage`
-          ];
-          tooltip.show(texts, mousePos, texts.length);
-          tooltipLayer.batchDraw();
+          tooltipLayer.updateTooltipWithAttackStats(aUnit, tUnit);
         }
       }
     });
@@ -123,8 +105,7 @@ function setupStage(grid, animator, images){
         return;
       }
       hlLayer.highlightNode(null);
-      tooltip.hide();
-      tooltipLayer.draw();
+      tooltipLayer.hideTooltip();
     });
 
     return {
@@ -139,13 +120,14 @@ function setupStage(grid, animator, images){
   stage.add(hlLayer);
   stage.add(effectLayer);
   stage.add(unitLayer.node);
-  stage.add(tooltipLayer);
+  stage.add(tooltipLayer.node);
+  stage.add(waitLayer);
 
   grid.hexSelected();
-
-  /*return {
-    onUpdate = function(data){
-
-    }
-  }*/
+  var selHex = grid.getSelectedHex();
+  var unit = grid.getUnitAt(selHex.x, selHex.y);
+  if (grid.isPlayerArmy(unit.id)){
+    hlLayer.highlightNode(selHex);
+    hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
+  }
 }

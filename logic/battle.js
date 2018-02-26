@@ -87,6 +87,7 @@ var battleLogic = {
             delete battle.armies['1'];
         }
         battle.id = battleId ? battleId : crypto.randomBytes(8).toString("hex");
+        battle.selfArmy = playerId;
         return battle;
     },
     join: (battle, playerId) =>{

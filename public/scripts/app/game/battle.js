@@ -1,6 +1,8 @@
 var Game = Game || {};
 
-Game.Battle = function () {
+Game.Battle = function (eventBus) {
+	this.eventBus = eventBus;
+	this.eventBus.on('update', d => this.onUpdate(d));
 };
 
 Game.Battle.prototype.getSceneSize = function(){
@@ -25,12 +27,16 @@ Game.Battle.prototype.load = function(){
 
 Game.Battle.prototype.loadData = function(data){
 	var armies = Object.keys(data.armies).map(key => data.armies[key]);
+	sessionStorage.setItem('battleid', data.id);
 	this.id = data.id;
-	this.firstArmy = new Game.Army(armies[0], data.unitTypes);
-	this.secondArmy = new Game.Army(armies[1], data.unitTypes);
+	this.selfArmy = data.selfArmy;
 	this.terrain = data.terrain;
 	this.unitQueue = data.turns[data.turns.length - 1].readyUnits;
-	sessionStorage.setItem('battleid', data.id);
+	this.firstArmy = new Game.Army(armies[0], data.unitTypes);
+	if (armies.length == 2){
+		this.secondArmy = new Game.Army(armies[1], data.unitTypes);	
+		setTimeout(() => this.eventBus.publish('battlestarted'), 0);
+	}
 };
 
 Game.Battle.prototype.getTerrain = function() {
@@ -38,6 +44,9 @@ Game.Battle.prototype.getTerrain = function() {
 };
 
 Game.Battle.prototype.getUnits = function() {
+	if (!this.secondArmy){
+		return this.firstArmy.getArmy();
+	}
 	return this.firstArmy.getArmy().concat(this.secondArmy.getArmy());
 };
 
@@ -57,34 +66,42 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 	: this.firstArmy;
 };
 
-Game.Battle.prototype.onUpdate = function(army, data){
-	this.unitQueue = data.unitQueue;
-	army.restoreUnit(data.currUnit);
-	if (data.targetUnit){
-		var targetArmy = this.getArmy(data.targetUnit.id);
-		targetArmy.restoreUnit(data.targetUnit);
+Game.Battle.prototype.onUpdate = function(data){
+	if (this.isDefeatedArmy(data.currUnit.id)){
+		alert('DEFEAT');
 	}
-	var nextUnitArmy = this.getArmy(data.nextUnit.id);
-	nextUnitArmy.restoreUnit(data.nextUnit);
-	return data.currUnit;
+	if (this.isWinningArmy(data.currUnit.id)){
+		alert('VICTORY');
+	}
+	else { 
+		this.eventBus.publish('unitdelta', {
+			source: this.nextUnit().pos,
+			target: data.currUnit.pos
+		});
+
+		this.unitQueue = data.unitQueue;
+		var army = this.getArmy(data.currUnit.id);
+		army.restoreUnit(data.currUnit);
+		if (data.targetUnit){
+			var targetArmy = this.getArmy(data.targetUnit.id);
+			targetArmy.restoreUnit(data.targetUnit);
+		}
+		var nextUnitArmy = this.getArmy(data.nextUnit.id);
+		nextUnitArmy.restoreUnit(data.nextUnit);
+		this.eventBus.publish('battleupdated', data);
+	}
 };
 
-Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {
-	var army = this.getArmy(unit.id);
-
-	return requestMove(this.id, unit.id, x, y).then(data => this.onUpdate(army, data));
+Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {	
+	requestMove(this.eventBus, this.id, unit.id, x, y);
 };
 
 Game.Battle.prototype.unitTurning = function(unit, x, y) {
-	var army = this.getArmy(unit.id);
-
-	return requestTurn(this.id, unit.id, x, y).then(data => this.onUpdate(army, data));
+	requestTurn(this.eventBus, this.id, unit.id, x, y);
 };
 
 Game.Battle.prototype.unitAttacking = function(unit, x, y) {
-	var army = this.getArmy(unit.id);
-
-	return requestAttack(this.id, unit.id, x, y).then(data => this.onUpdate(army, data));
+	requestAttack(this.eventBus, this.id, unit.id, x, y);
 };
 
 Game.Battle.prototype.getUnitState = function(unit) {
@@ -119,4 +136,14 @@ Game.Battle.prototype.isDefeatedArmy = function(unitId) {
 	var army = this.getArmy(unitId);
 	var stillAlive = army.units.some(u => u.endurance > 0);
 	return !stillAlive;
+}
+
+Game.Battle.prototype.isPlayerArmy = function(unitId, exactMatch) {
+	if (exactMatch){
+		return this.selfArmy === this.getArmy(unitId).playerId;
+	}
+
+	return this.selfArmy === this.getArmy(unitId).playerId
+		|| '_' + this.selfArmy === this.getArmy(unitId).playerId
+		|| this.selfArmy === '_' + this.getArmy(unitId).playerId;
 }

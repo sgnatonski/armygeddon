@@ -25,29 +25,71 @@ module.exports = function webSocketSetup(server, cookieParser, app){
             userid: user.id
         };
 
-        fs.exists(`battle_${ws.battle.id}`).then(exists => {
-            if (exists){
-                fs.get(`battle_${ws.battle.id}`).then(data => {
-                    var battle = battleLogic.join(battle, ws.battle.userid2);
-        
-                    fs.store(`battle_${battle.id}`, battle)
-                        .then(result => ws.send(JSON.stringify({
+        ws.on('error', err => {
+            console.log("error!: " + err);
+        });
+
+        ws.on('message', function incoming(command) {
+            var cmd = JSON.parse(command);
+
+            fs.get(`battle_${ws.battle.id}`).then(data => {
+                var result = null;
+                if (cmd.cmd == 'move'){
+                    result = battleLogic.processMove(data, ws.battle.userid, cmd.uid, cmd.x, cmd.y);
+                }
+                else if (cmd.cmd == 'turn'){
+                    result = battleLogic.processTurn(data, ws.battle.userid, cmd.uid, cmd.x, cmd.y);
+                }
+                else if (cmd.cmd == 'attack'){
+                    result = battleLogic.processAttack(data, ws.battle.userid, cmd.uid, cmd.x, cmd.y);
+                }
+                if (result && result.success){
+                    fs.store(`battle_${ws.battle.id}`, result.battle).then(res => {
+                        wss.clients.forEach(function each(client) {
+                            if (client.readyState === WebSocket.OPEN && Object.keys(result.battle.armies).some(uid => client.battle.userid == uid)) {
+                                client.send(JSON.stringify({
+                                    msg: 'upd',
+                                    data: {
+                                        currUnit: result.unit, 
+                                        nextUnit: result.nextUnit,
+                                        targetUnit: result.targetUnit,
+                                        unitQueue: result.unitQueue
+                                    }
+                                }));
+                            }
+                        });
+                    });
+                }
+            });
+        });
+
+        fs.get(`battle_${ws.battle.id}`).then(data => {
+            function sendBattle(battle){
+                if (battle.armies['1'] || battle.armies['2']){
+                    delete battle.armies['1'];
+                    delete battle.armies['2'];
+                }
+
+                wss.clients.forEach(function each(client) {
+                    if (client.readyState === WebSocket.OPEN && Object.keys(battle.armies).some(uid => client.battle.userid == uid)) {
+                        battle.selfArmy = client.battle.userid;
+
+                        client.send(JSON.stringify({
                             msg: 'data',
-                            data: data
-                        })));
+                            data: battle
+                        }));
+                    }
                 });
+            }
+
+            if (data.armies[ws.battle.userid]){
+                sendBattle(data);
             }
             else{
-                fs.get('init.battle').then(data => {
-                    var battle = battleLogic.init(data, ws.battle.userid, ws.battle.id);
-        
-                    fs.store(`battle_${battle.id}`, battle)
-                        .then(result => ws.send(JSON.stringify({
-                            msg: 'data',
-                            data: data
-                        })));
-                });
-            }
+                var battle = battleLogic.join(data, ws.battle.userid);
+
+                fs.store(`battle_${battle.id}`, battle).then(result => sendBattle(data));
+            }            
         });
     });
 }

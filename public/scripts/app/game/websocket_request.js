@@ -1,35 +1,51 @@
 var ws = null;
-function initWebSocket(websocket){
-    ws = websocket;
+function initWebSocket(eventBus, onInitCallback){
+    var battleId = sessionStorage.getItem('battleid');
+    if (!battleId || battleId == 'null'){
+        return Game.fetch().post('/battle/start').then(data => {
+            openWebSocket(data);
+        });
+    }
+    else{
+        openWebSocket(battleId); 
+    }
+    
+    function openWebSocket(battleId){
+        ws = new WebSocket(`ws://${window.location.host}?bid=${battleId}`);
+        ws.onmessage = function (event) {
+            var data = JSON.parse(event.data);
+            if (data.msg == 'data'){
+                onInitCallback(data.data);
+            }
+            else if (data.msg == 'upd'){
+                eventBus.publish('update', data.data);
+            }
+        };
+        window.addEventListener('beforeunload', function () { ws.close(); });
+    }
 }
 
-function requestMove(uid, x, y){
-    return new Promise((resolve, reject) => {
-        ws.send({
-            cmd: 'move',
-            uid: uid,
-            x: x,
-            y: y
-        });
-    });
+function requestMove(eventBus, bid, uid, x, y){
+    ws.send(JSON.stringify({
+        cmd: 'move',
+        uid: uid,
+        x: x,
+        y: y
+    }));
 }
-function requestTurn(url, bid, uid, x, y){
-    return new Promise((resolve, reject) => {
-        ws.send({
-            cmd: 'turn',
-            uid: uid,
-            x: x,
-            y: y
-        });
-    });
+function requestTurn(eventBus, bid, uid, x, y){
+    ws.send(JSON.stringify({
+        cmd: 'turn',
+        uid: uid,
+        x: x,
+        y: y
+    }));
 }
-function requestAttack(url, bid, uid, x, y){
-    return new Promise((resolve, reject) => {
-        ws.send({
-            cmd: 'attack',
-            uid: uid,
-            x: x,
-            y: y
-        });
-    });
+function requestAttack(eventBus, bid, uid, x, y){
+    ws.send(JSON.stringify({
+        cmd: 'attack',
+        uid: uid,
+        x: x,
+        y: y
+    }));
 }
