@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 var url = require('url');
 var jwt = require('jsonwebtoken');
-var fs = require('./storage/file_storage');
+var fs = require('./storage/arango_storage').battles;
 var battleLogic = require('./logic/battle');
 
 module.exports = function webSocketSetup(server, cookieParser, app){
@@ -32,7 +32,7 @@ module.exports = function webSocketSetup(server, cookieParser, app){
         ws.on('message', function incoming(command) {
             var cmd = JSON.parse(command);
 
-            fs.get(`battle_${ws.battle.id}`).then(data => {
+            fs.get(ws.battle.id).then(data => {
                 var result = null;
                 if (cmd.cmd == 'move'){
                     result = battleLogic.processMove(data, ws.battle.userid, cmd.uid, cmd.x, cmd.y);
@@ -44,7 +44,7 @@ module.exports = function webSocketSetup(server, cookieParser, app){
                     result = battleLogic.processAttack(data, ws.battle.userid, cmd.uid, cmd.x, cmd.y);
                 }
                 if (result && result.success){
-                    fs.store(`battle_${ws.battle.id}`, result.battle).then(res => {
+                    fs.store(result.battle).then(res => {
                         wss.clients.forEach(function each(client) {
                             if (client.readyState === WebSocket.OPEN && Object.keys(result.battle.armies).some(uid => client.battle.userid == uid)) {
                                 client.send(JSON.stringify({
@@ -63,7 +63,7 @@ module.exports = function webSocketSetup(server, cookieParser, app){
             });
         });
 
-        fs.get(`battle_${ws.battle.id}`).then(data => {
+        fs.get(ws.battle.id).then(data => {
             function sendBattle(battle){
                 if (battle.armies['1'] || battle.armies['2']){
                     delete battle.armies['1'];
@@ -88,7 +88,7 @@ module.exports = function webSocketSetup(server, cookieParser, app){
             else{
                 var battle = battleLogic.join(data, ws.battle.userid);
 
-                fs.store(`battle_${battle.id}`, battle).then(result => sendBattle(data));
+                fs.store(battle).then(result => sendBattle(data));
             }            
         });
     });

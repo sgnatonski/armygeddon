@@ -2,13 +2,7 @@ var express = require('express');
 var crypto = require("crypto");
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
-var fs = require('../storage/file_storage');
-
-fs.exists('users').then(exist => {
-  if (!exist){
-    fs.store('users', []);
-  }
-});  
+var users = require('../storage/arango_storage').users;
 
 var router = express.Router();
 
@@ -17,8 +11,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  fs.get('users').then(users => {
-    var user = users.find(u => u.name == req.body.name);
+  users.getBy('name', req.body.name).then(user => {
     if (!user || !bcrypt.compareSync(req.body.password, user.pwdHash)){
       var err = new Error('User not found');
       err.status = 401;
@@ -26,7 +19,7 @@ router.post('/', function(req, res, next) {
       return;
     }
     
-    var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
+    var token = jwt.sign({ id: user._key }, req.app.get('TOKEN_SECRET'), {
       expiresIn: 86400000 // expires in 24 hours
     });
 
@@ -43,13 +36,12 @@ router.post('/register', function(req, res, next) {
   var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
   var user = {
-    id: crypto.randomBytes(8).toString("hex"),
+    _key: crypto.randomBytes(8).toString("hex"),
     name: req.body.name,
     pwdHash: hashedPassword
   };
 
-  fs.get('users').then(users => {
-    var existing = users.find(u => u.name == user.name);
+  users.getBy('name', user.name).then(existing => {
     if (existing){
       var err = new Error('User name conflict');
       err.status = 400;
@@ -57,10 +49,8 @@ router.post('/register', function(req, res, next) {
       return;
     }
 
-    users.push(user);
-
-    fs.store('users', users).then(() => {
-      var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
+    users.store(user).then(() => {
+      var token = jwt.sign({ id: user._key }, req.app.get('TOKEN_SECRET'), {
         expiresIn: 86400000 // expires in 24 hours
       });
   

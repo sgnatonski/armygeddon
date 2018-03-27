@@ -1,20 +1,21 @@
 var express = require('express');
 var router = express.Router();
-var fs = require('../storage/file_storage');
+var storage = require('../storage/arango_storage');
 var battleLogic = require('../logic/battle');
 
 router.post('/join/:battleid?', function(req, res, next) {
-    fs.exists(`battle_${req.params.battleid}`).then(exists => {
+    storage.battles.exists(req.params.battleid).then(exists => {
         if (exists){
-            fs.get(`battle_${req.params.battleid}`)
+            storage.battles.get(req.params.battleid)
                 .then(data => res.json(data));
         }
         else{
-            fs.get('init.battle').then(data => {
+            storage.battleTemplates.get('battle').then(data => {
                 var battle = battleLogic.init(data, req.user.id, req.params.battleid);
                 battleLogic.join(battle, '_' + req.user.id);
     
-                fs.store(`battle_${battle.id}`, battle)
+                battle._key = battle.id;
+                storage.battles.store(battle)
                     .then(result => res.json(data));
             });
         }
@@ -22,7 +23,7 @@ router.post('/join/:battleid?', function(req, res, next) {
 });
 
 router.post('/:battleid/:uid/move/:x/:y', function(req, res, next) {
-    fs.get(`battle_${req.params.battleid}`).then(data => {
+    storage.battles.get(req.params.battleid).then(data => {
         var result = battleLogic.processMove(
             data, 
             [req.user.id, '_' + req.user.id],
@@ -31,7 +32,7 @@ router.post('/:battleid/:uid/move/:x/:y', function(req, res, next) {
             parseInt(req.params.y)
         );
         if (result.success){
-            fs.store(`battle_${result.battle.id}`, result.battle).then(data => {
+            storage.battles.store(result.battle).then(data => {
                 res.json({
                     currUnit: result.unit, 
                     nextUnit: result.nextUnit,
@@ -47,7 +48,7 @@ router.post('/:battleid/:uid/move/:x/:y', function(req, res, next) {
 });
 
 router.post('/:battleid/:uid/turn/:x/:y', function(req, res, next) {
-    fs.get(`battle_${req.params.battleid}`).then(data => {     
+    storage.battles.get(req.params.battleid).then(data => {     
         var result = battleLogic.processTurn(
             data, 
             [req.user.id, '_' + req.user.id],
@@ -56,7 +57,7 @@ router.post('/:battleid/:uid/turn/:x/:y', function(req, res, next) {
             parseInt(req.params.y)
         );
         if (result.success){
-            fs.store(`battle_${result.battle.id}`, result.battle).then(data => {
+            storage.battles.store(result.battle).then(data => {
                 res.json({
                     currUnit: result.unit, 
                     nextUnit: result.nextUnit,
@@ -72,7 +73,7 @@ router.post('/:battleid/:uid/turn/:x/:y', function(req, res, next) {
 });
 
 router.post('/:battleid/:uid/attack/:x/:y', function(req, res, next) {
-    fs.get(`battle_${req.params.battleid}`).then(data => {
+    storage.battles.get(req.params.battleid).then(data => {
         var result = battleLogic.processAttack(
             data, 
             [req.user.id, '_' + req.user.id],
@@ -81,7 +82,7 @@ router.post('/:battleid/:uid/attack/:x/:y', function(req, res, next) {
             parseInt(req.params.y)
         );
         if (result.success){
-            fs.store(`battle_${result.battle.id}`, result.battle).then(data => {
+            storage.battles.store(result.battle).then(data => {
                 res.json({
                     currUnit: result.unit, 
                     nextUnit: result.nextUnit,

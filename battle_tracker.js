@@ -2,7 +2,7 @@ var fs = require('fs');
 
 var openBattles = new Set();
 
-function syncBattleState(filename){
+/*function syncBattleState(filename){
     fs.readFile(`./data/${filename}`, function (err, file) {
         var data = JSON.parse(file);
         var pids = Object.keys(data.armies).map(p => p.replace(/^_+|_+$/g, ''));
@@ -14,7 +14,6 @@ function syncBattleState(filename){
         }
     });
 }
-
 
 try {    
     process.chdir(__dirname);
@@ -39,7 +38,7 @@ try {
             syncBattleState(filename);
         }
     });
-} catch (error) { }
+} catch (error) { }*/
 
 module.exports = {
     getOpen: () =>{

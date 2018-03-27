@@ -1,8 +1,8 @@
 var fs = require('fs');
 
-function get(name) {
+function get(col, name) {
     return new Promise((resolve, reject) => {
-      fs.readFile(`./data/${name}.json`, 'utf8', function (err, data) {
+      fs.readFile(`./data/${col}${name}.json`, 'utf8', function (err, data) {
         if (err) {
           reject(err);
           return;
@@ -12,9 +12,9 @@ function get(name) {
     });  
 }
   
-function store(name, data) {
+function store(col, name, data) {
     return new Promise((resolve, reject) => {
-      fs.writeFile(`./data/${name}.json`, JSON.stringify(data), function(err) {
+      fs.writeFile(`./data/${col}${name}.json`, JSON.stringify(data), function(err) {
         if (err) {
           reject(err);
           return;
@@ -24,16 +24,24 @@ function store(name, data) {
     });  
 }
 
-function exists(name) {
+function exists(col, name) {
   return new Promise((resolve, reject) => {
-    fs.exists(`./data/${name}.json`, function (exists) {
+    fs.exists(`./data/${col}${name}.json`, function (exists) {
       resolve(exists);
     });
   });  
 }
 
+var interface = (colName) => {
+  return {
+      get: get.bind(null, colName), 
+      store: store.bind(null, colName),
+      exists: exists.bind(null, colName)
+  }
+};
+
 module.exports = {
-    get, 
-    store,
-    exists
+    battleTemplates: interface("init.battle"),
+    battles: interface("battle_"),
+    users: interface("user")
 };
