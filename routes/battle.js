@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var fs = require('../storage/file_storage');
+var storage = require('../storage/arango/arango_storage');
 var battleLogic = require('../logic/battle');
 
 router.get('/', function(req, res, next) {
@@ -8,11 +8,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/start', async function(req, res, next) {
-    var data = await fs.get('init.battle');
+    var data = await storage.battleTemplates.get('battle.small_lakes_1');
     var ut = await storage.battleTemplates.get('unittypes');
-    var army = await storage.armies.getby('playerId', req.user.id);
+    var army = await storage.armies.getBy('playerId', req.user.id);
     var battle = battleLogic.init(data, req.user.id, undefined, ut, army);        
-    await fs.store(`battle_${battle.id}`, battle)
+    battle._key = battle.id;
+    await storage.battles.store(battle)
     res.json(battle.id);
 });
 

@@ -116,6 +116,12 @@ var battleLogic = {
         battle.id = battleId ? battleId : crypto.randomBytes(8).toString("hex");
         battle.selfArmy = playerId;
         battle.unitTypes = unitTypes;
+
+        battle.turns = [{
+            readyUnits: [],
+            movedUnits: [],
+            moves: []
+        }];
         
         return battle;
     },

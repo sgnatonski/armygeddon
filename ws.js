@@ -1,7 +1,8 @@
 const WebSocket = require('ws');
 var url = require('url');
 var jwt = require('jsonwebtoken');
-var fs = require('./storage/arango/arango_storage').battles;
+var storage = require('./storage/arango/arango_storage');
+var fs = storage.battles;
 var battleLogic = require('./logic/battle');
 
 var tokenSecret = process.env.TOKEN_SECRET;
@@ -84,14 +85,17 @@ module.exports = function webSocketSetup(server, cookieParser){
                 });
             }
 
-            if (data.armies[ws.battle.userid]){
-                sendBattle(data);
-            }
-            else{
-                var battle = battleLogic.join(data, ws.battle.userid);
-
-                fs.store(battle).then(result => sendBattle(data));
-            }            
+            if (data){
+                if (data.armies[ws.battle.userid]){
+                    sendBattle(data);
+                }
+                else{
+                    storage.armies.getBy('playerId', ws.battle.userid).then(army =>{
+                        var battle = battleLogic.join(data, ws.battle.userid, army);
+                        fs.store(battle).then(result => sendBattle(data));
+                    });
+                }   
+            }      
         });
     });
 }
