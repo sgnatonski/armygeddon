@@ -1,8 +1,23 @@
 body {
   padding: 0px;
   margin: 0px;
+  background-image: url(../images/handpainted_wall2.jpg);
+  background-size: 256px 256px;
+}
+
+#container {
+  background-color: white;
 }
 
 a {
   color: #00B7FF;
+}
+
+.bordered-box {
+  border: 10px solid green;
+  border-image: repeating-linear-gradient( 45deg, green, green 1%, lightgreen 1%, lightgreen 8%) 20;
+  background-color: #544554;
+  margin: 1em;
+  color: antiquewhite;
+  padding: 10px;
 }
