@@ -60,5 +60,6 @@ var interface = (colName) => {
 module.exports = {
     battleTemplates: interface("inits"),
     battles: interface("battles"),
-    users: interface("users")
+    users: interface("users"),
+    armies: interface("armies")
 };

@@ -27,8 +27,9 @@ async function createInitData(db) {
             i._key = 'battle';
             await inits.save(i);
         }
-        throw err;
-    }    
+        else throw err;
+    }   
+
     try {    
         await inits.document('unittypes');
     }
@@ -86,7 +87,25 @@ async function createInitData(db) {
                 }
               });
         }
-        throw err;
+        else throw err;
+    }
+
+    try {    
+        await inits.document('army.default');
+    }
+    catch(err) {
+        if (err.code == 404){
+            await inits.save({
+                _key: "army.default",
+                "units": [
+                    { type: 'inf' },
+                    { type: 'inf' },
+                    { type: 'arch' },
+                    { type: 'cav' }
+                ]
+            });
+        }
+        else throw err;
     }
 }
 
@@ -103,6 +122,7 @@ var db = new arangojs.Database({
     db.useDatabase(dbname);
     await ensureCollectionExists(db, 'battles');
     await ensureCollectionExists(db, 'users');
+    await ensureCollectionExists(db, 'armies');
     await ensureCollectionExists(db, 'inits');
     await createInitData(db);
 })();

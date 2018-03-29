@@ -10,7 +10,8 @@ router.get('/', function(req, res, next) {
 router.post('/start', async function(req, res, next) {
     var data = await fs.get('init.battle');
     var ut = await storage.battleTemplates.get('unittypes');
-    var battle = battleLogic.init(data, req.user.id, undefined, ut);        
+    var army = await storage.armies.getby('playerId', req.user.id);
+    var battle = battleLogic.init(data, req.user.id, undefined, ut, army);        
     await fs.store(`battle_${battle.id}`, battle)
     res.json(battle.id);
 });

@@ -2,7 +2,8 @@ var express = require('express');
 var crypto = require("crypto");
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
-var users = require('../storage/arango/arango_storage').users;
+var storage = require('../storage/arango/arango_storage');
+var users = storage.users;
 
 var router = express.Router();
 
@@ -40,7 +41,7 @@ router.post('/register', async function(req, res, next) {
     pwdHash: hashedPassword
   };
 
-  var existing = users.getBy('name', user.name);
+  var existing = await users.getBy('name', user.name);
   if (existing){
     var err = new Error('User name conflict');
     err.status = 400;
@@ -48,7 +49,18 @@ router.post('/register', async function(req, res, next) {
     return;
   }
 
-  await users.store(user)
+  await users.store(user);
+
+  var army = await storage.battleTemplates.get('army.default');
+  delete army._key;
+  delete army._id;
+  delete army._rev;
+
+  army.playerId = user._key;
+  army.units = army.units.map(u => Object.assign({id: crypto.randomBytes(8).toString("hex")}, u));
+
+  await storage.armies.store(army);
+
   var token = jwt.sign({ id: user._key }, req.app.get('TOKEN_SECRET'), {
     expiresIn: 86400000 // expires in 24 hours
   });

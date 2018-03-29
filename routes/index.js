@@ -4,8 +4,8 @@ var battleTracker = require('../battle_tracker');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var open = battleTracker.getOpen().map(id => { return { name: id } });
-  res.render('index', { title: 'Start', battles: open } );
+  //var open = battleTracker.getOpen().map(id => { return { name: id } });
+  res.render('index', { title: 'Start', battles: [] } );
 });
 
 router.get('/single', function(req, res, next) {

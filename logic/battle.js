@@ -69,34 +69,87 @@ function finalizeAction(battle, turn, unit, targetUnit){
     };
 }
 
+function groupBy(list, keyGetter) {
+    const map = new Map();
+    list.forEach((item) => {
+        const key = keyGetter(item);
+        const collection = map.get(key);
+        if (!collection) {
+            map.set(key, [item]);
+        } else {
+            collection.push(item);
+        }
+    });
+    return map;
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 var battleLogic = {
-    init: (battle, playerId, battleId, unitTypes) => {
+    init: (battle, playerId, battleId, unitTypes, army) => {
+        const grouped = Array.from(groupBy(battle.terrain, t => t.y));
+        var ls = grouped.map(function(key) {
+            var value = key[1].sort((a, b) => a.x > b.x);
+            var half_length = Math.ceil(value.length / 4);
+            var leftSide = value.splice(0, half_length);
+            return leftSide;
+        }).reduce((a, b) => a.concat(b));
+
+        shuffleArray(ls);
+
+        battle.armies = {};
+        battle.armies[playerId] = {};
+
+        battle.armies[playerId].units = army.units.map((u, i) => Object.assign({
+            pos: { x: ls[i].x, y: ls[i].y },
+            directions: [1] 
+        }, u)).reduce(function(acc, cur) {
+            acc[cur.id] = cur;
+            return acc;
+        }, {});
+        battle.armies[playerId].id = playerId;
+        battle.id = battleId ? battleId : crypto.randomBytes(8).toString("hex");
+        battle.selfArmy = playerId;
+        battle.unitTypes = unitTypes;
+        
+        return battle;
+    },
+    join: (battle, playerId, army) =>{
+        const grouped = Array.from(groupBy(battle.terrain, t => t.y));
+        var ls = grouped.map(function(key) {
+            var value = key[1].sort((a, b) => a.x < b.x);
+            var half_length = Math.ceil(value.length / 4);
+            var rightSide = value.splice(0, half_length);
+            return rightSide;
+        }).reduce((a, b) => a.concat(b));
+
+        shuffleArray(ls);
+
+        battle.armies[playerId] = {};
+        battle.armies[playerId].units = army.units.map((u, i) => Object.assign({
+            pos: { x: ls[i].x, y: ls[i].y },
+            directions: [4] 
+        }, u)).reduce(function(acc, cur) {
+            acc[cur.id] = cur;
+            return acc;
+        }, {});
+        battle.armies[playerId].id = playerId;
         allUnits = bh.getAllUnits(battle);
         allUnits.forEach(u => {
             u = uh.restore.firstTurn(u, battle.unitTypes[u.type])
         });
         var sortedUnits = allUnits.sort((a, b) => a.speed < b.speed).map(x => x.id);
-        battle.turns.push({
+        battle.turns = [{
             readyUnits: sortedUnits,
             movedUnits: [],
             moves: []
-        });
-        if (battle.armies['1']){
-            battle.armies[playerId] = battle.armies['1'];
-            battle.armies[playerId].id = playerId;
-            delete battle.armies['1'];
-        }
-        battle.id = battleId ? battleId : crypto.randomBytes(8).toString("hex");
-        battle.selfArmy = playerId;
-        battle.unitTypes = unitTypes
-        return battle;
-    },
-    join: (battle, playerId) =>{
-        if (battle.armies['2']){
-            battle.armies[playerId] = battle.armies['2'];
-            battle.armies[playerId].id = playerId;
-            delete battle.armies['2'];
-        }
+        }];   
+        
         return battle;
     },
     processMove: (battle, playerId, unitId, x, y) => {        
