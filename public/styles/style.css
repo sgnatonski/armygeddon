@@ -1,12 +1,45 @@
+@font-face {
+  font-family: 'SquareCaps';
+  src: url('../fonts/SquareCaps.ttf') format('truetype');
+}  
+
 body {
   padding: 0px;
-  margin: 0px;
-  background-image: url(../images/handpainted_wall2.jpg);
-  background-size: 256px 256px;
+  margin: 0px;  
 }
 
-#container {
-  background-color: white;
+body > div:not(#container):before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+
+  display: block;
+  background-image: url(../images/handpainted_wall2.jpg);
+  background-size: 256px 256px;
+  width: 100%;
+  height: 100%;
+}
+
+body > div#container:before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+
+  display: block;
+  background-image: url(../images/handpainted_wall2.jpg);
+  background-size: 256px 256px;
+  width: 100%;
+  height: 100%;
+
+  -webkit-filter: blur(6px);
+  -moz-filter: blur(6px);
+  -o-filter: blur(6px);
+  -ms-filter: blur(6px);
+  filter: blur(6px);
 }
 
 a {
@@ -14,10 +47,34 @@ a {
 }
 
 .bordered-box {
-  border: 10px solid green;
-  border-image: repeating-linear-gradient( 45deg, green, green 1%, lightgreen 1%, lightgreen 8%) 20;
-  background-color: #544554;
-  margin: 1em;
-  color: antiquewhite;
-  padding: 10px;
+  border: 1px solid;
+    border-image-source: url(../images/br.svg);
+    border-image-slice: 20%;
+    border-image-width: 30px;
+    border-image-outset: 6;
+    margin: 1em;
+    padding: 0px 23px 38px;
+    min-height: 100px;
+    box-shadow: black -16px 16px 16px 0px;
+}
+.bordered-box > div {
+  width: 100%;
+  height: 100%;
+  background-color: #e6e2d2;
+  padding-top: 20px;
+}
+
+.bordered-box h2{
+  font-family: SquareCaps;
+}
+
+.bordered-box ul{
+  list-style-type: none;
+}
+
+.bordered-box ul > li:hover:before {
+  white-space: pre-wrap;
+  content: '♜';
+  margin-left: -16px;
+  line-height: 1;
 }
