@@ -75,6 +75,6 @@ a {
 .bordered-box ul > li:hover:before {
   white-space: pre-wrap;
   content: '♜';
-  margin-left: -16px;
+  margin-left: -20px;
   line-height: 1;
 }
