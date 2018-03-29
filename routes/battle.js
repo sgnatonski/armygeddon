@@ -7,13 +7,11 @@ router.get('/', function(req, res, next) {
     res.render('battle', { title: 'Battle' } );
 });
 
-router.post('/start', function(req, res, next) {
-    fs.get('init.battle').then(data => {
-        var battle = battleLogic.init(data, req.user.id);
-        
-        fs.store(`battle_${battle.id}`, battle)
-            .then(result => res.json(battle.id));
-    });
+router.post('/start', async function(req, res, next) {
+    var data = await fs.get('init.battle');
+    var battle = battleLogic.init(data, req.user.id);        
+    await fs.store(`battle_${battle.id}`, battle)
+    res.json(battle.id);
 });
 
 module.exports = router;

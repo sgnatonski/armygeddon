@@ -71,6 +71,6 @@ app.use(function(err, req, res, next) {
 
 var server = http.createServer(app);
 
-ws(server, appCookieParser, app);
+ws(server, appCookieParser);
 
 module.exports = server;

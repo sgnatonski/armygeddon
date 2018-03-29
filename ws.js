@@ -1,24 +1,26 @@
 const WebSocket = require('ws');
 var url = require('url');
 var jwt = require('jsonwebtoken');
-var fs = require('./storage/arango_storage').battles;
+var fs = require('./storage/arango/arango_storage').battles;
 var battleLogic = require('./logic/battle');
 
-module.exports = function webSocketSetup(server, cookieParser, app){
+var tokenSecret = process.env.TOKEN_SECRET;
+
+module.exports = function webSocketSetup(server, cookieParser){
     const wss = new WebSocket.Server({ 
         verifyClient: (info, done) => {
             cookieParser(info.req, {}, () => {
-                jwt.verify(info.req.cookies.a_token, app.get('TOKEN_SECRET'), function(err, decoded) {
+                jwt.verify(info.req.cookies.a_token, tokenSecret, function(err, decoded) {
                     done(!err);
                 });
-            })
+            });
         },
         server 
     });
 
     wss.on('connection', function connection(ws, req) {
         const parameters = url.parse(req.url, true);
-        var user = jwt.verify(req.cookies.a_token, app.get('TOKEN_SECRET'));
+        var user = jwt.verify(req.cookies.a_token, tokenSecret);
 
         ws.battle = {
             id: parameters.query.bid,
