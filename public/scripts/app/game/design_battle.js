@@ -15,17 +15,14 @@ Game.DesignBattle.prototype.getSceneSize = function(){
 } 
 
 Game.DesignBattle.prototype.load = function(){
-	return Game.fetch().get('/battle')
-  	.then(data => {
-        this.terrain = [];
-        var radius = 20;
-        for (var x = -radius; x <= radius; x++)
-            for (var y = -radius; y <= radius; y++)
-                for (var z = -radius; z <= radius; z++)
-                    if (x + y + z == 0)
-                        this.terrain.push( { x: x, y: y, cost: 1 });
-		this.unitQueue = [];    
-  	});
+	this.terrain = [];
+    var radius = 20;
+    for (var x = -radius; x <= radius; x++)
+        for (var y = -radius; y <= radius; y++)
+            for (var z = -radius; z <= radius; z++)
+                if (x + y + z == 0)
+                    this.terrain.push( { x: x, y: y, cost: -1 });
+    this.unitQueue = [];
 }
 
 Game.DesignBattle.prototype.getTerrain = function() {

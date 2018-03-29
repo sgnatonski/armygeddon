@@ -22,6 +22,9 @@ function createTerrainVisual(hex, center, images){
     }
     
     function getHexTerrainImage(hex, center){
+        if (hex.cost < 0){
+            return;
+        }
         var shape;
         if (hex.cost == 1){
             var gNumber = Math.floor(Math.random() * 6);
@@ -41,7 +44,9 @@ function createTerrainVisual(hex, center, images){
     
     var terrain = getHexTerrainImage(hex, center);
 
-    group.add(terrain);
+    if(terrain){
+        group.add(terrain);
+    }
     group.add(createHexVisual(hex, center));
     
     return group;

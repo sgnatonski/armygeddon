@@ -14,6 +14,46 @@ function setupStage(grid, animator, images){
     stage.height(window.innerHeight);
   });
 
+  var mode = 0;
+
+  window.addEventListener("keypress", function(event){
+    if (event.keyCode == 49) {// 1
+      event.preventDefault(); 
+      mode = 0;
+      console.log('Terrain size mode ON');
+    }
+    if (event.keyCode == 50) {// 2
+      event.preventDefault(); 
+      mode = 1;
+      console.log('Terrain type mode ON');
+    }
+    if (event.keyCode == 51) {// 3
+      event.preventDefault(); 
+      mode = 2;
+      console.log('Unit mode ON');
+    }
+  });
+  window.addEventListener("keydown", function(event){
+    if(event.ctrlKey && event.keyCode == 83) {// CTLR+S
+      event.preventDefault(); 
+
+      var name = prompt("Please enter battle template name");
+
+      var terrain = grid.getHexes().filter(h => h.cost > 0).map(h => { 
+        return { 
+          x: h.x, 
+          y: h.y, 
+          cost: h.cost
+        }
+      });
+
+      Game.fetch().post('/design/save', { 
+        name: name,
+        terrain: terrain 
+      });
+    }
+  });
+
   var terrainLayer = createTerrainLayer();
   var hlLayer = createHighlightLayer(center);
   var tooltipLayer = new Konva.Layer();
@@ -28,7 +68,15 @@ function setupStage(grid, animator, images){
     var node = createTerrainVisual(hex, center, images);
 
     node.on('click', () => {
-      hex.cost = hex.cost == 1 ? 2 : 1;
+      if (mode == 0){
+        hex.cost = hex.cost > 0 ? -1 : 1;
+      }
+      else if (mode == 1){
+        hex.cost = hex.cost == 1 ? 2 : 1;
+      }
+      else{
+        
+      }
       terrainLayer.addGridNodes(grid, addNode);
       terrainLayer.draw();
     });

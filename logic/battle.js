@@ -70,7 +70,7 @@ function finalizeAction(battle, turn, unit, targetUnit){
 }
 
 var battleLogic = {
-    init: (battle, playerId, battleId) => {
+    init: (battle, playerId, battleId, unitTypes) => {
         allUnits = bh.getAllUnits(battle);
         allUnits.forEach(u => {
             u = uh.restore.firstTurn(u, battle.unitTypes[u.type])
@@ -88,6 +88,7 @@ var battleLogic = {
         }
         battle.id = battleId ? battleId : crypto.randomBytes(8).toString("hex");
         battle.selfArmy = playerId;
+        battle.unitTypes = unitTypes
         return battle;
     },
     join: (battle, playerId) =>{

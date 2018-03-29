@@ -17,11 +17,77 @@ async function ensureCollectionExists(db, colname){
 
 async function createInitData(db) {
     var inits = db.collection('inits');
-    await inits.truncate();
-    var data = await fs.readFileSync(`./data/init.battle.json`, 'utf8');    
-    var i = JSON.parse(data);
-    i._key = 'battle';
-    await inits.save(i);
+    try {    
+        await inits.document('battle');
+    }
+    catch(err) {
+        if (err.code == 404){
+            var data = await fs.readFileSync(`./data/init.battle.json`, 'utf8');    
+            var i = JSON.parse(data);
+            i._key = 'battle';
+            await inits.save(i);
+        }
+        throw err;
+    }    
+    try {    
+        await inits.document('unittypes');
+    }
+    catch(err) {
+        if (err.code == 404){
+            await inits.save({
+                _key: "unittypes",
+                "inf": {
+                  "mobility": 2,
+                  "agility": 2,
+                  "damage": 3,
+                  "maxDirections": 3,
+                  "armor": 1,
+                  "attacks": 1,
+                  "speed": 1,
+                  "range": 1,
+                  "charge": 0,
+                  "lifetime":{
+                    "endurance": 12,
+                    "mobility": 2,
+                    "agility": 2
+                  }
+                },
+                "arch": {
+                  "mobility": 2,
+                  "agility": 0,
+                  "damage": 5,
+                  "maxDirections": 1,
+                  "armor": 0,
+                  "attacks": 1,
+                  "speed": 1,
+                  "range": 3,
+                  "charge": 0,
+                  "lifetime":{
+                    "endurance": 8,
+                    "mobility": 2,
+                    "agility": 0
+                  }
+                },
+                "cav":{
+                  "mobility": 3,
+                  "agility": 1,
+                  "damage": 3,
+                  "maxDirections": 1,
+                  "armor": 2,
+                  "attacks": 1,
+                  "speed": 3,
+                  "range": 1,
+                  "charge": 0 ,
+                  "lifetime":{
+                    "endurance": 15,
+                    "mobility": 3,
+                    "agility": 1
+                  }
+                }
+              });
+        }
+        throw err;
+    }
 }
 
 var dbname = process.env.ARANGO_DB;

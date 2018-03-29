@@ -11,7 +11,8 @@ router.post('/join/:battleid?', async function(req, res, next) {
     }
     else{
         var data = await storage.battleTemplates.get('battle');
-        var battle = battleLogic.init(data, req.user.id, req.params.battleid);
+        var ut = await storage.battleTemplates.get('unittypes');
+        var battle = battleLogic.init(data, req.user.id, req.params.battleid, ut);
         battleLogic.join(battle, '_' + req.user.id);
 
         battle._key = battle.id;

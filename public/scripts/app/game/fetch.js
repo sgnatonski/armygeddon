@@ -19,8 +19,21 @@ Game.fetch = function () {
         get: url => fetch(url, fetchOpts.get)
             .then(response => response.text())
             .then(json => JSON.parse(json)),
-        post: url => fetch(url, fetchOpts.post)
-            .then(response => response.text())
-            .then(json => JSON.parse(json))
+        post: (url, body) => {
+            var opts = body 
+            ? Object.assign({}, fetchOpts.post, { 
+                body: JSON.stringify(body),
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                }
+            })
+            : fetchOpts.post;
+            
+            return fetch(url, opts)
+                .then(response => response.text())
+                .then(json => JSON.parse(json));
+        }
+            
     };	
 };
