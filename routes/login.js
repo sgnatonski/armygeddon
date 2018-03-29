@@ -12,7 +12,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', async function(req, res, next) {
-  var user = await users.getBy('name', req.body.name);
+  var userByName = await users.getBy('name', req.body.name);
+  var userByMail = await users.getBy('mail', req.body.name);
+  var user = userByMail || userByName;
   if (!user || !await bcrypt.compare(req.body.password, user.pwdHash)){
     var err = new Error('User not found');
     err.status = 401;
@@ -33,12 +35,35 @@ router.get('/register', function(req, res, next) {
 });
 
 router.post('/register', async function(req, res, next) {
+  if (req.body.password !== req.body.confirm){
+    var err = new Error('Passwords does not match');
+    err.status = 400;
+    next(err);
+    return;
+  }
+
+  if (!req.body.name || req.body.name.length < 6){
+    var err = new Error('Username must have at least 6 characters');
+    err.status = 400;
+    next(err);
+    return;
+  }
+
+  if (!req.body.mail || req.body.mail < 6){
+    var err = new Error('Email is required');
+    err.status = 400;
+    next(err);
+    return;
+  }
+
   var hashedPassword = await bcrypt.hash(req.body.password, 8);
 
   var user = {
     _key: crypto.randomBytes(8).toString("hex"),
     name: req.body.name,
-    pwdHash: hashedPassword
+    mail: req.body.mail,
+    pwdHash: hashedPassword,
+    created: new Date().toISOString()
   };
 
   var existing = await users.getBy('name', user.name);
@@ -47,6 +72,15 @@ router.post('/register', async function(req, res, next) {
     err.status = 400;
     next(err);
     return;
+  }
+  else{
+    existing = await users.getBy('mail', user.mail);
+    if (existing){
+      var err = new Error('Email conflict');
+      err.status = 400;
+      next(err);
+      return;
+    }
   }
 
   await users.store(user);
