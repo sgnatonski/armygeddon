@@ -57,6 +57,7 @@ function finalizeAction(battle, turn, unit, targetUnit){
     if (armiesState.find(s => s.remaining == 0)){
         var winner = armiesState.find(s => s.remaining > 0);
         battle.winningArmy = winner.id;
+        battle.ended = new Date().toISOString();        
     }
 
     return {
@@ -111,7 +112,8 @@ function assignRandomFields(terrain, army, righSide){
 }
 
 var battleLogic = {
-    init: (battle, playerId, battleId, unitTypes, army) => {        
+    init: (battle, playerId, battleId, unitTypes, army) => {   
+        battle.created = new Date().toISOString();     
         battle.armies = {};
         battle.armies[playerId] = {};
         battle.armies[playerId].units = assignRandomFields(battle.terrain, army, false);
@@ -129,6 +131,7 @@ var battleLogic = {
         return battle;
     },
     join: (battle, playerId, army) =>{
+        battle.started = new Date().toISOString();     
         battle.armies[playerId] = {};
         battle.armies[playerId].units = assignRandomFields(battle.terrain, army, true);
         battle.armies[playerId].id = playerId;
