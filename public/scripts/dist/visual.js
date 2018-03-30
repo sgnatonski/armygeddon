@@ -686,10 +686,14 @@ function createWaitLayer(width, height) {
     return {
         show: function () {
             waitOverlay.show();
+            complexText.show();
+            rect.show();
             waitLayer.draw();
         },
         hide: function () {
             waitOverlay.hide();
+            complexText.hide();
+            rect.hide();
             waitLayer.draw();
         },
         node: waitLayer
