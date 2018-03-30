@@ -91,14 +91,27 @@ function assignRandomFields(terrain, army, righSide){
             [array[i], array[j]] = [array[j], array[i]];
         }
     }
+
+    function comp(a, b){
+        var mod = righSide ? 1 : -1;
+        if(a.x < b.x){
+            return 1 * mod;
+        }
+        if(a.x > b.x){
+            return -1 * mod;
+        }
+        return 0;
+    }
     
     const grouped = Array.from(groupBy(terrain, t => t.y));
     var ls = grouped.map(function(key) {
-        var value = key[1].sort((a, b) => righSide ? a.x < b.x : a.x > b.x);
+        var value = key[1];
+        value.sort(comp);
         var half_length = Math.ceil(value.length / 4);
         var side = value.splice(0, half_length);
         return side;
-    }).reduce((a, b) => a.concat(b));
+    })
+    .reduce((a, b) => a.concat(b));
 
     shuffleArray(ls);
 
