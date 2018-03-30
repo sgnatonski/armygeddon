@@ -21,7 +21,7 @@ async function fetch(){
 }
 
 function add(battleid, players){
-    openBattles.add(battleid);
+    openBattles.push({ id: battleid, players: players });
 }
 
 module.exports = {

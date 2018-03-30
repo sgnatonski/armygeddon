@@ -17,17 +17,17 @@ Game.Battle.prototype.getSceneSize = function(){
 } 
 
 Game.Battle.prototype.load = function(){
-	var battleid = sessionStorage.getItem('battleid');
+	var battleid = sessionStorage.getItem('singlebattleid');
 	var url = `/singlebattle/join/${battleid ? battleid : ''}`;
 	return Game.fetch().post(url).then(data => {
-		this.loadData(data);
+		this.loadData(data, true);
 		return Promise.resolve(this);
 	});
 }
 
-Game.Battle.prototype.loadData = function(data){
+Game.Battle.prototype.loadData = function(data, single){
 	var armies = Object.keys(data.armies).map(key => data.armies[key]);
-	sessionStorage.setItem('battleid', data.id);
+	sessionStorage.setItem(single ? 'singlebattleid' : 'battleid', data.id);
 	this.id = data.id;
 	this.selfArmy = data.selfArmy;
 	this.terrain = data.terrain;

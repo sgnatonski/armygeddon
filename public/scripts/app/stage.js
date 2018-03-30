@@ -48,7 +48,7 @@ function setupStage(grid, eventBus, images){
   eventBus.on('battleupdated', data => {
     animator.getAnimation(data.currUnit.id, animationPath).then(() => {
       var nextHex = grid.updateSelection(data.currUnit);
-      if (grid.isPlayerArmy(data.currUnit.id)){
+      if (grid.isPlayerArmy(data.nextUnit.id)){
         hlLayer.highlightNode(nextHex);
         hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
       }
@@ -125,6 +125,9 @@ function setupStage(grid, eventBus, images){
 
   grid.hexSelected();
   var selHex = grid.getSelectedHex();
+  if (!selHex){
+    return;
+  }
   var unit = grid.getUnitAt(selHex.x, selHex.y);
   if (grid.isPlayerArmy(unit.id)){
     hlLayer.highlightNode(selHex);

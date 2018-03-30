@@ -88,6 +88,7 @@ router.post('/register', async function(req, res, next) {
   var army = await storage.battleTemplates.get('army.default');
 
   army.playerId = user.id;
+  army.id = crypto.randomBytes(8).toString("hex");
   army.units = army.units.map(u => Object.assign({id: crypto.randomBytes(8).toString("hex")}, u));
 
   await storage.armies.store(army);
