@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/save', async function(req, res, next) {
   var t = {
-    _key: 'battle.' + req.body.name,
+    id: 'battle.' + req.body.name,
     terrain: req.body.terrain
   };
   await tmpl.store(t);

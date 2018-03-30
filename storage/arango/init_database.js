@@ -18,19 +18,6 @@ async function ensureCollectionExists(db, colname){
 async function createInitData(db) {
     var inits = db.collection('inits');
     try {    
-        await inits.document('battle');
-    }
-    catch(err) {
-        if (err.code == 404){
-            var data = await fs.readFileSync(`./data/init.battle.json`, 'utf8');    
-            var i = JSON.parse(data);
-            i._key = 'battle';
-            await inits.save(i);
-        }
-        else throw err;
-    }   
-
-    try {    
         await inits.document('unittypes');
     }
     catch(err) {
