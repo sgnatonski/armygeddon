@@ -22,7 +22,7 @@ router.post('/', async function(req, res, next) {
     return;
   }
   
-  var token = jwt.sign({ id: user._key }, req.app.get('TOKEN_SECRET'), {
+  var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
     expiresIn: 86400000 // expires in 24 hours
   });
 
@@ -59,7 +59,7 @@ router.post('/register', async function(req, res, next) {
   var hashedPassword = await bcrypt.hash(req.body.password, 8);
 
   var user = {
-    _key: crypto.randomBytes(8).toString("hex"),
+    id: crypto.randomBytes(8).toString("hex"),
     name: req.body.name,
     mail: req.body.mail,
     pwdHash: hashedPassword,
@@ -86,16 +86,13 @@ router.post('/register', async function(req, res, next) {
   await users.store(user);
 
   var army = await storage.battleTemplates.get('army.default');
-  delete army._key;
-  delete army._id;
-  delete army._rev;
 
-  army.playerId = user._key;
+  army.playerId = user.id;
   army.units = army.units.map(u => Object.assign({id: crypto.randomBytes(8).toString("hex")}, u));
 
   await storage.armies.store(army);
 
-  var token = jwt.sign({ id: user._key }, req.app.get('TOKEN_SECRET'), {
+  var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
     expiresIn: 86400000 // expires in 24 hours
   });
 
