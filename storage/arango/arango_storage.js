@@ -1,4 +1,13 @@
 var db = require('./init_database');
+var aql = require("arangojs").aql;
+
+function undoc(doc){
+    doc.id = doc._key;
+    delete doc._key;
+    delete doc._rev;
+    delete doc._id;
+    return doc;
+}
 
 async function get(id) {
     if (!id) {
@@ -7,7 +16,8 @@ async function get(id) {
 
     var collection = db.collection(this);
     try {    
-        return await collection.document(id);
+        var doc = await collection.document(id);
+        return undoc(doc);
     }
     catch(err) {
         if (err.code == 404){
@@ -22,7 +32,24 @@ async function getBy(prop, val) {
     var example = {};
     example[prop] = val;
     try {    
-        return await collection.firstExample(example);
+        var doc = await collection.firstExample(example);
+        return undoc(doc);
+    }
+    catch(err){
+        if (err.code == 404){
+            return null;
+        }
+        throw err;
+    }
+}
+
+async function getAllBy(prop, val) {
+    var collection = db.collection(this);
+    var example = {};
+    example[prop] = val;
+    try {    
+        var docs = await collection.byExample(example).toArray();
+        return docs.map(d => undoc(d));
     }
     catch(err){
         if (err.code == 404){
@@ -34,14 +61,15 @@ async function getBy(prop, val) {
 
 async function store(data) {
     var collection = db.collection(this);
+    data._key = data.id;
     var existing = await exists.bind(this)(data._key);
     if (existing){
         collection.update(data._key, data);        
     }
     else {
-        await collection.save(data)
+        await collection.save(data);
     }
-    return data;
+    return undoc(data);
 }
 
 async function exists(id) {
@@ -54,6 +82,7 @@ var interface = (colName) => {
         store: store.bind(colName),
         exists: exists.bind(colName),
         getBy: getBy.bind(colName),
+        getAllBy: getAllBy.bind(colName)
     }
 };
 
@@ -61,5 +90,6 @@ module.exports = {
     battleTemplates: interface("inits"),
     battles: interface("battles"),
     users: interface("users"),
-    armies: interface("armies")
+    armies: interface("armies"),
+    query: db.query.bind(db)
 };

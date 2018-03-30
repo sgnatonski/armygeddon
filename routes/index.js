@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var battleTracker = require('../battle_tracker');
+var battleTracker = require('../logic/battle_tracker');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  //var open = battleTracker.getOpen().map(id => { return { name: id } });
-  res.render('index', { title: 'Start', battles: [] } );
+router.get('/', async function(req, res, next) {
+  var open = await battleTracker.getOpen();
+  var battles = open.map(x => { return { name: x.id, players: x.players.length } });
+  res.render('index', { title: 'Start', battles: battles } );
 });
 
 router.get('/single', function(req, res, next) {

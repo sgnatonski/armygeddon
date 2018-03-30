@@ -68,11 +68,6 @@ module.exports = function webSocketSetup(server, cookieParser){
 
         fs.get(ws.battle.id).then(data => {
             function sendBattle(battle){
-                if (battle.armies['1'] || battle.armies['2']){
-                    delete battle.armies['1'];
-                    delete battle.armies['2'];
-                }
-
                 wss.clients.forEach(function each(client) {
                     if (client.readyState === WebSocket.OPEN && Object.keys(battle.armies).some(uid => client.battle.userid == uid)) {
                         battle.selfArmy = client.battle.userid;

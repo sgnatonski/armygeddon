@@ -17,8 +17,6 @@ router.post('/join/:battleid?', async function(req, res, next) {
         var army2 = await storage.armies.getBy('playerId', req.user.id);
         army2.units.forEach(x => x.id = '_' + x.id);
         battleLogic.join(battle, '_' + req.user.id, army2);
-
-        battle._key = battle.id;
         await storage.battles.store(battle);
         res.json(data);
     }
