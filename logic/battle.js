@@ -96,7 +96,7 @@ function assignRandomFields(terrain, army, righSide){
         var value = key[1].sort((a, b) => righSide ? a.x < b.x : a.x > b.x);
         var half_length = Math.ceil(value.length / 4);
         var side = value.splice(0, half_length);
-        return sSide;
+        return side;
     }).reduce((a, b) => a.concat(b));
 
     shuffleArray(ls);
