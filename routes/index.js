@@ -6,7 +6,7 @@ var battleTracker = require('../logic/battle_tracker');
 router.get('/', async function(req, res, next) {
   var open = await battleTracker.getOpen();
   var battles = open.map(x => { return { name: x.id, players: x.players.length } });
-  res.render('index', { title: 'Start', battles: battles } );
+  res.render('index', { title: 'Armygeddon', battles: battles } );
 });
 
 module.exports = router;
