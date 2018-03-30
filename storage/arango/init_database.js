@@ -1,4 +1,3 @@
-var fs = require('fs');
 var arangojs = require("arangojs");
 
 async function ensureDbExists(db, dbname){
