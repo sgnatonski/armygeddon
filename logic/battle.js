@@ -131,6 +131,9 @@ var battleLogic = {
         return battle;
     },
     join: (battle, playerId, army) =>{
+        if (battle.armies[playerId]){
+            return;
+        }
         battle.started = new Date().toISOString();     
         battle.armies[playerId] = {};
         battle.armies[playerId].units = assignRandomFields(battle.terrain, army, true);
