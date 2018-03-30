@@ -14,18 +14,23 @@ gulp.task('bundle-3rdparty', function() {
       .pipe(gulp.dest('./dist/'));
 });
 
+gulp.task('bundle-visual', function() {
+    gulp.src(
+        './public/scripts/visual/**'
+    )
+      .pipe(concat('visual.js'))
+      .pipe(gulp.dest('./dist/'));
+  });
+
 gulp.task('bundle-app', function() {
-    gulp.src([
-        './public/scripts/app/battle.js', 
-        './public/scripts/app/player.js', 
-        './public/scripts/app/army.js', 
-        './public/scripts/app/start.js'
-    ])
+    gulp.src(
+        './public/scripts/app/**'
+    )
       .pipe(concat('app.js'))
       .pipe(gulp.dest('./dist/'));
   });
      
-gulp.task('compress', ['bundle-hex', 'bundle-app', 'bundle-3rdparty'], function() {
+gulp.task('compress', ['bundle-hex', 'bundle-visual', 'bundle-app', 'bundle-3rdparty'], function() {
   gulp.src('dist/*.js')
     .pipe(minify({
         ext:{
