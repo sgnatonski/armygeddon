@@ -1,0 +1,12 @@
+{{#yield-body}}
+<div class="pure-g">
+    <div class="pure-u-1"></div>
+    <div class="pure-u-1 bordered-box">
+        <div>
+            <h2>{{message}}</h2>
+            <p>{{error.status}}</p>
+            <pre>{{error.stack}}</pre>
+        </div>
+    </div>
+</div>
+{{/yield-body}}
