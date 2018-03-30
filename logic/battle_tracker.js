@@ -15,7 +15,7 @@ async function fetch(){
         FILTER !HAS(b, "winningArmy") AND (CONCAT('_', ATTRIBUTES(b.armies)[0]) != ATTRIBUTES(b.armies)[1])
         RETURN { id: b._key, players: ATTRIBUTES(b.armies) }
     `);
-    const openBattles = await cursor.all();
+    openBattles = await cursor.all();
     lastFetch = new Date();
     return openBattles;
 }
