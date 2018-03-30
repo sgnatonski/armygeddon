@@ -1,0 +1,59 @@
+function createWaitLayer(width, height) {
+    var waitLayer = new Konva.Layer();
+    var waitOverlay = new Konva.Rect({
+        x: 0,
+        y: 0,
+        width: width,
+        height: height,
+        fill: 'black',
+        opacity: 0.5
+    });
+    waitLayer.add(waitOverlay);
+
+    var textWidth = 300;
+
+    var complexText = new Konva.Text({
+        x: width / 2 - textWidth / 2,
+        y: 100,
+        text: 'Sir,\nYou\'re first on the battlefield.\n\nHopefully the other army will join soon.',
+        fontSize: 18,
+        fontFamily: 'Calibri',
+        fill: '#555',
+        width: textWidth,
+        padding: 20,
+        align: 'center'
+    });
+
+    var rect = new Konva.Rect({
+        x: width / 2 - textWidth / 2,
+        y: 100,
+        stroke: '#555',
+        strokeWidth: 5,
+        fill: '#ddd',
+        width: textWidth,
+        height: complexText.getHeight(),
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOffset: [10, 10],
+        shadowOpacity: 0.2
+    });
+
+    waitLayer.add(rect);
+    waitLayer.add(complexText);
+
+    return {
+        show: function () {
+            waitOverlay.show();
+            complexText.show();
+            rect.show();
+            waitLayer.draw();
+        },
+        hide: function () {
+            waitOverlay.hide();
+            complexText.hide();
+            rect.hide();
+            waitLayer.draw();
+        },
+        node: waitLayer
+    };
+}
