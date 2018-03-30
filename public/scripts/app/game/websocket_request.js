@@ -11,7 +11,7 @@ function initWebSocket(eventBus, onInitCallback){
     }
     
     function openWebSocket(battleId){
-        ws = new WebSocket(`wss://${window.location.host}?bid=${battleId}`);
+        ws = new WebSocket(`ws://${window.location.host}?bid=${battleId}`);
         ws.onmessage = function (event) {
             var data = JSON.parse(event.data);
             if (data.msg == 'data'){
