@@ -1,5 +1,7 @@
 var http = require('http');
+var https = require('https');
 var express = require('express');
+var fs = require('fs');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -10,6 +12,7 @@ var jwt = require('express-jwt');
 var index = require('./routes/index');
 var login = require('./routes/login');
 var singlebattle = require('./routes/single_battle');
+var single = require('./routes/single');
 var battle = require('./routes/battle');
 var design = require('./routes/design');
 var ws = require('./ws');
@@ -47,11 +50,16 @@ app.use(jwt({
 
 app.use('/', index);
 app.use('/login', login);
-app.use('/battle', battle);
-app.use('/singlebattle', singlebattle);
 if (app.get('env') === 'development'){
   app.use('/design', design);
+  app.use('/battle', battle.dev());
+  app.use('/single', single.dev());
 }
+else{
+  app.use('/battle', battle.prod());
+  app.use('/single', single.prod());
+}
+app.use('/singlebattle', singlebattle);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -76,8 +84,22 @@ app.use(function(err, req, res, next) {
   }
 });
 
-var server = http.createServer(app);
+if (process.env.LOCAL){
+  var options = {
+    pfx: fs.readFileSync('localhost.pfx'),
+    passphrase: 'localhost',
+    requestCert: false,
+    rejectUnauthorized: false
+  };
 
-ws(server, appCookieParser);
+  var server = https.createServer(options, app);
+
+  ws(server, appCookieParser);
+}
+else{
+  var server = http.createServer(app);
+
+  ws(server, appCookieParser);
+}
 
 module.exports = server;

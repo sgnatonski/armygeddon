@@ -9,8 +9,4 @@ router.get('/', async function(req, res, next) {
   res.render('index', { title: 'Start', battles: battles } );
 });
 
-router.get('/single', function(req, res, next) {
-  res.render('single', { title: 'Single battle' } );
-});
-
 module.exports = router;
