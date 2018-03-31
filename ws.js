@@ -3,7 +3,7 @@ var url = require('url');
 var jwt = require('jsonwebtoken');
 var storage = require('./storage/arango/arango_storage');
 var fs = storage.battles;
-var battleLogic = require('./logic/battle');
+var battleScope = require('./logic/battle_scope');
 
 var tokenSecret = process.env.TOKEN_SECRET;
 
@@ -11,7 +11,7 @@ module.exports = function webSocketSetup(server, cookieParser){
     const wss = new WebSocket.Server({ 
         verifyClient: (info, done) => {
             cookieParser(info.req, {}, () => {
-                jwt.verify(info.req.cookies.a_token, tokenSecret, function(err, decoded) {
+                jwt.verify(info.req.cookies.a_token, tokenSecret, (err, decoded) => {
                     done(!err);
                 });
             });
@@ -19,7 +19,7 @@ module.exports = function webSocketSetup(server, cookieParser){
         server 
     });
 
-    wss.on('connection', function connection(ws, req) {
+    wss.on('connection', (ws, req) => {
         const parameters = url.parse(req.url, true);
         var user = jwt.verify(req.cookies.a_token, tokenSecret);
 
@@ -32,24 +32,15 @@ module.exports = function webSocketSetup(server, cookieParser){
             console.log("error!: " + err);
         });
 
-        ws.on('message', function incoming(command) {
-            var cmd = JSON.parse(command);
-
+        ws.on('message', command => {            
             fs.get(ws.battle.id).then(data => {
-                var result = null;
-                if (cmd.cmd == 'move'){
-                    result = battleLogic.processMove(data, ws.battle.userid, cmd.uid, cmd.x, cmd.y);
-                }
-                else if (cmd.cmd == 'turn'){
-                    result = battleLogic.processTurn(data, ws.battle.userid, cmd.uid, cmd.x, cmd.y);
-                }
-                else if (cmd.cmd == 'attack'){
-                    result = battleLogic.processAttack(data, ws.battle.userid, cmd.uid, cmd.x, cmd.y);
-                }
+                var cmd = JSON.parse(command);
+                var result = battleScope(data, ws.battle.userid).processCommand(cmd);
                 if (result && result.success){
                     fs.store(result.battle).then(res => {
-                        wss.clients.forEach(function each(client) {
-                            if (client.readyState === WebSocket.OPEN && Object.keys(result.battle.armies).some(uid => client.battle.userid == uid)) {
+                        var uids = Object.keys(result.battle.armies);
+                        wss.clients.forEach(client => {
+                            if (client.readyState === WebSocket.OPEN && uids.some(uid => client.battle.userid == uid)) {
                                 client.send(JSON.stringify({
                                     msg: 'upd',
                                     data: {
@@ -68,8 +59,9 @@ module.exports = function webSocketSetup(server, cookieParser){
 
         fs.get(ws.battle.id).then(data => {
             function sendBattle(battle){
-                wss.clients.forEach(function each(client) {
-                    if (client.readyState === WebSocket.OPEN && Object.keys(battle.armies).some(uid => client.battle.userid == uid)) {
+                var uids = Object.keys(battle.armies);
+                wss.clients.forEach(client => {
+                    if (client.readyState === WebSocket.OPEN && uids.some(uid => client.battle.userid == uid)) {
                         battle.selfArmy = client.battle.userid;
 
                         client.send(JSON.stringify({
@@ -86,7 +78,7 @@ module.exports = function webSocketSetup(server, cookieParser){
                 }
                 else{
                     storage.armies.getBy('playerId', ws.battle.userid).then(army =>{
-                        var battle = battleLogic.join(data, ws.battle.userid, army);
+                        var battle = battleScope(data, ws.battle.userid).join(army);
                         fs.store(battle).then(result => sendBattle(data));
                     });
                 }   

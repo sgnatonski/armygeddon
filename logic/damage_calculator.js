@@ -4,7 +4,7 @@ var calculator = {
     getRangeDamage: (attacker, defender) => {
         var dmg = attacker.damage + (attacker.charge / 2) - defender.armor;
         var distance = Math.max(...[Math.abs(attacker.pos.x - defender.pos.x), Math.abs(attacker.pos.y - defender.pos.y)]);
-        var defenseDirection = directions(defender.pos.x, defender.pos.y, attacker.pos.x, attacker.pos.y);
+        var defenseDirection = directions.getDirection(defender.pos.x, defender.pos.y, attacker.pos.x, attacker.pos.y);
         var dirDefense = defender.directions.some(d => d == defenseDirection);
 
         if (distance == 1 || dirDefense){
@@ -15,8 +15,8 @@ var calculator = {
     },
     getChargeDamage: (attacker, defender) => {
         var charge = Math.pow(attacker.charge - 1, 2);
-        var attackDirection = directions(attacker.pos.x, attacker.pos.y, defender.pos.x, defender.pos.y);
-        var defenseDirection = directions(defender.pos.x, defender.pos.y, attacker.pos.x, attacker.pos.y);
+        var attackDirection = directions.getDirection(attacker.pos.x, attacker.pos.y, defender.pos.x, defender.pos.y);
+        var defenseDirection = directions.getDirection(defender.pos.x, defender.pos.y, attacker.pos.x, attacker.pos.y);
         var dirAttack = attacker.directions.some(d => d == attackDirection);
         var dirDefense = defender.directions.some(d => d == defenseDirection);
 
