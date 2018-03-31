@@ -95,11 +95,9 @@ async function createInitData(db) {
     }
 }
 
-var db;
-
 async function init () {
     var dbname = process.env.ARANGO_DB;
-    db = new arangojs.Database({
+    var db = new arangojs.Database({
         url: process.env.ARANGO_URL
     }).useBasicAuth(
         process.env.ARANGO_USER, 

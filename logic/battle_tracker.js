@@ -11,9 +11,13 @@ async function fetch(){
     }
 
     const cursor = await storage.query(aql`
-        FOR b IN battles
-        FILTER !HAS(b, "winningArmy") AND (CONCAT('_', ATTRIBUTES(b.armies)[0]) != ATTRIBUTES(b.armies)[1])
-        RETURN { id: b._key, players: ATTRIBUTES(b.armies) }
+    FOR b IN battles
+    FILTER !HAS(b, "winningArmy") 
+    AND (CONCAT('_', ATTRIBUTES(b.armies)[0]) != ATTRIBUTES(b.armies)[1])
+    RETURN { 
+        id: b._key, 
+        players: (FOR u IN users FOR n in ATTRIBUTES(b.armies) FILTER u._key == n RETURN u.name) 
+    }
     `);
     openBattles = await cursor.all();
     lastFetch = new Date();
