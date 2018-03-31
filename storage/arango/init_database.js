@@ -95,15 +95,16 @@ async function createInitData(db) {
     }
 }
 
-var dbname = process.env.ARANGO_DB;
-var db = new arangojs.Database({
-    url: process.env.ARANGO_URL
-}).useBasicAuth(
-    process.env.ARANGO_USER, 
-    process.env.ARANGO_PASS
-);    
+var db;
 
-(async function() {
+async function init () {
+    var dbname = process.env.ARANGO_DB;
+    db = new arangojs.Database({
+        url: process.env.ARANGO_URL
+    }).useBasicAuth(
+        process.env.ARANGO_USER, 
+        process.env.ARANGO_PASS
+    );
     await ensureDbExists(db, dbname);
     db.useDatabase(dbname);
     await ensureCollectionExists(db, 'battles');
@@ -111,6 +112,7 @@ var db = new arangojs.Database({
     await ensureCollectionExists(db, 'armies');
     await ensureCollectionExists(db, 'inits');
     await createInitData(db);
-})();
+    return db;
+};
 
-module.exports = db;
+module.exports = init();

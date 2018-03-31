@@ -14,7 +14,7 @@ async function get(id) {
         return null;
     }
 
-    var collection = db.collection(this);
+    var collection = (await db).collection(this);
     try {    
         var doc = await collection.document(id);
         return undoc(doc);
@@ -28,7 +28,7 @@ async function get(id) {
 }
 
 async function getBy(prop, val) {
-    var collection = db.collection(this);
+    var collection = (await db).collection(this);
     var example = {};
     example[prop] = val;
     try {    
@@ -44,7 +44,7 @@ async function getBy(prop, val) {
 }
 
 async function getAllBy(prop, val) {
-    var collection = db.collection(this);
+    var collection = (await db).collection(this);
     var example = {};
     example[prop] = val;
     try {    
@@ -60,7 +60,7 @@ async function getAllBy(prop, val) {
 }
 
 async function store(data) {
-    var collection = db.collection(this);
+    var collection = (await db).collection(this);
     data._key = data.id;
     var existing = await exists.bind(this)(data._key);
     if (existing){
@@ -91,5 +91,8 @@ module.exports = {
     battles: interface("battles"),
     users: interface("users"),
     armies: interface("armies"),
-    query: db.query.bind(db)
+    query: async(...args) => {
+        var d = await db;
+        return await d.query.bind(d)(...args);
+    }
 };

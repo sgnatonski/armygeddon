@@ -3,7 +3,7 @@ var aql = require("arangojs").aql;
 
 var openBattles = [];
 
-var lastFetch = new Date().setMinutes(-4, 45);
+var lastFetch = new Date().setMinutes(-5);
 
 async function fetch(){
     if (lastFetch >= new Date().setMinutes(-5)){
