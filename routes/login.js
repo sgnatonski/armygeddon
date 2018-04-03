@@ -22,7 +22,7 @@ router.post('/', async function(req, res, next) {
     return;
   }
   
-  var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
+  var token = jwt.sign({ id: user.id, name: user.name }, req.app.get('TOKEN_SECRET'), {
     expiresIn: 86400000 // expires in 24 hours
   });
 
@@ -93,7 +93,7 @@ router.post('/register', async function(req, res, next) {
 
   await storage.armies.store(army);
 
-  var token = jwt.sign({ id: user.id }, req.app.get('TOKEN_SECRET'), {
+  var token = jwt.sign({ id: user.id, name: user.name }, req.app.get('TOKEN_SECRET'), {
     expiresIn: 86400000 // expires in 24 hours
   });
 

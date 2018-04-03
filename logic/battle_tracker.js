@@ -16,7 +16,7 @@ async function fetch(){
     AND (CONCAT('_', ATTRIBUTES(b.armies)[0]) != ATTRIBUTES(b.armies)[1])
     RETURN { 
         id: b._key, 
-        players: (FOR u IN users FOR n in ATTRIBUTES(b.armies) FILTER u._key == n RETURN u.name) 
+        players: [ b.armies[ATTRIBUTES(b.armies)[0]].name, b.armies[ATTRIBUTES(b.armies)[1]].name ] 
     }
     `);
     openBattles = await cursor.all();

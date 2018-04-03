@@ -45,7 +45,7 @@ module.exports = {
             }
             else{
                 var army = await storage.armies.getBy('playerId', wsdata.userid);
-                var battle = battleScope(data, wsdata.userid).join(army);
+                var battle = battleScope(data, wsdata.userid, wsdata.username).join(army);
                 await storage.battles.store(battle);
                 sendBattleMessages(wss, data);
             }   
@@ -53,7 +53,7 @@ module.exports = {
     },
     async sendUpdate(wss, wsdata, cmd){
         var data = await storage.battles.get(wsdata.id);
-        var result = battleScope(data, wsdata.userid).processCommand(cmd);
+        var result = battleScope(data, wsdata.userid, wsdata.username).processCommand(cmd);
         if (result && result.success){
             await storage.battles.store(result.battle);
             sendUpdateMessages(wss, result);

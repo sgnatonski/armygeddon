@@ -14,7 +14,7 @@ async function start(req, res, next) {
     var data = await storage.battleTemplates.get('battle.plains_forest_1');
     var ut = await storage.battleTemplates.get('unittypes');
     var army = await storage.armies.getBy('playerId', req.user.id);
-    var battle = battleScope(data, req.user.id).init(ut, army);
+    var battle = battleScope(data, req.user.id, req.user.name).init(ut, army);
     await storage.battles.store(battle);
     battleTracker.addOpen(battle.id, [req.user.id]);
     res.json(battle.id);

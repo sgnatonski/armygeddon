@@ -23,7 +23,8 @@ module.exports = function webSocketSetup(server, cookieParser){
 
         ws.battle = {
             id: parameters.query.bid,
-            userid: user.id
+            userid: user.id,
+            username: user.name
         };
 
         ws.on('error', err => {
