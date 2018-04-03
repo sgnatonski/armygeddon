@@ -29,6 +29,10 @@ function setupStage(grid, eventBus, images){
     waitLayer.hide();
   });
 
+  eventBus.on('battlestate', txt => {
+    console.log(txt);
+  });
+
   var animationPath = null;
 
   eventBus.on('unitdelta', delta => {

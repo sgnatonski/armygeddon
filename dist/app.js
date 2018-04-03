@@ -299,6 +299,10 @@ function setupStage(grid, eventBus, images){
     waitLayer.hide();
   });
 
+  eventBus.on('battlestate', txt => {
+    console.log(txt);
+  });
+
   var animationPath = null;
 
   eventBus.on('unitdelta', delta => {
@@ -417,6 +421,7 @@ var Game = Game || {};
 Game.Battle = function (eventBus) {
 	this.eventBus = eventBus;
 	this.eventBus.on('update', d => this.onUpdate(d));
+	this.battleState = 'none';
 };
 
 Game.Battle.prototype.getSceneSize = function(){
@@ -447,9 +452,18 @@ Game.Battle.prototype.loadData = function(data, single){
 	this.terrain = data.terrain;
 	this.unitQueue = data.turns[data.turns.length - 1].readyUnits;
 	this.firstArmy = new Game.Army(armies[0], data.unitTypes);
+	this.battleState = 'created';
+	var bsTxt1 = this.getBattleStateText();
+	setTimeout(() => this.eventBus.publish('battlestate', bsTxt1), 0);
 	if (armies.length == 2){
 		this.secondArmy = new Game.Army(armies[1], data.unitTypes);	
+		this.battleState = 'ready';
+		var bsTxt2 = this.getBattleStateText();
 		setTimeout(() => this.eventBus.publish('battlestarted'), 0);
+		setTimeout(() => this.eventBus.publish('battlestate', bsTxt2), 0);
+		var nextUnit = this.nextUnit();
+		var nextPlayer = this.getArmy(nextUnit).playerName;
+		setTimeout(() => this.eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
 	}
 };
 
@@ -482,12 +496,13 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 
 Game.Battle.prototype.onUpdate = function(data){
 	if (this.isDefeatedArmy(data.currUnit.id)){
-		alert('DEFEAT');
+		this.battleState = 'finished';
 	}
 	if (this.isWinningArmy(data.currUnit.id)){
-		alert('VICTORY');
+		this.battleState = 'finished';
 	}
 	else { 
+		this.battleState = 'started';
 		this.eventBus.publish('unitdelta', {
 			source: this.nextUnit().pos,
 			target: data.currUnit.pos
@@ -504,6 +519,10 @@ Game.Battle.prototype.onUpdate = function(data){
 		nextUnitArmy.restoreUnit(data.nextUnit);
 		this.eventBus.publish('battleupdated', data);
 	}
+	this.eventBus.publish('battlestate', this.getBattleStateText());
+	var nextUnit = this.nextUnit();
+	var nextPlayer = this.getArmy(nextUnit).playerName;
+	setTimeout(() => this.eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
 };
 
 Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {	
@@ -561,6 +580,26 @@ Game.Battle.prototype.isPlayerArmy = function(unitId, exactMatch) {
 		|| '_' + this.selfArmy === this.getArmy(unitId).playerId
 		|| this.selfArmy === '_' + this.getArmy(unitId).playerId;
 }
+
+Game.Battle.prototype.getBattleStateText = function() {
+	if (this.battleState == 'none'){
+		return '';
+	}
+	if (this.battleState == 'created'){
+		return `Army of ${this.firstArmy.playerName} has arrived`;
+	}
+	if (this.battleState == 'ready'){
+		return `Army of ${this.secondArmy.playerName} has arrived`;
+	}
+	if (this.battleState == 'started'){
+		return `Army of ${this.firstArmy.playerName} is fighting with army of ${this.secondArmy.playerName}`;
+	}
+	if (this.battleState == 'finished'){
+		return this.firstArmy.units.some(u => u.endurance > 0)
+		? `Army of ${this.firstArmy.playerName} has won`
+		: `Army of ${this.secondArmy.playerName} has won`
+	}
+};
 var defaultHeaders = { 'Content-Type': 'application/json' };
 var fetchOpts = {
     get: {
