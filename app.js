@@ -15,7 +15,7 @@ var singlebattle = require('./routes/single_battle');
 var single = require('./routes/single');
 var battle = require('./routes/battle');
 var design = require('./routes/design');
-var ws = require('./ws');
+var ws = require('./ws/ws_setup');
 
 process.chdir(__dirname);
 
