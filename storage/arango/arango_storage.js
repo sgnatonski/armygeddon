@@ -48,7 +48,7 @@ async function getAllBy(prop, val) {
     var example = {};
     example[prop] = val;
     try {    
-        var docs = await collection.byExample(example).toArray();
+        var docs = await collection.byExample(example);
         return docs.map(d => undoc(d));
     }
     catch(err){

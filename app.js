@@ -15,6 +15,7 @@ var singlebattle = require('./routes/single_battle');
 var single = require('./routes/single');
 var battle = require('./routes/battle');
 var design = require('./routes/design');
+var armies = require('./routes/armies');
 var ws = require('./ws/ws_setup');
 
 process.chdir(__dirname);
@@ -60,6 +61,7 @@ else{
   app.use('/single', single.prod());
 }
 app.use('/singlebattle', singlebattle);
+app.use('/armies', armies);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
