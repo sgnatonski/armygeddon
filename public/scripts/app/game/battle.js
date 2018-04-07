@@ -7,14 +7,7 @@ Game.Battle = function (eventBus) {
 };
 
 Game.Battle.prototype.getSceneSize = function(){
-    var tx = this.terrain.map(x => x.x);
-    var ty = this.terrain.map(x => x.y);
-    var minX = Math.abs(Math.min(...tx));
-    var maxX = Math.abs(Math.max(...tx));
-    var minY = Math.abs(Math.min(...ty));
-    var maxY = Math.abs(Math.max(...ty));
-    var sceneSize = Math.max(...[minX, maxX, minY, maxY]);
-    return sceneSize;
+    return this.sceneSize;
 } 
 
 Game.Battle.prototype.load = function(){
@@ -32,6 +25,7 @@ Game.Battle.prototype.loadData = function(data, single){
 	this.id = data.id;
 	this.selfArmy = data.selfArmy;
 	this.terrain = data.terrain;
+	this.sceneSize = data.sceneSize;
 	this.unitQueue = data.turns[data.turns.length - 1].readyUnits;
 	this.firstArmy = new Game.Army(armies[0], data.unitTypes);
 	this.battleState = 'created';
