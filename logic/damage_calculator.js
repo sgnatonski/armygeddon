@@ -29,6 +29,11 @@ var calculator = {
         }
         var armor = dirDefense ? defender.armor : 0;
         var dmg = attacker.damage + charge - armor;
+
+        if (dmg < 0){
+            dmg = 0;
+        }
+
         return dmg;
     }
 };
