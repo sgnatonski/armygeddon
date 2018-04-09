@@ -58,7 +58,28 @@ function finalizeAction(battle, turn, unit, targetUnit){
     if (armiesState.find(s => s.remaining == 0)){
         var winner = armiesState.find(s => s.remaining > 0);
         battle.winningArmy = winner.id;
-        battle.ended = new Date().toISOString();        
+        battle.ended = new Date().toISOString();
+
+        var moves = battle.turns
+            .map(x => x.moves)
+            .reduce((a, b) => a.concat(b));
+        var exp1 = moves.filter(x => x.unitExp > 0)
+            .map(x => { return { armyId: bh.getUnitArmy(x.unit), unitId: x.unit, expGain: x.unitExp }});
+        var exp2 = moves.filter(x => x.targetExp > 0)
+            .map(x => { return { armyId: bh.getUnitArmy(x.unit), unitId: x.targetUnit, expGain: x.targetExp }});
+
+        var exp = exp1.concat(exp2).reduce(function (r, a) {
+            r[a.armyId] = r[a.armyId] || [];
+            r[a.armyId].push(a);
+            return r;
+        }, {});
+
+        return {
+            battle: battle, 
+            experience: exp,
+            ended: true,
+            success: true,
+        };
     }
 
     return {

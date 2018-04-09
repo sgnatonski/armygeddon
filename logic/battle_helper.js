@@ -7,6 +7,21 @@ function battle(battle) {
         getUnitAt(x, y) {
             return this.getAllUnits(battle).find(u => u.pos.x == x && u.pos.y == y);
         },
+        getUnitArmy(unit) {
+            var armies = Object.keys(battle.armies)
+                .map(a => battle.armies[a])
+                .map(army => {
+                    return {
+                        id: army.id,
+                        army: Object.keys(army.units).map(u => army.units[u])
+                    }
+                });
+            var unitArmy = armies[0].army.find(u => u.id == unit.id);
+            if (!unitArmy) {
+                unitArmy = armies[1].army.find(u => u.id == unit.id);
+            }
+            return unitArmy.id;
+        },
         isSameArmy(unit1, unit2) {
             if (!unit1 || !unit2) {
                 return false;

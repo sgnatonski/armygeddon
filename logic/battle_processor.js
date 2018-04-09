@@ -6,7 +6,7 @@ var bv = require('./battle_validator');
 function processor(battle, playerId, helper){
     var validator = bv(battle);
     
-    function processMove (unitId, x, y) {
+    function processMove (unitId, x, y, isSingle) {
         var turn = helper.getCurrentTurn();
         var unit = helper.getPlayerUnit(playerId, unitId);
 
@@ -19,13 +19,13 @@ function processor(battle, playerId, helper){
         var isSkippingMove = moveCost == 0;
         unit.pos = { x: x, y: y };
         unit.mobility -= moveCost;
-        if (!isSkippingMove) {
-            unit.charge += moveCost;
-            directions.setDirections(unit, 1);
+        if (isSkippingMove) {
+            var dirSize = unit.directions.length + 2;
+            directions.setDirections(unit, dirSize);            
         }
         else {
-            var dirSize = unit.directions.length + 2;
-            directions.setDirections(unit, dirSize);
+            unit.charge += moveCost;
+            directions.setDirections(unit, 1);
         }
         if (unit.mobility > 0) {
             unit.mobility = 0;
@@ -42,7 +42,7 @@ function processor(battle, playerId, helper){
 
         return finalize(battle, turn, unit);
     }
-    function processTurn (unitId, x, y) {
+    function processTurn (unitId, x, y, isSingle) {
         var turn = helper.getCurrentTurn();
         var unit = helper.getPlayerUnit(playerId, unitId);
 
@@ -67,7 +67,7 @@ function processor(battle, playerId, helper){
 
         return finalize(battle, turn, unit);
     }
-    function processAttack (unitId, x, y) {
+    function processAttack (unitId, x, y, isSingle) {
         var turn = helper.getCurrentTurn();
         var unit = helper.getPlayerUnit(playerId, unitId);
 
@@ -93,33 +93,46 @@ function processor(battle, playerId, helper){
             }
         }
 
-        var oldTargetEndurance = targetUnit.endurance;
         var attacksUsed = 1;
 
         if (isSkippingAttack) {
             attacksUsed = unit.attacks;
         }
 
+        var dmg = 0;
+        var unitExp = 0;
+        var targetExp = 0;
         if (!isSkippingAttack && isValidAttack && inRangeAttack) {
-            damage.applyDamage(unit, targetUnit);
+            dmg = damage.applyDamage(unit, targetUnit);
+
+            if (!isSingle){
+                if (targetUnit.endurance == 0){
+                    unitExp = dmg;
+                }
+                else{
+                    unitExp = Math.ceil(dmg / 2);
+                    targetExp = Math.ceil(dmg / 2);
+                }
+            }
         }
 
+        unit.charge = 0;
         unit.attacks -= attacksUsed;
 
-        turn.moves.push({ unit: unit.id, target: targetUnit.id, damage: oldTargetEndurance - targetUnit.endurance });
+        turn.moves.push({ unit: unit.id, target: targetUnit.id, damage: dmg, unitExp: unitExp, targetExp: targetExp });
 
         return finalize(battle, turn, unit, targetUnit);
     }
     return {
         processCommand(command){
             if (command.cmd == 'move'){
-                return processMove(command.uid, command.x, command.y);
+                return processMove(command.uid, command.x, command.y, command.single);
             }
             else if (command.cmd == 'turn'){
-                return processTurn(command.uid, command.x, command.y);
+                return processTurn(command.uid, command.x, command.y, command.single);
             }
             else if (command.cmd == 'attack'){
-                return processAttack(command.uid, command.x, command.y);
+                return processAttack(command.uid, command.x, command.y, command.single);
             }
         }
     };

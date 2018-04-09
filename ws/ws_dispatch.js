@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 var storage = require('../storage/arango/arango_storage');
 var battleScope = require('../logic/battle_scope');
+var armyUpd = require('../logic/army_updater');
 
 function broadcast(wss, userIds, payload, beforeSend){
     wss.clients.forEach(client => {
@@ -36,6 +37,20 @@ function sendUpdateMessages(wss, result){
     broadcast(wss, uids, payload);
 }
 
+function sendEndMessages(wss, result){
+    var uids = Object.keys(result.battle.armies);
+    var payload = {
+        msg: 'end',
+        data: {
+            currUnit: result.unit, 
+            nextUnit: result.nextUnit,
+            targetUnit: result.targetUnit,
+            unitQueue: result.unitQueue
+        }
+    };
+    broadcast(wss, uids, payload);
+}
+
 module.exports = {
     async sendComplete(wss, wsdata){
         var data = await storage.battles.get(wsdata.id);
@@ -56,7 +71,20 @@ module.exports = {
         var result = battleScope(data, wsdata.userid, wsdata.username).processCommand(cmd);
         if (result && result.success){
             await storage.battles.store(result.battle);
-            sendUpdateMessages(wss, result);
+            if (result.ended){
+                for(var i in result.experience){
+                    if (result.experience.hasOwnProperty(i)) {
+                        var army = await storage.armies.get(aid);
+                        armyUpd(army, result.experience[i]);                     
+                        await storage.armies.store(army);
+                    }
+                }
+                
+                sendEndMessages(wss, result);
+            }
+            else{
+                sendUpdateMessages(wss, result);
+            }
         }
     }
 }

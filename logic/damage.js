@@ -1,27 +1,20 @@
 var calculator = require('./damage_calculator');
 
-function applyRangeDamage (attacker, defender) {        
-    defender.endurance -= calculator.getRangeDamage(attacker, defender);
-    if (defender.endurance < 0){
-        defender.endurance = 0;
-    }
-    attacker.charge = 0;
-}
-function applyChargeDamage (attacker, defender) {        
-    defender.endurance -= calculator.getChargeDamage(attacker, defender);
-    if (defender.endurance < 0){
-        defender.endurance = 0;
-    }
-    attacker.charge = 0;
-}
-
 module.exports = {
     applyDamage: (attacker, defender) => {
+        var dmg = 0;
         if (attacker.type == 'arch'){
-            applyRangeDamage(attacker, defender);
+            dmg = calculator.getRangeDamage(attacker, defender);
         }
         else{
-            applyChargeDamage(attacker, defender);
+            dmg = calculator.getChargeDamage(attacker, defender);
         }
+
+        defender.endurance -= dmg;
+        if (defender.endurance < 0){
+            defender.endurance = 0;
+        }
+
+        return dmg;
     }
 };
