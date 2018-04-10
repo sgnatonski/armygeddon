@@ -105,6 +105,9 @@ function initGrid(battle){
     var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y), ignoreInertia);
     var terrain = battle.getTerrain();
     var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
+    if (!range){
+      return path;
+    }
     var inRange = path.reduce((acc, curr) => {
       var accCost = acc.map(x => x.cost).reduce((a,b) => a + b, -sourceHex.cost);
       if (ignoreInertia || accCost + curr.cost <= range){
@@ -219,12 +222,7 @@ function initGrid(battle){
   }
 
   function getPathBetween(sourceHex, targetHex) {
-    var unit = battle.getUnitAt(sourceHex.x, sourceHex.y);
-    if (!unit){
-      return [];
-    }
-    var path = getPathInRange(sourceHex, targetHex, unit.mobility);
-    return path;
+    return getPathInRange(sourceHex, targetHex);
   };
 
   function initDrawing(center) {
