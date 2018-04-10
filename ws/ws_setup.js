@@ -17,7 +17,7 @@ module.exports = function webSocketSetup(server, cookieParser){
         server 
     });
 
-    wss.on('connection', async (ws, req) => {
+    wss.on('connection', (ws, req) => {
         const parameters = url.parse(req.url, true);
         var user = jwt.verify(req.cookies.a_token, tokenSecret);
 
@@ -31,10 +31,14 @@ module.exports = function webSocketSetup(server, cookieParser){
             console.log("error!: " + err);
         });
 
-        ws.on('message', async command => {            
-            await dispatch.sendUpdate(wss, ws.battle, JSON.parse(command));
+        ws.on('message', command => {    
+            (async function() {        
+                await dispatch.sendUpdate(wss, ws.battle, JSON.parse(command));
+            })();
         });
 
-        await dispatch.sendComplete(wss, ws.battle);
+        (async function() {
+            await dispatch.sendComplete(wss, ws.battle);
+        })();
     });
 }
