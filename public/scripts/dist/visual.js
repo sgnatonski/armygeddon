@@ -684,7 +684,7 @@ function createWaitLayer(width, height) {
     waitLayer.add(complexText);
 
     return {
-        show: function () {
+        show: function (text) {
             waitOverlay.show();
             complexText.show();
             rect.show();

@@ -134,18 +134,6 @@ Game.Battle.prototype.getUnitAt = function(x, y) {
 	return this.getUnits().find(u => u.pos.x == x && u.pos.y == y);
 };
 
-Game.Battle.prototype.isWinningArmy = function(unitId) {
-	var army = this.getOtherArmy(unitId);
-	var stillAlive = army.units.some(u => u.endurance > 0);
-	return !stillAlive;
-}
-
-Game.Battle.prototype.isDefeatedArmy = function(unitId) {
-	var army = this.getArmy(unitId);
-	var stillAlive = army.units.some(u => u.endurance > 0);
-	return !stillAlive;
-}
-
 Game.Battle.prototype.isPlayerArmy = function(unitId, exactMatch) {
 	if (exactMatch){
 		return this.selfArmy === this.getArmy(unitId).playerId;

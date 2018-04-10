@@ -294,13 +294,23 @@ function setupStage(grid, eventBus, images){
   var terrainLayer = createTerrainLayer();
   var tooltipLayer = createTooltipLayer(stage);
   var waitLayer = createWaitLayer(width, height);
+
+  waitLayer.show('Sir,\nYou\'re first on the battlefield.\n\nHopefully the other army will join soon.');
   
   eventBus.on('battlestarted', () => {
     waitLayer.hide();
   });
 
-  eventBus.on('battleended', () => {
-    waitLayer.show();
+  eventBus.on('battleended', result => {
+    grid = initGrid(result.battle);
+    grid.initDrawing(center);
+    hlLayer.highlightNode(null);
+    effectLayer.drawPath([]);
+    hlLayer.highlightRange([], grid.getSelectedHexState());      
+    grid.hexSelected(hex);
+    unitLayer.refresh();
+    tooltipLayer.hideTooltip();
+    waitLayer.show('Battle has ended');
   });
 
   eventBus.on('battlestate', txt => {

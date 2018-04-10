@@ -654,17 +654,21 @@ function createWaitLayer(width, height) {
 
     var textWidth = 300;
 
-    var complexText = new Konva.Text({
-        x: width / 2 - textWidth / 2,
-        y: 100,
-        text: 'Sir,\nYou\'re first on the battlefield.\n\nHopefully the other army will join soon.',
-        fontSize: 18,
-        fontFamily: 'Calibri',
-        fill: '#555',
-        width: textWidth,
-        padding: 20,
-        align: 'center'
-    });
+    function createText(text) {
+        return new Konva.Text({
+            x: width / 2 - textWidth / 2,
+            y: 100,
+            text: text,
+            fontSize: 18,
+            fontFamily: 'Calibri',
+            fill: '#555',
+            width: textWidth,
+            padding: 20,
+            align: 'center'
+        });
+    }
+
+    var complexText = createText();
 
     var rect = new Konva.Rect({
         x: width / 2 - textWidth / 2,
@@ -684,9 +688,11 @@ function createWaitLayer(width, height) {
     waitLayer.add(complexText);
 
     return {
-        show: function () {
+        show: function (text) {
             waitOverlay.show();
-            complexText.show();
+            complexText.destroy();
+            complexText = createText(text);
+            waitLayer.add(complexText);
             rect.show();
             waitLayer.draw();
         },
