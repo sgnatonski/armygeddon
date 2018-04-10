@@ -12,7 +12,7 @@ function battle(battle) {
                 .map(a => battle.armies[a])
                 .map(army => {
                     return {
-                        id: army.id,
+                        id: army.armyId,
                         army: Object.keys(army.units).map(u => army.units[u])
                     }
                 });

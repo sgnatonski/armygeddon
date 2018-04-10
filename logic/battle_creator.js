@@ -10,6 +10,7 @@ function battleLogic(battle, playerId, playerName, helper) {
             battle.armies[playerId] = {};
             battle.armies[playerId].units = rand(battle.terrain, army, false);
             battle.armies[playerId].id = playerId;
+            battle.armies[playerId].armyId = army.id;
             battle.armies[playerId].name = playerName;
             battle.id = crypto.randomBytes(8).toString("hex");
             battle.selfArmy = playerId;
@@ -30,6 +31,7 @@ function battleLogic(battle, playerId, playerName, helper) {
             battle.armies[playerId] = {};
             battle.armies[playerId].units = rand(battle.terrain, army, true);
             battle.armies[playerId].id = playerId;
+            battle.armies[playerId].armyId = army.id;
             battle.armies[playerId].name = playerName;
             allUnits = helper.getAllUnits();
             allUnits.forEach(u => {
