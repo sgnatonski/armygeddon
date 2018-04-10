@@ -74,7 +74,7 @@ module.exports = {
             if (result.ended){
                 for(var i in result.experience){
                     if (result.experience.hasOwnProperty(i)) {
-                        var army = await storage.armies.get(aid);
+                        var army = await storage.armies.get(i);
                         armyUpd(army, result.experience[i]);                     
                         await storage.armies.store(army);
                     }

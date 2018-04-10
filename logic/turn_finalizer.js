@@ -64,9 +64,9 @@ function finalizeAction(battle, turn, unit, targetUnit){
             .map(x => x.moves)
             .reduce((a, b) => a.concat(b));
         var exp1 = moves.filter(x => x.unitExp > 0)
-            .map(x => { return { armyId: bh.getUnitArmy(x.unit), unitId: x.unit, expGain: x.unitExp }});
-        var exp2 = moves.filter(x => x.targetExp > 0)
-            .map(x => { return { armyId: bh.getUnitArmy(x.unit), unitId: x.targetUnit, expGain: x.targetExp }});
+            .map(x => { return { armyId: helper.getUnitArmy(x.unit), unitId: x.unit, expGain: x.unitExp }});
+        var exp2 = moves.filter(x => x.targetUnit && x.targetExp > 0)
+            .map(x => { return { armyId: helper.getUnitArmy(x.targetUnit), unitId: x.targetUnit, expGain: x.targetExp }});
 
         var exp = exp1.concat(exp2).reduce(function (r, a) {
             r[a.armyId] = r[a.armyId] || [];

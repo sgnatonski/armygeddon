@@ -7,7 +7,7 @@ function battle(battle) {
         getUnitAt(x, y) {
             return this.getAllUnits(battle).find(u => u.pos.x == x && u.pos.y == y);
         },
-        getUnitArmy(unit) {
+        getUnitArmy(unitId) {
             var armies = Object.keys(battle.armies)
                 .map(a => battle.armies[a])
                 .map(army => {
@@ -16,11 +16,15 @@ function battle(battle) {
                         army: Object.keys(army.units).map(u => army.units[u])
                     }
                 });
-            var unitArmy = armies[0].army.find(u => u.id == unit.id);
-            if (!unitArmy) {
-                unitArmy = armies[1].army.find(u => u.id == unit.id);
+            var unitArmy = armies[0].army.find(u => u.id == unitId);
+            if (unitArmy) {
+                return armies[0].id;                
             }
-            return unitArmy.id;
+            unitArmy = armies[1].army.find(u => u.id == unitId);
+            if (unitArmy) {
+                return armies[1].id;
+            }
+            return undefined;
         },
         isSameArmy(unit1, unit2) {
             if (!unit1 || !unit2) {
