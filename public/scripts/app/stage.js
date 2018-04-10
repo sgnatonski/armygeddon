@@ -29,6 +29,10 @@ function setupStage(grid, eventBus, images){
     waitLayer.hide();
   });
 
+  eventBus.on('battleended', () => {
+    waitLayer.show();
+  });
+
   eventBus.on('battlestate', txt => {
     console.log(txt);
   });

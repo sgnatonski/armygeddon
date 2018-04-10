@@ -68,7 +68,7 @@ function finalizeAction(battle, turn, unit, targetUnit){
         var exp2 = moves.filter(x => x.targetUnit && x.targetExp > 0)
             .map(x => { return { armyId: helper.getUnitArmy(x.targetUnit), unitId: x.targetUnit, expGain: x.targetExp }});
 
-        var exp = exp1.concat(exp2).reduce(function (r, a) {
+        var exp = exp1.concat(exp2).reduce((r, a) => {
             r[a.armyId] = r[a.armyId] || [];
             r[a.armyId].push(a);
             return r;

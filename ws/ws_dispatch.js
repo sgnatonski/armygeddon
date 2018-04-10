@@ -42,10 +42,8 @@ function sendEndMessages(wss, result){
     var payload = {
         msg: 'end',
         data: {
-            currUnit: result.unit, 
-            nextUnit: result.nextUnit,
-            targetUnit: result.targetUnit,
-            unitQueue: result.unitQueue
+            battle: result.battle, 
+            experience: result.experience
         }
     };
     broadcast(wss, uids, payload);
@@ -75,7 +73,7 @@ module.exports = {
                 for(var i in result.experience){
                     if (result.experience.hasOwnProperty(i)) {
                         var army = await storage.armies.get(i);
-                        armyUpd(army, result.experience[i]);                     
+                        armyUpd(army, result.experience[i]);
                         await storage.armies.store(army);
                     }
                 }

@@ -11,7 +11,11 @@ function initWebSocket(eventBus, onInitCallback){
     }
     
     function openWebSocket(battleId){
-        ws = new WebSocket(`ws://${window.location.host}?bid=${battleId}`);
+        var wsProtocol = 'ws';
+        if (window.location.protocol === "https:") {
+            wsProtocol = 'wss';
+        }
+        ws = new WebSocket(`${wsProtocol}://${window.location.host}?bid=${battleId}`);
         ws.onmessage = function (event) {
             var data = JSON.parse(event.data);
             if (data.msg == 'data'){
@@ -19,6 +23,9 @@ function initWebSocket(eventBus, onInitCallback){
             }
             else if (data.msg == 'upd'){
                 eventBus.publish('update', data.data);
+            }
+            else if (data.msg == 'end'){
+                eventBus.publish('end', data.data);
             }
         };
         window.addEventListener('beforeunload', function () { ws.close(); });

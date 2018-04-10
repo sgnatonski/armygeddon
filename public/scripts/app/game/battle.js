@@ -3,6 +3,7 @@ var Game = Game || {};
 Game.Battle = function (eventBus) {
 	this.eventBus = eventBus;
 	this.eventBus.on('update', d => this.onUpdate(d));
+	this.eventBus.on('end', d => this.onEnd(d));
 	this.battleState = 'none';
 };
 
@@ -71,34 +72,32 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 };
 
 Game.Battle.prototype.onUpdate = function(data){
-	if (this.isDefeatedArmy(data.currUnit.id)){
-		this.battleState = 'finished';
-	}
-	if (this.isWinningArmy(data.currUnit.id)){
-		this.battleState = 'finished';
-	}
-	else { 
-		this.battleState = 'started';
-		this.eventBus.publish('unitdelta', {
-			source: this.nextUnit().pos,
-			target: data.currUnit.pos
-		});
+	this.battleState = 'started';
+	this.eventBus.publish('unitdelta', {
+		source: this.nextUnit().pos,
+		target: data.currUnit.pos
+	});
 
-		this.unitQueue = data.unitQueue;
-		var army = this.getArmy(data.currUnit.id);
-		army.restoreUnit(data.currUnit);
-		if (data.targetUnit){
-			var targetArmy = this.getArmy(data.targetUnit.id);
-			targetArmy.restoreUnit(data.targetUnit);
-		}
-		var nextUnitArmy = this.getArmy(data.nextUnit.id);
-		nextUnitArmy.restoreUnit(data.nextUnit);
-		this.eventBus.publish('battleupdated', data);
+	this.unitQueue = data.unitQueue;
+	var army = this.getArmy(data.currUnit.id);
+	army.restoreUnit(data.currUnit);
+	if (data.targetUnit){
+		var targetArmy = this.getArmy(data.targetUnit.id);
+		targetArmy.restoreUnit(data.targetUnit);
 	}
+	var nextUnitArmy = this.getArmy(data.nextUnit.id);
+	nextUnitArmy.restoreUnit(data.nextUnit);
+	this.eventBus.publish('battleupdated', data);
 	this.eventBus.publish('battlestate', this.getBattleStateText());
 	var nextUnit = this.nextUnit();
 	var nextPlayer = this.getArmy(nextUnit).playerName;
 	setTimeout(() => this.eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
+};
+
+Game.Battle.prototype.onEnd = function(data){
+	this.battleState = 'finished';
+	this.eventBus.publish('battleended', data);
+	this.eventBus.publish('battlestate', this.getBattleStateText());
 };
 
 Game.Battle.prototype.unitMoving = function(unit, x, y, distance) {	
