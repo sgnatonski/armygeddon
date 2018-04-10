@@ -47,16 +47,11 @@ function setupStage(grid, eventBus, images){
     console.log(txt);
   });
 
-  var animationPath = null;
-
-  eventBus.on('unitdelta', delta => {
-    animationPath = grid.getPathBetween(grid.getHexAt(delta.source.x, delta.source.y), grid.getHexAt(delta.target.x, delta.target.y));
-  });
-
-  eventBus.on('battleupdated', data => {
-    animator.getAnimation(data.currUnit.id, animationPath).then(() => {
-      var nextHex = grid.updateSelection(data.currUnit);
-      if (grid.isPlayerArmy(data.nextUnit.id)){
+  eventBus.on('battleupdated', u => {
+    var animationPath = grid.getPathBetween(grid.getHexAt(u.delta.source.x, u.delta.source.y), grid.getHexAt(u.delta.target.x, u.delta.target.y));
+    animator.getAnimation(u.data.currUnit.id, animationPath).then(() => {
+      var nextHex = grid.updateSelection(u.data.currUnit);
+      if (grid.isPlayerArmy(u.data.nextUnit.id)){
         hlLayer.highlightNode(nextHex);
         hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
       }

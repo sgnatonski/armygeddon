@@ -73,10 +73,10 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 
 Game.Battle.prototype.onUpdate = function(data){
 	this.battleState = 'started';
-	this.eventBus.publish('unitdelta', {
+	var delta = {
 		source: this.nextUnit().pos,
 		target: data.currUnit.pos
-	});
+	};
 
 	this.unitQueue = data.unitQueue;
 	var army = this.getArmy(data.currUnit.id);
@@ -87,7 +87,7 @@ Game.Battle.prototype.onUpdate = function(data){
 	}
 	var nextUnitArmy = this.getArmy(data.nextUnit.id);
 	nextUnitArmy.restoreUnit(data.nextUnit);
-	this.eventBus.publish('battleupdated', data);
+	this.eventBus.publish('battleupdated', { delta: delta, data: data});
 	this.eventBus.publish('battlestate', this.getBattleStateText());
 	var nextUnit = this.nextUnit();
 	var nextPlayer = this.getArmy(nextUnit).playerName;

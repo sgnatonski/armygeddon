@@ -317,16 +317,11 @@ function setupStage(grid, eventBus, images){
     console.log(txt);
   });
 
-  var animationPath = null;
-
-  eventBus.on('unitdelta', delta => {
-    animationPath = grid.getPathBetween(grid.getHexAt(delta.source.x, delta.source.y), grid.getHexAt(delta.target.x, delta.target.y));
-  });
-
-  eventBus.on('battleupdated', data => {
-    animator.getAnimation(data.currUnit.id, animationPath).then(() => {
-      var nextHex = grid.updateSelection(data.currUnit);
-      if (grid.isPlayerArmy(data.nextUnit.id)){
+  eventBus.on('battleupdated', u => {
+    var animationPath = grid.getPathBetween(grid.getHexAt(u.delta.source.x, u.delta.source.y), grid.getHexAt(u.delta.target.x, u.delta.target.y));
+    animator.getAnimation(u.data.currUnit.id, animationPath).then(() => {
+      var nextHex = grid.updateSelection(u.data.currUnit);
+      if (grid.isPlayerArmy(u.data.nextUnit.id)){
         hlLayer.highlightNode(nextHex);
         hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
       }
@@ -505,10 +500,10 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 
 Game.Battle.prototype.onUpdate = function(data){
 	this.battleState = 'started';
-	this.eventBus.publish('unitdelta', {
+	var delta = {
 		source: this.nextUnit().pos,
 		target: data.currUnit.pos
-	});
+	};
 
 	this.unitQueue = data.unitQueue;
 	var army = this.getArmy(data.currUnit.id);
@@ -519,7 +514,7 @@ Game.Battle.prototype.onUpdate = function(data){
 	}
 	var nextUnitArmy = this.getArmy(data.nextUnit.id);
 	nextUnitArmy.restoreUnit(data.nextUnit);
-	this.eventBus.publish('battleupdated', data);
+	this.eventBus.publish('battleupdated', { delta: delta, data: data});
 	this.eventBus.publish('battlestate', this.getBattleStateText());
 	var nextUnit = this.nextUnit();
 	var nextPlayer = this.getArmy(nextUnit).playerName;
