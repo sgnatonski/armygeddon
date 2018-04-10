@@ -690,7 +690,6 @@ function createWaitLayer(width, height) {
     return {
         show: function (text) {
             waitOverlay.show();
-            complexText.destroy();
             complexText = createText(text);
             waitLayer.add(complexText);
             rect.show();
@@ -698,7 +697,7 @@ function createWaitLayer(width, height) {
         },
         hide: function () {
             waitOverlay.hide();
-            complexText.hide();
+            complexText.destroy();
             rect.hide();
             waitLayer.draw();
         },
