@@ -25,7 +25,7 @@ function setupStage(grid, eventBus, images){
   var tooltipLayer = createTooltipLayer(stage);
   var waitLayer = createWaitLayer(width, height);
 
-  waitLayer.show('Sir,\nYou\'re first on the battlefield.\n\nHopefully the other army will join soon.');
+  waitLayer.show('Sir,\nYou\'re first on the battlefield.\n\nHopefully the other army will arrive soon.');
   
   eventBus.on('battlestarted', () => {
     waitLayer.hide();

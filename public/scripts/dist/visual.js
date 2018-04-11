@@ -671,14 +671,14 @@ function createWaitLayer(width, height) {
     });
     waitLayer.add(waitOverlay);
 
-    var textWidth = 300;
+    var textWidth = 320;
 
     function createText(text) {
         return new Konva.Text({
             x: width / 2 - textWidth / 2,
             y: 100,
             text: text,
-            fontSize: 18,
+            fontSize: 16,
             fontFamily: 'Calibri',
             fill: '#555',
             width: textWidth,
@@ -696,7 +696,6 @@ function createWaitLayer(width, height) {
         strokeWidth: 5,
         fill: '#ddd',
         width: textWidth,
-        height: complexText.getHeight(),
         shadowColor: 'black',
         shadowBlur: 10,
         shadowOffset: [10, 10],
@@ -711,6 +710,7 @@ function createWaitLayer(width, height) {
             waitOverlay.show();
             complexText = createText(text);
             waitLayer.add(complexText);
+            rect.setHeight(complexText.getHeight());
             rect.show();
             waitLayer.draw();
         },
