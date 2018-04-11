@@ -1,7 +1,9 @@
 function setupStage(grid, eventBus, images){
-  var width = window.innerWidth;
-  var height = window.innerHeight;
+  var container = document.getElementById('container');
+  var width = container.clientWidth;
+  var height = window.innerHeight - container.offsetTop;
   var center = { x: width / 2, y: height / 2 };
+  container.style.minHeight = height + 'px';
 
   var stage = new Konva.Stage({
     container: 'container',
@@ -10,8 +12,9 @@ function setupStage(grid, eventBus, images){
   });
 
   window.addEventListener('resize', event => {
-    stage.width(window.innerWidth);
-    stage.height(window.innerHeight);
+    stage.width(container.clientWidth);
+    stage.height(window.innerHeight - container.offsetTop);
+    waitLayer.node.draw();
   });
 
   grid.initDrawing(center);
@@ -117,7 +120,7 @@ function setupStage(grid, eventBus, images){
     }
   }
   
-  terrainLayer.addGridNodes(grid, addNode);
+  var rect = terrainLayer.addGridNodes(grid, addNode);
 
   stage.add(terrainLayer);
   stage.add(hlLayer);
