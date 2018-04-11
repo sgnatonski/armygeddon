@@ -25,11 +25,17 @@ async function fetch(){
     return openBattles;
 }
 
-function add(battleid, players){
-    openBattles.push({ id: battleid, players: players });
+function add(battleid, player){
+    openBattles.push({ id: battleid, players: [player] });
+}
+
+function update(battleid, player){
+    var b = openBattles.find(x => x.id === battleid); 
+    b.players.push(player);
 }
 
 module.exports = {
     getOpen: fetch,
-    addOpen: add
+    addOpen: add,
+    updateOpen: update
 };

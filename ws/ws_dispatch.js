@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 var storage = require('../storage/arango/arango_storage');
 var battleScope = require('../logic/battle_scope');
+var battleTracker = require('../logic/battle_tracker');
 var armyUpd = require('../logic/army_updater');
 
 function broadcast(wss, userIds, payload, beforeSend){
@@ -60,6 +61,7 @@ module.exports = {
                 var army = await storage.armies.getBy('playerId', wsdata.userid);
                 var battle = battleScope(data, wsdata.userid, wsdata.username).join(army);
                 await storage.battles.store(battle);
+                battleTracker.updateOpen(battle.id, wsdata.username);
                 sendBattleMessages(wss, data);
             }   
         }
