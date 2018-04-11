@@ -12,11 +12,12 @@ async function fetch(){
 
     const cursor = await storage.query(aql`
     FOR b IN battles
-    FILTER !HAS(b, "winningArmy") 
+    FILTER !HAS(b, "winningArmy") AND DATE_DIFF(b.created, DATE_NOW(), 'i') < 60
     AND (CONCAT('_', ATTRIBUTES(b.armies)[0]) != ATTRIBUTES(b.armies)[1])
     RETURN { 
         id: b._key, 
-        players: [ b.armies[ATTRIBUTES(b.armies)[0]].name, b.armies[ATTRIBUTES(b.armies)[1]].name ] 
+        players: [ b.armies[ATTRIBUTES(b.armies)[0]].name, b.armies[ATTRIBUTES(b.armies)[1]].name ],
+        created: b.created 
     }
     `);
     openBattles = await cursor.all();

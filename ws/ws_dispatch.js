@@ -53,7 +53,7 @@ module.exports = {
     async sendComplete(wss, wsdata){
         var data = await storage.battles.get(wsdata.id);
         if (data){
-            if (data.armies[wsdata.userid]){
+            if (data.armies[wsdata.userid] || Math.round((new Date().getTime() - new Date(data.created).getTime()) / 60000) > 60){
                 sendBattleMessages(wss, data);
             }
             else{
