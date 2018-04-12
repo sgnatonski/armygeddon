@@ -68,10 +68,23 @@ function setupStage(grid, eventBus, images) {
     touchStartY = -stage.getY() + evt.evt.touches[0].clientY;
   });
 
+  function throttle(func, wait) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        if (!timeout) {
+            timeout = setTimeout(function() {
+                timeout = null;
+                func.apply(context, args);
+            }, wait);
+        }
+    }
+}
+
   stage.on('touchmove', evt =>{
     stage.setX(-(touchStartX - evt.evt.touches[0].clientX));
     stage.setY(-(touchStartY - evt.evt.touches[0].clientY));
-    stage.draw();
+    throttle(() => stage.draw(), 200)();
   });
 
   function addNode(hex) {
