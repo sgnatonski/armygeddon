@@ -61,10 +61,23 @@ function setupStage(grid, eventBus, images) {
     });
   });
 
+  var touchStartX;
+  var touchStartY;
+  stage.on('touchstart', evt =>{
+    touchStartX = -stage.getX() + evt.evt.touches[0].clientX;
+    touchStartY = -stage.getY() + evt.evt.touches[0].clientY;
+  });
+
+  stage.on('touchmove', evt =>{
+    stage.setX(-(touchStartX - evt.evt.touches[0].clientX));
+    stage.setY(-(touchStartY - evt.evt.touches[0].clientY));
+    stage.draw();
+  });
+
   function addNode(hex) {
     var node = createTerrainVisual(hex, center, images);
 
-    node.on('click', () => {
+    node.on('click dbltap', () => {
       hlLayer.highlightNode(null);
       effectLayer.drawPath([]);
       hlLayer.highlightRange([], grid.getSelectedHexState());
