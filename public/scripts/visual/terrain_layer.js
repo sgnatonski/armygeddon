@@ -25,8 +25,7 @@ function createTerrainLayer(){
         })
         .map(hex => nodeCallback(hex))
         .forEach(node => {
-            layer.add(node.node);
-            layer.add(node.coord);
+            layer.add(node);
         });
 
         layer.setHeight(Math.abs(minY) + Math.abs(maxY));

@@ -360,8 +360,33 @@ function setupStage(grid, eventBus, images) {
   stage.on('touchmove', evt =>{
     stage.setX(-(touchStartX - evt.evt.touches[0].clientX));
     stage.setY(-(touchStartY - evt.evt.touches[0].clientY));
+    cullView();
     stage.batchDraw();
   });
+
+  function cullView() {
+    var zoomLevel = 1;
+    var degreePixels = 0;
+
+    var boundingX = ((-1 * (stage.x() * (1/zoomLevel)))-(window.innerWidth/2))-degreePixels;
+    var boundingY = ((-1 * (stage.y() * (1/zoomLevel)))-(window.innerHeight/2))-degreePixels;
+    var boundingWidth = (2 * window.innerWidth * (1/zoomLevel)) + (2*degreePixels);
+    var boundingHeight = (2 * window.innerHeight * (1/zoomLevel)) + (2*degreePixels);
+    var x = 0;
+    var y = 0;
+    var c  = terrainLayer.children;
+    for (var i = 0; i < c.length; i++) {
+        x = c[i].getX();
+        y = c[i].getY();
+        if (((x > boundingX) && (x < (boundingX + boundingWidth))) && ((y > boundingY) && (y < (boundingY + boundingHeight)))) {
+            if (!c[i].visible()) {
+                c[i].show();
+            }
+        } else {
+            c[i].hide();
+        }
+    }
+  }
 
   function addNode(hex) {
     var node = createTerrainVisual(hex, center, images);
@@ -415,10 +440,9 @@ function setupStage(grid, eventBus, images) {
       tooltipLayer.hideTooltip();
     });
 
-    return {
-      node: node,
-      coord: createHexCoordVisual(hex, center)
-    }
+    node.add(createHexCoordVisual(hex, center));
+
+    return node;
   }
 
   terrainLayer.addGridNodes(grid, addNode);
