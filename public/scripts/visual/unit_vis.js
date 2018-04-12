@@ -10,7 +10,8 @@ function createUnitVisual(unit, center, hexCenter, color){
     shadowColor: 'black',
     shadowBlur: 10,
     shadowOffset: {x : 40, y : 20},
-    shadowOpacity: 0.5
+    shadowOpacity: 0.5,
+    perfectDrawEnabled : false
   });
   var unitPath = new Konva.Path({
     data: getShape('unitPath'),
@@ -19,7 +20,8 @@ function createUnitVisual(unit, center, hexCenter, color){
       x: 0.08,
       y: 0.08
     },
-    offsetY: 60
+    offsetY: 60,
+    perfectDrawEnabled : false
   });
   var unitType = new Konva.Group({
     offset: {
@@ -36,7 +38,8 @@ function createUnitVisual(unit, center, hexCenter, color){
       x: -8,
       y: -8
     },
-    opacity: 0.7
+    opacity: 0.7,
+    perfectDrawEnabled : false
   }));
   switch(unit.type){
     case 'inf':
@@ -46,7 +49,8 @@ function createUnitVisual(unit, center, hexCenter, color){
         scale: {
           x: 0.035,
           y: 0.035
-        }
+        },
+        perfectDrawEnabled : false
       }));
       unitType.add(new Konva.Path({
         data: getShape('inf2'),
@@ -54,7 +58,8 @@ function createUnitVisual(unit, center, hexCenter, color){
         scale: {
           x: 0.035,
           y: 0.035
-        }
+        },
+        perfectDrawEnabled : false
       }));
       break;
     case 'arch': 
@@ -68,7 +73,8 @@ function createUnitVisual(unit, center, hexCenter, color){
         offset: {
           x: -80,
           y: -80
-        }
+        },
+        perfectDrawEnabled : false
       }));
       break;
     case 'cav':
@@ -78,7 +84,8 @@ function createUnitVisual(unit, center, hexCenter, color){
         scale: {
           x: 0.2,
           y: 0.2
-        }
+        },
+        perfectDrawEnabled : false
       }));
       unitType.add(new Konva.Path({
         data: getShape('cav2'),
@@ -86,7 +93,8 @@ function createUnitVisual(unit, center, hexCenter, color){
         scale: {
           x: 0.2,
           y: 0.2
-        }
+        },
+        perfectDrawEnabled : false
       }));
       break;
   }
@@ -97,7 +105,8 @@ function createUnitVisual(unit, center, hexCenter, color){
     fill: 'white',
     stroke: 'black',
     strokeWidth: 1,
-    strokeHitEnabled: false
+    strokeHitEnabled: false,
+    perfectDrawEnabled : false
   });
   var healthStatusBar = new Konva.Shape({
     sceneFunc: function(context) {
@@ -114,7 +123,8 @@ function createUnitVisual(unit, center, hexCenter, color){
     fill: 'green',
     stroke: 'black',
     strokeWidth: 0.5,
-    strokeHitEnabled: false
+    strokeHitEnabled: false,
+    perfectDrawEnabled : false
   });
   healthGroup.add(healthStatus);
   healthGroup.add(healthStatusBar);
@@ -123,6 +133,7 @@ function createUnitVisual(unit, center, hexCenter, color){
     y: 15,
     fill: '#ffff66',
     opacity: 0.35,
+    perfectDrawEnabled : false,
     sceneFunc: function(context){
       if (!unit.armor){
         return;
@@ -169,7 +180,8 @@ function createDeadUnitVisual(unit, center, hexCenter){
     shadowColor: 'black',
     shadowBlur: 10,
     shadowOffset: {x : 40, y : 20},
-    shadowOpacity: 0.5
+    shadowOpacity: 0.5,
+    perfectDrawEnabled : false
   });
   var group = new Konva.Group({
     listening: false,

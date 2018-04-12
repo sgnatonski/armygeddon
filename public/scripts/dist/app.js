@@ -454,6 +454,8 @@ function setupStage(grid, eventBus, images) {
     hlLayer.highlightNode(selHex);
     hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
   }
+
+  Konva.pixelRatio = 1;
 }
 var Game = Game || {};
 

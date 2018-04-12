@@ -11,14 +11,16 @@ function createTooltipVisual(){
         shadowColor: 'black',
         shadowBlur: 5,
         shadowOffset: {x : 6, y : 6},
-        shadowOpacity: 0.5
+        shadowOpacity: 0.5,
+        perfectDrawEnabled : false
     });
     var text = new Konva.Text({
         fontFamily: "Calibri",
         fontSize: 11,
         padding: 5,
         fill: "#dedede",
-        listening: false/*,
+        listening: false,
+        perfectDrawEnabled : false/*,
         shadowColor: 'black',
         shadowBlur: 0,
         shadowOffset: {x : 2, y : 2},

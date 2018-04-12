@@ -11,7 +11,8 @@ function createTerrainVisual(hex, center, images){
                     x: 35,
                     y: 35
                 },
-                rotation: 30
+                rotation: 30,
+                perfectDrawEnabled : false
               });
         };
 
@@ -72,7 +73,8 @@ function createHexVisual(hex, c){
         },
         stroke: '#003300',
         strokeWidth: 0.7,
-        strokeHitEnabled: false
+        strokeHitEnabled: false,
+        perfectDrawEnabled : false
     });
 
     return hexShape;
@@ -85,7 +87,8 @@ function createHexCoordVisual(hex, center){
         text: `${hex.x}, ${hex.y}`,
         fontSize: 10,
         fill: 'black',
-        listening: false
+        listening: false,
+        perfectDrawEnabled : false
     });
   
     simpleText.setOffset({
