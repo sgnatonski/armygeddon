@@ -83,15 +83,29 @@ a {
 .bordered-box h1{
   font-family: SquareCaps;
   font-weight: normal;
-  font-size: 4em;
-  margin: 5px;
+  font-size: 1.25em;
+  margin: 0px;
 }
 
 .bordered-box h2{
   font-family: SquareCaps;
   font-weight: normal;
-  font-size: 2em;
-  margin-top: 5px;
+  font-size: 1em;
+  margin-top: 0px;
+}
+
+@media screen and (min-width: 48em){
+  .bordered-box h1{
+    font-family: SquareCaps;
+    font-weight: normal;
+    font-size: 3em;
+  }
+
+  .bordered-box h2{
+    font-family: SquareCaps;
+    font-weight: normal;
+    font-size: 2em;
+  }
 }
 
 .bordered-box ul{
