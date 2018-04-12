@@ -1,5 +1,7 @@
 function createUnitLayer(center, grid, animator){
-    var layer = new Konva.Layer();
+    var layer = new Konva.Layer({
+        hitGraphEnabled : false
+    });
 
     var armyColors = [
         '#00cc00',

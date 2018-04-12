@@ -1,5 +1,7 @@
 function createTooltipLayer(stage){
-    var tooltipLayer = new Konva.Layer();
+    var tooltipLayer = new Konva.Layer({
+        hitGraphEnabled : false
+    });
 
     var tooltip = createTooltipVisual();
 

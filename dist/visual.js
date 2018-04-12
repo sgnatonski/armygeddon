@@ -1,27 +1,29 @@
-function createEffectLayer(center){
-    var layer = new Konva.Layer();
+function createEffectLayer(center) {
+  var layer = new Konva.Layer({
+    hitGraphEnabled: false
+  });
 
-    function getMoveLinePoints (path) {
-        var linepoints = path.map(h => h.center).reduce((acc, curr) => acc.concat([center.x + curr.x, center.y + curr.y]), []);
-        return linepoints;
-      }
+  function getMoveLinePoints(path) {
+    var linepoints = path.map(h => h.center).reduce((acc, curr) => acc.concat([center.x + curr.x, center.y + curr.y]), []);
+    return linepoints;
+  }
 
-    layer.drawPath = (path) => {
-        var moveLines = layer.find('.move_line');
-        moveLines.each(line => {          
-          line.remove();
-          line.destroy();
-        });
-  
-        var linepoints = getMoveLinePoints(path, center);
-        if (linepoints && linepoints.length){
-          var moveLine = createMoveLineVisual(linepoints);  
-          layer.add(moveLine);
-        }
-        layer.draw();
-    };
+  layer.drawPath = (path) => {
+    var moveLines = layer.find('.move_line');
+    moveLines.each(line => {
+      line.remove();
+      line.destroy();
+    });
 
-    return layer;
+    var linepoints = getMoveLinePoints(path, center);
+    if (linepoints && linepoints.length) {
+      var moveLine = createMoveLineVisual(linepoints);
+      layer.add(moveLine);
+    }
+    layer.draw();
+  };
+
+  return layer;
 }
 var imageShapes;
 
@@ -120,7 +122,9 @@ function createHexCoordVisual(hex, center){
     return simpleText;
 }
 function createHighlightLayer(center){
-    var layer = new Konva.Layer();
+    var layer = new Konva.Layer({
+        hitGraphEnabled : false
+    });
     var overNode = null;
 
     layer.highlightNode = (hex) => {
@@ -293,7 +297,9 @@ function createTerrainLayer(){
     return layer;
 }
 function createTooltipLayer(stage){
-    var tooltipLayer = new Konva.Layer();
+    var tooltipLayer = new Konva.Layer({
+        hitGraphEnabled : false
+    });
 
     var tooltip = createTooltipVisual();
 
@@ -405,7 +411,9 @@ function createTooltipVisual(){
     };
 }
 function createUnitLayer(center, grid, animator){
-    var layer = new Konva.Layer();
+    var layer = new Konva.Layer({
+        hitGraphEnabled : false
+    });
 
     var armyColors = [
         '#00cc00',
@@ -674,7 +682,9 @@ function createDeadUnitVisual(unit, center, hexCenter){
   return group;
 }
 function createWaitLayer(width, height) {
-    var waitLayer = new Konva.Layer();
+    var waitLayer = new Konva.Layer({
+        hitGraphEnabled : false
+    });
     var waitOverlay = new Konva.Rect({
         x: 0,
         y: 0,
