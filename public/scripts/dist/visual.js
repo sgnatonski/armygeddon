@@ -286,7 +286,8 @@ function createTerrainLayer(){
             layer.add(node.coord);
         });
 
-        return { x1: minX, x2: maxX, y1: minY, y2: maxY };
+        layer.setHeight(Math.abs(minY) + Math.abs(maxY));
+        layer.setWidth(Math.abs(minX) + Math.abs(maxX));
     }
 
     return layer;

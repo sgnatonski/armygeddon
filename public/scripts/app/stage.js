@@ -119,7 +119,8 @@ function setupStage(grid, eventBus, images) {
     }
   }
 
-  var rect = terrainLayer.addGridNodes(grid, addNode);
+  terrainLayer.addGridNodes(grid, addNode);
+  container.style.minHeight = terrainLayer.getHeight() + 'px';
 
   stage.add(terrainLayer);
   stage.add(hlLayer);
@@ -138,7 +139,4 @@ function setupStage(grid, eventBus, images) {
     hlLayer.highlightNode(selHex);
     hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
   }
-
-  var realHeight = Math.abs(rect.y2) + Math.abs(rect.y1);
-  container.style.minHeight = realHeight + 'px';
 }

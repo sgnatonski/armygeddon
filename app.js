@@ -63,6 +63,15 @@ else{
 app.use('/singlebattle', singlebattle);
 app.use('/armies', armies);
 
+var JL = require('jsnlog').JL;
+var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
+app.post('*.logger', function (req, res) { 
+  jsnlog_nodejs(JL, req.body);
+
+  // Send empty response. This is ok, because client side jsnlog does not use response from server.
+  res.send(''); 
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
