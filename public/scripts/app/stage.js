@@ -63,12 +63,12 @@ function setupStage(grid, eventBus, images) {
 
   var touchStartX;
   var touchStartY;
-  stage.on('touchstart', evt =>{
+  stage.on('touchstart', evt => {
     touchStartX = -stage.getX() + evt.evt.touches[0].clientX;
     touchStartY = -stage.getY() + evt.evt.touches[0].clientY;
   });
 
-  stage.on('touchmove', evt =>{
+  stage.on('touchmove', evt => {
     stage.setX(-(touchStartX - evt.evt.touches[0].clientX));
     stage.setY(-(touchStartY - evt.evt.touches[0].clientY));
     cullView();
@@ -76,26 +76,23 @@ function setupStage(grid, eventBus, images) {
   });
 
   function cullView() {
-    var zoomLevel = 1;
-    var degreePixels = 0;
-
-    var boundingX = ((-1 * (stage.x() * (1/zoomLevel)))-(window.innerWidth/2))-degreePixels;
-    var boundingY = ((-1 * (stage.y() * (1/zoomLevel)))-(window.innerHeight/2))-degreePixels;
-    var boundingWidth = (2 * window.innerWidth * (1/zoomLevel)) + (2*degreePixels);
-    var boundingHeight = (2 * window.innerHeight * (1/zoomLevel)) + (2*degreePixels);
+    var boundingX = (-1 * (stage.x())) - (container.clientWidth / 2);
+    var boundingY = (-1 * (stage.y())) - (container.clientHeight / 2);
+    var boundingWidth = (2 * container.clientWidth);
+    var boundingHeight = (2 * container.clientHeight);
     var x = 0;
     var y = 0;
-    var c  = terrainLayer.children;
+    var c = terrainLayer.children;
     for (var i = 0; i < c.length; i++) {
-        x = c[i].getX();
-        y = c[i].getY();
-        if (((x > boundingX) && (x < (boundingX + boundingWidth))) && ((y > boundingY) && (y < (boundingY + boundingHeight)))) {
-            if (!c[i].visible()) {
-                c[i].show();
-            }
-        } else {
-            c[i].hide();
+      x = c[i].getX();
+      y = c[i].getY();
+      if (((x > boundingX) && (x < (boundingX + boundingWidth))) && ((y > boundingY) && (y < (boundingY + boundingHeight)))) {
+        if (!c[i].visible()) {
+          c[i].show();
         }
+      } else {
+        c[i].hide();
+      }
     }
   }
 

@@ -49,7 +49,7 @@ function createTerrainVisual(hex, center, images){
         };
     }
     
-    function getHexTerrainImage(hex, center){
+    function getHexTerrainImage(hex){
         if (hex.cost < 0){
             return;
         }
@@ -63,38 +63,34 @@ function createTerrainVisual(hex, center, images){
             shape = imageShapes.forrests[gNumber].clone();
         }
 
-        shape.x(center.x + hex.center.x);
-        shape.y(center.y + hex.center.y);
         return shape;
     }
 
-    var group = new Konva.Group();
+    var group = new Konva.Group({
+        x: center.x + hex.center.x,
+        y: center.y + hex.center.y,
+    });
     
-    var terrain = getHexTerrainImage(hex, center);
+    var terrain = getHexTerrainImage(hex);
 
     if(terrain){
         group.add(terrain);
     }
-    group.add(createHexVisual(hex, center));
+    group.add(createHexVisual(hex));
     
     return group;
 }
 
-function createHexVisual(hex, c){
-    var center = c;
-    function nextCoord(idx){
-        return [center.x + hex.points[idx].x, center.y + hex.points[idx].y]
-    }
-  
+function createHexVisual(hex){  
     var hexShape = new Konva.Shape({
         sceneFunc: function(context) {
           context.beginPath();
-          context.moveTo(...nextCoord(0));
-          context.lineTo(...nextCoord(1));
-          context.lineTo(...nextCoord(2));
-          context.lineTo(...nextCoord(3));
-          context.lineTo(...nextCoord(4));
-          context.lineTo(...nextCoord(5));
+          context.moveTo(0, 30);
+          context.lineTo(-26, 15);
+          context.lineTo(-26, -15);
+          context.lineTo(0, -30);
+          context.lineTo(26, -15);
+          context.lineTo(26, 15);
           context.closePath();
           context.fillStrokeShape(this);
         },
@@ -107,10 +103,8 @@ function createHexVisual(hex, c){
     return hexShape;
 }
 
-function createHexCoordVisual(hex, center){
+function createHexCoordVisual(hex){
     var simpleText = new Konva.Text({
-        x: center.x + hex.center.x,
-        y: center.y + hex.center.y,
         text: `${hex.x}, ${hex.y}`,
         fontSize: 10,
         fill: 'black',
@@ -136,7 +130,11 @@ function createHighlightLayer(center){
             overNode.destroy();
         }
         if (hex){
-            var node = createHexVisual(hex, center);
+            var node = createHexVisual(hex);
+            node.position({
+                x: center.x + hex.center.x,
+                y: center.y + hex.center.y
+            });
             node.setFill('#ffffff');
             node.setListening(false);
             node.opacity(0.2);
@@ -150,8 +148,11 @@ function createHighlightLayer(center){
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
-                var node = createHexVisual(hexes[i], center);
-                node.setFill('#ffffff');
+                var node = createHexVisual(hexes[i]);
+                node.position({
+                    x: center.x + hexes[i].center.x,
+                    y: center.y + hexes[i].center.y
+                });node.setFill('#ffffff');
                 node.setListening(false);
                 node.opacity(0.2);
                 layer.add(node);
@@ -163,8 +164,11 @@ function createHighlightLayer(center){
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
-                var node = createHexVisual(hexes[i], center);
-                node.setFill('#ffad33');
+                var node = createHexVisual(hexes[i]);
+                node.position({
+                    x: center.x + hexes[i].center.x,
+                    y: center.y + hexes[i].center.y
+                });node.setFill('#ffad33');
                 node.setListening(false);
                 node.opacity(0.2);
                 layer.add(node);
@@ -176,8 +180,11 @@ function createHighlightLayer(center){
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
-                var node = createHexVisual(hexes[i], center);
-                node.setFill('#DD1111');
+                var node = createHexVisual(hexes[i]);
+                node.position({
+                    x: center.x + hexes[i].center.x,
+                    y: center.y + hexes[i].center.y
+                });node.setFill('#DD1111');
                 node.opacity(0.5);
                 node.setListening(false);
                 layer.add(node);

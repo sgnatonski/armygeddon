@@ -10,7 +10,11 @@ function createHighlightLayer(center){
             overNode.destroy();
         }
         if (hex){
-            var node = createHexVisual(hex, center);
+            var node = createHexVisual(hex);
+            node.position({
+                x: center.x + hex.center.x,
+                y: center.y + hex.center.y
+            });
             node.setFill('#ffffff');
             node.setListening(false);
             node.opacity(0.2);
@@ -24,8 +28,11 @@ function createHighlightLayer(center){
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
-                var node = createHexVisual(hexes[i], center);
-                node.setFill('#ffffff');
+                var node = createHexVisual(hexes[i]);
+                node.position({
+                    x: center.x + hexes[i].center.x,
+                    y: center.y + hexes[i].center.y
+                });node.setFill('#ffffff');
                 node.setListening(false);
                 node.opacity(0.2);
                 layer.add(node);
@@ -37,8 +44,11 @@ function createHighlightLayer(center){
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
-                var node = createHexVisual(hexes[i], center);
-                node.setFill('#ffad33');
+                var node = createHexVisual(hexes[i]);
+                node.position({
+                    x: center.x + hexes[i].center.x,
+                    y: center.y + hexes[i].center.y
+                });node.setFill('#ffad33');
                 node.setListening(false);
                 node.opacity(0.2);
                 layer.add(node);
@@ -50,8 +60,11 @@ function createHighlightLayer(center){
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
-                var node = createHexVisual(hexes[i], center);
-                node.setFill('#DD1111');
+                var node = createHexVisual(hexes[i]);
+                node.position({
+                    x: center.x + hexes[i].center.x,
+                    y: center.y + hexes[i].center.y
+                });node.setFill('#DD1111');
                 node.opacity(0.5);
                 node.setListening(false);
                 layer.add(node);
