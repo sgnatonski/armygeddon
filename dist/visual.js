@@ -40,7 +40,7 @@ function createTerrainVisual(hex, center, images){
                 },
                 rotation: 30,
                 perfectDrawEnabled : false
-              });
+              }).cache();
         };
 
         imageShapes = {
