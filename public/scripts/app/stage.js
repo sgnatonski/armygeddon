@@ -68,21 +68,36 @@ function setupStage(grid, eventBus, images) {
     touchStartY = -stage.getY() + evt.evt.touches[0].clientY;
   });
 
+  function throttle(func, wait) {
+    var timeout;
+    return function () {
+      var context = this, args = arguments;
+      if (!timeout) {
+        timeout = setTimeout(function () {
+          timeout = null;
+          func.apply(context, args);
+        }, wait);
+      }
+    }
+  }
+
   stage.on('touchmove', evt => {
-    stage.setX(-(touchStartX - evt.evt.touches[0].clientX));
-    stage.setY(-(touchStartY - evt.evt.touches[0].clientY));
-    cullView();
-    stage.batchDraw();
+    var x = -(touchStartX - evt.evt.touches[0].clientX);
+    var y = -(touchStartY - evt.evt.touches[0].clientY);
+    stage.setX(x);
+    stage.setY(y);
+    cullView(terrainLayer);
+    throttle(() => stage.draw(), 200)();//stage.batchDraw();
   });
 
-  function cullView() {
+  function cullView(layer) {
     var boundingX = (-1 * (stage.x())) - (container.clientWidth / 2);
     var boundingY = (-1 * (stage.y())) - (container.clientHeight / 2);
     var boundingWidth = (2 * container.clientWidth);
     var boundingHeight = (2 * container.clientHeight);
     var x = 0;
     var y = 0;
-    var c = terrainLayer.children;
+    var c = layer.children;
     for (var i = 0; i < c.length; i++) {
       x = c[i].getX();
       y = c[i].getY();
