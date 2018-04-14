@@ -322,7 +322,8 @@ function setupStage(grid, eventBus, images) {
   window.addEventListener('resize', event => {
     stage.width(container.clientWidth);
     stage.height(window.innerHeight - container.offsetTop);
-    waitLayer.node.draw();
+    cullView(container, stage, terrainLayer);
+    stage.batchDraw();
   });
 
   grid.initDrawing(center);
@@ -443,8 +444,12 @@ function setupStage(grid, eventBus, images) {
     return node;
   }
 
-  terrainLayer.addGridNodes(grid, addNode);
-  container.style.minHeight = terrainLayer.getHeight() + 'px';
+  var { minX, minY, maxX, maxY } = terrainLayer.addGridNodes(grid, addNode);
+  var stageWidth = Math.abs(minX) + Math.abs(maxX) + 60;
+  var stageHeight = Math.abs(minY) + Math.abs(maxY) + 160;
+  stage.setHeight(stageHeight);
+
+  container.style.minHeight = stageHeight + 'px';
 
   stage.add(terrainLayer);
   stage.add(hlLayer);
