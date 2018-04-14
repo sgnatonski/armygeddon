@@ -10,7 +10,7 @@ router.post('/join/:battleid?', async function(req, res, next) {
         res.json(data);
     }
     else{
-        var data = await storage.battleTemplates.get('battle.plains_forest_1');
+        var data = await storage.battleTemplates.get('battle.tiny_plains_1');
         var ut = await storage.battleTemplates.get('unittypes');
         var army = await storage.armies.getBy('playerId', req.user.id);
         var battle = battleScope(data, req.user.id, req.user.name).init(ut, army);

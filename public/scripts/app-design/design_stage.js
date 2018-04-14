@@ -8,11 +8,6 @@ function setupStage(grid, animator, images){
     width: width,
     height: height
   });
-  
-  window.addEventListener('resize', function(event){
-    stage.width(window.innerWidth);
-    stage.height(window.innerHeight);
-  });
 
   var mode = 0;
 
@@ -91,10 +86,7 @@ function setupStage(grid, animator, images){
       tooltipLayer.draw();
     });
 
-    return {
-      node: node,
-      coord: createHexCoordVisual(hex, center)
-    }
+    return node;
   }
 
   terrainLayer.addGridNodes(grid, addNode);
