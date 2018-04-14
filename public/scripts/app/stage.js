@@ -1,7 +1,7 @@
 function setupStage(grid, eventBus, images) {
   var container = document.getElementById('container');
   var width = container.clientWidth;
-  var height = window.innerHeight - container.offsetTop;
+  var height = container.clientHeight - container.offsetTop;
   var center = { x: width / 2, y: height / 2 };
 
   var stage = new Konva.Stage({
@@ -14,10 +14,19 @@ function setupStage(grid, eventBus, images) {
 
   var animator = new Animator();
 
+  var terrainLayer = createTerrainLayer();
+  var { minX, minY, maxX, maxY } = terrainLayer.addGridNodes(grid, addNode);
+  var stageWidth = Math.abs(minX) + Math.abs(maxX) + 60;
+  var stageHeight = Math.abs(minY) + Math.abs(maxY) + 160;
+  container.style.minHeight = stageHeight + 'px';
+  stage.setHeight(stageHeight);
+  height = stageHeight;
+  center.y = height / 2;
+  terrainLayer.setY(center.y);
+  
   var effectLayer = createEffectLayer(center);
   var unitLayer = createUnitLayer(center, grid, animator);
   var hlLayer = createHighlightLayer(center);
-  var terrainLayer = createTerrainLayer();
   var tooltipLayer = createTooltipLayer(stage);
   var waitLayer = createWaitLayer(width, height);
 
@@ -127,13 +136,6 @@ function setupStage(grid, eventBus, images) {
 
     return node;
   }
-
-  var { minX, minY, maxX, maxY } = terrainLayer.addGridNodes(grid, addNode);
-  var stageWidth = Math.abs(minX) + Math.abs(maxX) + 60;
-  var stageHeight = Math.abs(minY) + Math.abs(maxY) + 160;
-  stage.setHeight(stageHeight);
-
-  container.style.minHeight = stageHeight + 'px';
 
   stage.add(terrainLayer);
   stage.add(hlLayer);
