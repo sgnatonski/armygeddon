@@ -27,7 +27,7 @@ router.post('/', async function(req, res, next) {
   });
 
   res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
-  res.redirect('/');
+  res.redirect('/start');
 });
 
 router.get('/register', function(req, res, next) {
@@ -98,7 +98,7 @@ router.post('/register', async function(req, res, next) {
   });
 
   res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
-  res.redirect('/');
+  res.redirect('/start');
 });
 
 module.exports = router;

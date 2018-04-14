@@ -56,6 +56,7 @@ a {
     padding: 0px 23px 18px;
     min-height: 100px;
     box-shadow: black -16px 16px 16px 0px;
+    position: relative;
 }
 .bordered-box > div {
   width: 100%;
@@ -94,6 +95,13 @@ a {
   margin-top: 0px;
 }
 
+.bordered-box > div.right-aligned{
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  width: auto;
+}
+
 @media screen and (min-width: 48em){
   .bordered-box h1{
     font-family: SquareCaps;
@@ -108,11 +116,11 @@ a {
   }
 }
 
-.bordered-box ul{
+.bordered-box ul.select-list{
   list-style-type: none;
 }
 
-.bordered-box ul > li:hover:before {
+.bordered-box ul.select-list > li:hover:before {
   white-space: pre-wrap;
   content: '♜';
   margin-left: -20px;

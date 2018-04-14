@@ -47,7 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(jwt({
   secret: app.get('TOKEN_SECRET'),
   getToken: req => req.cookies.a_token
-}).unless({path: ['/login', '/login/register']}));
+}).unless({path: ['/', '/login', '/login/register']}));
 
 app.use('/', index);
 app.use('/login', login);
