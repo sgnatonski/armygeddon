@@ -310,7 +310,7 @@ function initGrid(battle) {
 function setupStage(grid, eventBus, images) {
   var container = document.getElementById('container');
   var width = container.clientWidth;
-  var height = container.clientHeight - container.offsetTop;
+  var height = container.offsetTop;
   var center = { x: width / 2, y: height / 2 };
 
   var stage = new Konva.Stage({
@@ -326,7 +326,7 @@ function setupStage(grid, eventBus, images) {
   var terrainLayer = createTerrainLayer();
   var { minX, minY, maxX, maxY } = terrainLayer.addGridNodes(grid, addNode);
   var stageWidth = Math.abs(minX) + Math.abs(maxX) + 60;
-  var stageHeight = Math.abs(minY) + Math.abs(maxY) + 100;
+  var stageHeight = Math.abs(minY) + Math.abs(maxY) + 160;
   container.style.minHeight = stageHeight + 'px';
   stage.setHeight(stageHeight);
   height = stageHeight;

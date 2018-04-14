@@ -310,7 +310,7 @@ function initGrid(battle) {
 function setupStage(grid, eventBus, images) {
   var container = document.getElementById('container');
   var width = container.clientWidth;
-  var height = container.clientHeight - container.offsetTop;
+  var height = container.offsetTop;
   var center = { x: width / 2, y: height / 2 };
 
   var stage = new Konva.Stage({
