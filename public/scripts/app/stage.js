@@ -37,12 +37,10 @@ function setupStage(grid, eventBus, images) {
   });
 
   eventBus.on('battleended', result => {
-    grid = initGrid(result.battle);
-    grid.initDrawing(center);
     hlLayer.highlightNode(null);
     effectLayer.drawPath([]);
     hlLayer.highlightRange([], grid.getSelectedHexState());
-    grid.hexSelected(hex);
+    grid.hexSelected();
     unitLayer.refresh();
     tooltipLayer.hideTooltip();
     waitLayer.show('Battle has ended');
