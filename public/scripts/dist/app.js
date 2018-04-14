@@ -174,7 +174,7 @@ function initGrid(battle) {
     if (selectedHex) {
       selectedHex.blocked = false;
     }
-    var unit = grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
+    var unit = grid.selectedHex && hex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
 
     var unitState = battle.getUnitState(unit);
     switch (unitState) {
@@ -317,13 +317,6 @@ function setupStage(grid, eventBus, images) {
     container: 'container',
     width: width,
     height: height
-  });
-
-  window.addEventListener('resize', event => {
-    stage.width(container.clientWidth);
-    stage.height(window.innerHeight - container.offsetTop);
-    cullView(container, stage, terrainLayer);
-    stage.batchDraw();
   });
 
   grid.initDrawing(center);

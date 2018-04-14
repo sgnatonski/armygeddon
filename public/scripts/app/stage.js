@@ -10,13 +10,6 @@ function setupStage(grid, eventBus, images) {
     height: height
   });
 
-  window.addEventListener('resize', event => {
-    stage.width(container.clientWidth);
-    stage.height(window.innerHeight - container.offsetTop);
-    cullView(container, stage, terrainLayer);
-    stage.batchDraw();
-  });
-
   grid.initDrawing(center);
 
   var animator = new Animator();

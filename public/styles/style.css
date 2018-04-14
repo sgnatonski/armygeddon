@@ -8,7 +8,7 @@ body {
   margin: 0px;  
 }
 
-body > div:not(#container):before {
+body > div > div:not(#battle-scene):before {
   content: "";
   position: fixed;
   left: 0;
@@ -22,7 +22,11 @@ body > div:not(#container):before {
   height: 100%;
 }
 
-body > div#container:before {
+div#container{
+  position: relative;
+}
+
+body > div > div#battle-scene:before {
   content: "";
   position: fixed;
   left: 0;

@@ -69,7 +69,7 @@ function initGrid(battle) {
     if (selectedHex) {
       selectedHex.blocked = false;
     }
-    var unit = grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
+    var unit = grid.selectedHex && hex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
 
     var unitState = battle.getUnitState(unit);
     switch (unitState) {
