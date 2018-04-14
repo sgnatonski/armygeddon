@@ -89,7 +89,11 @@ router.post('/register', async function(req, res, next) {
 
   army.playerId = user.id;
   army.id = crypto.randomBytes(8).toString("hex");
-  army.units = army.units.map(u => Object.assign({id: crypto.randomBytes(8).toString("hex")}, u));
+  army.units = army.units.map(u => Object.assign({
+    id: crypto.randomBytes(8).toString("hex"),
+    experience: 0,
+    rank: 0
+  }, u));
 
   await storage.armies.store(army);
 
