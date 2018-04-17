@@ -30,6 +30,20 @@
                         </ul>
                     </div>
                 </div>
+                <div class="bordered-box">
+                    <div>
+                        <h2>Ranking</h2>
+                        <ul class="select-list">
+                            {{#ranking}}
+                            <li>
+                                <span>{{playerName}}</span>
+                                <span>{{totalExp}}</span>
+                                <span>{{totalRank}}</span>
+                            </li>
+                            {{/ranking}}
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="pure-u-1 pure-u-md-2-3">
                 <div class="bordered-box">
