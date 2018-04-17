@@ -1,52 +1,60 @@
 {{#yield-scripts}} 
 {{/yield-scripts}} 
 {{#yield-body}}
-<div class="pure-g">
-    <div class="pure-u-1 pure-u-md-1-8"></div>
-    <div class="pure-u-1 pure-u-md-3-4">
-        <div class="bordered-box bordered-box-min title-box">
-            <div>
-                <h1>Armygeddon</h1>
-            </div>
-            <div class="right-aligned">
-                <div class="pure-menu pure-menu-horizontal">
-                    <ul class="pure-menu-list">
-                        <li class="pure-menu-item">
-                            <a href="login">Login</a>
-                        </li>
-                        <li class="pure-menu-item">
-                            <a href="login/register">Register</a>
-                        </li>
-                    </ul>
+<div>
+    <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-1-8"></div>
+        <div class="pure-u-1 pure-u-md-3-4">
+            <div class="bordered-box bordered-box-min title-box">
+                <div>
+                    <h1>Armygeddon</h1>
+                </div>
+                <div class="right-aligned">
+                    <div class="pure-menu pure-menu-horizontal">
+                        <ul class="pure-menu-list">
+                            <li class="pure-menu-item">
+                                <a href="login">Login</a>
+                            </li>
+                            <li class="pure-menu-item">
+                                <a href="login/register">Register</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="pure-g">
-    <div class="pure-u-1 pure-u-md-1-8"></div>
-    <div class="pure-u-1 pure-u-md-3-4">
-        <div class="pure-g">
-            <div class="pure-u-1 pure-u-md-2-3">
-                <div class="bordered-box">
-                    <div>
-                        <h1>Welcome</h1>
+    <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-1-8"></div>
+        <div class="pure-u-1 pure-u-md-3-4">
+            <div class="pure-g">
+                <div class="pure-u-1 pure-u-md-2-3">
+                    <div class="bordered-box">
+                        <div>
+                            <h1>Welcome</h1>
+                            <p><small>2018.04.17</small></p>
+                            <p>Welcome to Armygeddon!</p>
+                            <p>Armygeddon is a turn-based browser strategy game, which allows players to organize duels and test their skills and tactics agains each other.</p>
+                            <p>The game is currently under development (but already playable) and new features and bug fixes are arriving on daily schedule.</p>
+                            <p>Please feel free to test current game features and enjoy the game.</p>
+                            <h2><a href="/start">Begin the game!</a></h4><h2><a href="/tutorial">Read the tutorial</a></h4>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-3">
-                <div class="bordered-box">
-                    <div>
-                        <h2>Ranking</h2>
-                        <ul class="select-list">
-                            {{#ranking}}
-                            <li>
-                                <span>{{playerName}}</span>
-                                <span>{{totalExp}}</span>
-                                <span>{{totalRank}}</span>
-                            </li>
-                            {{/ranking}}
-                        </ul>
+                <div class="pure-u-1 pure-u-md-1-3">
+                    <div class="bordered-box">
+                        <div>
+                            <h2>Ranking</h2>
+                            <ul class="select-list">
+                                {{#ranking}}
+                                <li>
+                                    <span>{{playerName}}</span>
+                                    <span>{{totalExp}}</span>
+                                    <span>{{totalRank}}</span>
+                                </li>
+                                {{/ranking}}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
