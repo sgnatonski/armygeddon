@@ -85,7 +85,7 @@ function setupStage(grid, eventBus, images) {
     stage.setX(x);
     stage.setY(y);
     cullView(container, stage, terrainLayer);
-    stage.batchDraw();
+    stage.draw();
   });
 
   function addNode(hex) {

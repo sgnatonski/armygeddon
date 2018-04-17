@@ -10,7 +10,7 @@ function createHighlightLayer(center){
             overNode.destroy();
         }
         if (hex){
-            var node = createHexVisual(hex);
+            var node = createHexVisual();
             node.position({
                 x: center.x + hex.center.x,
                 y: center.y + hex.center.y
@@ -28,7 +28,7 @@ function createHighlightLayer(center){
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
-                var node = createHexVisual(hexes[i]);
+                var node = createHexVisual();
                 node.position({
                     x: center.x + hexes[i].center.x,
                     y: center.y + hexes[i].center.y
@@ -44,7 +44,7 @@ function createHighlightLayer(center){
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
-                var node = createHexVisual(hexes[i]);
+                var node = createHexVisual();
                 node.position({
                     x: center.x + hexes[i].center.x,
                     y: center.y + hexes[i].center.y

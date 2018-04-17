@@ -27,6 +27,24 @@ function createEffectLayer(center) {
 }
 var imageShapes;
 
+var hexShape = new Konva.Shape({
+    sceneFunc: function(context) {
+      context.beginPath();
+      context.moveTo(0, 30);
+      context.lineTo(-26, 15);
+      context.lineTo(-26, -15);
+      context.lineTo(0, -30);
+      context.lineTo(26, -15);
+      context.lineTo(26, 15);
+      context.closePath();
+      context.fillStrokeShape(this);
+    },
+    stroke: '#003300',
+    strokeWidth: 0.7,
+    strokeHitEnabled: false,
+    perfectDrawEnabled : false
+}).cache();
+
 function createTerrainVisual(hex, center, images){
     if (!imageShapes){
         function createShape(img){
@@ -76,31 +94,13 @@ function createTerrainVisual(hex, center, images){
     if(terrain){
         group.add(terrain);
     }
-    group.add(createHexVisual(hex));
+    group.add(createHexVisual());
     
     return group;
 }
 
-function createHexVisual(hex){  
-    var hexShape = new Konva.Shape({
-        sceneFunc: function(context) {
-          context.beginPath();
-          context.moveTo(0, 30);
-          context.lineTo(-26, 15);
-          context.lineTo(-26, -15);
-          context.lineTo(0, -30);
-          context.lineTo(26, -15);
-          context.lineTo(26, 15);
-          context.closePath();
-          context.fillStrokeShape(this);
-        },
-        stroke: '#003300',
-        strokeWidth: 0.7,
-        strokeHitEnabled: false,
-        perfectDrawEnabled : false
-    });
-
-    return hexShape;
+function createHexVisual(){
+    return hexShape.clone();
 }
 
 function createHexCoordVisual(hex){
@@ -130,7 +130,7 @@ function createHighlightLayer(center){
             overNode.destroy();
         }
         if (hex){
-            var node = createHexVisual(hex);
+            var node = createHexVisual();
             node.position({
                 x: center.x + hex.center.x,
                 y: center.y + hex.center.y
@@ -148,7 +148,7 @@ function createHighlightLayer(center){
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
-                var node = createHexVisual(hexes[i]);
+                var node = createHexVisual();
                 node.position({
                     x: center.x + hexes[i].center.x,
                     y: center.y + hexes[i].center.y
@@ -164,7 +164,7 @@ function createHighlightLayer(center){
         layer.destroyChildren();
         if (hexes){
             for (var i = 0; i < hexes.length; i++){
-                var node = createHexVisual(hexes[i]);
+                var node = createHexVisual();
                 node.position({
                     x: center.x + hexes[i].center.x,
                     y: center.y + hexes[i].center.y

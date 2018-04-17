@@ -1,5 +1,23 @@
 var imageShapes;
 
+var hexShape = new Konva.Shape({
+    sceneFunc: function(context) {
+      context.beginPath();
+      context.moveTo(0, 30);
+      context.lineTo(-26, 15);
+      context.lineTo(-26, -15);
+      context.lineTo(0, -30);
+      context.lineTo(26, -15);
+      context.lineTo(26, 15);
+      context.closePath();
+      context.fillStrokeShape(this);
+    },
+    stroke: '#003300',
+    strokeWidth: 0.7,
+    strokeHitEnabled: false,
+    perfectDrawEnabled : false
+}).cache();
+
 function createTerrainVisual(hex, center, images){
     if (!imageShapes){
         function createShape(img){
@@ -49,31 +67,13 @@ function createTerrainVisual(hex, center, images){
     if(terrain){
         group.add(terrain);
     }
-    group.add(createHexVisual(hex));
+    group.add(createHexVisual());
     
     return group;
 }
 
-function createHexVisual(hex){  
-    var hexShape = new Konva.Shape({
-        sceneFunc: function(context) {
-          context.beginPath();
-          context.moveTo(0, 30);
-          context.lineTo(-26, 15);
-          context.lineTo(-26, -15);
-          context.lineTo(0, -30);
-          context.lineTo(26, -15);
-          context.lineTo(26, 15);
-          context.closePath();
-          context.fillStrokeShape(this);
-        },
-        stroke: '#003300',
-        strokeWidth: 0.7,
-        strokeHitEnabled: false,
-        perfectDrawEnabled : false
-    });
-
-    return hexShape;
+function createHexVisual(){
+    return hexShape.clone();
 }
 
 function createHexCoordVisual(hex){
