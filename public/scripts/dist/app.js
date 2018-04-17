@@ -368,6 +368,16 @@ function setupStage(grid, eventBus, images) {
         hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
       }
       unitLayer.refresh();
+      var margin = 100;
+      if ((stage.getX() + center.x + nextHex.center.x < margin || stage.getX() + center.x + nextHex.center.x > container.clientWidth - margin )
+      || (stage.getY() + center.y + nextHex.center.y < margin || stage.getY() + center.y + nextHex.center.y > container.clientHeight - margin )){
+        setTimeout(() => {
+          stage.setX(-nextHex.center.x);
+          stage.setY(-nextHex.center.y);
+          cullView(container, stage, terrainLayer);
+          stage.batchDraw();
+        }, 500);
+      }
     });
   });
 
