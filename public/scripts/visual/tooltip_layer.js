@@ -25,9 +25,11 @@ function createTooltipLayer(stage){
         var mousePos = stage.getPointerPosition();
         if (cost <= unit.mobility){
             var texts = [
-                `Moves: ${cost} / ${unit.mobility}`,
-                `Charge: ${cost}`
+                `Moves: ${cost} / ${unit.mobility}`                
             ];
+            if (unit.range == 1){
+                texts.push(`Charge: +${cost}`);
+            }
             if (unit.agility && cost == unit.mobility){
                 texts.push(`Agility: -${unit.agility}`);
             }

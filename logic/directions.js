@@ -36,6 +36,7 @@ function setDirections(unit, dirSize) {
 }
 
 module.exports = {
+    getTurns: () => turns,
     getDirection,
     setDirections
 };

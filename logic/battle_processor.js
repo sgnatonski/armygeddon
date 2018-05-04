@@ -16,6 +16,9 @@ function processor(battle, playerId, helper){
         }
 
         var { isValidMove, moveCost } = validator.isValidMove(unit, x, y);
+        if (!isValidMove){
+            return finalize(battle, turn, unit);
+        }
         var isSkippingMove = moveCost == 0;
         unit.pos = { x: x, y: y };
         unit.mobility -= moveCost;

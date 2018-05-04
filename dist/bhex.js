@@ -390,6 +390,17 @@ BHex.Grid.prototype.getLine = function (start, end) {
 	return (line1.length > line2.length) ? line1 : line2;
 };
 
+BHex.Grid.prototype.getConeRange = function (coneStart, coneEnd, movement, ignoreInertia) {
+	var startRange = this.getRange(coneStart, movement, ignoreInertia);
+	var endRange = this.getRange(coneEnd, movement - 1, true);
+	endRange.push(this.getHexAt(coneEnd));
+	endRange = endRange.concat(this.getNeighbors(coneStart));
+	let a = new Set(startRange);
+	let b = new Set(endRange);
+	let intersection = new Set([...a].filter(x => b.has(x)));
+	return [...intersection];
+};
+
 /**
  * Gets all the hexes within a specified range, taking inertia (BHex.Hexagon.cost) into account.
  * @param {BHex.Axial} a - The starting axial position.
@@ -513,10 +524,6 @@ BHex.Grid.prototype.findPath = function (start, end, ignoreInertia) {
 };
 
 module.exports = BHex;
-
-
-
-
 // Extend a few objects from BHex
 
 /**
