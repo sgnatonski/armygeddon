@@ -122,24 +122,29 @@ function createHighlightLayer(center){
     var layer = new Konva.Layer({
         hitGraphEnabled : false
     });
-    var overNode = null;
+    var overNodes = [];
 
-    layer.highlightNode = (hex) => {
-        if (overNode){
-            overNode.remove();
-            overNode.destroy();
+    layer.highlightNode = (hexes) => {
+        if (overNodes.length){
+            for (var i = 0; i < overNodes.length; i++){
+                overNodes[i].remove();
+                overNodes[i].destroy();
+            }
+            overNodes = [];
         }
-        if (hex){
-            var node = createHexVisual();
-            node.position({
-                x: center.x + hex.center.x,
-                y: center.y + hex.center.y
-            });
-            node.setFill('#ffffff');
-            node.setListening(false);
-            node.opacity(0.2);
-            layer.add(node);
-            overNode = node;
+        if (hexes){
+            for (var i = 0; i < hexes.length; i++){
+                var node = createHexVisual();
+                node.position({
+                    x: center.x + hexes[i].center.x,
+                    y: center.y + hexes[i].center.y
+                });
+                node.setFill('#ffffff');
+                node.setListening(false);
+                node.opacity(0.4);
+                layer.add(node);
+                overNodes.push(node);
+            }
         }
         layer.draw();
     };
@@ -152,7 +157,8 @@ function createHighlightLayer(center){
                 node.position({
                     x: center.x + hexes[i].center.x,
                     y: center.y + hexes[i].center.y
-                });node.setFill('#ffffff');
+                });
+                node.setFill('#ffffff');
                 node.setListening(false);
                 node.opacity(0.2);
                 layer.add(node);
@@ -168,7 +174,8 @@ function createHighlightLayer(center){
                 node.position({
                     x: center.x + hexes[i].center.x,
                     y: center.y + hexes[i].center.y
-                });node.setFill('#ffad33');
+                });
+                node.setFill('#ffad33');
                 node.setListening(false);
                 node.opacity(0.2);
                 layer.add(node);
@@ -184,7 +191,8 @@ function createHighlightLayer(center){
                 node.position({
                     x: center.x + hexes[i].center.x,
                     y: center.y + hexes[i].center.y
-                });node.setFill('#DD1111');
+                });
+                node.setFill('#DD1111');
                 node.opacity(0.5);
                 node.setListening(false);
                 layer.add(node);
@@ -206,13 +214,13 @@ function createHighlightLayer(center){
             default:
                 layer.destroyChildren();
         }
-        if (overNode){
-            layer.add(overNode);
+        if (overNodes.length){
+            for (var i = 0; i < overNodes.length; i++){
+                layer.add(overNodes[i]);
+            }
         }
         layer.draw();
     };
-
-    
 
     return layer;
 }

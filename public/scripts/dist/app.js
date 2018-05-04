@@ -364,7 +364,7 @@ function setupStage(grid, eventBus, images) {
     animator.getAnimation(u.data.currUnit.id, animationPath).then(() => {
       var nextHex = grid.updateSelection(u.data.currUnit);
       if (grid.isPlayerArmy(u.data.nextUnit.id)) {
-        hlLayer.highlightNode(nextHex);
+        hlLayer.highlightNode([nextHex]);
         hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
       }
       unitLayer.refresh();
@@ -394,7 +394,7 @@ function setupStage(grid, eventBus, images) {
     stage.setX(x);
     stage.setY(y);
     cullView(container, stage, terrainLayer);
-    stage.batchDraw();
+    stage.draw();
   });
 
   function addNode(hex) {
@@ -420,7 +420,7 @@ function setupStage(grid, eventBus, images) {
       var state = grid.getSelectedHexState();
 
       if (grid.isPlayerArmy(aUnit.id)) {
-        hlLayer.highlightNode(hex);
+        hlLayer.highlightNode([hex, selHex]);
         effectLayer.drawPath(grid.getPathBetween(grid.getSelectedHex(), hex));
         hlLayer.highlightRange(grid.getSelectedHexRange(), state);
       }
@@ -468,7 +468,7 @@ function setupStage(grid, eventBus, images) {
   }
   var unit = grid.getUnitAt(selHex.x, selHex.y);
   if (grid.isPlayerArmy(unit.id)) {
-    hlLayer.highlightNode(selHex);
+    hlLayer.highlightNode([selHex]);
     hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
   }
 
