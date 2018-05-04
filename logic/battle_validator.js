@@ -6,6 +6,12 @@ function validator(battle) {
     var helper = bh(battle);
     return {
         isValidMove(unit, x, y) {
+            if (unit.pos.x == x && unit.pos.y == y){
+                return {
+                    isValidMove: true,
+                    moveCost: 0 
+                };
+            }
             var grid = new BHex.Grid(battle.sceneSize);
             helper.getAllUnits().forEach(u => {
                 grid.getHexAt(new BHex.Axial(u.pos.x, u.pos.y)).blocked = true;
