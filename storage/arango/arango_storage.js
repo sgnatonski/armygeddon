@@ -91,6 +91,7 @@ module.exports = {
     battles: interface("battles"),
     users: interface("users"),
     armies: interface("armies"),
+    map: interface("map"),
     query: async(...args) => {
         var d = await db;
         return await d.query.bind(d)(...args);

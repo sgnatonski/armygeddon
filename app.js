@@ -16,6 +16,7 @@ var single = require('./routes/single');
 var battle = require('./routes/battle');
 var design = require('./routes/design');
 var armies = require('./routes/armies');
+var map = require('./routes/map');
 var ws = require('./ws/ws_setup');
 
 process.chdir(__dirname);
@@ -62,6 +63,7 @@ else{
 }
 app.use('/singlebattle', singlebattle);
 app.use('/armies', armies);
+app.use('/map', map);
 
 var JL = require('jsnlog').JL;
 var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
