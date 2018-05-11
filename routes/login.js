@@ -2,6 +2,8 @@ var express = require('express');
 var crypto = require("crypto");
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
+var validateRegistration = require('../logic/registration_validator');
+var armyCreate = require('../logic/army_creator');
 var storage = require('../storage/arango/arango_storage');
 var users = storage.users;
 
@@ -12,9 +14,10 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', async function(req, res, next) {
-  var userByName = await users.getBy('name', req.body.name);
-  var userByMail = await users.getBy('mail', req.body.name);
-  var user = userByMail || userByName;
+  var user = await users.getBy('name', req.body.name);
+  if (!user){
+    user = await users.getBy('mail', req.body.name);
+  }
   if (!user || !await bcrypt.compare(req.body.password, user.pwdHash)){
     var err = new Error('User not found');
     err.status = 401;
@@ -35,22 +38,9 @@ router.get('/register', function(req, res, next) {
 });
 
 router.post('/register', async function(req, res, next) {
-  if (req.body.password !== req.body.confirm){
-    var err = new Error('Passwords does not match');
-    err.status = 400;
-    next(err);
-    return;
-  }
-
-  if (!req.body.name || req.body.name.length < 6){
-    var err = new Error('Username must have at least 6 characters');
-    err.status = 400;
-    next(err);
-    return;
-  }
-
-  if (!req.body.mail || req.body.mail < 6){
-    var err = new Error('Email is required');
+  var validation = await validateRegistration(req.body);
+  if (!validation.ok){
+    var err = new Error(validation.error);
     err.status = 400;
     next(err);
     return;
@@ -66,37 +56,8 @@ router.post('/register', async function(req, res, next) {
     created: new Date().toISOString()
   };
 
-  var existing = await users.getBy('name', user.name);
-  if (existing){
-    var err = new Error('User name conflict');
-    err.status = 400;
-    next(err);
-    return;
-  }
-  else{
-    existing = await users.getBy('mail', user.mail);
-    if (existing){
-      var err = new Error('Email conflict');
-      err.status = 400;
-      next(err);
-      return;
-    }
-  }
-
   await users.store(user);
-
-  var army = await storage.battleTemplates.get('army.default');
-
-  army.playerId = user.id;
-  army.id = crypto.randomBytes(8).toString("hex");
-  army.name = 'default';
-  army.units = army.units.map(u => Object.assign({
-    id: crypto.randomBytes(8).toString("hex"),
-    experience: 0,
-    rank: 0
-  }, u));
-
-  await storage.armies.store(army);
+  await armyCreate(user.id);
 
   var token = jwt.sign({ id: user.id, name: user.name }, req.app.get('TOKEN_SECRET'), {
     expiresIn: 86400000 // expires in 24 hours

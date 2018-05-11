@@ -145,7 +145,7 @@ function initGrid(battle) {
             var x = t[unit.directions[0] - 1];
             var posStart = new BHex.Axial(sourceHex.x, sourceHex.y);
             var posEnd = new BHex.Axial(unit.pos.x + (x.x * (unit.mobility - 1)), unit.pos.y + (x.y * (unit.mobility - 1)));        
-            gridRange = grid.getConeRange(posStart, posEnd, unit.mobility);
+            var gridRange = grid.getConeRange(posStart, posEnd, unit.mobility);
             gridPath = gridPath.filter(x => gridRange.some(g => g.x == x.x && g.y == x.y));
           }    
           break;

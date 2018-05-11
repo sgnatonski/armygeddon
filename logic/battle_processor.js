@@ -19,9 +19,9 @@ function processor(battle, playerId, helper){
         if (!isValidMove){
             return finalize(battle, turn, unit);
         }
-        var isSkippingMove = moveCost == 0;
         unit.pos = { x: x, y: y };
         unit.mobility -= moveCost;
+        var isSkippingMove = moveCost == 0;
         if (isSkippingMove) {
             var dirSize = unit.directions.length + 2;
             directions.setDirections(unit, dirSize);            
@@ -34,7 +34,7 @@ function processor(battle, playerId, helper){
             unit.mobility = 0;
         }
         else {
-            unit.agility = 0
+            unit.agility = 0;
         }
 
         if (!validator.canAttack(unit)) {
