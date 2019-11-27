@@ -21,7 +21,7 @@ var battleTrackerRequester = new cote.Requester({
 responder.on('*', console.log);
 
 responder.on('start', async req => {
-    var data = await storage.battleTemplates.get('battle.tiny_round_1');
+    var data = await storage.battleTemplates.get('battle.1');
     var ut = await storage.battleTemplates.get('unittypes');
     var army = await storage.armies.getBy('playerId', req.playerId);
     var battle = battleScope(data, req.playerId, req.name).init(ut, army);
@@ -56,7 +56,16 @@ responder.on('selfjoin', async req => {
 
 responder.on('process', async req => {
     var data = await storage.battles.get(req.battleId);
-    var result = battleScope(data, req.playerId, req.name).processCommand(req.cmd);
+    // hotseat hack
+    var pid = req.playerId;
+    if (req.cmd.uid.startsWith('_') && !pid.startsWith('_')){
+        pid = '_' + pid;
+    }
+    else if (!req.cmd.uid.startsWith('_') && pid.startsWith('_')){
+        pid = pid.substr(1);
+    }
+    // hotseat hack end
+    var result = battleScope(data, pid, req.name).processCommand(req.cmd);
     if (result && result.success) {
         await storage.battles.store(result.battle);
         if (result.ended) {

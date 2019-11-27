@@ -84,7 +84,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   if (err.status == 401) {
-    res.redirect('/login');
+    res.redirect('/login?noauth=1');
   }
   else {
     // set locals, only providing error in development

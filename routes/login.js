@@ -14,7 +14,10 @@ var registerRequester = new cote.Requester({
 var router = express.Router();
 
 router.get('/', (req, res, next) => {
-  res.render('login', { title: 'Login' });
+  res.render('login', { 
+    title: 'Login', 
+    error: req.query['noauth'] ? 'We couldn\'t recognize you, Sir. Please enter your credentials.' : undefined 
+  });
 });
 
 router.post('/', async (req, res, next) => {
