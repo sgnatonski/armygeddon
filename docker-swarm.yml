@@ -1,0 +1,128 @@
+version: '3'
+
+networks:
+  lb:
+    driver: overlay
+  internal:
+    driver: overlay
+
+services:
+  lb:
+    image: dockercloud/haproxy
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+    networks:
+      - lb
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+      - 443:443
+
+  app:
+    networks:
+      - lb
+      - internal
+    image: 127.0.0.1:5000/armygeddon:0.2.0
+    command: node app.js
+    environment:
+      - VIRTUAL_HOST=app.slavapp.local, ws://app.slavapp.local
+      - PORT=3000
+      - TOKEN_SECRET=my secret
+      - ARANGO_URL=http://127.0.0.1:8529
+      - ARANGO_DB=armygeddon
+    depends_on:
+      - arango
+
+  monitoring:
+    networks:
+      - lb
+      - internal
+    image: 127.0.0.1:5000/armygeddon:0.2.0
+    command: node monitor.js
+    environment:
+      - SERVICE_PORTS=5555
+      - VIRTUAL_HOST=monitoring.slavapp.local
+
+  login-service:
+    networks:
+      - internal
+    image: 127.0.0.1:5000/armygeddon:0.2.0
+    command: node services/login-service.js
+    environment:
+      - TOKEN_SECRET=my secret
+      - ARANGO_URL=http://127.0.0.1:8529
+      - ARANGO_DB=armygeddon
+    depends_on:
+      - arango
+
+  register-service:
+    networks:
+      - internal
+    image: 127.0.0.1:5000/armygeddon:0.2.0
+    command: node services/register-service.js
+    environment:
+      - TOKEN_SECRET=my secret
+      - ARANGO_URL=http://127.0.0.1:8529
+      - ARANGO_DB=armygeddon
+    depends_on:
+      - arango
+
+  army-service:
+    networks:
+      - internal
+    image: 127.0.0.1:5000/armygeddon:0.2.0
+    command: node services/army-service.js
+    environment:
+      - ARANGO_URL=http://127.0.0.1:8529
+      - ARANGO_DB=armygeddon
+    depends_on:
+      - arango
+
+  battle-service:
+    networks:
+      - internal
+    image: 127.0.0.1:5000/armygeddon:0.2.0
+    command: node services/battle-service.js
+    environment:
+      - ARANGO_URL=http://127.0.0.1:8529
+      - ARANGO_DB=armygeddon
+    depends_on:
+      - arango
+
+  battle-tracker-service:
+    networks:
+      - internal
+    image: 127.0.0.1:5000/armygeddon:0.2.0
+    command: node services/battle-tracker-service.js
+    environment:
+      - ARANGO_URL=http://127.0.0.1:8529
+      - ARANGO_DB=armygeddon
+    depends_on:
+      - arango
+    
+  player-service:
+    networks:
+      - internal
+    image: 127.0.0.1:5000/armygeddon:0.2.0
+    command: node services/player-service.js
+    environment:
+      - ARANGO_URL=http://127.0.0.1:8529
+      - ARANGO_DB=armygeddon
+    depends_on:
+      - arango
+
+  arango:
+    networks:
+      - internal
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch == x64
+    image: arangodb/arangodb:3.5.2
+    ports:
+      - 8529:8529
+    environment:
+      - ARANGO_NO_AUTH=1
