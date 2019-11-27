@@ -59,7 +59,7 @@ function load(image) {
 module.exports = load;
 
 /* 
- * JSNLog 2.26.1
+ * JSNLog 2.29.0
  * Open source under the MIT License.
  * Copyright 2012-2017 Mattijs Perdeck All rights reserved.
  */
@@ -151,6 +151,8 @@ function JL(loggerName) {
     JL._createXMLHttpRequest = function () { return new XMLHttpRequest(); };
     JL._getTime = function () { return (new Date).getTime(); };
     JL._console = console;
+    // ----- private variables
+    JL._appenderNames = [];
     /**
     Copies the value of a property from one object to the other.
     This is used to copy property values as part of setOption for loggers and appenders.
@@ -246,7 +248,7 @@ function JL(loggerName) {
         }
         return logObject;
     }
-    var StringifiedLogObject = (function () {
+    var StringifiedLogObject = /** @class */ (function () {
         // * msg - 
         //      if the logObject is a scalar (after possible function evaluation), this is set to
         //      string representing the scalar. Otherwise it is left undefined.
@@ -358,7 +360,7 @@ function JL(loggerName) {
         return "fatal";
     }
     // ---------------------
-    var Exception = (function () {
+    var Exception = /** @class */ (function () {
         // data replaces message. It takes not just strings, but also objects and functions, just like the log function.
         // internally, the string representation is stored in the message property (inherited from Error)
         //
@@ -380,7 +382,7 @@ function JL(loggerName) {
     // <object> instanceof Error);
     Exception.prototype = new Error();
     // ---------------------
-    var LogItem = (function () {
+    var LogItem = /** @class */ (function () {
         // l: level
         // m: message
         // n: logger name
@@ -419,7 +421,7 @@ function JL(loggerName) {
             }, timeoutMs);
         }
     }
-    var Appender = (function () {
+    var Appender = /** @class */ (function () {
         // sendLogItems takes an array of log items. It will be called when
         // the appender has items to process (such as, send to the server).
         // sendLogItems will call successCallback after the items have been successfully sent.
@@ -459,6 +461,22 @@ function JL(loggerName) {
             // Will be 0 if no log request is outstanding at the moment.
             // Otherwise the number of log items in the outstanding request.
             this.nbrLogItemsBeingSent = 0;
+            var emptyNameErrorMessage = "Trying to create an appender without a name or with an empty name";
+            // This evaluates to true if appenderName is either null or undefined!
+            // Do not check here if the name is "", because that would stop you creating the 
+            // default appender.
+            if (appenderName == undefined) {
+                throw emptyNameErrorMessage;
+            }
+            if (JL._appenderNames.indexOf(appenderName) != -1) {
+                // If user passed in "", that will now have been picked up as a duplicate
+                // because default appender also uses "".
+                if (!appenderName) {
+                    throw emptyNameErrorMessage;
+                }
+                throw "Multiple appenders use the same name " + appenderName;
+            }
+            JL._appenderNames.push(appenderName);
         }
         Appender.prototype.addLogItemsToBuffer = function (logItems) {
             // If the batch buffer has reached its maximum limit, 
@@ -497,7 +515,7 @@ function JL(loggerName) {
             // increase the timeout for the first item.
             //
             // To determine if this is the first item, look at the timer variable.
-            // Do not look at the buffer lenght, because we also put items in the buffer
+            // Do not look at the buffer length, because we also put items in the buffer
             // via a concat (bypassing this function).
             //
             // The setTimer method only sets the timer if it is not already running.
@@ -646,7 +664,7 @@ function JL(loggerName) {
                 that.batchBuffer.splice(0, that.nbrLogItemsBeingSent);
                 // If items had to be skipped, add a WARN message
                 if (that.nbrLogItemsSkipped > 0) {
-                    that.batchBuffer.push(newLogItem(getWarnLevel(), "Lost " + that.nbrLogItemsSkipped + " messages while connection with the server was down. Reduce lost messages by increasing the ajaxAppender option maxBatchSize.", that.appenderName));
+                    that.batchBuffer.push(newLogItem(getWarnLevel(), "Lost " + that.nbrLogItemsSkipped + " messages. Either connection with the server was down or logging was disabled via the enabled option. Reduce lost messages by increasing the ajaxAppender option maxBatchSize.", that.appenderName));
                     that.nbrLogItemsSkipped = 0;
                 }
                 that.onSendingEnded.call(that);
@@ -656,7 +674,7 @@ function JL(loggerName) {
     }());
     JL.Appender = Appender;
     // ---------------------
-    var AjaxAppender = (function (_super) {
+    var AjaxAppender = /** @class */ (function (_super) {
         __extends(AjaxAppender, _super);
         function AjaxAppender(appenderName) {
             var _this = _super.call(this, appenderName, AjaxAppender.prototype.sendLogItemsAjax) || this;
@@ -693,6 +711,14 @@ function JL(loggerName) {
             // is only called when it tries to log something, so the requestId has to be 
             // determined right at the start of request processing.
             try {
+                // Do not send logs, if JL.enabled is set to false.
+                //
+                // Do not call successCallback here. After each timeout, jsnlog will retry sending the message.
+                // If jsnlog gets re-enabled, it will then log the number of messages logged.
+                // If it doesn't get re-enabled, amount of cpu cycles wasted is minimal.
+                if (!allow(this)) {
+                    return;
+                }
                 // If a request is in progress, abort it.
                 // Otherwise, it may call the success callback, which will be very confusing.
                 // It may also stop the inflight request from resulting in a log at the server.
@@ -751,7 +777,7 @@ function JL(loggerName) {
     }(Appender));
     JL.AjaxAppender = AjaxAppender;
     // ---------------------
-    var ConsoleAppender = (function (_super) {
+    var ConsoleAppender = /** @class */ (function (_super) {
         __extends(ConsoleAppender, _super);
         function ConsoleAppender(appenderName) {
             return _super.call(this, appenderName, ConsoleAppender.prototype.sendLogItemsConsole) || this;
@@ -800,6 +826,14 @@ function JL(loggerName) {
         };
         ConsoleAppender.prototype.sendLogItemsConsole = function (logItems, successCallback) {
             try {
+                // Do not send logs, if JL.enabled is set to false
+                //
+                // Do not call successCallback here. After each timeout, jsnlog will retry sending the message.
+                // If jsnlog gets re-enabled, it will then log the number of messages logged.
+                // If it doesn't get re-enabled, amount of cpu cycles wasted is minimal.
+                if (!allow(this)) {
+                    return;
+                }
                 if (!JL._console) {
                     return;
                 }
@@ -836,7 +870,7 @@ function JL(loggerName) {
     }(Appender));
     JL.ConsoleAppender = ConsoleAppender;
     // --------------------
-    var Logger = (function () {
+    var Logger = /** @class */ (function () {
         function Logger(loggerName) {
             this.loggerName = loggerName;
             // Create seenRexes, otherwise this logger will use the seenRexes
@@ -960,9 +994,12 @@ function JL(loggerName) {
     // 
     // Do NOT create an AjaxAppender object if you are not on a browser (that is, window is not defined).
     // That would try to create an XmlHttpRequest object, which will crash outside a browser.
-    var defaultAppender = new ConsoleAppender("");
+    var defaultAppender;
     if (typeof window !== 'undefined') {
         defaultAppender = new AjaxAppender("");
+    }
+    else {
+        defaultAppender = new ConsoleAppender("");
     }
     // Create root logger
     //
@@ -978,6 +1015,9 @@ function JL(loggerName) {
     });
 })(JL || (JL = {}));
 if (typeof exports !== 'undefined') {
+    // Allows SystemJs to import jsnlog.js. See
+    // https://github.com/mperdeck/jsnlog.js/issues/56
+    exports.__esModule = true;
     exports.JL = JL;
 }
 // Support AMD module format
@@ -1001,9 +1041,13 @@ if (typeof window !== 'undefined' && !window.onerror) {
     window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
         // Send object with all data to server side log, using severity fatal, 
         // from logger "onerrorLogger"
+        //
+        // Use errorMsg.message if available, so Angular 4 template errors will be logged.
+        // See https://github.com/mperdeck/jsnlog.js/pull/68
         JL("onerrorLogger").fatalException({
             "msg": "Uncaught Exception",
-            "errorMsg": errorMsg, "url": url,
+            "errorMsg": errorMsg ? (errorMsg.message || errorMsg) : '',
+            "url": url,
             "line number": lineNumber, "column": column
         }, errorObj);
         // Tell browser to run its own error handler as well   
@@ -1014,10 +1058,13 @@ if (typeof window !== 'undefined' && !window.onerror) {
 if (typeof window !== 'undefined' && !window.onunhandledrejection) {
     window.onunhandledrejection = function (event) {
         // Send object with all data to server side log, using severity fatal, 
-        // from logger "onerrorLogger"
+        // from logger "onerrorLogger".
+        // Need to check both event.reason.message and event.message,
+        // because SystemJs wraps exceptions and throws a new object which doesn't have a reason property.
+        // See https://github.com/systemjs/systemjs/issues/1309
         JL("onerrorLogger").fatalException({
             "msg": "unhandledrejection",
-            "errorMsg": event.reason ? event.reason.message : null
+            "errorMsg": event.reason ? event.reason.message : event.message || null
         }, event.reason);
     };
 }

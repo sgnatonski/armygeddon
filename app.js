@@ -29,10 +29,10 @@ app.set('TOKEN_SECRET', process.env.TOKEN_SECRET);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('hogan-express'));
 app.set('view engine', 'html');
-app.set('layout', 'layout'); 
+app.set('layout', 'layout');
 
-if (app.get('env') !== 'development'){
-  app.use(function(req, res, next) {
+if (app.get('env') !== 'development') {
+  app.use(function (req, res, next) {
     res.setHeader("Content-Security-Policy", "upgrade-insecure-requests");
     return next();
   });
@@ -48,16 +48,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(jwt({
   secret: app.get('TOKEN_SECRET'),
   getToken: req => req.cookies.a_token
-}).unless({path: ['/', '/login', '/login/register']}));
+}).unless({ path: ['/', '/login', '/login/register'] }));
 
 app.use('/', index);
 app.use('/login', login);
-if (app.get('env') === 'development'){
+if (app.get('env') === 'development') {
   app.use('/design', design);
   app.use('/battle', battle.dev());
   app.use('/single', single.dev());
 }
-else{
+else {
   app.use('/battle', battle.prod());
   app.use('/single', single.prod());
 }
@@ -67,26 +67,26 @@ app.use('/map', map);
 
 var JL = require('jsnlog').JL;
 var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
-app.post('*.logger', function (req, res) { 
+app.post('*.logger', function (req, res) {
   jsnlog_nodejs(JL, req.body);
 
   // Send empty response. This is ok, because client side jsnlog does not use response from server.
-  res.send(''); 
+  res.send('');
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  if (err.status == 401){
+app.use(function (err, req, res, next) {
+  if (err.status == 401) {
     res.redirect('/login');
   }
-  else{
+  else {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -97,7 +97,9 @@ app.use(function(err, req, res, next) {
   }
 });
 
-if (process.env.LOCAL){
+var server = undefined;
+
+if (process.env.LOCAL) {
   var options = {
     pfx: fs.readFileSync('localhost.pfx'),
     passphrase: 'localhost',
@@ -105,14 +107,22 @@ if (process.env.LOCAL){
     rejectUnauthorized: false
   };
 
-  var server = https.createServer(options, app);
+  server = https.createServer(options, app);
 
   ws(server, appCookieParser);
 }
-else{
-  var server = http.createServer(app);
+else {
+  server = http.createServer(app);
 
   ws(server, appCookieParser);
 }
+
+server.listen(process.env.PORT || '3000');
+
+var io = require('socket.io')(server);
+var cote = require('cote');
+new cote.Sockend(io, {
+  name: 'sockend server'
+});
 
 module.exports = server;

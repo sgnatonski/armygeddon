@@ -1,13 +1,15 @@
 const WebSocket = require('ws');
-var storage = require('../storage/arango/arango_storage');
-var battleScope = require('../logic/battle_scope');
-var battleTracker = require('../logic/battle_tracker');
-var armyUpd = require('../logic/army_updater');
+var cote = require('cote');
 
-function broadcast(wss, userIds, payload, beforeSend){
+var battleRequester = new cote.Requester({
+    name: 'battle requester',
+    namespace: 'battle'
+});
+
+function broadcast(wss, userIds, payload, beforeSend) {
     wss.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN && userIds.some(uid => client.battle.userid == uid)) {
-            if (beforeSend){
+            if (beforeSend) {
                 beforeSend(client.battle.userid, payload);
             }
             client.send(JSON.stringify(payload));
@@ -15,7 +17,7 @@ function broadcast(wss, userIds, payload, beforeSend){
     });
 }
 
-function sendBattleMessages(wss, battle){
+function sendBattleMessages(wss, battle) {
     var uids = Object.keys(battle.armies);
     var payload = {
         msg: 'data',
@@ -24,12 +26,12 @@ function sendBattleMessages(wss, battle){
     broadcast(wss, uids, payload, (uid, pl) => pl.data.selfArmy = uid);
 }
 
-function sendUpdateMessages(wss, result){
+function sendUpdateMessages(wss, result) {
     var uids = Object.keys(result.battle.armies);
     var payload = {
         msg: 'upd',
         data: {
-            currUnit: result.unit, 
+            currUnit: result.unit,
             nextUnit: result.nextUnit,
             targetUnit: result.targetUnit,
             unitQueue: result.unitQueue
@@ -38,12 +40,12 @@ function sendUpdateMessages(wss, result){
     broadcast(wss, uids, payload);
 }
 
-function sendEndMessages(wss, result){
+function sendEndMessages(wss, result) {
     var uids = Object.keys(result.battle.armies);
     var payload = {
         msg: 'end',
         data: {
-            battle: result.battle, 
+            battle: result.battle,
             experience: result.experience
         }
     };
@@ -51,40 +53,23 @@ function sendEndMessages(wss, result){
 }
 
 module.exports = {
-    async sendComplete(wss, wsdata){
-        var data = await storage.battles.get(wsdata.id);
-        if (data){
-            if (data.armies[wsdata.userid] || Math.round((new Date().getTime() - new Date(data.created).getTime()) / 60000) > 60){
-                sendBattleMessages(wss, data);
-            }
-            else{
-                var army = await storage.armies.getBy('playerId', wsdata.userid);
-                var battle = battleScope(data, wsdata.userid, wsdata.username).join(army);
-                await storage.battles.store(battle);
-                battleTracker.updateOpen(battle.id, wsdata.username);
-                sendBattleMessages(wss, data);
-            }   
+    async sendComplete(wss, wsdata) {
+        var battle = await battleRequester.send({ type: 'get', battleId: wsdata.id });
+        if (!battle || battle.armies[wsdata.userid] || Math.round((new Date().getTime() - new Date(battle.created).getTime()) / 60000) <= 60) {
+            battle = await battleRequester.send({ type: 'join', battleId: battle.id, playerId: wsdata.userid, name: wsdata.username });
         }
+        sendBattleMessages(wss, battle);
     },
-    async sendUpdate(wss, wsdata, cmd){
-        var data = await storage.battles.get(wsdata.id);
-        var result = battleScope(data, wsdata.userid, wsdata.username).processCommand(cmd);
-        if (result && result.success){
-            await storage.battles.store(result.battle);
-            if (result.ended){
-                for(var i in result.experience){
-                    if (result.experience.hasOwnProperty(i)) {
-                        var army = await storage.armies.get(i);
-                        armyUpd(army, result.experience[i]);
-                        await storage.armies.store(army);
-                    }
-                }
-                
+    async sendUpdate(wss, wsdata, cmd) {
+        var result = await battleRequester.send({ type: 'process', battleId: wsdata.id, playerId: wsdata.userid, name: wsdata.username, cmd: cmd });
+        if (result && result.success) {
+            if (result.ended) {
                 sendEndMessages(wss, result);
             }
-            else{
+            else {
                 sendUpdateMessages(wss, result);
             }
         }
+        return result;
     }
 }

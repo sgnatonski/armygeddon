@@ -1,10 +1,19 @@
 var express = require('express');
 var router = express.Router();
-var storage = require('../storage/arango/arango_storage');
+var cote = require('cote');
 
-router.get('/', async function(req, res, next) {    
-    var armies = await storage.armies.getAllBy('playerId', req.user.id);
-    res.render('armies', { title: 'Armies', armies: armies } );
-  });
-  
-  module.exports = router;
+var armyRequester = new cote.Requester({
+  name: 'army requester',
+  namespace: 'army'
+});
+
+router.get('/', async (req, res, next) => {
+  try {
+    var armies = await armyRequester.send({ type: 'armies', playerId: req.user.id });
+    res.render('armies', { title: 'Armies', armies: armies });
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = router;

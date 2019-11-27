@@ -1,4 +1,5 @@
 var arangojs = require("arangojs");
+var faker = require('faker');
 
 async function ensureDbExists(db, dbname){
     var names = await db.listDatabases();
@@ -95,6 +96,39 @@ async function createInitData(db) {
     }
 }
 
+//var armyCreate = require('../../logic/army_creator');
+//var mapRegistry = require('../../logic/map_registry');
+//var bcrypt = require("bcryptjs");
+
+async function createRandomData(db){
+    faker.seed(Number(process.env.FAKER_SEED));
+
+    var users = db.collection('users');
+    for(var i = 0; i < 100000; i++)
+    {
+        var userId = faker.random.uuid().replace(/-/g, '').substr(0, 16); // crypto.randomBytes(8).toString("hex");
+        var hashedPassword = await bcrypt.hash(faker.internet.password(), 8);
+        var username = faker.name.findName();
+
+        await armyCreate(userId);        
+        var tiles = await mapRegistry.assignNewArea(userId);
+        
+        var user = {
+            id: userId,
+            name: username,
+            mail: faker.internet.email(),
+            pwdHash: hashedPassword,
+            created: new Date().toISOString(),
+            area: {
+              name: `Area of ${username}`,
+              tiles: tiles
+            }
+        };
+        
+        await users.store(user);
+    }
+}
+
 async function init () {
     var dbname = process.env.ARANGO_DB;
     var db = new arangojs.Database({
@@ -109,7 +143,12 @@ async function init () {
     await ensureCollectionExists(db, 'users');
     await ensureCollectionExists(db, 'armies');
     await ensureCollectionExists(db, 'inits');
+    await ensureCollectionExists(db, 'map');
     await createInitData(db);
+    if(process.env.FAKER_SEED)
+    {
+        //await createRandomData(db);
+    }
     return db;
 };
 

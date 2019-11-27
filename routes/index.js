@@ -1,23 +1,24 @@
 var express = require('express');
 var router = express.Router();
-var battleTracker = require('../logic/battle_tracker');
-var playerRank = require('../logic/player_rank');
-var timeago = require("timeago.js");
+var cote = require('cote');
+
+var playerRequester = new cote.Requester({
+  name: 'player requester',
+  namespace: 'player'
+});
+var battleTrackerRequester = new cote.Requester({
+  name: 'battle tracker requester',
+  namespace: 'battle_tracker'
+});
 
 router.get('/', async function(req, res, next) {
-  var ranking = await playerRank.getRanking();  
+  var ranking = await playerRequester.send({ type: 'getRanking' });
   res.render('index', { title: 'Armygeddon', ranking: ranking } );
 });
 
-router.get('/start', async function(req, res, next) {
-  var open = await battleTracker.getOpen();
-  var battles = open.map(x => { return { 
-    id: x.id, 
-    name: x.players.filter(p => p !== null).join(' vs '),
-    players: x.players.filter(p => p !== null).length,
-    created: timeago().format(x.created)
-  } });
-  var ranking = await playerRank.getRanking();  
+router.get('/start', async (req, res, next) => {
+  var battles = await battleTrackerRequester.send({ type: 'getOpen' });
+  var ranking = await playerRequester.send({ type: 'getRanking' });
   res.render('start', { title: 'Armygeddon', battles: battles, ranking: ranking } );
 });
 

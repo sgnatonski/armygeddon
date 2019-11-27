@@ -1,23 +1,25 @@
 var express = require('express');
 var router = express.Router();
-var storage = require('../storage/arango/arango_storage');
-var battleScope = require('../logic/battle_scope');
-var battleTracker = require('../logic/battle_tracker');
+var cote = require('cote');
 
-function battle(prod){
+var battleRequester = new cote.Requester({
+    name: 'battle requester',
+    namespace: 'battle'
+});
+
+function battle(prod) {
     return function battle(req, res, next) {
-        res.render('battle', { title: 'Battle', prod: prod } );
+        res.render('battle', { title: 'Battle', prod: prod });
     }
 }
 
 async function start(req, res, next) {
-    var data = await storage.battleTemplates.get('battle.plains_forest_1');
-    var ut = await storage.battleTemplates.get('unittypes');
-    var army = await storage.armies.getBy('playerId', req.user.id);
-    var battle = battleScope(data, req.user.id, req.user.name).init(ut, army);
-    await storage.battles.store(battle);
-    battleTracker.addOpen(battle.id, req.user.name);
-    res.json(battle.id);
+    try {
+        var battleId = await battleRequester.send({ type: 'start', playerId: req.user.id, name: req.user.name });
+        res.json(battleId);
+    } catch (error) {
+        next(error);
+    }
 }
 
 module.exports = {
