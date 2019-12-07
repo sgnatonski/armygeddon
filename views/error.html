@@ -3,8 +3,8 @@
     <div class="pure-u-1"></div>
     <div class="pure-u-1 bordered-box">
         <div>
-            <h2>{{message}}</h2>
-            <p>{{error.status}}</p>
+            <h2>{{message || 'Oops'}}</h2>
+            <p>{{error.status || 'Something bad happened...'}}</p>
             <pre>{{error.stack}}</pre>
         </div>
     </div>

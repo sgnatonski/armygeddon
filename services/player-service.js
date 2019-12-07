@@ -19,19 +19,23 @@ responder.on('getRanking', async () => {
         return players;
     }
 
-    const cursor = await storage.query(aql`
-    FOR u IN users
-    FOR a IN armies
-    FILTER a.playerId == u._key
-    COLLECT playerName = u.name, expSum = SUM(a.units[*].experience), rankAvg = AVG(a.units[*].rank) 
-    SORT expSum DESC, rankAvg DESC
-    RETURN {
-        "playerName" : playerName,
-        "totalExp" : expSum,
-        "totalRank" : rankAvg
+    try {
+        const cursor = await storage.query(aql`
+        FOR u IN users
+        FOR a IN armies
+        FILTER a.playerId == u._key
+        COLLECT playerName = u.name, expSum = SUM(a.units[*].experience), rankAvg = AVG(a.units[*].rank) 
+        SORT expSum DESC, rankAvg DESC
+        RETURN {
+            "playerName" : playerName,
+            "totalExp" : expSum,
+            "totalRank" : rankAvg
+        }
+        `);
+        players = await cursor.all();
+        lastFetch = new Date();
+        return players;
+    } catch (error) {
+        throw Error(error.message);
     }
-    `);
-    players = await cursor.all();
-    lastFetch = new Date();
-    return players;
 });

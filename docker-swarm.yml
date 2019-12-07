@@ -25,13 +25,21 @@ services:
     networks:
       - lb
       - internal
-    image: 127.0.0.1:5000/armygeddon:0.2.0
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch != arm6
+          - node.labels.arch != arm7
+          - node.labels.arch != arm64
+    image: 127.0.1.1:5000/armygeddon:0.2.0
     command: node app.js
     environment:
-      - VIRTUAL_HOST=app.slavapp.local, ws://app.slavapp.local
+      - COTE_DISCOVERY_REDIS_HOST=redis
       - PORT=3000
+      - SERVICE_PORTS=3000
+      - BALANCE=source
       - TOKEN_SECRET=my secret
-      - ARANGO_URL=http://127.0.0.1:8529
+      - ARANGO_URL=http://192.168.0.254:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -40,20 +48,26 @@ services:
     networks:
       - lb
       - internal
-    image: 127.0.0.1:5000/armygeddon:0.2.0
+    image: 127.0.1.1:5000/armygeddon:0.2.0
     command: node monitor.js
     environment:
-      - SERVICE_PORTS=5555
-      - VIRTUAL_HOST=monitoring.slavapp.local
-
+      - COTE_DISCOVERY_REDIS_HOST=redis
+    ports:
+      - 5555:5555
+      
   login-service:
     networks:
       - internal
-    image: 127.0.0.1:5000/armygeddon:0.2.0
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch == arm6
+    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
     command: node services/login-service.js
     environment:
+      - COTE_DISCOVERY_REDIS_HOST=redis
       - TOKEN_SECRET=my secret
-      - ARANGO_URL=http://127.0.0.1:8529
+      - ARANGO_URL=http://192.168.0.254:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -61,11 +75,16 @@ services:
   register-service:
     networks:
       - internal
-    image: 127.0.0.1:5000/armygeddon:0.2.0
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch == arm6
+    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
     command: node services/register-service.js
     environment:
+      - COTE_DISCOVERY_REDIS_HOST=redis
       - TOKEN_SECRET=my secret
-      - ARANGO_URL=http://127.0.0.1:8529
+      - ARANGO_URL=http://192.168.0.254:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -73,10 +92,15 @@ services:
   army-service:
     networks:
       - internal
-    image: 127.0.0.1:5000/armygeddon:0.2.0
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch == arm6
+    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
     command: node services/army-service.js
     environment:
-      - ARANGO_URL=http://127.0.0.1:8529
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - ARANGO_URL=http://192.168.0.254:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -84,10 +108,15 @@ services:
   battle-service:
     networks:
       - internal
-    image: 127.0.0.1:5000/armygeddon:0.2.0
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch == arm6
+    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
     command: node services/battle-service.js
     environment:
-      - ARANGO_URL=http://127.0.0.1:8529
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - ARANGO_URL=http://192.168.0.254:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -95,10 +124,15 @@ services:
   battle-tracker-service:
     networks:
       - internal
-    image: 127.0.0.1:5000/armygeddon:0.2.0
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch == arm6
+    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
     command: node services/battle-tracker-service.js
     environment:
-      - ARANGO_URL=http://127.0.0.1:8529
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - ARANGO_URL=http://192.168.0.254:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -106,14 +140,27 @@ services:
   player-service:
     networks:
       - internal
-    image: 127.0.0.1:5000/armygeddon:0.2.0
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch == arm6
+    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
     command: node services/player-service.js
     environment:
-      - ARANGO_URL=http://127.0.0.1:8529
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - ARANGO_URL=http://192.168.0.254:8529
       - ARANGO_DB=armygeddon
+      - ARANGO_INIT=1
     depends_on:
       - arango
 
+  redis:
+    image: redis
+    networks:
+      - internal
+    ports:
+      - 6379:6379
+    
   arango:
     networks:
       - internal
@@ -121,8 +168,11 @@ services:
       placement:
         constraints:
           - node.labels.arch == x64
-    image: arangodb/arangodb:3.5.2
+          - node.labels.os != win10
+    image: arangodb:3.3
     ports:
       - 8529:8529
     environment:
       - ARANGO_NO_AUTH=1
+    volumes:
+      - /arangodb:/var/lib/arangodb3

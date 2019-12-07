@@ -39,7 +39,8 @@ router.post('/register', async (req, res, next) => {
     var token = await registerRequester.send({ type: 'register', user: req.body });
     res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
     res.redirect('/start');
-  } catch (error) {
+  } catch (error) {    
+    console.log(error);
     next(error);
   }
 });

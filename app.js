@@ -31,12 +31,12 @@ app.engine('html', require('hogan-express'));
 app.set('view engine', 'html');
 app.set('layout', 'layout');
 
-if (app.get('env') !== 'development') {
+/*if (app.get('env') !== 'development') {
   app.use(function (req, res, next) {
     res.setHeader("Content-Security-Policy", "upgrade-insecure-requests");
     return next();
   });
-};
+};*/
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(logger('dev'));
@@ -89,7 +89,7 @@ app.use(function (err, req, res, next) {
   else {
     // set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.error = err;//req.app.get('env') === 'development' ? err : {};
 
     // render the error page
     res.status(err.status || 500);
@@ -97,25 +97,20 @@ app.use(function (err, req, res, next) {
   }
 });
 
-var server = undefined;
-
-if (process.env.LOCAL) {
-  var options = {
-    pfx: fs.readFileSync('localhost.pfx'),
-    passphrase: 'localhost',
-    requestCert: false,
-    rejectUnauthorized: false
-  };
-
-  server = https.createServer(options, app);
-
-  ws(server, appCookieParser);
+function createServer(app) {
+  return process.env.LOCAL
+    ? https.createServer({
+      pfx: fs.readFileSync('localhost.pfx'),
+      passphrase: 'localhost',
+      requestCert: false,
+      rejectUnauthorized: false
+    }, app)
+    : http.createServer(app);
 }
-else {
-  server = http.createServer(app);
 
-  ws(server, appCookieParser);
-}
+var server = createServer(app);
+
+ws(server, appCookieParser);
 
 server.listen(process.env.PORT || '3000');
 

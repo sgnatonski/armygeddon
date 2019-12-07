@@ -11,15 +11,15 @@ var battleTrackerRequester = new cote.Requester({
   namespace: 'battle_tracker'
 });
 
-router.get('/', async function(req, res, next) {
+router.get('/', async (req, res, next) => {
   var ranking = await playerRequester.send({ type: 'getRanking' });
-  res.render('index', { title: 'Armygeddon', ranking: ranking } );
+  res.render('index', { title: 'Armygeddon', ranking: ranking });
 });
 
 router.get('/start', async (req, res, next) => {
   var battles = await battleTrackerRequester.send({ type: 'getOpen' });
   var ranking = await playerRequester.send({ type: 'getRanking' });
-  res.render('start', { title: 'Armygeddon', battles: battles, ranking: ranking } );
+  res.render('start', { title: 'Armygeddon', battles: battles, ranking: ranking });
 });
 
 module.exports = router;

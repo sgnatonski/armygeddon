@@ -31,24 +31,29 @@ registerResponder.on('register', async req => {
     var userId = crypto.randomBytes(8).toString("hex");
     var hashedPassword = await bcrypt.hash(req.user.password, 8);
 
-    var tiles = await armyRequester.send(({ type: 'create', userId: userId }));
+    try {
+        var tiles = await armyRequester.send(({ type: 'create', userId: userId }));
 
-    var user = {
-        id: userId,
-        name: req.user.name,
-        mail: req.user.mail,
-        pwdHash: hashedPassword,
-        created: new Date().toISOString(),
-        area: {
-            name: `Area of ${req.user.name}`,
-            tiles: tiles
-        }
-    };
+        var user = {
+            id: userId,
+            name: req.user.name,
+            mail: req.user.mail,
+            pwdHash: hashedPassword,
+            created: new Date().toISOString(),
+            area: {
+                name: `Area of ${req.user.name}`,
+                tiles: tiles
+            }
+        };
 
-    await users.store(user);
+        await users.store(user);
 
-    var token = jwt.sign({ id: userId, name: user.name }, token_secret, {
-        expiresIn: 86400000 // expires in 24 hours
-    });
-    return token;
+        var token = jwt.sign({ id: userId, name: user.name }, token_secret, {
+            expiresIn: 86400000 // expires in 24 hours
+        });
+        return token;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
 });
