@@ -2,6 +2,7 @@ var cote = require('cote');
 var storage = require('../storage/arango/arango_storage');
 var aql = require("arangojs").aql;
 var timeago = require("timeago.js");
+var log = require('../logger');
 
 var openBattles = [];
 
@@ -33,6 +34,7 @@ responder.on('getOpen', async () => {
         `);
         openBattles = await cursor.all();
     } catch (error) {
+        log.error(error);
         throw Error(error.message);
     }
 

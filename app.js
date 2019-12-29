@@ -18,6 +18,7 @@ var design = require('./routes/design');
 var armies = require('./routes/armies');
 var map = require('./routes/map');
 var ws = require('./ws/ws_setup');
+var log = require('./logger');
 
 process.chdir(__dirname);
 
@@ -69,7 +70,7 @@ var JL = require('jsnlog').JL;
 var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
 app.post('*.logger', function (req, res) {
   jsnlog_nodejs(JL, req.body);
-
+  log.error(req.body);
   // Send empty response. This is ok, because client side jsnlog does not use response from server.
   res.send('');
 });
@@ -87,13 +88,15 @@ app.use(function (err, req, res, next) {
     res.redirect('/login?noauth=1');
   }
   else {
+    log.error(err);
     // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = err;//req.app.get('env') === 'development' ? err : {};
-
+    var error = {
+      message: err.message,
+      error: req.app.get('env') === 'development' ? err : {}
+    };
     // render the error page
     res.status(err.status || 500);
-    res.render('error', res.locals);
+    res.render('error', error);
   }
 });
 

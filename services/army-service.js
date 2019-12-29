@@ -24,13 +24,7 @@ responder.on('create', async req => {
     }, u));
   
     await storage.armies.store(army);
-    var tile = {
-        coord: await mapRegistry.assignNextCoords(),
-        armyId: army.id,
-        sides: mapRegistry.createDefaultSides()
-    };
-
-    await storage.map.store(tile);
+    var tile = await mapRegistry.assignStartingTile(army.id);
     return [tile.id];
 });
 

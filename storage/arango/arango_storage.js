@@ -1,5 +1,6 @@
 var db = require('./init_database');
 var aql = require("arangojs").aql;
+var log = require('../../logger');
 
 function undoc(doc){
     doc.id = doc._key;
@@ -11,6 +12,7 @@ function undoc(doc){
 
 async function get(id) {
     if (!id) {
+        log.warn(`Requested empty "${this}" collection key`);
         return null;
     }
 
@@ -21,8 +23,10 @@ async function get(id) {
     }
     catch(err) {
         if (err.code == 404){
+            log.warn(`${err.errorNum == 1202 ? "Document": "Collection"} "${this}" not found`);
             return null;
         }
+        log.error(err);
         throw err;
     }
 }
@@ -37,8 +41,10 @@ async function getBy(prop, val) {
     }
     catch(err){
         if (err.code == 404){
+            log.warn(`Collection "${this}" not found`);
             return null;
         }
+        log.error(err);
         throw err;
     }
 }
@@ -53,8 +59,10 @@ async function getAllBy(prop, val) {
     }
     catch(err){
         if (err.code == 404){
+            log.warn(`Collection "${this}" not found`);
             return null;
         }
+        log.error(err);
         throw err;
     }
 }

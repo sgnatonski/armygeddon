@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 var url = require('url');
 var jwt = require('jsonwebtoken');
 var dispatch = require('./ws_dispatch');
+var log = require('../logger');
 
 var tokenSecret = process.env.TOKEN_SECRET;
 
@@ -28,6 +29,7 @@ module.exports = function webSocketSetup(server, cookieParser){
         };
 
         ws.on('error', err => {
+            log.error(err);
             console.log("error!: " + err);
         });
 

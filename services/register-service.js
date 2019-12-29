@@ -6,6 +6,7 @@ var validateRegistration = require('../logic/registration_validator');
 var storage = require('../storage/arango/arango_storage');
 var users = storage.users;
 var token_secret = process.env.TOKEN_SECRET;
+var log = require('../logger');
 
 var registerResponder = new cote.Responder({
     name: 'register responder',
@@ -53,7 +54,7 @@ registerResponder.on('register', async req => {
         });
         return token;
     } catch (error) {
-        console.log(error);
+        log.error(error);
         throw error;
     }
 });

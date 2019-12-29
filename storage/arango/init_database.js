@@ -1,10 +1,15 @@
 var arangojs = require("arangojs");
 var faker = require('faker');
+var log = require('../../logger');
 
 async function ensureDbExists(db, dbname) {
     var names = await db.listDatabases();
     if (!names.some(n => n == dbname)) {
-        await db.createDatabase(dbname);
+        try {
+            await db.createDatabase(dbname);
+        } catch (error) {
+            log.error(error);
+        }
     }
 }
 
@@ -136,9 +141,9 @@ async function init() {
         process.env.ARANGO_USER,
         process.env.ARANGO_PASS
     );
+    await ensureDbExists(db, dbname);
+    db.useDatabase(dbname);
     if (process.env.ARANGO_INIT) {
-        await ensureDbExists(db, dbname);
-        db.useDatabase(dbname);
         await ensureCollectionExists(db, 'battles');
         await ensureCollectionExists(db, 'users');
         await ensureCollectionExists(db, 'armies');

@@ -3,6 +3,10 @@ var storage = require('../storage/arango/arango_storage');
 var users = storage.users;
 
 module.exports = async function validateRegistration(reg) {
+    if (!reg.password || reg.password.length < 3) {
+        return { error: 'Password must have at least 3 characters' };
+    }
+
     if (reg.password !== reg.confirm) {
         return { error: 'Passwords does not match' };
     }

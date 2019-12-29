@@ -34,13 +34,13 @@ services:
     image: 127.0.1.1:5000/armygeddon:0.2.0
     command: node app.js
     environment:
-      - COTE_DISCOVERY_REDIS_HOST=redis
       - PORT=3000
       - SERVICE_PORTS=3000
       - BALANCE=source
       - TOKEN_SECRET=my secret
-      - ARANGO_URL=http://192.168.0.254:8529
-      - ARANGO_DB=armygeddon
+    env_file:
+      - db.env
+      - cote.env
     depends_on:
       - arango
 
@@ -50,8 +50,8 @@ services:
       - internal
     image: 127.0.1.1:5000/armygeddon:0.2.0
     command: node monitor.js
-    environment:
-      - COTE_DISCOVERY_REDIS_HOST=redis
+    env_file:
+      - cote.env
     ports:
       - 5555:5555
       
@@ -67,8 +67,8 @@ services:
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
       - TOKEN_SECRET=my secret
-      - ARANGO_URL=http://192.168.0.254:8529
-      - ARANGO_DB=armygeddon
+    env_file:
+      - db.env
     depends_on:
       - arango
 
@@ -84,8 +84,8 @@ services:
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
       - TOKEN_SECRET=my secret
-      - ARANGO_URL=http://192.168.0.254:8529
-      - ARANGO_DB=armygeddon
+    env_file:
+      - db.env
     depends_on:
       - arango
 
@@ -98,10 +98,9 @@ services:
           - node.labels.arch == arm6
     image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
     command: node services/army-service.js
-    environment:
-      - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
-      - ARANGO_DB=armygeddon
+    env_file:
+      - db.env
+      - cote.env
     depends_on:
       - arango
 
@@ -114,10 +113,9 @@ services:
           - node.labels.arch == arm6
     image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
     command: node services/battle-service.js
-    environment:
-      - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
-      - ARANGO_DB=armygeddon
+    env_file:
+      - db.env
+      - cote.env
     depends_on:
       - arango
 
@@ -130,10 +128,9 @@ services:
           - node.labels.arch == arm6
     image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
     command: node services/battle-tracker-service.js
-    environment:
-      - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
-      - ARANGO_DB=armygeddon
+    env_file:
+      - db.env
+      - cote.env
     depends_on:
       - arango
     
@@ -147,17 +144,21 @@ services:
     image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
     command: node services/player-service.js
     environment:
-      - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
-      - ARANGO_DB=armygeddon
       - ARANGO_INIT=1
+    env_file:
+      - db.env
+      - cote.env
     depends_on:
       - arango
 
   redis:
-    image: redis
+    image: redis:5.0.7-alpine
     networks:
       - internal
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch != arm6
     ports:
       - 6379:6379
     

@@ -1,6 +1,7 @@
 var cote = require('cote');
 var storage = require('../storage/arango/arango_storage');
 var aql = require("arangojs").aql;
+var log = require('../logger');
 
 var players = [];
 
@@ -36,6 +37,7 @@ responder.on('getRanking', async () => {
         lastFetch = new Date();
         return players;
     } catch (error) {
+        log.error(error);
         throw Error(error.message);
     }
 });

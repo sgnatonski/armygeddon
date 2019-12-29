@@ -11,8 +11,9 @@
                 "TOKEN_SECRET": "my secret",
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
-                "ARANGO_USER": "root",
-                "ARANGO_PASS": "45Slawek_1"
+                "ARANGO_USER": "",
+                "ARANGO_PASS": "",
+                "ARANGO_INIT": "1"
             }
         },
         {
@@ -24,8 +25,8 @@
                 "TOKEN_SECRET": "my secret",
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
-                "ARANGO_USER": "root",
-                "ARANGO_PASS": "45Slawek_1"
+                "ARANGO_USER": "",
+                "ARANGO_PASS": ""
             }
         },
         {
@@ -37,8 +38,8 @@
                 "TOKEN_SECRET": "my secret",
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
-                "ARANGO_USER": "root",
-                "ARANGO_PASS": "45Slawek_1"
+                "ARANGO_USER": "",
+                "ARANGO_PASS": ""
             }
         },
         {
@@ -49,8 +50,8 @@
             "env": {
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
-                "ARANGO_USER": "root",
-                "ARANGO_PASS": "45Slawek_1"
+                "ARANGO_USER": "",
+                "ARANGO_PASS": ""
             }
         },
         {
@@ -61,8 +62,8 @@
             "env": {
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
-                "ARANGO_USER": "root",
-                "ARANGO_PASS": "45Slawek_1"
+                "ARANGO_USER": "",
+                "ARANGO_PASS": ""
             }
         },
         {
@@ -73,8 +74,8 @@
             "env": {
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
-                "ARANGO_USER": "root",
-                "ARANGO_PASS": "45Slawek_1"
+                "ARANGO_USER": "",
+                "ARANGO_PASS": ""
             }
         },
         {
@@ -85,8 +86,8 @@
             "env": {
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
-                "ARANGO_USER": "root",
-                "ARANGO_PASS": "45Slawek_1"
+                "ARANGO_USER": "",
+                "ARANGO_PASS": ""
             }
         }
     ]

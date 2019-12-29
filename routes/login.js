@@ -1,5 +1,6 @@
 var express = require('express');
 var cote = require('cote');
+var log = require('../logger');
 
 var loginRequester = new cote.Requester({
   name: 'login requester',
@@ -26,6 +27,7 @@ router.post('/', async (req, res, next) => {
     res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
     res.redirect('/start');
   } catch (error) {
+    log.error(error);
     next(error);
   }
 });
@@ -40,7 +42,7 @@ router.post('/register', async (req, res, next) => {
     res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
     res.redirect('/start');
   } catch (error) {    
-    console.log(error);
+    log.error(error);
     next(error);
   }
 });
