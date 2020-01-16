@@ -1,3 +1,5 @@
+var BinaryHeap = require('./BinaryHeap');
+
 /**
  * The namespace. This namespace does by itself not include any code related to drawing Hexagons. It's just the logics of them.
  * @namespace

@@ -1,4 +1,4 @@
-var BHex = require('../bhex.backend');
+var BHex = require('../bhex/BHex.Core');
 var bh = require('./battle_helper');
 var directions = require('./directions');
 
