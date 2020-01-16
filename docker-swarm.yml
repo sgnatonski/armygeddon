@@ -151,6 +151,36 @@ services:
     depends_on:
       - arango
 
+  map-service:
+    networks:
+      - internal
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch == arm6
+    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
+    command: node services/map-service.js
+    env_file:
+      - db.env
+      - cote.env
+    depends_on:
+      - arango
+
+  design-service:
+    networks:
+      - internal
+    deploy:
+      placement:
+        constraints:
+          - node.labels.arch == arm6
+    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
+    command: node services/design-service.js
+    env_file:
+      - db.env
+      - cote.env
+    depends_on:
+      - arango
+
   redis:
     image: redis:5.0.7-alpine
     networks:

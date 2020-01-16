@@ -88,6 +88,30 @@
                 "ARANGO_USER": "",
                 "ARANGO_PASS": ""
             }
+        },
+        {
+            "name": "map-service",
+            "script": "src/services/map-service.js",
+            "watch": "src/services/map-service.js",
+            "node_args": "--inspect=localhost:9228",
+            "env": {
+                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_DB": "armygeddon",
+                "ARANGO_USER": "",
+                "ARANGO_PASS": ""
+            }
+        },
+        {
+            "name": "design-service",
+            "script": "src/services/design-service.js",
+            "watch": "src/services/design-service.js",
+            "node_args": "--inspect=localhost:9229",
+            "env": {
+                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_DB": "armygeddon",
+                "ARANGO_USER": "",
+                "ARANGO_PASS": ""
+            }
         }
     ]
 }
