@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 var url = require('url');
 var jwt = require('jsonwebtoken');
 var dispatch = require('./ws_dispatch');
-var log = require('../logger');
+var log = require('@internal/common/logger');
 
 var tokenSecret = process.env.TOKEN_SECRET;
 

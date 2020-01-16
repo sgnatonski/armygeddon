@@ -2,11 +2,11 @@ var cote = require('cote');
 var crypto = require("crypto");
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
-var validateRegistration = require('../logic/registration_validator');
-var storage = require('../storage/arango/arango_storage');
+var validateRegistration = require('@internal/common/logic/registration_validator');
+var storage = require('@internal/common/storage/arango/arango_storage');
 var users = storage.users;
 var token_secret = process.env.TOKEN_SECRET;
-var log = require('../logger');
+var log = require('@internal/common/logger');
 
 var registerResponder = new cote.Responder({
     name: 'register responder',

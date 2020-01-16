@@ -1,7 +1,7 @@
 var cote = require('cote');
 var crypto = require("crypto");
-var storage = require('../storage/arango/arango_storage');
-var mapRegistry = require('../logic/map_registry');
+var storage = require('@internal/common/storage/arango/arango_storage');
+var mapRegistry = require('@internal/common/logic/map_registry');
 
 var responder = new cote.Responder({
     name: 'army responder',

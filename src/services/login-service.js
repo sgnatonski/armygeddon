@@ -1,7 +1,7 @@
 var cote = require('cote');
 var bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
-var storage = require('../storage/arango/arango_storage');
+var storage = require('@internal/common/storage/arango/arango_storage');
 var users = storage.users;
 var token_secret = process.env.TOKEN_SECRET;
 

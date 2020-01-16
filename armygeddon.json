@@ -2,11 +2,10 @@
     "apps": [
         {
             "name": "app",
-            "script": "app.js",
-            "watch": "app.js",
+            "script": "src/front/app.js",
+            "watch": "src/front/app.js",
             "node_args": "--inspect=localhost:9220",
             "env": {
-                "LOCAL": "true",
                 "PORT" : "3000",
                 "TOKEN_SECRET": "my secret",
                 "ARANGO_URL": "http://localhost:8529",
@@ -18,8 +17,8 @@
         },
         {
             "name": "login-service",
-            "script": "services/login-service.js",
-            "watch": "services/login-service.js",
+            "script": "src/services/login-service.js",
+            "watch": "src/services/login-service.js",
             "node_args": "--inspect=localhost:9221",
             "env": {
                 "TOKEN_SECRET": "my secret",
@@ -31,8 +30,8 @@
         },
         {
             "name": "register-service",
-            "script": "services/register-service.js",
-            "watch": "services/register-service.js",
+            "script": "src/services/register-service.js",
+            "watch": "src/services/register-service.js",
             "node_args": "--inspect=localhost:9223",
             "env": {
                 "TOKEN_SECRET": "my secret",
@@ -44,8 +43,8 @@
         },
         {
             "name": "army-service",
-            "script": "services/army-service.js",
-            "watch": "services/army-service.js",
+            "script": "src/services/army-service.js",
+            "watch": "src/services/army-service.js",
             "node_args": "--inspect=localhost:9224",
             "env": {
                 "ARANGO_URL": "http://localhost:8529",
@@ -56,8 +55,8 @@
         },
         {
             "name": "battle-tracker-service",
-            "script": "services/battle-tracker-service.js",
-            "watch": "services/battle-tracker-service.js",
+            "script": "src/services/battle-tracker-service.js",
+            "watch": "src/services/battle-tracker-service.js",
             "node_args": "--inspect=localhost:9225",
             "env": {
                 "ARANGO_URL": "http://localhost:8529",
@@ -68,8 +67,8 @@
         },
         {
             "name": "player-service",
-            "script": "services/player-service.js",
-            "watch": "services/player-service.js",
+            "script": "src/services/player-service.js",
+            "watch": "src/services/player-service.js",
             "node_args": "--inspect=localhost:9226",
             "env": {
                 "ARANGO_URL": "http://localhost:8529",
@@ -80,8 +79,8 @@
         },
         {
             "name": "battle-service",
-            "script": "services/battle-service.js",
-            "watch": "services/battle-service.js",
+            "script": "src/services/battle-service.js",
+            "watch": "src/services/battle-service.js",
             "node_args": "--inspect=localhost:9227",
             "env": {
                 "ARANGO_URL": "http://localhost:8529",

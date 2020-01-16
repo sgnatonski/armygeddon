@@ -18,7 +18,7 @@ var design = require('./routes/design');
 var armies = require('./routes/armies');
 var map = require('./routes/map');
 var ws = require('./ws/ws_setup');
-var log = require('./logger');
+var log = require('@internal/common/logger');
 
 process.chdir(__dirname);
 

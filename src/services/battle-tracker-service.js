@@ -1,8 +1,8 @@
 var cote = require('cote');
-var storage = require('../storage/arango/arango_storage');
+var storage = require('@internal/common/storage/arango/arango_storage');
 var aql = require("arangojs").aql;
 var timeago = require("timeago.js");
-var log = require('../logger');
+var log = require('@internal/common/logger');
 
 var openBattles = [];
 

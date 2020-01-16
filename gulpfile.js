@@ -3,9 +3,9 @@ var minify = require('gulp-minify');
 var concat = require('gulp-concat');
 
 gulp.task('bundle-hex', function () {
-    gulp.src(['./bhex/BinaryHeap.js', './bhex/BHex.Core.js', './bhex/BHex.Drawing.js'])
+    gulp.src(['./src/common/bhex/BinaryHeap.js', './src/common/bhex/BHex.Core.js', './src/common/bhex/BHex.Drawing.js'])
         .pipe(concat('bhex.js'))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./src/front/dist/'));
 });
 
 gulp.task('bundle-3rdparty', function () {
@@ -14,27 +14,27 @@ gulp.task('bundle-3rdparty', function () {
         './node_modules/jsnlog/jsnlog.js'
     ])
         .pipe(concat('3rd.js'))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./src/front/dist/'));
 });
 
 gulp.task('bundle-visual', function () {
     gulp.src(
-        './public/scripts/visual/**'
+        './src/front/public/scripts/visual/**'
     )
         .pipe(concat('visual.js'))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./src/front/dist/'));
 });
 
 gulp.task('bundle-app', function () {
     gulp.src(
-        './public/scripts/app/**'
+        './src/front/public/scripts/app/**'
     )
         .pipe(concat('app.js'))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./src/front/dist/'));
 });
 
 gulp.task('compress', ['bundle-hex', 'bundle-visual', 'bundle-app', 'bundle-3rdparty'], function () {
-    gulp.src('dist/*.js')
+    gulp.src('./src/front/dist/*.js')
         .pipe(minify({
             ext: {
                 min: '.min.js'
@@ -42,7 +42,7 @@ gulp.task('compress', ['bundle-hex', 'bundle-visual', 'bundle-app', 'bundle-3rdp
             exclude: ['tasks'],
             ignoreFiles: ['*.min.js']
         }))
-        .pipe(gulp.dest('./public/scripts/dist/'));
+        .pipe(gulp.dest('./src/front/public/scripts/dist/'));
 });
 
 gulp.task('build', ['compress']);

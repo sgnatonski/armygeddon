@@ -1,0 +1,12 @@
+{
+  "name": "@internal/services",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.2.1",
+    "cote": "^0.21.1",
+    "debug": "^2.6.9",
+    "timeago.js": "^3.0.2"
+  }
+}

@@ -1,6 +1,6 @@
 var cote = require('cote');
-var storage = require('../storage/arango/arango_storage');
-var battleScope = require('../logic/battle_scope');
+var storage = require('@internal/common/storage/arango/arango_storage');
+var battleScope = require('@internal/common/logic/battle_scope');
 
 var responder = new cote.Responder({
     name: 'battle responder',

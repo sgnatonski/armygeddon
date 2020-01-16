@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var tmpl = require('../storage/arango/arango_storage').battleTemplates;
+var tmpl = require('@internal/common/storage/arango/arango_storage').battleTemplates;
 
 router.get('/', function(req, res, next) {
   res.render('design', { title: 'Design battle' });

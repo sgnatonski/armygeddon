@@ -1,6 +1,6 @@
 var express = require('express');
 var cote = require('cote');
-var log = require('../logger');
+var log = require('@internal/common/logger');
 
 var loginRequester = new cote.Requester({
   name: 'login requester',
