@@ -125,6 +125,7 @@ a {
 
 .bordered-box ul.select-list{
   list-style-type: none;
+  margin-bottom: 5px;
 }
 
 .bordered-box ul.select-list > li:hover:before {

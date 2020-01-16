@@ -18,10 +18,16 @@ var battleTrackerRequester = new cote.Requester({
     namespace: 'battle_tracker'
 });
 
+var battleTemplateRequester = new cote.Requester({
+    name: 'battle template requester',
+    namespace: 'battle_template'
+});
+
 responder.on('*', console.log);
 
 responder.on('start', async req => {
-    var data = await storage.battleTemplates.get('battle.1');
+    var templateName = await battleTemplateRequester.send({ type: 'random' });
+    var data = await storage.battleTemplates.get(`battle.${templateName}`);
     var ut = await storage.battleTemplates.get('unittypes');
     var army = await storage.armies.getBy('playerId', req.playerId);
     var battle = battleScope(data, req.playerId, req.name).init(ut, army);

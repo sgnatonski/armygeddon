@@ -166,7 +166,7 @@ services:
     depends_on:
       - arango
 
-  design-service:
+  battle-template-service:
     networks:
       - internal
     deploy:
@@ -174,7 +174,7 @@ services:
         constraints:
           - node.labels.arch == arm6
     image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
-    command: node services/design-service.js
+    command: node services/battle-template-service.js
     env_file:
       - db.env
       - cote.env

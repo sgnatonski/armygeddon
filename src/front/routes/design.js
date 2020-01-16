@@ -3,15 +3,20 @@ var router = express.Router();
 var cote = require('cote');
 
 var requester = new cote.Requester({
-  name: 'design requester',
-  namespace: 'design'
+  name: 'battle template requester',
+  namespace: 'battle_template'
 });
 
-router.get('/', function (req, res, next) {
-  res.render('design', { title: 'Design battle' });
+router.get('/', async (req, res, next) => {
+  try {
+    var battleList = await requester.send({ type: 'list' });
+    res.render('design', { title: 'Design battle', battles: battleList });
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.post('/save', async function (req, res, next) {
+router.post('/save', async (req, res, next) => {
   try {
     await requester.send({ type: 'create', name: req.body.name, terrain: req.body.terrain });
     res.json(true);

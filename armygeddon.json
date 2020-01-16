@@ -102,9 +102,9 @@
             }
         },
         {
-            "name": "design-service",
-            "script": "src/services/design-service.js",
-            "watch": "src/services/design-service.js",
+            "name": "battle-template-service",
+            "script": "src/services/battle-template-service.js",
+            "watch": "src/services/battle-template-service.js",
             "node_args": "--inspect=localhost:9229",
             "env": {
                 "ARANGO_URL": "http://localhost:8529",
