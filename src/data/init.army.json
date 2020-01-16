@@ -1,0 +1,9 @@
+{
+    "_key": "army.default",
+    "units": [
+        { "type": "inf" },
+        { "type": "inf" },
+        { "type": "arch" },
+        { "type": "cav" }
+    ]
+}

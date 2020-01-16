@@ -11,8 +11,7 @@
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
-                "ARANGO_PASS": "",
-                "ARANGO_INIT": "1"
+                "ARANGO_PASS": ""
             }
         },
         {
@@ -25,7 +24,8 @@
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
-                "ARANGO_PASS": ""
+                "ARANGO_PASS": "",
+                "ARANGO_INIT": "1"
             }
         },
         {
