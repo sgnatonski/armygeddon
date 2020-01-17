@@ -1,7 +1,5 @@
 function createEffectLayer(center) {
-  var layer = new Konva.Layer({
-    hitGraphEnabled: false
-  });
+  var layer = new Konva.FastLayer();
 
   function getMoveLinePoints(path) {
     var linepoints = path.map(h => h.center).reduce((acc, curr) => acc.concat([center.x + curr.x, center.y + curr.y]), []);

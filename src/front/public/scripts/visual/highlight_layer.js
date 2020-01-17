@@ -1,7 +1,5 @@
 function createHighlightLayer(center){
-    var layer = new Konva.Layer({
-        hitGraphEnabled : false
-    });
+    var layer = new Konva.FastLayer();
     var overNodes = [];
 
     layer.highlightNode = (hexes) => {

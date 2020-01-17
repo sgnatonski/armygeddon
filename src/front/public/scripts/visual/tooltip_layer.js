@@ -9,6 +9,8 @@ function createTooltipLayer(stage){
 
     function updateTooltipWithUnitStats(unit){
         var mousePos = stage.getPointerPosition();
+        mousePos.x -= stage.getPosition().x;
+        mousePos.y -= stage.getPosition().y;
         var texts = [
             `Endurance: ${unit.endurance} / ${unit.lifetime.endurance}`,
             `Mobility: ${unit.mobility} / ${unit.lifetime.mobility}`,
@@ -23,6 +25,8 @@ function createTooltipLayer(stage){
 
     function updateTooltipWithMoveStats(unit, cost){
         var mousePos = stage.getPointerPosition();
+        mousePos.x -= stage.getPosition().x;
+        mousePos.y -= stage.getPosition().y;
         if (cost <= unit.mobility){
             var texts = [
                 `Moves: ${cost} / ${unit.mobility}`                

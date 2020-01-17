@@ -3,11 +3,30 @@ function setupStage(grid, eventBus, images) {
   var width = container.clientWidth;
   var height = container.offsetTop;
   var center = { x: width / 2, y: height / 2 };
-
+  var stageWidth = 0;
+  var stageHeight = 0;
   var stage = new Konva.Stage({
     container: 'container',
     width: width,
-    height: height
+    height: height,
+    draggable: true,
+    dragBoundFunc: (pos) => {
+      var ratiox = this.visualViewport.width / stageWidth;
+      var ratioy = this.visualViewport.height / stageHeight;
+      var margin = 50;
+      var c = { 
+        x: pos.x, y: pos.y,
+        sx: center.x / ratiox, sy: center.y / ratioy
+      }
+      if (Math.abs(c.x) + margin > c.sx){
+        c.x = stage.getAbsolutePosition().x;
+      }
+      if (Math.abs(c.y) + margin > c.sy){
+        c.y = stage.getAbsolutePosition().y;
+      }
+      console.log(c);
+      return { x: c.x, y: c.y };
+    }
   });
 
   grid.initDrawing(center);
@@ -16,8 +35,8 @@ function setupStage(grid, eventBus, images) {
 
   var terrainLayer = createTerrainLayer();
   var { minX, minY, maxX, maxY } = terrainLayer.addGridNodes(grid, addNode);
-  var stageWidth = Math.abs(minX) + Math.abs(maxX) + 60;
-  var stageHeight = Math.abs(minY) + Math.abs(maxY) + 160;
+  stageWidth = Math.abs(minX) + Math.abs(maxX) + 60;
+  stageHeight = Math.abs(minY) + Math.abs(maxY) + 160;
   container.style.minHeight = stageHeight + 'px';
   stage.setHeight(stageHeight);
   height = stageHeight;

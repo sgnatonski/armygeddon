@@ -1,6 +1,7 @@
 function createWaitLayer(width, height) {
     var waitLayer = new Konva.Layer({
-        hitGraphEnabled : true
+        hitGraphEnabled : true,
+        draggable: false
     });
     var waitOverlay = new Konva.Rect({
         x: 0,
