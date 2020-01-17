@@ -1,6 +1,6 @@
 function createWaitLayer(width, height) {
     var waitLayer = new Konva.Layer({
-        hitGraphEnabled : false
+        hitGraphEnabled : true
     });
     var waitOverlay = new Konva.Rect({
         x: 0,
@@ -15,35 +15,47 @@ function createWaitLayer(width, height) {
     var textWidth = 320;
 
     function createText(text) {
-        return new Konva.Text({
-            x: width / 2 - textWidth / 2,
-            y: 100,
-            text: text,
-            fontSize: 16,
-            fontFamily: 'Calibri',
-            fill: '#555',
-            width: textWidth,
-            padding: 20,
-            align: 'center'
+        var texts = (text || []).map((t, i) => {
+            return new Konva.Text({
+                x: 0,
+                y: i * 20,
+                text: t,
+                fontSize: 16,
+                fontFamily: 'Calibri',
+                width: textWidth,
+                align: 'center',
+                padding: 20,
+            });
         });
+        var textsHeight = texts.length * 20 + 40;
+        var group = new Konva.Group({
+            x: width / 2 - textWidth / 2,
+            y: height / 2 - textsHeight / 2,
+            height: textsHeight,
+            fill: '#555'
+        });
+
+        var rect = new Konva.Rect({
+            x: 0,
+            y: -5,
+            height: textsHeight,
+            stroke: '#555',
+            strokeWidth: 5,
+            fill: '#ddd',
+            width: textWidth,
+            shadowColor: 'black',
+            shadowBlur: 10,
+            shadowOffset: [10, 10],
+            shadowOpacity: 0.2
+        });
+
+        group.add(rect);
+        texts.forEach(t => group.add(t));
+        
+        return group;
     }
 
     var complexText = createText();
-
-    var rect = new Konva.Rect({
-        x: width / 2 - textWidth / 2,
-        y: 100,
-        stroke: '#555',
-        strokeWidth: 5,
-        fill: '#ddd',
-        width: textWidth,
-        shadowColor: 'black',
-        shadowBlur: 10,
-        shadowOffset: [10, 10],
-        shadowOpacity: 0.2
-    });
-
-    waitLayer.add(rect);
     waitLayer.add(complexText);
 
     return {
@@ -51,14 +63,11 @@ function createWaitLayer(width, height) {
             waitOverlay.show();
             complexText = createText(text);
             waitLayer.add(complexText);
-            rect.setHeight(complexText.getHeight());
-            rect.show();
             waitLayer.draw();
         },
         hide: function () {
             waitOverlay.hide();
             complexText.destroy();
-            rect.hide();
             waitLayer.draw();
         },
         node: waitLayer

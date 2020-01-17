@@ -30,7 +30,7 @@ function setupStage(grid, eventBus, images) {
   var tooltipLayer = createTooltipLayer(stage);
   var waitLayer = createWaitLayer(width, height);
 
-  waitLayer.show('Sir,\nYou\'re first on the battlefield.\n\nHopefully the other army will arrive soon.');
+  waitLayer.show(['Sir, You\'re first on the battlefield.', 'Hopefully the other army will arrive soon.']);
 
   eventBus.on('battlestarted', () => {
     waitLayer.hide();
@@ -43,7 +43,7 @@ function setupStage(grid, eventBus, images) {
     grid.hexSelected();
     unitLayer.refresh();
     tooltipLayer.hideTooltip();
-    waitLayer.show('Battle has ended');
+    waitLayer.show(['Battle has ended', ...result]);
   });
 
   eventBus.on('battlestate', txt => {
