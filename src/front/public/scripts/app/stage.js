@@ -129,7 +129,7 @@ function setupStage(grid, eventBus, images) {
       var tUnit = grid.getUnitAt(hex.x, hex.y);
       var state = grid.getSelectedHexState();
 
-      if (grid.isPlayerArmy(aUnit.id)) {
+      if (aUnit != null && grid.isPlayerArmy(aUnit.id)) {
         hlLayer.highlightNode([hex, selHex]);
         effectLayer.drawPath(grid.getPathBetween(grid.getSelectedHex(), hex));
         hlLayer.highlightRange(grid.getSelectedHexRange(), state);
@@ -181,6 +181,8 @@ function setupStage(grid, eventBus, images) {
     hlLayer.highlightNode([selHex]);
     hlLayer.highlightRange(grid.getSelectedHexRange(), grid.getSelectedHexState());
   }
+
+  window.addEventListener('resize', () => stage.draw());
 
   Konva.pixelRatio = 1;
 }

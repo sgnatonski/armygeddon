@@ -33,11 +33,11 @@ Game.Battle.prototype.loadData = function(data, single){
 	var bsTxt1 = this.getBattleStateText();
 	setTimeout(() => this.eventBus.publish('battlestate', bsTxt1), 0);
 	if (armies.length == 2){
+		this.secondArmy = new Game.Army(armies[1], data.unitTypes);	
+		this.battleState = 'ready';
 		if (data.winningArmy){
 			return this.onEnd(data);
 		}
-		this.secondArmy = new Game.Army(armies[1], data.unitTypes);	
-		this.battleState = 'ready';
 		var bsTxt2 = this.getBattleStateText();
 		setTimeout(() => this.eventBus.publish('battlestarted'), 0);
 		setTimeout(() => this.eventBus.publish('battlestate', bsTxt2), 0);
@@ -75,6 +75,9 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 };
 
 Game.Battle.prototype.onUpdate = function(data){
+	if (data.winningArmy){
+		return this.onEnd(data);
+	}
 	this.battleState = 'started';
 	var delta = {
 		source: this.nextUnit().pos,

@@ -61,15 +61,16 @@ function createWaitLayer(width, height) {
 
     return {
         show: function (text) {
-            waitOverlay.show();
             complexText = createText(text);
             waitLayer.add(complexText);
+            waitOverlay.show();
+            waitLayer.show();
             waitLayer.draw();
         },
         hide: function () {
+            complexText.remove();
             waitOverlay.hide();
-            complexText.destroy();
-            waitLayer.draw();
+            waitLayer.hide();
         },
         node: waitLayer
     };
