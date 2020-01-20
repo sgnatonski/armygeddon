@@ -12,6 +12,7 @@ function createTooltipVisual(){
         shadowBlur: 5,
         shadowOffset: {x : 6, y : 6},
         shadowOpacity: 0.5,
+        strokeHitEnabled: false,
         perfectDrawEnabled : false
     });
     var text = new Konva.Text({
@@ -20,6 +21,7 @@ function createTooltipVisual(){
         padding: 5,
         fill: "#dedede",
         listening: false,
+        strokeHitEnabled: false,
         perfectDrawEnabled : false/*,
         shadowColor: 'black',
         shadowBlur: 0,

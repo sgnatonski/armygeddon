@@ -1,35 +1,40 @@
 var ws = null;
-function initWebSocket(eventBus, onInitCallback){
-    var battleId = sessionStorage.getItem('battleid');
-    if (!battleId || battleId == 'null'){
-        return Game.fetch().post('/battle/start').then(data => {
-            openWebSocket(data);
-        });
-    }
-    else{
-        openWebSocket(battleId); 
-    }
-    
-    function openWebSocket(battleId){
-        var wsProtocol = 'ws';
-        if (window.location.protocol === "https:") {
-            wsProtocol = 'wss';
+function initWebSocket(eventBus){
+    return new Promise((resolve, reject) => {
+        var battleId = sessionStorage.getItem('battleid');
+        if (!battleId || battleId == 'null'){
+            Game.fetch().post('/battle/start').then(data => {
+                openWebSocket(data);
+            });
         }
-        ws = new WebSocket(`${wsProtocol}://${window.location.host}?bid=${battleId}`);
-        ws.onmessage = function (event) {
-            var data = JSON.parse(event.data);
-            if (data.msg == 'data'){
-                onInitCallback(data.data);
+        else{
+            openWebSocket(battleId); 
+        }
+        
+        function openWebSocket(battleId){
+            var wsProtocol = 'ws';
+            if (window.location.protocol === "https:") {
+                wsProtocol = 'wss';
             }
-            else if (data.msg == 'upd'){
-                eventBus.publish('update', data.data);
-            }
-            else if (data.msg == 'end'){
-                eventBus.publish('end', data.data);
-            }
-        };
-        window.addEventListener('beforeunload', function () { ws.close(); });
-    }
+            ws = new WebSocket(`${wsProtocol}://${window.location.host}?bid=${battleId}`);
+            ws.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                if (data.msg == 'data'){
+                    resolve(data.data);
+                }
+                else if (data.msg == 'upd'){
+                    eventBus.publish('update', data.data);
+                }
+                else if (data.msg == 'end'){
+                    eventBus.publish('end', data.data);
+                }
+            };
+            ws.onerror = function (error) {
+                reject(error);
+            };
+            window.addEventListener('beforeunload', function () { ws.close(); });
+        }
+    });
 }
 
 function requestMove(eventBus, bid, uid, x, y){

@@ -5,6 +5,5 @@
   Promise.all([loadImages(), battle.load()]).then(r => {
     var grid = initGrid(battle);
     setupStage(grid, eventBus, r[0]);
-    eventBus.publish('battlestarted'); 
   })
 })();

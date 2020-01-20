@@ -82,6 +82,7 @@ function createHexCoordVisual(hex){
         fontSize: 10,
         fill: 'black',
         listening: false,
+        strokeHitEnabled: false,
         perfectDrawEnabled : false
     });
   

@@ -25,7 +25,7 @@ function battleLogic(battle, playerId, playerName, helper) {
         },
         join: (army) => {
             if (battle.armies[playerId]) {
-                return;
+                return battle;
             }
             battle.started = new Date().toISOString();
             battle.armies[playerId] = {};

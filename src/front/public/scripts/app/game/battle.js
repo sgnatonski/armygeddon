@@ -36,7 +36,7 @@ Game.Battle.prototype.loadData = function(data, single){
 		this.secondArmy = new Game.Army(armies[1], data.unitTypes);	
 		this.battleState = 'ready';
 		if (data.winningArmy){
-			return this.onEnd(data);
+			return this.onEnd({ battle: data });
 		}
 		var bsTxt2 = this.getBattleStateText();
 		setTimeout(() => this.eventBus.publish('battlestarted'), 0);
@@ -44,6 +44,9 @@ Game.Battle.prototype.loadData = function(data, single){
 		var nextUnit = this.nextUnit();
 		var nextPlayer = this.getArmy(nextUnit).playerName;
 		setTimeout(() => this.eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
+	}
+	else{
+		setTimeout(() => this.eventBus.publish('battlewaiting'), 0);		
 	}
 };
 

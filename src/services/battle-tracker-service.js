@@ -18,7 +18,14 @@ responder.on('*', console.log);
 
 responder.on('getOpen', async () => {
     if (lastFetch >= new Date().setMinutes(-5)) {
-        return openBattles;
+        return openBattles.map(x => {
+            return {
+                id: x.id,
+                name: x.players.filter(p => p !== null).join(' vs '),
+                players: x.players.filter(p => p !== null).length,
+                created: timeago().format(x.created)
+            }
+        });
     }
 
     try {
@@ -55,5 +62,11 @@ responder.on('addOpen', async req => {
 
 responder.on('updateOpen', async req => {
     var b = openBattles.find(x => x.id === req.battleId);
-    b.players.push(req.player);
+    if (!b){
+        b = { id: req.battleId, players: [req.player] };
+        openBattles.push(b);
+    }
+    if (!b.players.find(x => x == req.player)){
+        b.players.push(req.player);
+    }
 });

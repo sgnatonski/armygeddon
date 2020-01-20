@@ -1,11 +1,11 @@
-function createWaitLayer(width, height) {
+function createWaitLayer(stage, width, height) {
     var waitLayer = new Konva.Layer({
         hitGraphEnabled : true,
         draggable: false
     });
     var waitOverlay = new Konva.Rect({
-        x: 0,
-        y: 0,
+        x: stage.getAbsolutePosition().x,
+        y: stage.getAbsolutePosition().y,
         width: width,
         height: height,
         fill: 'black',
@@ -61,15 +61,15 @@ function createWaitLayer(width, height) {
 
     return {
         show: function (text) {
+            stage.setDraggable(false);
             complexText = createText(text);
             waitLayer.add(complexText);
-            waitOverlay.show();
             waitLayer.show();
             waitLayer.draw();
         },
         hide: function () {
-            complexText.remove();
-            waitOverlay.hide();
+            stage.setDraggable(true);
+            complexText.destroy();
             waitLayer.hide();
         },
         node: waitLayer

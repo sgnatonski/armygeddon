@@ -1,9 +1,10 @@
 function cullView(container, stage, layer) {
   var c = layer.children;
-  var boundingX = (-1 * (stage.getAbsolutePosition().x)) - layer.getX();
-  var boundingY = (-1 * (stage.getAbsolutePosition().y)) - layer.getY();
-  var boundingWidth = container.width;
-  var boundingHeight = container.height;
+  var cullMargin = 50;
+  var boundingX = (-1 * (stage.getAbsolutePosition().x)) - layer.getX() - cullMargin;
+  var boundingY = (-1 * (stage.getAbsolutePosition().y)) - layer.getY() - cullMargin;
+  var boundingWidth = container.width + cullMargin * 2;
+  var boundingHeight = container.height + cullMargin * 2;
   var x = 0;
   var y = 0;
   for (var i = 0; i < c.length; i++) {

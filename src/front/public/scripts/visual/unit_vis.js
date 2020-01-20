@@ -11,6 +11,7 @@ function createUnitVisual(unit, center, hexCenter, color){
     shadowBlur: 10,
     shadowOffset: {x : 40, y : 20},
     shadowOpacity: 0.5,
+    strokeHitEnabled: false,
     perfectDrawEnabled : false
   });
   var unitPath = new Konva.Path({
@@ -21,6 +22,7 @@ function createUnitVisual(unit, center, hexCenter, color){
       y: 0.08
     },
     offsetY: 60,
+    strokeHitEnabled: false,
     perfectDrawEnabled : false
   });
   var unitType = new Konva.Group({
@@ -39,6 +41,7 @@ function createUnitVisual(unit, center, hexCenter, color){
       y: -8
     },
     opacity: 0.7,
+    strokeHitEnabled: false,
     perfectDrawEnabled : false
   }));
   switch(unit.type){
@@ -50,6 +53,7 @@ function createUnitVisual(unit, center, hexCenter, color){
           x: 0.035,
           y: 0.035
         },
+        strokeHitEnabled: false,
         perfectDrawEnabled : false
       }));
       unitType.add(new Konva.Path({
@@ -59,6 +63,7 @@ function createUnitVisual(unit, center, hexCenter, color){
           x: 0.035,
           y: 0.035
         },
+        strokeHitEnabled: false,
         perfectDrawEnabled : false
       }));
       break;
@@ -74,6 +79,7 @@ function createUnitVisual(unit, center, hexCenter, color){
           x: -80,
           y: -80
         },
+        strokeHitEnabled: false,
         perfectDrawEnabled : false
       }));
       break;
@@ -85,6 +91,7 @@ function createUnitVisual(unit, center, hexCenter, color){
           x: 0.2,
           y: 0.2
         },
+        strokeHitEnabled: false,
         perfectDrawEnabled : false
       }));
       unitType.add(new Konva.Path({
@@ -94,6 +101,7 @@ function createUnitVisual(unit, center, hexCenter, color){
           x: 0.2,
           y: 0.2
         },
+        strokeHitEnabled: false,
         perfectDrawEnabled : false
       }));
       break;
@@ -134,6 +142,7 @@ function createUnitVisual(unit, center, hexCenter, color){
     fill: '#ffff66',
     opacity: 0.35,
     perfectDrawEnabled : false,
+    strokeHitEnabled: false,
     sceneFunc: function(context){
       if (!unit.armor){
         return;
@@ -181,6 +190,7 @@ function createDeadUnitVisual(unit, center, hexCenter){
     shadowBlur: 10,
     shadowOffset: {x : 40, y : 20},
     shadowOpacity: 0.5,
+    strokeHitEnabled: false,
     perfectDrawEnabled : false
   });
   var group = new Konva.Group({
