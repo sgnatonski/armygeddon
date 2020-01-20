@@ -30,12 +30,21 @@ router.post('/:battleid/:uid/:cmd/:x/:y', async (req, res, next) => {
         var cmd = { cmd: req.params.cmd, uid: req.params.uid, x: parseInt(req.params.x), y: parseInt(req.params.y), single: true };
         var result = await battleRequester.send({ type: 'process', battleId: req.params.battleid, playerId: req.user.id, name: req.user.name, cmd: cmd });
         if (result.success) {
-            res.json({
-                currUnit: result.unit,
-                nextUnit: result.nextUnit,
-                targetUnit: result.targetUnit,
-                unitQueue: result.unitQueue
-            });
+            if (result.ended) {
+                res.json({
+                    event: 'end',
+                    battle: result.battle
+                });
+            }
+            else{
+                res.json({
+                    event: 'update',
+                    currUnit: result.unit,
+                    nextUnit: result.nextUnit,
+                    targetUnit: result.targetUnit,
+                    unitQueue: result.unitQueue
+                });
+            }
         }
         else {
             res.status(403);

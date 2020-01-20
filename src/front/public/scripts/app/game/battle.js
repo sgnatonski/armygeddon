@@ -75,9 +75,6 @@ Game.Battle.prototype.getOtherArmy = function(unitId) {
 };
 
 Game.Battle.prototype.onUpdate = function(data){
-	if (data.winningArmy){
-		return this.onEnd(data);
-	}
 	this.battleState = 'started';
 	var delta = {
 		source: this.nextUnit().pos,
@@ -102,7 +99,7 @@ Game.Battle.prototype.onUpdate = function(data){
 
 Game.Battle.prototype.onEnd = function(data){
 	this.battleState = 'finished';
-	setTimeout(() => this.eventBus.publish('battleended', this.getBattleSummary(data)), 0);
+	setTimeout(() => this.eventBus.publish('battleended', this.getBattleSummary(data.battle)), 0);
 	setTimeout(() => this.eventBus.publish('battlestate', this.getBattleStateText()), 0);
 };
 
