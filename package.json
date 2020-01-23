@@ -3,16 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "rollup --config"
+    "rollup:watch": "rollup -c -w",
+    "backend": "pm2 start armygeddon.json --no-daemon",
+    "server:prod": "rollup --config",
+    "server:dev": "npm-run-all --parallel rollup:watch backend"
   },
   "dependencies": {
     "@internal/common": "file:src/common",
     "@internal/front": "file:src/front",
-    "@internal/services": "file:src/services",
-    "axios": "^0.19.1",
-    "vue": "^2.6.11",
-    "vue-headful": "^2.1.0",
-    "vue-router": "^3.1.5"
+    "@internal/services": "file:src/services"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.1",
@@ -21,10 +20,11 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "^2.1.0",
+    "npm-run-all": "^4.1.5",
     "rollup": "^1.29.1",
+    "rollup-plugin-dev": "^1.1.1",
     "rollup-plugin-generate-html-template": "^1.6.0",
     "rollup-plugin-livereload": "^1.0.4",
-    "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-vue": "^5.1.5",
     "vue-template-compiler": "^2.6.11"

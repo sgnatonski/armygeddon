@@ -22,6 +22,10 @@
     "serve-favicon": "^2.5.0",
     "timeago.js": "^3.0.2",
     "validator": "^10.2.0",
-    "ws": "^5.1.1"
+    "ws": "^5.1.1",
+    "axios": "^0.19.1",
+    "vue": "^2.6.11",
+    "vue-headful": "^2.1.0",
+    "vue-router": "^3.1.5"
   }
 }

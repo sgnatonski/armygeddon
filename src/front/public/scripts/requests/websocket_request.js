@@ -16,7 +16,7 @@ function initWebSocket(eventBus){
             if (window.location.protocol === "https:") {
                 wsProtocol = 'wss';
             }
-            ws = new WebSocket(`${wsProtocol}://${window.location.host}?bid=${battleId}`);
+            ws = new WebSocket(`${wsProtocol}://${window.location.hostname}:3000?bid=${battleId}`);
             ws.onmessage = function (event) {
                 var data = JSON.parse(event.data);
                 if (data.msg == 'data'){

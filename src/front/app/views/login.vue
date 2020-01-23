@@ -4,7 +4,7 @@
     <div class="pure-g">
       <div class="pure-u-1 pure-u-md-1-3"></div>
       <div class="pure-u-1 pure-u-md-1-3 bordered-box">
-        <div class="">
+        <div>
           <h2>Who art thou, Sir?</h2>
           <form method="post" action="login" class="pure-form pure-form-aligned">
             <fieldset>

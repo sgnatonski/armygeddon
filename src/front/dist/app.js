@@ -12987,9 +12987,10 @@
   //
   //
   //
+  //
+  //
 
-  var script = {
-  };
+  var script = {};
 
   function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
       if (typeof shadowMode !== 'boolean') {
@@ -13065,7 +13066,6 @@
       }
       return script;
   }
-  //# sourceMappingURL=normalize-component.mjs.map
 
   const isOldIE = typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
@@ -13119,7 +13119,6 @@
           }
       }
   }
-  //# sourceMappingURL=browser.mjs.map
 
   /* script */
   const __vue_script__ = script;
@@ -13130,49 +13129,51 @@
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
     return _c("div", [
-      _c("h1", [_vm._v("Welcome")]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c("p", [_vm._v("Welcome to Armygeddon!")]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v(
-          "Armygeddon is a turn-based browser strategy game, which allows players to organize duels and test their skills and tactics agains each other."
+      _c("div", [
+        _c("h1", [_vm._v("Welcome")]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c("p", [_vm._v("Welcome to Armygeddon!")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Armygeddon is a turn-based browser strategy game, which allows players to organize duels and test their skills and tactics agains each other."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "The game is currently under development (but already playable) and new features and bug fixes are arriving on daily schedule."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Please feel free to test current game features and enjoy the game."
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "h2",
+          [
+            _c("router-link", { attrs: { to: "/start" } }, [
+              _vm._v("Begin the game!")
+            ])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "h2",
+          [
+            _c("router-link", { attrs: { to: "/tutorial" } }, [
+              _vm._v("Read the tutorial")
+            ])
+          ],
+          1
         )
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v(
-          "The game is currently under development (but already playable) and new features and bug fixes are arriving on daily schedule."
-        )
-      ]),
-      _vm._v(" "),
-      _c("p", [
-        _vm._v(
-          "Please feel free to test current game features and enjoy the game."
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "h2",
-        [
-          _c("router-link", { attrs: { to: "/start" } }, [
-            _vm._v("Begin the game!")
-          ])
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "h2",
-        [
-          _c("router-link", { attrs: { to: "/tutorial" } }, [
-            _vm._v("Read the tutorial")
-          ])
-        ],
-        1
-      )
+      ])
     ])
   };
   var __vue_staticRenderFns__ = [
@@ -13188,11 +13189,11 @@
     /* style */
     const __vue_inject_styles__ = function (inject) {
       if (!inject) return
-      inject("data-v-1193e5d0_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"welcome.vue"}, media: undefined });
+      inject("data-v-42620102_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"welcome.vue"}, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__ = "data-v-1193e5d0";
+    const __vue_scope_id__ = "data-v-42620102";
     /* module identifier */
     const __vue_module_identifier__ = undefined;
     /* functional template */
@@ -13216,6 +13217,8 @@
       undefined
     );
 
+  //
+  //
   //
   //
   //
@@ -13253,22 +13256,24 @@
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
     return _c("div", [
-      _c("h2", [_vm._v("Ranking")]),
-      _vm._v(" "),
-      _c(
-        "ul",
-        { staticClass: "select-list" },
-        _vm._l(_vm.ranking, function(item) {
-          return _c("li", [
-            _c("span", [_vm._v(_vm._s(item.playerName))]),
-            _vm._v(" "),
-            _c("span", [_vm._v(_vm._s(item.totalExp))]),
-            _vm._v(" "),
-            _c("span", [_vm._v(_vm._s(item.totalRank))])
-          ])
-        }),
-        0
-      )
+      _c("div", [
+        _c("h2", [_vm._v("Ranking")]),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "select-list" },
+          _vm._l(_vm.ranking, function(item) {
+            return _c("li", { key: item.playerName }, [
+              _c("span", [_vm._v(_vm._s(item.playerName))]),
+              _vm._v(" "),
+              _c("span", [_vm._v(_vm._s(item.totalExp))]),
+              _vm._v(" "),
+              _c("span", [_vm._v(_vm._s(item.totalRank))])
+            ])
+          }),
+          0
+        )
+      ])
     ])
   };
   var __vue_staticRenderFns__$1 = [];
@@ -13277,11 +13282,11 @@
     /* style */
     const __vue_inject_styles__$1 = function (inject) {
       if (!inject) return
-      inject("data-v-30a4755a_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"ranking.vue"}, media: undefined });
+      inject("data-v-7ebdd8b6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"ranking.vue"}, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$1 = "data-v-30a4755a";
+    const __vue_scope_id__$1 = "data-v-7ebdd8b6";
     /* module identifier */
     const __vue_module_identifier__$1 = undefined;
     /* functional template */
@@ -13648,7 +13653,7 @@
           _c("div", { staticClass: "pure-u-1 pure-u-md-1-3" }),
           _vm._v(" "),
           _c("div", { staticClass: "pure-u-1 pure-u-md-1-3 bordered-box" }, [
-            _c("div", {}, [
+            _c("div", [
               _c("h2", [_vm._v("Who art thou, Sir?")]),
               _vm._v(" "),
               _c(
@@ -13733,11 +13738,11 @@
     /* style */
     const __vue_inject_styles__$6 = function (inject) {
       if (!inject) return
-      inject("data-v-58730c39_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"login.vue"}, media: undefined });
+      inject("data-v-2dbcd59e_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"login.vue"}, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$6 = "data-v-58730c39";
+    const __vue_scope_id__$6 = "data-v-2dbcd59e";
     /* module identifier */
     const __vue_module_identifier__$6 = undefined;
     /* functional template */
@@ -14124,3 +14129,4 @@
   });
 
 }());
+//# sourceMappingURL=app.js.map
