@@ -11,7 +11,8 @@ gulp.task('bundle-hex', function () {
 gulp.task('bundle-3rdparty', function () {
     gulp.src([
         './node_modules/image-promise/dist/image-promise.common-js.js',
-        './node_modules/jsnlog/jsnlog.js'
+        './node_modules/jsnlog/jsnlog.js',
+        './node_modules/vue/dist/vue.js'
     ])
         .pipe(concat('3rd.js'))
         .pipe(gulp.dest('./src/front/dist/'));

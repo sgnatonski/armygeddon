@@ -1,0 +1,221 @@
+@font-face {
+  font-family: 'SquareCaps';
+  src: url('../fonts/SquareCaps.ttf') format('truetype');
+}
+
+body {
+  padding: 0px;
+  margin: 0px;  
+}
+
+body > div > div:not(#battle-scene):before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+
+  display: block;
+  background-image: url(../images/handpainted_wall2.jpg);
+  background-size: 256px 256px;
+  width: 100%;
+  height: 100%;
+}
+
+div#container{
+  position: relative;
+}
+
+body > div > div#battle-scene:before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+
+  display: block;
+  background-image: url(../images/handpainted_wall2.jpg);
+  background-size: 256px 256px;
+  width: 100%;
+  height: 100%;
+
+  -webkit-filter: blur(6px);
+  -moz-filter: blur(6px);
+  -o-filter: blur(6px);
+  -ms-filter: blur(6px);
+  filter: blur(6px);
+}
+
+a {
+  color: rgb(0, 94, 131);
+  text-shadow: 1px 2px 2px #999;
+}
+
+.bordered-box {
+  border: 1px solid;
+    border-image-source: url(../images/br.svg);
+    border-image-slice: 20%;
+    border-image-width: 30px;
+    border-image-outset: 6;
+    margin: 1em;
+    padding: 0px 23px 18px;
+    min-height: 100px;
+    box-shadow: black -16px 16px 16px 0px;
+    position: relative;
+}
+.bordered-box > div {
+  width: 100%;
+  height: 100%;
+  background-color: #e6e2d2;
+  margin-top: 20px;
+  min-height: 75px;
+}
+
+.title-box{
+  text-align: center;
+}
+
+.bordered-box.bordered-box-min {
+  min-height: 0px;
+  padding-bottom: 10px;
+  height: auto;
+}
+
+.bordered-box.bordered-box-min > div {
+  height: auto;
+  min-height: auto;
+}
+
+.bordered-box h1{
+  font-family: SquareCaps;
+  font-weight: normal;
+  font-size: 1.25em;
+  margin: 0px;
+  text-shadow: 1px 2px 2px #999;
+}
+
+.bordered-box h2{
+  font-family: SquareCaps;
+  font-weight: normal;
+  font-size: 1em;
+  margin-top: 0px;
+  text-shadow: 1px 2px 2px #999;
+}
+
+.bordered-box > div.right-aligned{
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  width: auto;
+}
+
+@media screen and (min-width: 48em){
+  .bordered-box h1{
+    font-family: SquareCaps;
+    font-weight: normal;
+    font-size: 3em;
+  }
+
+  .bordered-box h2{
+    font-family: SquareCaps;
+    font-weight: normal;
+    font-size: 2em;
+  }
+}
+
+.bordered-box ul.select-list{
+  list-style-type: none;
+  margin-bottom: 5px;
+}
+
+.bordered-box ul.select-list > li:hover:before {
+  white-space: pre-wrap;
+  content: '♜';
+  margin-left: -20px;
+  line-height: 1;
+}
+
+.game-menu{
+    width: 100%;
+    height: 40px;
+    position: fixed;
+    z-index: 100;
+}
+
+.game-menu > .icon {
+  position: absolute;
+  left: 0px;
+  margin: 4px;
+  width: 32px;
+  height: 32px;
+  background-image: url(../images/armygeddon512.svg);
+  transition: all .2s ease-in-out;
+}
+
+.game-menu:hover > .icon {
+  margin: 6px;
+  width: 28px;
+  height: 28px;
+}
+
+.game-menu > .wrapper {
+  position: absolute;
+  left: 0px;
+  width: 80px;
+  height: 40px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.game-menu > .wrapper:checked {
+  width: 40px;
+}
+
+.game-menu > .contents {
+  background-image: url(../images/wood.jpg);
+  background-size: 140px 150px;
+  background-position: right;
+  background-position-y: 0px;
+  overflow:hidden;
+  white-space:nowrap;
+  display:block;
+  color: azure;
+  height: 40px;
+  width: 80px;
+
+  -webkit-transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+  -moz-transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+  -o-transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+
+  -webkit-box-shadow: 0px 6px 5px 0px rgba(0,0,0,1);
+  -moz-box-shadow: 0px 6px 5px 0px rgba(0,0,0,1);
+  box-shadow: 0px 6px 5px 0px rgba(0,0,0,1);
+}
+
+.game-menu > .wrapper:checked + .contents {
+  width:100%;
+}
+
+.game-menu > .contents ul{
+  list-style-type: none;
+  overflow: hidden;
+  display: inline-block;
+  height: 40px;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+}
+
+.game-menu > .wrapper:checked + .contents > ul > li {
+  display: inline-block;
+  padding-left: 40px;
+}
+
+.game-menu ul > li{
+  width: 100px;
+  height: 100%;;
+  padding-left: 80px;
+  white-space: nowrap;
+  display: none;
+}
