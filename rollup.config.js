@@ -17,6 +17,7 @@ export default {
     plugins: [
         resolve({ browser: true, jsnext: true }),
         vue(),
+        //vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
         htmlTemplate({
             template: 'src/front/app/index.html',
             target: 'src/front/dist/index.html',
@@ -24,7 +25,7 @@ export default {
         replace({
             'process.env.NODE_ENV': JSON.stringify('development') // production for PROD
         }),
-        dev({ 
+        dev({
             dirs: ['src/front/dist', 'src/front/assets'],
             proxy: { '/*': 'localhost:3000' },
             port: 3001
@@ -32,5 +33,14 @@ export default {
         livereload(),
         commonjs(),
         //terser()
-    ]
+    ],
+    onwarn: function (warning) {
+        // Skip certain warnings
+
+        // should intercept ... but doesn't in some rollup versions
+        if (warning.code === 'THIS_IS_UNDEFINED') { return; }
+
+        // console.warn everything else
+        console.warn(warning.message);
+    }
 };

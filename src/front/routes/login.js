@@ -1,6 +1,5 @@
 var express = require('express');
 var cote = require('cote');
-var log = require('@internal/common/logger');
 
 var loginRequester = new cote.Requester({
   name: 'login requester',
@@ -14,36 +13,23 @@ var registerRequester = new cote.Requester({
 
 var router = express.Router();
 
-router.get('/', (req, res, next) => {
-  res.render('login', { 
-    title: 'Login', 
-    error: req.query['noauth'] ? 'We couldn\'t recognize you, Sir. Please enter your credentials.' : undefined 
-  });
-});
-
-router.post('/', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
   try {
     var token = await loginRequester.send({ type: 'login', user: req.body });
     res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
-    res.redirect('/start');
+    res.json({ name: 'test' });
   } catch (error) {
-    log.error(error);
     next(error);
   }
-});
-
-router.get('/register', (req, res, next) => {
-  res.render('register', { title: 'Register' });
 });
 
 router.post('/register', async (req, res, next) => {
   try {
     var token = await registerRequester.send({ type: 'register', user: req.body });
     res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
-    res.redirect('/start');
+    res.json({ name: 'test' });
   } catch (error) {    
-    log.error(error);
-    next(error);
+    next(error); 
   }
 });
 

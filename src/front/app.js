@@ -49,10 +49,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(jwt({
   secret: app.get('TOKEN_SECRET'),
   getToken: req => req.cookies.a_token
-}).unless({ path: ['/', '/login', '/login/register'] }));
+}).unless({ path: ['/', '/ranking', '/login', '/register'] }));
 
 app.use('/', index);
-app.use('/login', login);
+app.use('/', login);
 if (app.get('env') === 'development') {
   app.use('/design', design);
   app.use('/battle', battle.dev());
@@ -84,10 +84,7 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  if (err.status == 401) {
-    res.redirect('/login?noauth=1');
-  }
-  else {
+  if (err.status != 401) {
     log.error(err);
     // set locals, only providing error in development
     var error = {
@@ -97,6 +94,9 @@ app.use(function (err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render('error', error);
+  }
+  else{
+    res.sendStatus(401);
   }
 });
 
