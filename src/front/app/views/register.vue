@@ -2,9 +2,9 @@
   <div>
     <Title />
     <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-1-3"></div>
-      <div class="pure-u-1 pure-u-md-1-3 bordered-box">
-        <div>
+      <div class="pure-u-1 pure-u-md-1-8 pure-u-lg-1-3"></div>
+      <div class="pure-u-1 pure-u-md-3-4 pure-u-lg-1-3">
+        <Panel>
           <h2>Register yourself, Sir</h2>
           <div class="pure-form pure-form-aligned">
             <fieldset>
@@ -34,7 +34,7 @@
               </div>
             </fieldset>
           </div>
-        </div>
+        </Panel>
       </div>
     </div>
   </div>
@@ -42,10 +42,12 @@
 
 <script>
 import { mutations } from "../stores/user";
+import Panel from "../components/ui/panel.vue";
 import Title from "../components/title.vue";
 export default {
   components: {
-    Title
+    Title,
+    Panel
   },
   data() {
     return {

@@ -2,20 +2,9 @@
   <div>
     <Title />
     <div class="pure-g">
-        <div class="pure-u-1 pure-u-md-1-8 pure-u-lg-1-3"></div>
-        <div class="pure-u-1 pure-u-md-3-4 pure-u-lg-1-3">
-            <Panel>
-            Test
-            <br />
-            <br />
-            <br />Koniec
-            </Panel>
-        </div>
-    </div>
-    <div class="pure-g">
       <div class="pure-u-1 pure-u-md-1-8 pure-u-lg-1-3"></div>
       <div class="pure-u-1 pure-u-md-3-4 pure-u-lg-1-3">
-        <div class="bordered-box">
+        <Panel>
           <div>
             <h2>Who art thou, Sir?</h2>
             <div class="pure-form pure-form-aligned">
@@ -41,7 +30,7 @@
               </fieldset>
             </div>
           </div>
-        </div>
+        </Panel>
       </div>
     </div>
   </div>
@@ -50,7 +39,7 @@
 <script>
 import Title from "../components/title.vue";
 import Panel from "../components/ui/panel.vue";
-import { mutations } from "../stores/user";
+import { mutations } from "../stores/user"; 
 export default {
   components: {
     Title,

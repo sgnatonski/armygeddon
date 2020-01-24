@@ -13066,7 +13066,6 @@
       }
       return script;
   }
-  //# sourceMappingURL=normalize-component.mjs.map
 
   const isOldIE = typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
@@ -13120,7 +13119,6 @@
           }
       }
   }
-  //# sourceMappingURL=browser.mjs.map
 
   /* script */
   const __vue_script__ = script;
@@ -13425,233 +13423,10 @@
       undefined
     );
 
-  //
-  var script$3 = {
-    components: {
-      User: __vue_component__$2
-    },
-    data: function() {
-      return {
-        title: "Armygeddon"
-      };
-    }
-  };
-
   /* script */
-  const __vue_script__$3 = script$3;
 
   /* template */
   var __vue_render__$3 = function() {
-    var _vm = this;
-    var _h = _vm.$createElement;
-    var _c = _vm._self._c || _h;
-    return _c(
-      "div",
-      [
-        _c("vue-headful", {
-          attrs: { title: _vm.title, description: _vm.title }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "pure-g" }, [
-          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "pure-u-1 pure-u-md-3-4" }, [
-            _c(
-              "div",
-              { staticClass: "bordered-box bordered-box-min title-box" },
-              [
-                _c("div", [
-                  _c("h1", { domProps: { textContent: _vm._s(_vm.title) } })
-                ]),
-                _vm._v(" "),
-                _c("user", { staticClass: "right-aligned" })
-              ],
-              1
-            )
-          ])
-        ])
-      ],
-      1
-    )
-  };
-  var __vue_staticRenderFns__$3 = [];
-  __vue_render__$3._withStripped = true;
-
-    /* style */
-    const __vue_inject_styles__$3 = function (inject) {
-      if (!inject) return
-      inject("data-v-ddd3e536_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"title.vue"}, media: undefined });
-
-    };
-    /* scoped */
-    const __vue_scope_id__$3 = "data-v-ddd3e536";
-    /* module identifier */
-    const __vue_module_identifier__$3 = undefined;
-    /* functional template */
-    const __vue_is_functional_template__$3 = false;
-    /* style inject SSR */
-    
-    /* style inject shadow dom */
-    
-
-    
-    const __vue_component__$3 = normalizeComponent(
-      { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
-      __vue_inject_styles__$3,
-      __vue_script__$3,
-      __vue_scope_id__$3,
-      __vue_is_functional_template__$3,
-      __vue_module_identifier__$3,
-      false,
-      createInjector,
-      undefined,
-      undefined
-    );
-
-  //
-  var script$4 = {
-    components: {
-      Welcome: __vue_component__,
-      Ranking: __vue_component__$1,
-      Title: __vue_component__$3,
-    }
-  };
-
-  /* script */
-  const __vue_script__$4 = script$4;
-
-  /* template */
-  var __vue_render__$4 = function() {
-    var _vm = this;
-    var _h = _vm.$createElement;
-    var _c = _vm._self._c || _h;
-    return _c(
-      "div",
-      [
-        _c("Title"),
-        _vm._v(" "),
-        _c("div", { staticClass: "pure-g" }, [
-          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "pure-u-1 pure-u-md-3-4" }, [
-            _c("div", { staticClass: "pure-g" }, [
-              _c("div", { staticClass: "pure-u-1 pure-u-md-2-3" }, [
-                _c("div", { staticClass: "bordered-box" }, [_c("Welcome")], 1)
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "pure-u-1 pure-u-md-1-3" },
-                [_c("Ranking", { staticClass: "bordered-box" })],
-                1
-              )
-            ])
-          ])
-        ])
-      ],
-      1
-    )
-  };
-  var __vue_staticRenderFns__$4 = [];
-  __vue_render__$4._withStripped = true;
-
-    /* style */
-    const __vue_inject_styles__$4 = function (inject) {
-      if (!inject) return
-      inject("data-v-368bfea2_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"home.vue"}, media: undefined });
-
-    };
-    /* scoped */
-    const __vue_scope_id__$4 = "data-v-368bfea2";
-    /* module identifier */
-    const __vue_module_identifier__$4 = undefined;
-    /* functional template */
-    const __vue_is_functional_template__$4 = false;
-    /* style inject SSR */
-    
-    /* style inject shadow dom */
-    
-
-    
-    const __vue_component__$4 = normalizeComponent(
-      { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
-      __vue_inject_styles__$4,
-      __vue_script__$4,
-      __vue_scope_id__$4,
-      __vue_is_functional_template__$4,
-      __vue_module_identifier__$4,
-      false,
-      createInjector,
-      undefined,
-      undefined
-    );
-
-  //
-
-  var script$5 = {
-    components: {
-      Home: __vue_component__$4
-    },
-    created: function() {
-      axios$1.interceptors.response.use(undefined, function(err) {
-        return new Promise(function(resolve, reject) {
-          if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-            mutations.logout();
-          }
-          throw err;
-        });
-      });
-    }
-  };
-
-  /* script */
-  const __vue_script__$5 = script$5;
-
-  /* template */
-  var __vue_render__$5 = function() {
-    var _vm = this;
-    var _h = _vm.$createElement;
-    var _c = _vm._self._c || _h;
-    return _c("div", { attrs: { id: "app" } }, [_c("router-view")], 1)
-  };
-  var __vue_staticRenderFns__$5 = [];
-  __vue_render__$5._withStripped = true;
-
-    /* style */
-    const __vue_inject_styles__$5 = function (inject) {
-      if (!inject) return
-      inject("data-v-1876dafa_0", { source: "\np[data-v-1876dafa] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: {"version":3,"sources":["C:\\Users\\E-SRGI\\Documents\\src\\hex-prototype\\src\\front\\app\\app.vue"],"names":[],"mappings":";AA6BA;EACA,cAAA;EACA,kBAAA;AACA","file":"app.vue","sourcesContent":["<template>\r\n  <div id=\"app\">\r\n    <router-view></router-view>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nimport axios from 'axios';\r\nimport Home from \"./views/home.vue\";\r\nimport { getters, mutations } from \"./stores/user\";\r\n\r\nexport default {\r\n  components: {\r\n    Home\r\n  },\r\n  created: function() {\r\n    axios.interceptors.response.use(undefined, function(err) {\r\n      return new Promise(function(resolve, reject) {\r\n        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {\r\n          mutations.logout();\r\n        }\r\n        throw err;\r\n      });\r\n    });\r\n  }\r\n};\r\n</script>\r\n\r\n<style scoped>\r\np {\r\n  font-size: 2em;\r\n  text-align: center;\r\n}\r\n</style>"]}, media: undefined });
-
-    };
-    /* scoped */
-    const __vue_scope_id__$5 = "data-v-1876dafa";
-    /* module identifier */
-    const __vue_module_identifier__$5 = undefined;
-    /* functional template */
-    const __vue_is_functional_template__$5 = false;
-    /* style inject SSR */
-    
-    /* style inject shadow dom */
-    
-
-    
-    const __vue_component__$5 = normalizeComponent(
-      { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
-      __vue_inject_styles__$5,
-      __vue_script__$5,
-      __vue_scope_id__$5,
-      __vue_is_functional_template__$5,
-      __vue_module_identifier__$5,
-      false,
-      createInjector,
-      undefined,
-      undefined
-    );
-
-  /* script */
-
-  /* template */
-  var __vue_render__$6 = function() {
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -13675,7 +13450,7 @@
       _vm._m(7)
     ])
   };
-  var __vue_staticRenderFns__$6 = [
+  var __vue_staticRenderFns__$3 = [
     function() {
       var _vm = this;
       var _h = _vm.$createElement;
@@ -13725,16 +13500,249 @@
       return _c("div", { staticClass: "corner_dbl_br" }, [_c("div")])
     }
   ];
+  __vue_render__$3._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$3 = function (inject) {
+      if (!inject) return
+      inject("data-v-f23917c8_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1{\r\n  font-family: SquareCaps;\r\n  font-weight: normal;\r\n  font-size: 1.25em;\r\n  text-shadow: 1px 2px 2px #ccc;\n}\n.panel h2{\r\n  font-family: SquareCaps;\r\n  font-weight: normal;\r\n  font-size: 1em;\r\n  text-shadow: 1px 2px 2px #ccc;\n}\n.panel div.right-aligned{\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n@media screen and (min-width: 48em){\n.panel h1{\r\n    font-family: SquareCaps;\r\n    font-weight: normal;\r\n    font-size: 3em;\n}\n.panel h2{\r\n    font-family: SquareCaps;\r\n    font-weight: normal;\r\n    font-size: 2em;\n}\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: {"version":3,"sources":["C:\\Users\\E-SRGI\\Documents\\src\\hex-prototype\\src\\front\\app\\components\\ui\\panel.vue"],"names":[],"mappings":";AAiCA;EACA,aAAA;EACA,qCAAA;EACA,kCAAA;EACA,oBAAA;EACA,iBAAA;EACA,sBAAA;EACA,oBAAA;EACA,WAAA;AACA;AAEA;EACA,yBAAA;EACA,aAAA;EACA,aAAA;EACA,qCAAA;AACA;AAEA;EACA,uBAAA;EACA,mBAAA;EACA,iBAAA;EACA,6BAAA;AACA;AAEA;EACA,uBAAA;EACA,mBAAA;EACA,cAAA;EACA,6BAAA;AACA;AAEA;EACA,kBAAA;EACA,SAAA;EACA,WAAA;EACA,WAAA;AACA;AAEA;AACA;IACA,uBAAA;IACA,mBAAA;IACA,cAAA;AACA;AAEA;IACA,uBAAA;IACA,mBAAA;IACA,cAAA;AACA;AACA;AAEA;EACA,UAAA;EACA,+CAAA;EACA,YAAA;EACA,gBAAA;AACA;AAEA;EACA,+CAAA;EACA,WAAA;EACA,eAAA;AACA;AAEA;EACA,+CAAA;EACA,WAAA;EACA,eAAA;AACA;AAEA;EACA,UAAA;EACA,+CAAA;EACA,YAAA;EACA,gBAAA;AACA","file":"panel.vue","sourcesContent":["<template>\r\n  <div class=\"panel\">\r\n    <div class=\"corner_dbl_tl\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"line_dbl_h1\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"corner_dbl_tr\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"line_dbl_v1\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"slot\">\r\n      <slot></slot>\r\n    </div>\r\n    <div class=\"line_dbl_v2\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"corner_dbl_bl\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"line_dbl_h2\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"corner_dbl_br\">\r\n      <div></div>\r\n    </div>\r\n  </div>\r\n</template>\r\n\r\n<style>\r\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\r\n}\r\n\r\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\r\n}\r\n\r\n.panel h1{\r\n  font-family: SquareCaps;\r\n  font-weight: normal;\r\n  font-size: 1.25em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n}\r\n\r\n.panel h2{\r\n  font-family: SquareCaps;\r\n  font-weight: normal;\r\n  font-size: 1em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n}\r\n\r\n.panel div.right-aligned{\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\r\n}\r\n\r\n@media screen and (min-width: 48em){\r\n  .panel h1{\r\n    font-family: SquareCaps;\r\n    font-weight: normal;\r\n    font-size: 3em;\r\n  }\r\n\r\n  .panel h2{\r\n    font-family: SquareCaps;\r\n    font-weight: normal;\r\n    font-size: 2em;\r\n  }\r\n}\r\n\r\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\r\n}\r\n\r\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\r\n}\r\n\r\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\r\n}\r\n\r\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\r\n}\r\n</style>"]}, media: undefined });
+
+    };
+    /* scoped */
+    const __vue_scope_id__$3 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$3 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$3 = false;
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$3 = normalizeComponent(
+      { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
+      __vue_inject_styles__$3,
+      {},
+      __vue_scope_id__$3,
+      __vue_is_functional_template__$3,
+      __vue_module_identifier__$3,
+      false,
+      createInjector,
+      undefined,
+      undefined
+    );
+
+  //
+
+  var script$3 = {
+    components: {
+      User: __vue_component__$2,
+      Panel: __vue_component__$3
+    },
+    data: function() {
+      return {
+        title: "Armygeddon"
+      };
+    }
+  };
+
+  /* script */
+  const __vue_script__$3 = script$3;
+
+  /* template */
+  var __vue_render__$4 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      [
+        _c("vue-headful", {
+          attrs: { title: _vm.title, description: _vm.title }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "pure-g" }, [
+          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "pure-u-1 pure-u-md-3-4" }, [
+            _c(
+              "div",
+              { staticClass: "title-box" },
+              [
+                _c(
+                  "Panel",
+                  [
+                    _c("h1", { domProps: { textContent: _vm._s(_vm.title) } }),
+                    _vm._v(" "),
+                    _c("user", { staticClass: "right-aligned" })
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ])
+        ])
+      ],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$4 = [];
+  __vue_render__$4._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$4 = function (inject) {
+      if (!inject) return
+      inject("data-v-6a33e7b5_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: 0;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 40%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\n}\n.title-box > .panel > .slot a {\r\n  color: antiquewhite;\n}\r\n", map: {"version":3,"sources":["C:\\Users\\E-SRGI\\Documents\\src\\hex-prototype\\src\\front\\app\\components\\title.vue"],"names":[],"mappings":";AAmCA;EACA,kBAAA;EACA,iBAAA;AACA;AACA;EACA,yCAAA;EACA,4BAAA;AACA;AACA;EACA,gBAAA;EACA,iBAAA;EACA,iBAAA;EACA,wBAAA;EACA;;;;;GAKA;EACA,kBAAA;EACA,mBAAA;AACA;AAEA;EACA,mBAAA;AACA","file":"title.vue","sourcesContent":["<template>\r\n  <div>\r\n    <vue-headful :title=\"title\" :description=\"title\" />\r\n    <div class=\"pure-g\">\r\n      <div class=\"pure-u-1 pure-u-md-1-8\"></div>\r\n      <div class=\"pure-u-1 pure-u-md-3-4\">\r\n        <div class=\"title-box\">\r\n          <Panel>\r\n            <h1 v-text=\"title\"></h1>\r\n            <user class=\"right-aligned\" />\r\n          </Panel>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nimport User from \"./user.vue\";\r\nimport Panel from \"../components/ui/panel.vue\";\r\n\r\nexport default {\r\n  components: {\r\n    User,\r\n    Panel\r\n  },\r\n  data: function() {\r\n    return {\r\n      title: \"Armygeddon\"\r\n    };\r\n  }\r\n};\r\n</script>\r\n\r\n<style>\r\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\r\n}\r\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\r\n}\r\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: 0;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 40%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n}\r\n\r\n.title-box > .panel > .slot a {\r\n  color: antiquewhite;\r\n}\r\n</style>"]}, media: undefined });
+
+    };
+    /* scoped */
+    const __vue_scope_id__$4 = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$4 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$4 = false;
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$4 = normalizeComponent(
+      { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
+      __vue_inject_styles__$4,
+      __vue_script__$3,
+      __vue_scope_id__$4,
+      __vue_is_functional_template__$4,
+      __vue_module_identifier__$4,
+      false,
+      createInjector,
+      undefined,
+      undefined
+    );
+
+  //
+  var script$4 = {
+    components: {
+      Welcome: __vue_component__,
+      Ranking: __vue_component__$1,
+      Title: __vue_component__$4,
+      Panel: __vue_component__$3
+    }
+  };
+
+  /* script */
+  const __vue_script__$4 = script$4;
+
+  /* template */
+  var __vue_render__$5 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      [
+        _c("Title"),
+        _vm._v(" "),
+        _c("div", { staticClass: "pure-g" }, [
+          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "pure-u-1 pure-u-md-3-4" }, [
+            _c("div", { staticClass: "pure-g" }, [
+              _c(
+                "div",
+                { staticClass: "pure-u-1 pure-u-md-2-3" },
+                [_c("Panel", [_c("Welcome")], 1)],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "pure-u-1 pure-u-md-1-3" },
+                [_c("Panel", [_c("Ranking")], 1)],
+                1
+              )
+            ])
+          ])
+        ])
+      ],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$5 = [];
+  __vue_render__$5._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$5 = function (inject) {
+      if (!inject) return
+      inject("data-v-77a6eb12_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"home.vue"}, media: undefined });
+
+    };
+    /* scoped */
+    const __vue_scope_id__$5 = "data-v-77a6eb12";
+    /* module identifier */
+    const __vue_module_identifier__$5 = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$5 = false;
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$5 = normalizeComponent(
+      { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
+      __vue_inject_styles__$5,
+      __vue_script__$4,
+      __vue_scope_id__$5,
+      __vue_is_functional_template__$5,
+      __vue_module_identifier__$5,
+      false,
+      createInjector,
+      undefined,
+      undefined
+    );
+
+  //
+
+  var script$5 = {
+    components: {
+      Home: __vue_component__$5
+    },
+    created: function() {
+      axios$1.interceptors.response.use(undefined, function(err) {
+        return new Promise(function(resolve, reject) {
+          if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+            mutations.logout();
+          }
+          throw err;
+        });
+      });
+    }
+  };
+
+  /* script */
+  const __vue_script__$5 = script$5;
+
+  /* template */
+  var __vue_render__$6 = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c("div", { attrs: { id: "app" } }, [_c("router-view")], 1)
+  };
+  var __vue_staticRenderFns__$6 = [];
   __vue_render__$6._withStripped = true;
 
     /* style */
     const __vue_inject_styles__$6 = function (inject) {
       if (!inject) return
-      inject("data-v-e3e01cb2_0", { source: "\n.panel[data-v-e3e01cb2] {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot[data-v-e3e01cb2] {\r\n  background-color: blanchedalmond;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.line_dbl_v1[data-v-e3e01cb2] {\r\n  z-index: 1;\n}\n.line_dbl_h2[data-v-e3e01cb2] {\r\n  margin-top: 6px;\n}\n.line_dbl_v2[data-v-e3e01cb2] {\r\n  margin-left: 6px;\n}\r\n", map: {"version":3,"sources":["C:\\Users\\E-SRGI\\Documents\\src\\hex-prototype\\src\\front\\app\\components\\ui\\panel.vue"],"names":[],"mappings":";AAiCA;EACA,aAAA;EACA,qCAAA;EACA,kCAAA;EACA,oBAAA;EACA,iBAAA;EACA,sBAAA;EACA,oBAAA;EACA,WAAA;AACA;AAEA;EACA,gCAAA;EACA,aAAA;EACA,aAAA;EACA,qCAAA;AACA;AAEA;EACA,UAAA;AACA;AACA;EACA,eAAA;AACA;AAEA;EACA,gBAAA;AACA","file":"panel.vue","sourcesContent":["<template>\r\n  <div class=\"panel\">\r\n    <div class=\"corner_dbl_tl\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"line_dbl_h1\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"corner_dbl_tr\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"line_dbl_v1\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"slot\">\r\n      <slot></slot>\r\n    </div>\r\n    <div class=\"line_dbl_v2\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"corner_dbl_bl\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"line_dbl_h2\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"corner_dbl_br\">\r\n      <div></div>\r\n    </div>\r\n  </div>\r\n</template>\r\n\r\n<style scoped>\r\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\r\n}\r\n\r\n.panel > .slot {\r\n  background-color: blanchedalmond;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\r\n}\r\n\r\n.line_dbl_v1 {\r\n  z-index: 1;\r\n}\r\n.line_dbl_h2 {\r\n  margin-top: 6px;\r\n}\r\n\r\n.line_dbl_v2 {\r\n  margin-left: 6px;\r\n}\r\n</style>"]}, media: undefined });
+      inject("data-v-1876dafa_0", { source: "\np[data-v-1876dafa] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: {"version":3,"sources":["C:\\Users\\E-SRGI\\Documents\\src\\hex-prototype\\src\\front\\app\\app.vue"],"names":[],"mappings":";AA6BA;EACA,cAAA;EACA,kBAAA;AACA","file":"app.vue","sourcesContent":["<template>\r\n  <div id=\"app\">\r\n    <router-view></router-view>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nimport axios from 'axios';\r\nimport Home from \"./views/home.vue\";\r\nimport { getters, mutations } from \"./stores/user\";\r\n\r\nexport default {\r\n  components: {\r\n    Home\r\n  },\r\n  created: function() {\r\n    axios.interceptors.response.use(undefined, function(err) {\r\n      return new Promise(function(resolve, reject) {\r\n        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {\r\n          mutations.logout();\r\n        }\r\n        throw err;\r\n      });\r\n    });\r\n  }\r\n};\r\n</script>\r\n\r\n<style scoped>\r\np {\r\n  font-size: 2em;\r\n  text-align: center;\r\n}\r\n</style>"]}, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$6 = "data-v-e3e01cb2";
+    const __vue_scope_id__$6 = "data-v-1876dafa";
     /* module identifier */
     const __vue_module_identifier__$6 = undefined;
     /* functional template */
@@ -13748,7 +13756,7 @@
     const __vue_component__$6 = normalizeComponent(
       { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
       __vue_inject_styles__$6,
-      {},
+      __vue_script__$5,
       __vue_scope_id__$6,
       __vue_is_functional_template__$6,
       __vue_module_identifier__$6,
@@ -13761,8 +13769,8 @@
   //
   var script$6 = {
     components: {
-      Title: __vue_component__$3,
-      Panel: __vue_component__$6
+      Title: __vue_component__$4,
+      Panel: __vue_component__$3
     },
     data() {
       return {
@@ -13808,118 +13816,102 @@
             { staticClass: "pure-u-1 pure-u-md-3-4 pure-u-lg-1-3" },
             [
               _c("Panel", [
-                _vm._v("\n          Test\n          "),
-                _c("br"),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v("Koniec\n          ")
+                _c("div", [
+                  _c("h2", [_vm._v("Who art thou, Sir?")]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "pure-form pure-form-aligned" }, [
+                    _c("fieldset", [
+                      _c("div", { staticClass: "pure-control-group" }, [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Username")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.name,
+                              expression: "name"
+                            }
+                          ],
+                          attrs: {
+                            type: "text",
+                            name: "name",
+                            placeholder: "Username or Email"
+                          },
+                          domProps: { value: _vm.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.name = $event.target.value;
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "pure-control-group" }, [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Password")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.password,
+                              expression: "password"
+                            }
+                          ],
+                          attrs: {
+                            type: "password",
+                            name: "password",
+                            placeholder: "Password"
+                          },
+                          domProps: { value: _vm.password },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.password = $event.target.value;
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [_vm._v(_vm._s(_vm.error))]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "pure-controls" },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "pure-button pure-button-primary",
+                              attrs: { disabled: _vm.sending },
+                              on: { click: _vm.login }
+                            },
+                            [_vm._v("Login")]
+                          ),
+                          _vm._v("\n                or\n                "),
+                          _c("router-link", { attrs: { to: "/register" } }, [
+                            _vm._v("Register")
+                          ])
+                        ],
+                        1
+                      )
+                    ])
+                  ])
+                ])
               ])
             ],
             1
           )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "pure-g" }, [
-          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8 pure-u-lg-1-3" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "pure-u-1 pure-u-md-3-4 pure-u-lg-1-3" }, [
-            _c("div", { staticClass: "bordered-box" }, [
-              _c("div", [
-                _c("h2", [_vm._v("Who art thou, Sir?")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "pure-form pure-form-aligned" }, [
-                  _c("fieldset", [
-                    _c("div", { staticClass: "pure-control-group" }, [
-                      _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Username")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.name,
-                            expression: "name"
-                          }
-                        ],
-                        attrs: {
-                          type: "text",
-                          name: "name",
-                          placeholder: "Username or Email"
-                        },
-                        domProps: { value: _vm.name },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.name = $event.target.value;
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "pure-control-group" }, [
-                      _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Password")
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.password,
-                            expression: "password"
-                          }
-                        ],
-                        attrs: {
-                          type: "password",
-                          name: "password",
-                          placeholder: "Password"
-                        },
-                        domProps: { value: _vm.password },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.password = $event.target.value;
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", [_vm._v(_vm._s(_vm.error))]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "pure-controls" },
-                      [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "pure-button pure-button-primary",
-                            attrs: { disabled: _vm.sending },
-                            on: { click: _vm.login }
-                          },
-                          [_vm._v("Login")]
-                        ),
-                        _vm._v("\n                or\n                "),
-                        _c("router-link", { attrs: { to: "/register" } }, [
-                          _vm._v("Register")
-                        ])
-                      ],
-                      1
-                    )
-                  ])
-                ])
-              ])
-            ])
-          ])
         ])
       ],
       1
@@ -13931,11 +13923,11 @@
     /* style */
     const __vue_inject_styles__$7 = function (inject) {
       if (!inject) return
-      inject("data-v-4250e8d1_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"login.vue"}, media: undefined });
+      inject("data-v-339b9cb3_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"login.vue"}, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$7 = "data-v-4250e8d1";
+    const __vue_scope_id__$7 = "data-v-339b9cb3";
     /* module identifier */
     const __vue_module_identifier__$7 = undefined;
     /* functional template */
@@ -13962,7 +13954,8 @@
   //
   var script$7 = {
     components: {
-      Title: __vue_component__$3
+      Title: __vue_component__$4,
+      Panel: __vue_component__$3
     },
     data() {
       return {
@@ -13998,154 +13991,165 @@
         _c("Title"),
         _vm._v(" "),
         _c("div", { staticClass: "pure-g" }, [
-          _c("div", { staticClass: "pure-u-1 pure-u-md-1-3" }),
+          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8 pure-u-lg-1-3" }),
           _vm._v(" "),
-          _c("div", { staticClass: "pure-u-1 pure-u-md-1-3 bordered-box" }, [
-            _c("div", [
-              _c("h2", [_vm._v("Register yourself, Sir")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "pure-form pure-form-aligned" }, [
-                _c("fieldset", [
-                  _c("div", { staticClass: "pure-control-group" }, [
-                    _c("label", { attrs: { for: "name" } }, [_vm._v("Username")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.name,
-                          expression: "name"
-                        }
-                      ],
-                      attrs: {
-                        type: "text",
-                        name: "name",
-                        placeholder: "Username"
-                      },
-                      domProps: { value: _vm.name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+          _c(
+            "div",
+            { staticClass: "pure-u-1 pure-u-md-3-4 pure-u-lg-1-3" },
+            [
+              _c("Panel", [
+                _c("h2", [_vm._v("Register yourself, Sir")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "pure-form pure-form-aligned" }, [
+                  _c("fieldset", [
+                    _c("div", { staticClass: "pure-control-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Username")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.name,
+                            expression: "name"
                           }
-                          _vm.name = $event.target.value;
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "pure-control-group" }, [
-                    _c("label", { attrs: { for: "mail" } }, [_vm._v("Email")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.mail,
-                          expression: "mail"
-                        }
-                      ],
-                      attrs: { type: "text", name: "mail", placeholder: "Email" },
-                      domProps: { value: _vm.mail },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.mail = $event.target.value;
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "pure-control-group" }, [
-                    _c("label", { attrs: { for: "password" } }, [
-                      _vm._v("Password")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.password,
-                          expression: "password"
-                        }
-                      ],
-                      attrs: {
-                        type: "password",
-                        name: "password",
-                        placeholder: "Password"
-                      },
-                      domProps: { value: _vm.password },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.password = $event.target.value;
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "pure-control-group" }, [
-                    _c("label", { attrs: { for: "confirm" } }, [
-                      _vm._v("Confirm password")
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.confirm,
-                          expression: "confirm"
-                        }
-                      ],
-                      attrs: {
-                        type: "password",
-                        name: "confirm",
-                        placeholder: "Confirm password"
-                      },
-                      domProps: { value: _vm.confirm },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.confirm = $event.target.value;
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "pure-controls" },
-                    [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "pure-button pure-button-primary",
-                          attrs: { disabled: _vm.sending },
-                          on: { click: _vm.register }
+                        ],
+                        attrs: {
+                          type: "text",
+                          name: "name",
+                          placeholder: "Username"
                         },
-                        [_vm._v("Register")]
-                      ),
-                      _vm._v(" or\n              "),
-                      _c("router-link", { attrs: { to: "/login" } }, [
-                        _vm._v("Login")
-                      ])
-                    ],
-                    1
-                  )
+                        domProps: { value: _vm.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.name = $event.target.value;
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "pure-control-group" }, [
+                      _c("label", { attrs: { for: "mail" } }, [_vm._v("Email")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.mail,
+                            expression: "mail"
+                          }
+                        ],
+                        attrs: {
+                          type: "text",
+                          name: "mail",
+                          placeholder: "Email"
+                        },
+                        domProps: { value: _vm.mail },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.mail = $event.target.value;
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "pure-control-group" }, [
+                      _c("label", { attrs: { for: "password" } }, [
+                        _vm._v("Password")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.password,
+                            expression: "password"
+                          }
+                        ],
+                        attrs: {
+                          type: "password",
+                          name: "password",
+                          placeholder: "Password"
+                        },
+                        domProps: { value: _vm.password },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.password = $event.target.value;
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "pure-control-group" }, [
+                      _c("label", { attrs: { for: "confirm" } }, [
+                        _vm._v("Confirm password")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.confirm,
+                            expression: "confirm"
+                          }
+                        ],
+                        attrs: {
+                          type: "password",
+                          name: "confirm",
+                          placeholder: "Confirm password"
+                        },
+                        domProps: { value: _vm.confirm },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.confirm = $event.target.value;
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "pure-controls" },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "pure-button pure-button-primary",
+                            attrs: { disabled: _vm.sending },
+                            on: { click: _vm.register }
+                          },
+                          [_vm._v("Register")]
+                        ),
+                        _vm._v(" or\n              "),
+                        _c("router-link", { attrs: { to: "/login" } }, [
+                          _vm._v("Login")
+                        ])
+                      ],
+                      1
+                    )
+                  ])
                 ])
               ])
-            ])
-          ])
+            ],
+            1
+          )
         ])
       ],
       1
@@ -14157,11 +14161,11 @@
     /* style */
     const __vue_inject_styles__$8 = function (inject) {
       if (!inject) return
-      inject("data-v-49f473ec_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"register.vue"}, media: undefined });
+      inject("data-v-4c3e4250_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"register.vue"}, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$8 = "data-v-49f473ec";
+    const __vue_scope_id__$8 = "data-v-4c3e4250";
     /* module identifier */
     const __vue_module_identifier__$8 = undefined;
     /* functional template */
@@ -14188,7 +14192,7 @@
   //
   var script$8 = {
     components: {
-      Title: __vue_component__$3
+      Title: __vue_component__$4
     }
   };
 
@@ -14239,7 +14243,7 @@
   //
   var script$9 = {
     components: {
-      Title: __vue_component__$3
+      Title: __vue_component__$4
     }
   };
 
@@ -14350,7 +14354,7 @@
     };
 
   const routes = [
-      { path: '/', component: __vue_component__$4 },
+      { path: '/', component: __vue_component__$5 },
       { path: '/login', component: __vue_component__$7 },
       { path: '/register', component: __vue_component__$8 },
       { path: '/tutorial', component: __vue_component__$9, beforeEnter: ifAuthenticated },
@@ -14369,7 +14373,7 @@
   new Vue({
     el: '#app',
     router,
-    render: h => h(__vue_component__$5),
+    render: h => h(__vue_component__$6),
   });
 
 }());
