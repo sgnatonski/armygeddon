@@ -31,29 +31,15 @@ services:
           - node.labels.arch != arm6
           - node.labels.arch != arm7
           - node.labels.arch != arm64
-    image: 127.0.1.1:5000/armygeddon:0.2.0
-    command: node app.js
+    image: 127.0.1.1:5000/armygeddon_front_x64:0.2.0
+    command: node front/app.js
     environment:
       - PORT=3000
       - SERVICE_PORTS=3000
       - BALANCE=source
       - TOKEN_SECRET=my secret
-    env_file:
-      - db.env
-      - cote.env
     depends_on:
       - arango
-
-  monitoring:
-    networks:
-      - lb
-      - internal
-    image: 127.0.1.1:5000/armygeddon:0.2.0
-    command: node monitor.js
-    env_file:
-      - cote.env
-    ports:
-      - 5555:5555
       
   login-service:
     networks:
@@ -62,13 +48,11 @@ services:
       placement:
         constraints:
           - node.labels.arch == arm6
-    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
+    image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/login-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
       - TOKEN_SECRET=my secret
-    env_file:
-      - db.env
     depends_on:
       - arango
 
@@ -79,13 +63,11 @@ services:
       placement:
         constraints:
           - node.labels.arch == arm6
-    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
+    image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/register-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
       - TOKEN_SECRET=my secret
-    env_file:
-      - db.env
     depends_on:
       - arango
 
@@ -96,11 +78,8 @@ services:
       placement:
         constraints:
           - node.labels.arch == arm6
-    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
+    image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/army-service.js
-    env_file:
-      - db.env
-      - cote.env
     depends_on:
       - arango
 
@@ -110,12 +89,9 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.arch == arm6
-    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
+          - node.labels.arch == arm7
+    image: 127.0.1.1:5000/armygeddon_srv_arm7:0.2.0
     command: node services/battle-service.js
-    env_file:
-      - db.env
-      - cote.env
     depends_on:
       - arango
 
@@ -126,11 +102,8 @@ services:
       placement:
         constraints:
           - node.labels.arch == arm6
-    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
+    image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/battle-tracker-service.js
-    env_file:
-      - db.env
-      - cote.env
     depends_on:
       - arango
     
@@ -141,13 +114,10 @@ services:
       placement:
         constraints:
           - node.labels.arch == arm6
-    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
+    image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/player-service.js
     environment:
       - ARANGO_INIT=1
-    env_file:
-      - db.env
-      - cote.env
     depends_on:
       - arango
 
@@ -158,11 +128,8 @@ services:
       placement:
         constraints:
           - node.labels.arch == arm6
-    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
+    image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/map-service.js
-    env_file:
-      - db.env
-      - cote.env
     depends_on:
       - arango
 
@@ -173,11 +140,8 @@ services:
       placement:
         constraints:
           - node.labels.arch == arm6
-    image: 127.0.1.1:5000/armygeddon_arm6:0.2.0
+    image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/battle-template-service.js
-    env_file:
-      - db.env
-      - cote.env
     depends_on:
       - arango
 
