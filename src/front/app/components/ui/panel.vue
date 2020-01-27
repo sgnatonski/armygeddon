@@ -49,39 +49,36 @@
   box-shadow: black -22px 22px 22px 0px;
 }
 
-.panel h1{
-  font-family: SquareCaps;
+.panel h1 {
   font-weight: normal;
-  font-size: 1.25em;
+  font-size: 2em;
   text-shadow: 1px 2px 2px #ccc;
+  margin-top: 0px;
 }
 
-.panel h2{
-  font-family: SquareCaps;
+.panel h2 {
   font-weight: normal;
-  font-size: 1em;
+  font-size: 1.5em;
   text-shadow: 1px 2px 2px #ccc;
+  margin-top: 0px;
 }
 
-.panel div.right-aligned{
+.panel h1:first-letter {
+  font-family: SquareCaps;
+  font-size: 2em;
+  text-shadow: 2px 2px 0px #e6e2d2;
+}
+.panel h2:first-letter {
+  font-family: SquareCaps;
+  font-size: 1.5em;
+  text-shadow: 2px 2px 0px #e6e2d2;
+}
+
+.panel div.right-aligned {
   position: absolute;
   top: 20px;
   right: 30px;
   width: auto;
-}
-
-@media screen and (min-width: 48em){
-  .panel h1{
-    font-family: SquareCaps;
-    font-weight: normal;
-    font-size: 3em;
-  }
-
-  .panel h2{
-    font-family: SquareCaps;
-    font-weight: normal;
-    font-size: 2em;
-  }
 }
 
 .line_dbl_v1 {

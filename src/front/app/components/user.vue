@@ -1,6 +1,6 @@
 <template>
   <div class="pure-menu pure-menu-horizontal">
-    <div v-if="authenticated">
+    <div v-if="authenticated" class="user">
         {{ name }}
     </div>
     <ul v-else class="pure-menu-list">
@@ -23,4 +23,7 @@ export default {
 </script>
 
 <style scoped>
+.user{
+  color: antiquewhite;
+}
 </style>

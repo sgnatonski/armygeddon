@@ -13189,7 +13189,7 @@
     /* style */
     const __vue_inject_styles__ = function (inject) {
       if (!inject) return
-      inject("data-v-42620102_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"welcome.vue"}, media: undefined });
+      inject("data-v-42620102_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -13282,7 +13282,7 @@
     /* style */
     const __vue_inject_styles__$1 = function (inject) {
       if (!inject) return
-      inject("data-v-7ebdd8b6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"ranking.vue"}, media: undefined });
+      inject("data-v-7ebdd8b6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -13310,6 +13310,19 @@
       undefined
     );
 
+  function doesHttpOnlyCookieExist(cookiename) {
+      var d = new Date();
+      d.setTime(d.getTime() + (1000));
+      var expires = "expires=" + d.toUTCString();
+   
+      document.cookie = cookiename + "=undefined;path=/;" + expires;
+      if (document.cookie.indexOf(cookiename + '=') == -1) {
+          return true;
+       } else {
+          return false;
+       }
+   }
+
   const state = Vue.observable({
       name: "",
       authenticated: false
@@ -13317,7 +13330,7 @@
 
   const getters = {
       name: () => state.name,
-      authenticated: () => state.authenticated
+      authenticated: () => state.authenticated || doesHttpOnlyCookieExist('a_token'),
   };
 
   const mutations = {
@@ -13367,7 +13380,9 @@
     var _c = _vm._self._c || _h;
     return _c("div", { staticClass: "pure-menu pure-menu-horizontal" }, [
       _vm.authenticated
-        ? _c("div", [_vm._v("\n      " + _vm._s(_vm.name) + "\n  ")])
+        ? _c("div", { staticClass: "user" }, [
+            _vm._v("\n      " + _vm._s(_vm.name) + "\n  ")
+          ])
         : _c("ul", { staticClass: "pure-menu-list" }, [
             _c(
               "li",
@@ -13395,11 +13410,11 @@
     /* style */
     const __vue_inject_styles__$2 = function (inject) {
       if (!inject) return
-      inject("data-v-09e0aadd_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"user.vue"}, media: undefined });
+      inject("data-v-3501618d_0", { source: "\n.user[data-v-3501618d]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$2 = "data-v-09e0aadd";
+    const __vue_scope_id__$2 = "data-v-3501618d";
     /* module identifier */
     const __vue_module_identifier__$2 = undefined;
     /* functional template */
@@ -13505,7 +13520,7 @@
     /* style */
     const __vue_inject_styles__$3 = function (inject) {
       if (!inject) return
-      inject("data-v-f23917c8_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1{\r\n  font-family: SquareCaps;\r\n  font-weight: normal;\r\n  font-size: 1.25em;\r\n  text-shadow: 1px 2px 2px #ccc;\n}\n.panel h2{\r\n  font-family: SquareCaps;\r\n  font-weight: normal;\r\n  font-size: 1em;\r\n  text-shadow: 1px 2px 2px #ccc;\n}\n.panel div.right-aligned{\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n@media screen and (min-width: 48em){\n.panel h1{\r\n    font-family: SquareCaps;\r\n    font-weight: normal;\r\n    font-size: 3em;\n}\n.panel h2{\r\n    font-family: SquareCaps;\r\n    font-weight: normal;\r\n    font-size: 2em;\n}\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: {"version":3,"sources":["C:\\Users\\E-SRGI\\Documents\\src\\hex-prototype\\src\\front\\app\\components\\ui\\panel.vue"],"names":[],"mappings":";AAiCA;EACA,aAAA;EACA,qCAAA;EACA,kCAAA;EACA,oBAAA;EACA,iBAAA;EACA,sBAAA;EACA,oBAAA;EACA,WAAA;AACA;AAEA;EACA,yBAAA;EACA,aAAA;EACA,aAAA;EACA,qCAAA;AACA;AAEA;EACA,uBAAA;EACA,mBAAA;EACA,iBAAA;EACA,6BAAA;AACA;AAEA;EACA,uBAAA;EACA,mBAAA;EACA,cAAA;EACA,6BAAA;AACA;AAEA;EACA,kBAAA;EACA,SAAA;EACA,WAAA;EACA,WAAA;AACA;AAEA;AACA;IACA,uBAAA;IACA,mBAAA;IACA,cAAA;AACA;AAEA;IACA,uBAAA;IACA,mBAAA;IACA,cAAA;AACA;AACA;AAEA;EACA,UAAA;EACA,+CAAA;EACA,YAAA;EACA,gBAAA;AACA;AAEA;EACA,+CAAA;EACA,WAAA;EACA,eAAA;AACA;AAEA;EACA,+CAAA;EACA,WAAA;EACA,eAAA;AACA;AAEA;EACA,UAAA;EACA,+CAAA;EACA,YAAA;EACA,gBAAA;AACA","file":"panel.vue","sourcesContent":["<template>\r\n  <div class=\"panel\">\r\n    <div class=\"corner_dbl_tl\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"line_dbl_h1\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"corner_dbl_tr\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"line_dbl_v1\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"slot\">\r\n      <slot></slot>\r\n    </div>\r\n    <div class=\"line_dbl_v2\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"corner_dbl_bl\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"line_dbl_h2\">\r\n      <div></div>\r\n    </div>\r\n    <div class=\"corner_dbl_br\">\r\n      <div></div>\r\n    </div>\r\n  </div>\r\n</template>\r\n\r\n<style>\r\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\r\n}\r\n\r\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\r\n}\r\n\r\n.panel h1{\r\n  font-family: SquareCaps;\r\n  font-weight: normal;\r\n  font-size: 1.25em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n}\r\n\r\n.panel h2{\r\n  font-family: SquareCaps;\r\n  font-weight: normal;\r\n  font-size: 1em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n}\r\n\r\n.panel div.right-aligned{\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\r\n}\r\n\r\n@media screen and (min-width: 48em){\r\n  .panel h1{\r\n    font-family: SquareCaps;\r\n    font-weight: normal;\r\n    font-size: 3em;\r\n  }\r\n\r\n  .panel h2{\r\n    font-family: SquareCaps;\r\n    font-weight: normal;\r\n    font-size: 2em;\r\n  }\r\n}\r\n\r\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\r\n}\r\n\r\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\r\n}\r\n\r\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\r\n}\r\n\r\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\r\n}\r\n</style>"]}, media: undefined });
+      inject("data-v-1bd59c18_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -13573,7 +13588,16 @@
                 _c(
                   "Panel",
                   [
-                    _c("h1", { domProps: { textContent: _vm._s(_vm.title) } }),
+                    _c(
+                      "h1",
+                      { staticClass: "pulsate-bck" },
+                      [
+                        _c("router-link", { attrs: { to: "/" } }, [
+                          _vm._v(_vm._s(_vm.title))
+                        ])
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("user", { staticClass: "right-aligned" })
                   ],
@@ -13594,7 +13618,7 @@
     /* style */
     const __vue_inject_styles__$4 = function (inject) {
       if (!inject) return
-      inject("data-v-6a33e7b5_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: 0;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 40%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\n}\n.title-box > .panel > .slot a {\r\n  color: antiquewhite;\n}\r\n", map: {"version":3,"sources":["C:\\Users\\E-SRGI\\Documents\\src\\hex-prototype\\src\\front\\app\\components\\title.vue"],"names":[],"mappings":";AAmCA;EACA,kBAAA;EACA,iBAAA;AACA;AACA;EACA,yCAAA;EACA,4BAAA;AACA;AACA;EACA,gBAAA;EACA,iBAAA;EACA,iBAAA;EACA,wBAAA;EACA;;;;;GAKA;EACA,kBAAA;EACA,mBAAA;AACA;AAEA;EACA,mBAAA;AACA","file":"title.vue","sourcesContent":["<template>\r\n  <div>\r\n    <vue-headful :title=\"title\" :description=\"title\" />\r\n    <div class=\"pure-g\">\r\n      <div class=\"pure-u-1 pure-u-md-1-8\"></div>\r\n      <div class=\"pure-u-1 pure-u-md-3-4\">\r\n        <div class=\"title-box\">\r\n          <Panel>\r\n            <h1 v-text=\"title\"></h1>\r\n            <user class=\"right-aligned\" />\r\n          </Panel>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nimport User from \"./user.vue\";\r\nimport Panel from \"../components/ui/panel.vue\";\r\n\r\nexport default {\r\n  components: {\r\n    User,\r\n    Panel\r\n  },\r\n  data: function() {\r\n    return {\r\n      title: \"Armygeddon\"\r\n    };\r\n  }\r\n};\r\n</script>\r\n\r\n<style>\r\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\r\n}\r\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\r\n}\r\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: 0;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 40%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n}\r\n\r\n.title-box > .panel > .slot a {\r\n  color: antiquewhite;\r\n}\r\n</style>"]}, media: undefined });
+      inject("data-v-27728bc4_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 16px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: AnimationName 0.75s ease-in-out infinite both;\n}\n@keyframes AnimationName {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 55%;\n}\n50% {\r\n    background-position: 100% 65%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 55%;\n}\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -13676,7 +13700,7 @@
     /* style */
     const __vue_inject_styles__$5 = function (inject) {
       if (!inject) return
-      inject("data-v-77a6eb12_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"home.vue"}, media: undefined });
+      inject("data-v-77a6eb12_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -13738,7 +13762,7 @@
     /* style */
     const __vue_inject_styles__$6 = function (inject) {
       if (!inject) return
-      inject("data-v-1876dafa_0", { source: "\np[data-v-1876dafa] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: {"version":3,"sources":["C:\\Users\\E-SRGI\\Documents\\src\\hex-prototype\\src\\front\\app\\app.vue"],"names":[],"mappings":";AA6BA;EACA,cAAA;EACA,kBAAA;AACA","file":"app.vue","sourcesContent":["<template>\r\n  <div id=\"app\">\r\n    <router-view></router-view>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nimport axios from 'axios';\r\nimport Home from \"./views/home.vue\";\r\nimport { getters, mutations } from \"./stores/user\";\r\n\r\nexport default {\r\n  components: {\r\n    Home\r\n  },\r\n  created: function() {\r\n    axios.interceptors.response.use(undefined, function(err) {\r\n      return new Promise(function(resolve, reject) {\r\n        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {\r\n          mutations.logout();\r\n        }\r\n        throw err;\r\n      });\r\n    });\r\n  }\r\n};\r\n</script>\r\n\r\n<style scoped>\r\np {\r\n  font-size: 2em;\r\n  text-align: center;\r\n}\r\n</style>"]}, media: undefined });
+      inject("data-v-1876dafa_0", { source: "\np[data-v-1876dafa] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -13809,11 +13833,11 @@
         _c("Title"),
         _vm._v(" "),
         _c("div", { staticClass: "pure-g" }, [
-          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8 pure-u-lg-1-3" }),
+          _c("div", { staticClass: "pure-u-1 pure-u-sm-1-8 pure-u-md-1-4" }),
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "pure-u-1 pure-u-md-3-4 pure-u-lg-1-3" },
+            { staticClass: "pure-u-1 pure-u-sm-3-4 pure-u-md-1-2" },
             [
               _c("Panel", [
                 _c("div", [
@@ -13923,11 +13947,11 @@
     /* style */
     const __vue_inject_styles__$7 = function (inject) {
       if (!inject) return
-      inject("data-v-339b9cb3_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"login.vue"}, media: undefined });
+      inject("data-v-eff53896_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$7 = "data-v-339b9cb3";
+    const __vue_scope_id__$7 = "data-v-eff53896";
     /* module identifier */
     const __vue_module_identifier__$7 = undefined;
     /* functional template */
@@ -13991,11 +14015,11 @@
         _c("Title"),
         _vm._v(" "),
         _c("div", { staticClass: "pure-g" }, [
-          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8 pure-u-lg-1-3" }),
+          _c("div", { staticClass: "pure-u-1 pure-u-sm-1-8 pure-u-md-1-4" }),
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "pure-u-1 pure-u-md-3-4 pure-u-lg-1-3" },
+            { staticClass: "pure-u-1 pure-u-sm-3-4 pure-u-md-1-2" },
             [
               _c("Panel", [
                 _c("h2", [_vm._v("Register yourself, Sir")]),
@@ -14161,11 +14185,11 @@
     /* style */
     const __vue_inject_styles__$8 = function (inject) {
       if (!inject) return
-      inject("data-v-4c3e4250_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"register.vue"}, media: undefined });
+      inject("data-v-04660d52_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$8 = "data-v-4c3e4250";
+    const __vue_scope_id__$8 = "data-v-04660d52";
     /* module identifier */
     const __vue_module_identifier__$8 = undefined;
     /* functional template */
@@ -14212,7 +14236,7 @@
     /* style */
     const __vue_inject_styles__$9 = function (inject) {
       if (!inject) return
-      inject("data-v-2ebcd5f4_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"tutorial.vue"}, media: undefined });
+      inject("data-v-2ebcd5f4_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -14243,7 +14267,9 @@
   //
   var script$9 = {
     components: {
-      Title: __vue_component__$4
+      Title: __vue_component__$4,
+      Ranking: __vue_component__$1,
+      Panel: __vue_component__$3
     }
   };
 
@@ -14255,7 +14281,47 @@
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
-    return _c("div", [_c("Title"), _vm._v("\n  TODO\n")], 1)
+    return _c(
+      "div",
+      [
+        _c("Title"),
+        _vm._v(" "),
+        _c("div", { staticClass: "pure-g" }, [
+          _c(
+            "div",
+            { staticClass: "pure-u-1 pure-u-md-1-3" },
+            [
+              _c("Panel", [
+                _c("h2", [_vm._v("Select battle")]),
+                _vm._v(" "),
+                _c("ul", { staticClass: "select-list" }, [
+                  _c("li", [
+                    _c("a", { attrs: { href: "/battle" } }, [
+                      _vm._v("Start new battle")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _c("a", { attrs: { href: "/single" } }, [_vm._v("Hot seat")])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("Panel", [_c("Ranking")], 1)
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "pure-u-1 pure-u-md-2-3" },
+            [_c("Panel", [_c("h2", [_vm._v("Open battles")])])],
+            1
+          )
+        ])
+      ],
+      1
+    )
   };
   var __vue_staticRenderFns__$a = [];
   __vue_render__$a._withStripped = true;
@@ -14263,11 +14329,11 @@
     /* style */
     const __vue_inject_styles__$a = function (inject) {
       if (!inject) return
-      inject("data-v-7faafd5a_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"start.vue"}, media: undefined });
+      inject("data-v-574a9518_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$a = "data-v-7faafd5a";
+    const __vue_scope_id__$a = "data-v-574a9518";
     /* module identifier */
     const __vue_module_identifier__$a = undefined;
     /* functional template */
@@ -14317,7 +14383,7 @@
     /* style */
     const __vue_inject_styles__$b = function (inject) {
       if (!inject) return
-      inject("data-v-8bfb4e50_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: {"version":3,"sources":[],"names":[],"mappings":"","file":"battle.vue"}, media: undefined });
+      inject("data-v-8bfb4e50_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */

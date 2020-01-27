@@ -6,7 +6,9 @@
       <div class="pure-u-1 pure-u-md-3-4">
         <div class="title-box">
           <Panel>
-            <h1 v-text="title"></h1>
+            <h1 class="pulsate-bck">
+              <router-link to="/">{{title}}</router-link>
+            </h1>
             <user class="right-aligned" />
           </Panel>
         </div>
@@ -42,21 +44,55 @@ export default {
   background-size: 180px 180px;
 }
 .title-box > .panel > .slot > h1 {
-  margin-bottom: 0;
+  margin-bottom: -10px;
   margin-top: -20px;
   padding-top: 16px;
+  padding-left: 10px;
   background: rgb(0, 0, 0);
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0.7) 40%,
+    rgba(0, 0, 0, 0.7) 0%,
     rgba(0, 0, 0, 0) 100%
   );
   margin-left: -10px;
   margin-right: -10px;
+  background-size: 200% 200%;
+  padding-bottom: 16px;
 }
 
-.title-box > .panel > .slot a {
+.title-box a {
+  font-weight: normal;
+  text-decoration-line: none;
+  color: inherit;
+}
+
+.title-box > .panel > .slot .pure-menu a {
   color: antiquewhite;
+}
+
+.pulsate-bck {
+  animation: AnimationName 0.75s ease-in-out infinite both;
+}
+
+@keyframes AnimationName {
+  0% {
+    background-position: 100% 60%;
+  }
+  40% {
+    background-position: 100% 55%;
+  }
+  50% {
+    background-position: 100% 65%;
+  }
+  65% {
+    background-position: 100% 55%;
+  }
+  90% {
+    background-position: 100% 60%;
+  }
+  100% {
+    background-position: 100% 55%;
+  }
 }
 </style>

@@ -1,6 +1,19 @@
 import Vue from "vue";
 import axios from "axios";
 
+function doesHttpOnlyCookieExist(cookiename) {
+    var d = new Date();
+    d.setTime(d.getTime() + (1000));
+    var expires = "expires=" + d.toUTCString();
+ 
+    document.cookie = cookiename + "=undefined;path=/;" + expires;
+    if (document.cookie.indexOf(cookiename + '=') == -1) {
+        return true;
+     } else {
+        return false;
+     }
+ }
+
 const state = Vue.observable({
     name: "",
     authenticated: false
@@ -8,7 +21,7 @@ const state = Vue.observable({
 
 export const getters = {
     name: () => state.name,
-    authenticated: () => state.authenticated
+    authenticated: () => state.authenticated || doesHttpOnlyCookieExist('a_token'),
 }
 
 export const mutations = {

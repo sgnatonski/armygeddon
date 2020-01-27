@@ -16,8 +16,8 @@ async function get(id) {
         return null;
     }
 
-    var collection = (await db).collection(this);
     try {    
+        var collection = (await db).collection(this);
         var doc = await collection.document(id);
         return undoc(doc);
     }
@@ -32,10 +32,10 @@ async function get(id) {
 }
 
 async function getBy(prop, val) {
-    var collection = (await db).collection(this);
     var example = {};
     example[prop] = val;
     try {    
+        var collection = (await db).collection(this);
         var doc = await collection.firstExample(example);
         return undoc(doc);
     }
@@ -50,10 +50,10 @@ async function getBy(prop, val) {
 }
 
 async function getAllBy(prop, val) {
-    var collection = (await db).collection(this);
     var example = {};
     example[prop] = val;
     try {    
+        var collection = (await db).collection(this);
         var docs = await collection.byExample(example);
         return docs.map(d => undoc(d));
     }
@@ -68,9 +68,9 @@ async function getAllBy(prop, val) {
 }
 
 async function store(data) {
-    var collection = (await db).collection(this);
     data._key = data.id;
     var existing = await exists.bind(this)(data._key);
+    var collection = (await db).collection(this);
     if (existing){
         collection.update(data._key, data);        
     }

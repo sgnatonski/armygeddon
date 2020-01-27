@@ -17,7 +17,7 @@ router.post('/login', async (req, res, next) => {
   try {
     var token = await loginRequester.send({ type: 'login', user: req.body });
     res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
-    res.json({ name: 'test' });
+    res.json({ name: req.body.name });
   } catch (error) {
     next(error);
   }
@@ -27,7 +27,7 @@ router.post('/register', async (req, res, next) => {
   try {
     var token = await registerRequester.send({ type: 'register', user: req.body });
     res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
-    res.json({ name: 'test' });
+    res.json({ name: req.body.name });
   } catch (error) {    
     next(error); 
   }
