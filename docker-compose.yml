@@ -1,0 +1,27 @@
+version: '3.4'
+services:
+  front_x64:
+    build:
+      context: .
+      target: front_x64
+    image: armygeddon_front_x64:0.2.0
+  front_arm7:
+    build:
+      context: .
+      target: front_arm7
+    image: armygeddon_front_arm7:0.2.0
+  services_x64:
+    build:
+      context: .
+      target: services_x64
+    image: armygeddon_srv_x64:0.2.0
+  services_arm7:
+    build:
+      context: .
+      target: services_arm7
+    image: armygeddon_srv_arm7:0.2.0
+  services_arm6:
+    build:
+      context: .
+      target: services_arm6
+    image: armygeddon_srv_arm6:0.2.0

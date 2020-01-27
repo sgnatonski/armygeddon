@@ -16,8 +16,8 @@ export default {
     },
     plugins: [
         resolve({ browser: true, jsnext: true }),
-        vue(),
-        //vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
+        //vue(),
+        vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
         htmlTemplate({
             template: 'src/front/app/index.html',
             target: 'src/front/dist/index.html',
@@ -35,12 +35,8 @@ export default {
         //terser()
     ],
     onwarn: function (warning) {
-        // Skip certain warnings
-
-        // should intercept ... but doesn't in some rollup versions
         if (warning.code === 'THIS_IS_UNDEFINED') { return; }
 
-        // console.warn everything else
         console.warn(warning.message);
     }
 };

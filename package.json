@@ -9,7 +9,6 @@
     "server:dev": "npm-run-all --parallel rollup:watch backend"
   },
   "dependencies": {
-    "@internal/common": "file:src/common",
     "@internal/front": "file:src/front",
     "@internal/services": "file:src/services"
   },
