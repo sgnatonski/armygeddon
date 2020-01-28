@@ -3,3 +3,5 @@ node_modules/*
 package-lock.json
 *.pfx
 /__pycache__/*
+/src/services/node_modules/*
+/src/front/node_modules/*
