@@ -5,6 +5,7 @@ import Register from "./views/register.vue";
 import Tutorial from "./views/tutorial.vue";
 import Start from "./views/start.vue";
 import Battle from "./views/battle.vue";
+import Single from "./views/single.vue";
 
 import { getters } from "./stores/user";
 
@@ -23,6 +24,7 @@ const routes = [
     { path: '/tutorial', component: Tutorial, beforeEnter: ifAuthenticated },
     { path: '/start', component: Start, beforeEnter: ifAuthenticated },
     { path: '/battle', component: Battle, beforeEnter: ifAuthenticated },
+    { path: '/single', component: Single, beforeEnter: ifAuthenticated },
 ]
 
 const router = new VueRouter({

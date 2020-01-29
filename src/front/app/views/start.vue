@@ -12,6 +12,9 @@
             <li>
               <a href="/single">Hot seat</a>
             </li>
+            <li>
+              <router-link to="/single">Hot seat (Vue)</router-link>
+            </li>
           </ul>
         </Panel>
         <Panel>
