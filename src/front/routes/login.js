@@ -1,5 +1,7 @@
 var express = require('express');
 var cote = require('cote');
+var jwt = require('jsonwebtoken');
+var token_secret = process.env.TOKEN_SECRET;
 
 var loginRequester = new cote.Requester({
   name: 'login requester',
@@ -15,7 +17,12 @@ var router = express.Router();
 
 router.post('/login', async (req, res, next) => {
   try {
-    var token = await loginRequester.send({ type: 'login', user: req.body });
+    var user = await loginRequester.send({ type: 'login', user: req.body });
+
+    var token = jwt.sign({ id: user.id, name: user.name }, token_secret, {
+      expiresIn: 86400000 // expires in 24 hours
+    });
+
     res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
     res.json({ name: req.body.name });
   } catch (error) {
@@ -25,11 +32,16 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/register', async (req, res, next) => {
   try {
-    var token = await registerRequester.send({ type: 'register', user: req.body });
+    var user = await registerRequester.send({ type: 'register', user: req.body });
+
+    var token = jwt.sign({ id: userId, name: user.name }, token_secret, {
+      expiresIn: 86400000 // expires in 24 hours
+    });
+
     res.cookie('a_token', token, { maxAge: 86400000, httpOnly: true });
     res.json({ name: req.body.name });
-  } catch (error) {    
-    next(error); 
+  } catch (error) {
+    next(error);
   }
 });
 

@@ -10,9 +10,7 @@
   },
   "dependencies": {
     "@internal/front": "file:src/front",
-    "@internal/services": "file:src/services",
-    "konva": "^4.1.2",
-    "vue-konva": "^2.1.1"
+    "@internal/services": "file:src/services"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.1",

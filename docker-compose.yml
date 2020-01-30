@@ -4,39 +4,29 @@ services:
     build:
       context: .
       target: front_x64
-    image: ${REPO_URL}/armygeddon_front_x64:${VERSION}
-    env_file:
-      - db.env
-      - cote.env
+      dockerfile: Dockerfile.front
+    image: ${REPO_URL}/armygeddon_front_x64:${VERSION}    
   front_arm7:
     build:
       context: .
       target: front_arm7
+      dockerfile: Dockerfile.front 
     image: ${REPO_URL}/armygeddon_front_arm7:${VERSION}
-    env_file:
-      - db.env
-      - cote.env
   services_x64:
     build:
       context: .
-      target: services_x64
+      target: services_x64      
+      dockerfile: Dockerfile.srv
     image: ${REPO_URL}/armygeddon_srv_x64:${VERSION}
-    env_file:
-      - db.env
-      - cote.env
   services_arm7:
     build:
       context: .
       target: services_arm7
+      dockerfile: Dockerfile.srv
     image: ${REPO_URL}/armygeddon_srv_arm7:${VERSION}
-    env_file:
-      - db.env
-      - cote.env
   services_arm6:
     build:
       context: .
       target: services_arm6
+      dockerfile: Dockerfile.srv
     image: ${REPO_URL}/armygeddon_srv_arm6:${VERSION}
-    env_file:
-      - db.env
-      - cote.env

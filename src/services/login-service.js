@@ -1,9 +1,7 @@
 var cote = require('cote');
 var bcrypt = require("bcryptjs");
-var jwt = require('jsonwebtoken');
 var storage = require('@internal/common/storage/arango/arango_storage');
 var users = storage.users;
-var token_secret = process.env.TOKEN_SECRET;
 
 var loginResponder = new cote.Responder({
     name: 'login responder',
@@ -29,8 +27,5 @@ loginResponder.on('login', async req => {
         throw err;
     }
 
-    var token = jwt.sign({ id: user.id, name: user.name }, token_secret, {
-        expiresIn: 86400000 // expires in 24 hours
-    });
-    return token;
+    return user;
 });

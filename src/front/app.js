@@ -27,10 +27,8 @@ var appCookieParser = cookieParser();
 
 app.set('TOKEN_SECRET', process.env.TOKEN_SECRET);
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.engine('html', require('hogan-express'));
+app.set('views', path.join(__dirname, 'dist'));
 app.set('view engine', 'html');
-app.set('layout', 'layout');
 
 /*if (app.get('env') !== 'development') {
   app.use(function (req, res, next) {
@@ -39,12 +37,13 @@ app.set('layout', 'layout');
   });
 };*/
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
+app.use(favicon(path.join(__dirname, 'assets', 'favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(appCookieParser);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'assets')));
 
 app.use(jwt({
   secret: app.get('TOKEN_SECRET'),

@@ -40,6 +40,7 @@ services:
       - TOKEN_SECRET=my secret
     depends_on:
       - arango
+      - redis
       
   login-service:
     networks:
@@ -52,9 +53,11 @@ services:
     command: node services/login-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
-      - TOKEN_SECRET=my secret
+      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_DB=armygeddon
     depends_on:
       - arango
+      - redis
 
   register-service:
     networks:
@@ -67,9 +70,11 @@ services:
     command: node services/register-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
-      - TOKEN_SECRET=my secret
+      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_DB=armygeddon
     depends_on:
       - arango
+      - redis
 
   army-service:
     networks:
@@ -80,8 +85,13 @@ services:
           - node.labels.arch == arm6
     image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/army-service.js
+    environment:
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_DB=armygeddon
     depends_on:
       - arango
+      - redis
 
   battle-service:
     networks:
@@ -89,11 +99,16 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.arch == arm7
-    image: 127.0.1.1:5000/armygeddon_srv_arm7:0.2.0
+          - node.labels.arch == arm6
+    image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/battle-service.js
+    environment:
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_DB=armygeddon
     depends_on:
       - arango
+      - redis
 
   battle-tracker-service:
     networks:
@@ -104,8 +119,13 @@ services:
           - node.labels.arch == arm6
     image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/battle-tracker-service.js
+    environment:
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_DB=armygeddon
     depends_on:
       - arango
+      - redis
     
   player-service:
     networks:
@@ -117,9 +137,13 @@ services:
     image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/player-service.js
     environment:
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_DB=armygeddon
       - ARANGO_INIT=1
     depends_on:
       - arango
+      - redis
 
   map-service:
     networks:
@@ -130,8 +154,13 @@ services:
           - node.labels.arch == arm6
     image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/map-service.js
+    environment:
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_DB=armygeddon
     depends_on:
       - arango
+      - redis
 
   battle-template-service:
     networks:
@@ -142,8 +171,13 @@ services:
           - node.labels.arch == arm6
     image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
     command: node services/battle-template-service.js
+    environment:
+      - COTE_DISCOVERY_REDIS_HOST=redis
+      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_DB=armygeddon
     depends_on:
       - arango
+      - redis
 
   redis:
     image: redis:5.0.7-alpine

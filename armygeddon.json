@@ -7,11 +7,7 @@
             "node_args": "--inspect=localhost:9220",
             "env": {
                 "PORT" : "3000",
-                "TOKEN_SECRET": "my secret",
-                "ARANGO_URL": "http://localhost:8529",
-                "ARANGO_DB": "armygeddon",
-                "ARANGO_USER": "",
-                "ARANGO_PASS": ""
+                "TOKEN_SECRET": "my secret"
             }
         },
         {
@@ -20,7 +16,6 @@
             "watch": "src/services/login-service.js",
             "node_args": "--inspect=localhost:9221",
             "env": {
-                "TOKEN_SECRET": "my secret",
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
@@ -34,7 +29,6 @@
             "watch": "src/services/register-service.js",
             "node_args": "--inspect=localhost:9223",
             "env": {
-                "TOKEN_SECRET": "my secret",
                 "ARANGO_URL": "http://localhost:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",

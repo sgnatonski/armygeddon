@@ -58,7 +58,7 @@ export default {
   margin-left: -10px;
   margin-right: -10px;
   background-size: 200% 200%;
-  padding-bottom: 16px;
+  padding-bottom: 6px;
 }
 
 .title-box a {
@@ -72,18 +72,18 @@ export default {
 }
 
 .pulsate-bck {
-  animation: AnimationName 0.75s ease-in-out infinite both;
+  animation: pulsate-anim 0.8s ease-in-out infinite both;
 }
 
-@keyframes AnimationName {
+@keyframes pulsate-anim {
   0% {
     background-position: 100% 60%;
   }
   40% {
-    background-position: 100% 55%;
+    background-position: 100% 52%;
   }
   50% {
-    background-position: 100% 65%;
+    background-position: 100% 68%;
   }
   65% {
     background-position: 100% 55%;
@@ -92,7 +92,7 @@ export default {
     background-position: 100% 60%;
   }
   100% {
-    background-position: 100% 55%;
+    background-position: 100% 56%;
   }
 }
 </style>
