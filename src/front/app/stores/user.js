@@ -45,7 +45,7 @@ export const mutations = {
                 resolve();
             }, e => {
                 state.authenticated = false;
-                reject();
+                reject(e.response.data.message);
             });
         });
     },

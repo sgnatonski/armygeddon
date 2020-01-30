@@ -23,7 +23,7 @@ registerResponder.on('register', async req => {
     var validation = await validateRegistration(req.user);
     if (!validation.ok) {
         var err = new Error(validation.error);
-        err.status = 400;
+        err.status = 422;
         throw err;
     }
 

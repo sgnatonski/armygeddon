@@ -24,6 +24,7 @@
                 <label for="confirm">Confirm password</label>
                 <input type="password" name="confirm" v-model="confirm" placeholder="Confirm password" />
               </div>
+              <div>{{error}}</div>
               <div class="pure-controls">
                 <button
                   v-on:click="register"
@@ -55,7 +56,8 @@ export default {
       mail: "",
       password: "",
       confirm: "",
-      sending: false
+      sending: false,
+      error: undefined
     };
   },
   methods: {
@@ -63,7 +65,11 @@ export default {
       this.sending = true;
       mutations.register({ name: this.name, mail: this.mail, password: this.password, confirm: this.confirm }).then(
         r => this.$router.push("/"),
-        e => this.sending = false
+        e => {
+          this.sending = false;
+          this.password = this.confirm = "";
+          this.error = e;
+        }
       );
     }
   }

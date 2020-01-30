@@ -23845,11 +23845,6 @@
     return parsed;
   };
 
-  var isValidXss = function isValidXss(requestURL) {
-    var xssRegex = /(\b)(on\w+)=|javascript|(<\s*)(\/*)script/gi;
-    return xssRegex.test(requestURL);
-  };
-
   var isURLSameOrigin = (
     utils.isStandardBrowserEnv() ?
 
@@ -23868,10 +23863,6 @@
       */
         function resolveURL(url) {
           var href = url;
-
-          if (isValidXss(url)) {
-            throw new Error('URL contains XSS injection attempt');
-          }
 
           if (msie) {
           // IE needs attribute set twice to normalize properties
@@ -24833,11 +24824,11 @@
     /* style */
     const __vue_inject_styles__ = function (inject) {
       if (!inject) return
-      inject("data-v-42620102_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-8d2d91c0_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__ = "data-v-42620102";
+    const __vue_scope_id__ = "data-v-8d2d91c0";
     /* module identifier */
     const __vue_module_identifier__ = undefined;
     /* functional template */
@@ -24926,11 +24917,11 @@
     /* style */
     const __vue_inject_styles__$1 = function (inject) {
       if (!inject) return
-      inject("data-v-7ebdd8b6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-0c96d458_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$1 = "data-v-7ebdd8b6";
+    const __vue_scope_id__$1 = "data-v-0c96d458";
     /* module identifier */
     const __vue_module_identifier__$1 = undefined;
     /* functional template */
@@ -24998,7 +24989,7 @@
                   resolve();
               }, e => {
                   state.authenticated = false;
-                  reject();
+                  reject(e.response.data.message);
               });
           });
       },
@@ -25054,11 +25045,11 @@
     /* style */
     const __vue_inject_styles__$2 = function (inject) {
       if (!inject) return
-      inject("data-v-3501618d_0", { source: "\n.user[data-v-3501618d]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-3f3cd12b_0", { source: "\n.user[data-v-3f3cd12b]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$2 = "data-v-3501618d";
+    const __vue_scope_id__$2 = "data-v-3f3cd12b";
     /* module identifier */
     const __vue_module_identifier__$2 = undefined;
     /* functional template */
@@ -25164,7 +25155,7 @@
     /* style */
     const __vue_inject_styles__$3 = function (inject) {
       if (!inject) return
-      inject("data-v-1bd59c18_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-e244cfdc_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -25262,7 +25253,7 @@
     /* style */
     const __vue_inject_styles__$4 = function (inject) {
       if (!inject) return
-      inject("data-v-27728bc4_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 16px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: AnimationName 0.75s ease-in-out infinite both;\n}\n@keyframes AnimationName {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 55%;\n}\n50% {\r\n    background-position: 100% 65%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 55%;\n}\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-027f9268_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 6px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: pulsate-anim 0.8s ease-in-out infinite both;\n}\n@keyframes pulsate-anim {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 52%;\n}\n50% {\r\n    background-position: 100% 68%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 56%;\n}\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -25344,11 +25335,11 @@
     /* style */
     const __vue_inject_styles__$5 = function (inject) {
       if (!inject) return
-      inject("data-v-77a6eb12_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-ecd262ce_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$5 = "data-v-77a6eb12";
+    const __vue_scope_id__$5 = "data-v-ecd262ce";
     /* module identifier */
     const __vue_module_identifier__$5 = undefined;
     /* functional template */
@@ -25379,12 +25370,20 @@
       Home: __vue_component__$5
     },
     created: function() {
-      axios$1.interceptors.response.use(undefined, function(err) {
-        return new Promise(function(resolve, reject) {
-          if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+      const self = this;
+      axios$1.interceptors.response.use(undefined, (err) => {
+        return new Promise((resolve, reject) => {
+          if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
             mutations.logout();
+            reject(err);
           }
-          throw err;
+          else if (err.response.status >= 500 && err.response.status < 600){
+            self.$router.push({name: 'error', params: { error: err.response.data.message }});
+            reject(err);
+          }
+          else{
+            reject(err);
+          }
         });
       });
     }
@@ -25406,11 +25405,11 @@
     /* style */
     const __vue_inject_styles__$6 = function (inject) {
       if (!inject) return
-      inject("data-v-1876dafa_0", { source: "\np[data-v-1876dafa] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-50cf9cee_0", { source: "\np[data-v-50cf9cee] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$6 = "data-v-1876dafa";
+    const __vue_scope_id__$6 = "data-v-50cf9cee";
     /* module identifier */
     const __vue_module_identifier__$6 = undefined;
     /* functional template */
@@ -25591,11 +25590,11 @@
     /* style */
     const __vue_inject_styles__$7 = function (inject) {
       if (!inject) return
-      inject("data-v-eff53896_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-761ab957_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$7 = "data-v-eff53896";
+    const __vue_scope_id__$7 = "data-v-761ab957";
     /* module identifier */
     const __vue_module_identifier__$7 = undefined;
     /* functional template */
@@ -25631,7 +25630,8 @@
         mail: "",
         password: "",
         confirm: "",
-        sending: false
+        sending: false,
+        error: undefined
       };
     },
     methods: {
@@ -25639,7 +25639,11 @@
         this.sending = true;
         mutations.register({ name: this.name, mail: this.mail, password: this.password, confirm: this.confirm }).then(
           r => this.$router.push("/"),
-          e => this.sending = false
+          e => {
+            this.sending = false;
+            this.password = this.confirm = "";
+            this.error = e;
+          }
         );
       }
     }
@@ -25792,6 +25796,8 @@
                       })
                     ]),
                     _vm._v(" "),
+                    _c("div", [_vm._v(_vm._s(_vm.error))]),
+                    _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "pure-controls" },
@@ -25829,11 +25835,11 @@
     /* style */
     const __vue_inject_styles__$8 = function (inject) {
       if (!inject) return
-      inject("data-v-04660d52_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-37ee5059_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$8 = "data-v-04660d52";
+    const __vue_scope_id__$8 = "data-v-37ee5059";
     /* module identifier */
     const __vue_module_identifier__$8 = undefined;
     /* functional template */
@@ -25880,11 +25886,11 @@
     /* style */
     const __vue_inject_styles__$9 = function (inject) {
       if (!inject) return
-      inject("data-v-2ebcd5f4_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-149f3524_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$9 = "data-v-2ebcd5f4";
+    const __vue_scope_id__$9 = "data-v-149f3524";
     /* module identifier */
     const __vue_module_identifier__$9 = undefined;
     /* functional template */
@@ -25983,11 +25989,11 @@
     /* style */
     const __vue_inject_styles__$a = function (inject) {
       if (!inject) return
-      inject("data-v-6f6a96ea_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-388f31ad_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$a = "data-v-6f6a96ea";
+    const __vue_scope_id__$a = "data-v-388f31ad";
     /* module identifier */
     const __vue_module_identifier__$a = undefined;
     /* functional template */
@@ -26037,11 +26043,11 @@
     /* style */
     const __vue_inject_styles__$b = function (inject) {
       if (!inject) return
-      inject("data-v-8bfb4e50_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-76e7e0f6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$b = "data-v-8bfb4e50";
+    const __vue_scope_id__$b = "data-v-76e7e0f6";
     /* module identifier */
     const __vue_module_identifier__$b = undefined;
     /* functional template */
@@ -27755,6 +27761,147 @@
       undefined
     );
 
+  //
+  var script$e = {
+    components: {
+      Title: __vue_component__$4,
+      Panel: __vue_component__$3
+    },
+    props: ["error"],
+  };
+
+  /* script */
+  const __vue_script__$e = script$e;
+
+  /* template */
+  var __vue_render__$g = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      [
+        _c("Title"),
+        _vm._v(" "),
+        _c("div", { staticClass: "pure-g" }, [
+          _c("div", { staticClass: "pure-u-1 pure-u-sm-1-8 pure-u-md-1-4" }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "pure-u-1 pure-u-sm-3-4 pure-u-md-1-2" },
+            [
+              _c("Panel", [_vm._v("\n        " + _vm._s(_vm.error) + "\n      ")])
+            ],
+            1
+          )
+        ])
+      ],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$g = [];
+  __vue_render__$g._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$g = function (inject) {
+      if (!inject) return
+      inject("data-v-31952736_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+
+    };
+    /* scoped */
+    const __vue_scope_id__$g = "data-v-31952736";
+    /* module identifier */
+    const __vue_module_identifier__$g = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$g = false;
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$g = normalizeComponent(
+      { render: __vue_render__$g, staticRenderFns: __vue_staticRenderFns__$g },
+      __vue_inject_styles__$g,
+      __vue_script__$e,
+      __vue_scope_id__$g,
+      __vue_is_functional_template__$g,
+      __vue_module_identifier__$g,
+      false,
+      createInjector,
+      undefined,
+      undefined
+    );
+
+  //
+  var script$f = {
+    components: {
+      Title: __vue_component__$4,
+      Panel: __vue_component__$3
+    }
+  };
+
+  /* script */
+  const __vue_script__$f = script$f;
+
+  /* template */
+  var __vue_render__$h = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      [
+        _c("Title"),
+        _vm._v(" "),
+        _c("div", { staticClass: "pure-g" }, [
+          _c("div", { staticClass: "pure-u-1 pure-u-sm-1-8 pure-u-md-1-4" }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "pure-u-1 pure-u-sm-3-4 pure-u-md-1-2" },
+            [_c("Panel", [_vm._v("\n        Location not found, sir.\n      ")])],
+            1
+          )
+        ])
+      ],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$h = [];
+  __vue_render__$h._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$h = function (inject) {
+      if (!inject) return
+      inject("data-v-5c47c5cc_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+
+    };
+    /* scoped */
+    const __vue_scope_id__$h = "data-v-5c47c5cc";
+    /* module identifier */
+    const __vue_module_identifier__$h = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$h = false;
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$h = normalizeComponent(
+      { render: __vue_render__$h, staticRenderFns: __vue_staticRenderFns__$h },
+      __vue_inject_styles__$h,
+      __vue_script__$f,
+      __vue_scope_id__$h,
+      __vue_is_functional_template__$h,
+      __vue_module_identifier__$h,
+      false,
+      createInjector,
+      undefined,
+      undefined
+    );
+
   const ifAuthenticated = (to, from, next) => {
       if (getters.authenticated()) {
         next();
@@ -27771,6 +27918,8 @@
       { path: '/start', component: __vue_component__$a, beforeEnter: ifAuthenticated },
       { path: '/battle', component: __vue_component__$b, beforeEnter: ifAuthenticated },
       { path: '/single', component: __vue_component__$f, beforeEnter: ifAuthenticated },
+      { path: "/error", name: 'error', component: __vue_component__$g, props: true },
+      { path: "*", component: __vue_component__$h }
   ];
 
   const router = new VueRouter({

@@ -7,19 +7,27 @@
 <script>
 import axios from 'axios';
 import Home from "./views/home.vue";
-import { getters, mutations } from "./stores/user";
+import { mutations } from "./stores/user";
 
 export default {
   components: {
     Home
   },
   created: function() {
-    axios.interceptors.response.use(undefined, function(err) {
-      return new Promise(function(resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+    const self = this;
+    axios.interceptors.response.use(undefined, (err) => {
+      return new Promise((resolve, reject) => {
+        if (err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
           mutations.logout();
+          reject(err);
         }
-        throw err;
+        else if (err.response.status >= 500 && err.response.status < 600){
+          self.$router.push({name: 'error', params: { error: err.response.data.message }});
+          reject(err);
+        }
+        else{
+          reject(err);
+        }
       });
     });
   }
