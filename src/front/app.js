@@ -26,9 +26,6 @@ var app = express();
 var appCookieParser = cookieParser();
 
 app.set('TOKEN_SECRET', process.env.TOKEN_SECRET);
-// view engine setup
-app.set('views', path.join(__dirname, 'dist'));
-app.set('view engine', 'html');
 
 /*if (app.get('env') !== 'development') {
   app.use(function (req, res, next) {

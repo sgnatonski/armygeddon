@@ -18,7 +18,7 @@ Object.defineProperty(Error.prototype, 'toJSON', {
 const log = createLogger(
   // Bunyan options
   {
-    name: 'myLogger',
+    name: 'har',
     streams: [
       // optional: also log to stderr
       {

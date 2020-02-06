@@ -18,6 +18,11 @@ var router = express.Router();
 router.post('/login', async (req, res, next) => {
   try {
     var user = await loginRequester.send({ type: 'login', user: req.body });
+    if (!user) {
+      var err = new Error('User not found'); 
+      err.status = 401;
+      throw err;
+    }
 
     var token = jwt.sign({ id: user.id, name: user.name }, token_secret, {
       expiresIn: 86400000 // expires in 24 hours

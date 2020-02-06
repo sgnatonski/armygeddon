@@ -24699,7 +24699,6 @@
       }
       return script;
   }
-  //# sourceMappingURL=normalize-component.mjs.map
 
   const isOldIE = typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
@@ -24753,7 +24752,6 @@
           }
       }
   }
-  //# sourceMappingURL=browser.mjs.map
 
   /* script */
   const __vue_script__ = script;

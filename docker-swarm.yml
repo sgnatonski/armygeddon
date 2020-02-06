@@ -38,6 +38,7 @@ services:
       - SERVICE_PORTS=3000
       - BALANCE=source
       - TOKEN_SECRET=my secret
+      - COTE_DISCOVERY_REDIS_HOST=redis
     depends_on:
       - arango
       - redis
@@ -53,7 +54,7 @@ services:
     command: node services/login-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_URL=http://arango:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -70,7 +71,7 @@ services:
     command: node services/register-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_URL=http://arango:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -87,7 +88,7 @@ services:
     command: node services/army-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_URL=http://arango:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -104,7 +105,7 @@ services:
     command: node services/battle-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_URL=http://arango:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -121,7 +122,7 @@ services:
     command: node services/battle-tracker-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_URL=http://arango:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -138,7 +139,7 @@ services:
     command: node services/player-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_URL=http://arango:8529
       - ARANGO_DB=armygeddon
       - ARANGO_INIT=1
     depends_on:
@@ -156,7 +157,7 @@ services:
     command: node services/map-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_URL=http://arango:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango
@@ -173,7 +174,7 @@ services:
     command: node services/battle-template-service.js
     environment:
       - COTE_DISCOVERY_REDIS_HOST=redis
-      - ARANGO_URL=http://192.168.0.254:8529
+      - ARANGO_URL=http://arango:8529
       - ARANGO_DB=armygeddon
     depends_on:
       - arango

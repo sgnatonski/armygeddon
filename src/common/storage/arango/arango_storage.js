@@ -26,7 +26,6 @@ async function get(id) {
             log.warn(`${err.errorNum == 1202 ? "Document": "Collection"} "${this}" not found`);
             return null;
         }
-        log.error(err);
         throw err;
     }
 }
@@ -44,7 +43,6 @@ async function getBy(prop, val) {
             log.warn(`Collection "${this}" not found`);
             return null;
         }
-        log.error(err);
         throw err;
     }
 }
@@ -62,7 +60,6 @@ async function getAllBy(prop, val) {
             log.warn(`Collection "${this}" not found`);
             return null;
         }
-        log.error(err);
         throw err;
     }
 }
