@@ -203,7 +203,7 @@
    width: 36px;
    height: 35px;
 }
-.btn_hover {
+.btn_normal {
    background: url('ui_sprites.png') no-repeat -0px -186px;
    width: 291px;
    height: 62px;
@@ -288,7 +288,7 @@
    width: 25px;
    height: 25px;
 }
-.btn_pressed {
+.btn:active {
    background: url('ui_sprites.png') no-repeat -0px -62px;
    width: 291px;
    height: 62px;
@@ -338,7 +338,7 @@
    width: 31px;
    height: 25px;
 }
-.btn_normal {
+.btn:hover {
    background: url('ui_sprites.png') no-repeat -0px -0px;
    width: 291px;
    height: 62px;
@@ -388,7 +388,7 @@
    width: 36px;
    height: 35px;
 }
-.btn_disabled {
+.btn[disabled] {
    background: url('ui_sprites.png') no-repeat -0px -124px;
    width: 291px;
    height: 62px;

@@ -149,3 +149,23 @@ a {
   white-space: nowrap;
   display: none;
 }
+
+.btn {
+  display: block;
+  color: rgb(247, 209, 141);
+  text-decoration: none;
+  text-align: center;
+  text-shadow: 1px 2px 2px #000;
+  line-height: 58px;
+  font-size: 18px;
+  margin: 0 auto;
+}
+
+.btn:hover{
+  color: rgb(255, 241, 178);
+}
+
+.btn[disabled]{
+  color: #999;
+  pointer-events: none;
+}

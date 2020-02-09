@@ -18,14 +18,15 @@
                   <input type="password" name="password" v-model="password" placeholder="Password" />
                 </div>
                 <div>{{error}}</div>
-                <div class="pure-controls">
-                  <button
+                <div>
+                  <a
+                    href="#"
                     v-on:click="login"
                     :disabled="sending"
-                    class="pure-button pure-button-primary"
-                  >Login</button>
-                  or
-                  <router-link to="/register">Register</router-link>
+                    class="btn btn_normal"
+                  >Login</a>
+                  <div style="margin: 0 auto; width: 16px;">or</div>
+                  <router-link class="btn btn_normal" to="/register">Register</router-link>
                 </div>
               </fieldset>
             </div>

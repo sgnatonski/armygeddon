@@ -25,13 +25,14 @@
                 <input type="password" name="confirm" v-model="confirm" placeholder="Confirm password" />
               </div>
               <div>{{error}}</div>
-              <div class="pure-controls">
-                <button
+              <div>
+                <a href="#"
                   v-on:click="register"
                   :disabled="sending"
-                  class="pure-button pure-button-primary"
-                >Register</button> or
-                <router-link to="/login">Login</router-link>
+                  class="btn btn_normal"
+                >Register</a>
+                <div style="margin: 0 auto; width: 16px;">or</div>
+                <router-link class="btn btn_normal" to="/login">Login</router-link>
               </div>
             </fieldset>
           </div>

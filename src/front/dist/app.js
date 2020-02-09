@@ -24618,10 +24618,6 @@
   //
   //
   //
-  //
-  //
-  //
-  //
 
   var script = {};
 
@@ -24762,51 +24758,50 @@
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
     return _c("div", [
-      _c("div", [
-        _c("h1", [_vm._v("Welcome")]),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _c("p", [_vm._v("Welcome to Armygeddon!")]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "Armygeddon is a turn-based browser strategy game, which allows players to organize duels and test their skills and tactics agains each other."
+      _c(
+        "div",
+        [
+          _c("h1", [_vm._v("Welcome")]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c("p", [_vm._v("Welcome to Armygeddon!")]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "Armygeddon is a turn-based browser strategy game, which allows players to organize duels and test their skills and tactics agains each other."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "The game is currently under development (but already playable) and new features and bug fixes are arriving on daily schedule."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(
+              "Please feel free to test current game features and enjoy the game."
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            { staticClass: "btn btn_normal", attrs: { to: "/start" } },
+            [_vm._v("Begin the game")]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            {
+              staticClass: "btn btn_normal",
+              attrs: { to: "/tutorial", disabled: "" }
+            },
+            [_vm._v("Read the tutorial")]
           )
-        ]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "The game is currently under development (but already playable) and new features and bug fixes are arriving on daily schedule."
-          )
-        ]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "Please feel free to test current game features and enjoy the game."
-          )
-        ]),
-        _vm._v(" "),
-        _c(
-          "h2",
-          [
-            _c("router-link", { attrs: { to: "/start" } }, [
-              _vm._v("Begin the game!")
-            ])
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "h2",
-          [
-            _c("router-link", { attrs: { to: "/tutorial" } }, [
-              _vm._v("Read the tutorial")
-            ])
-          ],
-          1
-        )
-      ])
+        ],
+        1
+      )
     ])
   };
   var __vue_staticRenderFns__ = [
@@ -24822,11 +24817,11 @@
     /* style */
     const __vue_inject_styles__ = function (inject) {
       if (!inject) return
-      inject("data-v-8d2d91c0_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-16e31f62_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__ = "data-v-8d2d91c0";
+    const __vue_scope_id__ = "data-v-16e31f62";
     /* module identifier */
     const __vue_module_identifier__ = undefined;
     /* functional template */
@@ -25552,21 +25547,31 @@
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "pure-controls" },
                         [
                           _c(
-                            "button",
+                            "a",
                             {
-                              staticClass: "pure-button pure-button-primary",
-                              attrs: { disabled: _vm.sending },
+                              staticClass: "btn btn_normal",
+                              attrs: { href: "#", disabled: _vm.sending },
                               on: { click: _vm.login }
                             },
                             [_vm._v("Login")]
                           ),
-                          _vm._v("\n                or\n                "),
-                          _c("router-link", { attrs: { to: "/register" } }, [
-                            _vm._v("Register")
-                          ])
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticStyle: { margin: "0 auto", width: "16px" } },
+                            [_vm._v("or")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn_normal",
+                              attrs: { to: "/register" }
+                            },
+                            [_vm._v("Register")]
+                          )
                         ],
                         1
                       )
@@ -25588,11 +25593,11 @@
     /* style */
     const __vue_inject_styles__$7 = function (inject) {
       if (!inject) return
-      inject("data-v-761ab957_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-22778218_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$7 = "data-v-761ab957";
+    const __vue_scope_id__$7 = "data-v-22778218";
     /* module identifier */
     const __vue_module_identifier__$7 = undefined;
     /* functional template */
@@ -25798,21 +25803,31 @@
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "pure-controls" },
                       [
                         _c(
-                          "button",
+                          "a",
                           {
-                            staticClass: "pure-button pure-button-primary",
-                            attrs: { disabled: _vm.sending },
+                            staticClass: "btn btn_normal",
+                            attrs: { href: "#", disabled: _vm.sending },
                             on: { click: _vm.register }
                           },
                           [_vm._v("Register")]
                         ),
-                        _vm._v(" or\n              "),
-                        _c("router-link", { attrs: { to: "/login" } }, [
-                          _vm._v("Login")
-                        ])
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticStyle: { margin: "0 auto", width: "16px" } },
+                          [_vm._v("or")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "btn btn_normal",
+                            attrs: { to: "/login" }
+                          },
+                          [_vm._v("Login")]
+                        )
                       ],
                       1
                     )
@@ -25833,11 +25848,11 @@
     /* style */
     const __vue_inject_styles__$8 = function (inject) {
       if (!inject) return
-      inject("data-v-37ee5059_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-c3d4d9ac_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$8 = "data-v-37ee5059";
+    const __vue_scope_id__$8 = "data-v-c3d4d9ac";
     /* module identifier */
     const __vue_module_identifier__$8 = undefined;
     /* functional template */
