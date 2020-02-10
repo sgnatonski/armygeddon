@@ -2,26 +2,27 @@
   <div>
     <Title />
     <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-1-3">
-        <Panel>
-          <h2>Select battle</h2>
-          <ul class="select-list">
-            <li>
-              <a href="/battle">Start new battle</a>
-            </li>
-            <li>
-              <a href="/single">Hot seat</a>
-            </li>
-            <li>
-              <router-link to="/single">Hot seat (Vue)</router-link>
-            </li>
-          </ul>
-        </Panel>
-        <Panel>
-          <Ranking />
-        </Panel>
+      <div class="pure-u-1 pure-u-md-1-8"></div>
+      <div class="pure-u-1 pure-u-md-3-4">
+        <div class="pure-g">
+          <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
+            <Panel>
+              <h2>Select battle</h2>
+              <a href="/battle" class="btn btn_normal">Start new battle</a>
+              <a href="/single" class="btn btn_normal">Hot seat</a>
+              <router-link to="/single" class="btn btn_normal">Hot seat (Vue)</router-link>
+            </Panel>
+          </div>
+          <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-2-3">
+            <Panel>
+              <Ranking />
+            </Panel>
+          </div>
+        </div>
       </div>
-      <div class="pure-u-1 pure-u-md-2-3">
+      <div class="pure-u-1 pure-u-md-1-8"></div>
+      <div class="pure-u-1 pure-u-md-1-8"></div>
+      <div class="pure-u-1 pure-u-md-3-4">
         <Panel>
           <h2>Open battles</h2>
         </Panel>

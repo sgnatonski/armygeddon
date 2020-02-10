@@ -10,7 +10,7 @@
     "debug": "^2.6.9",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
-    "image-promise": "^5.0.1",
+    "image-promise": "^7.0.0",
     "jsnlog": "^2.26.1",
     "jsnlog-nodejs": "^2.26.1",
     "jsonwebtoken": "^8.2.1",

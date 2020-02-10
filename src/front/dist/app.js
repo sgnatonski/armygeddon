@@ -24695,6 +24695,7 @@
       }
       return script;
   }
+  //# sourceMappingURL=normalize-component.mjs.map
 
   const isOldIE = typeof navigator !== 'undefined' &&
       /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
@@ -24748,6 +24749,7 @@
           }
       }
   }
+  //# sourceMappingURL=browser.mjs.map
 
   /* script */
   const __vue_script__ = script;
@@ -25950,44 +25952,68 @@
         _c("Title"),
         _vm._v(" "),
         _c("div", { staticClass: "pure-g" }, [
-          _c(
-            "div",
-            { staticClass: "pure-u-1 pure-u-md-1-3" },
-            [
-              _c("Panel", [
-                _c("h2", [_vm._v("Select battle")]),
-                _vm._v(" "),
-                _c("ul", { staticClass: "select-list" }, [
-                  _c("li", [
-                    _c("a", { attrs: { href: "/battle" } }, [
-                      _vm._v("Start new battle")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c("a", { attrs: { href: "/single" } }, [_vm._v("Hot seat")])
-                  ]),
-                  _vm._v(" "),
+          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "pure-u-1 pure-u-md-3-4" }, [
+            _c("div", { staticClass: "pure-g" }, [
+              _c(
+                "div",
+                { staticClass: "pure-u-1 pure-u-md-1-2 pure-u-lg-1-3" },
+                [
                   _c(
-                    "li",
+                    "Panel",
                     [
-                      _c("router-link", { attrs: { to: "/single" } }, [
-                        _vm._v("Hot seat (Vue)")
-                      ])
+                      _c("h2", [_vm._v("Select battle")]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn_normal",
+                          attrs: { href: "/battle" }
+                        },
+                        [_vm._v("Start new battle")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn_normal",
+                          attrs: { href: "/single" }
+                        },
+                        [_vm._v("Hot seat")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "btn btn_normal",
+                          attrs: { to: "/single" }
+                        },
+                        [_vm._v("Hot seat (Vue)")]
+                      )
                     ],
                     1
                   )
-                ])
-              ]),
+                ],
+                1
+              ),
               _vm._v(" "),
-              _c("Panel", [_c("Ranking")], 1)
-            ],
-            1
-          ),
+              _c(
+                "div",
+                { staticClass: "pure-u-1 pure-u-md-1-2 pure-u-lg-2-3" },
+                [_c("Panel", [_c("Ranking")], 1)],
+                1
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "pure-u-1 pure-u-md-1-8" }),
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "pure-u-1 pure-u-md-2-3" },
+            { staticClass: "pure-u-1 pure-u-md-3-4" },
             [_c("Panel", [_c("h2", [_vm._v("Open battles")])])],
             1
           )
@@ -26002,11 +26028,11 @@
     /* style */
     const __vue_inject_styles__$a = function (inject) {
       if (!inject) return
-      inject("data-v-388f31ad_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-d0273bd8_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$a = "data-v-388f31ad";
+    const __vue_scope_id__$a = "data-v-d0273bd8";
     /* module identifier */
     const __vue_module_identifier__$a = undefined;
     /* functional template */
@@ -26172,105 +26198,15 @@
   //
   //
   //
-
-  function createShape(img) {
-    return new Konva.Image({
-      image: img,
-      width: 70,
-      height: 70,
-      offset: {
-        x: 35,
-        y: 35
-      },
-      rotation: 30,
-      perfectDrawEnabled: false
-    }).cache();
-  }
-
-  var hexShape = new Konva.Shape({
-    sceneFunc: function(context) {
-      context.beginPath();
-      context.moveTo(0, 30);
-      context.lineTo(-26, 15);
-      context.lineTo(-26, -15);
-      context.lineTo(0, -30);
-      context.lineTo(26, -15);
-      context.lineTo(26, 15);
-      context.closePath();
-      context.fillStrokeShape(this);
-    },
-    stroke: "#003300",
-    strokeWidth: 0.7,
-    strokeHitEnabled: false,
-    perfectDrawEnabled: false
-  }).cache();
-
-  function loadImages(){
-      return load([
-          '/images/grid/plain1.png',
-          '/images/grid/plain2.png',
-          '/images/grid/plain3.png',
-          '/images/grid/plain4.png',
-          '/images/grid/plain5.png',
-          '/images/grid/plain6.png',
-          '/images/grid/forrest1.png',
-          '/images/grid/forrest2.png'
-      ]).then(imgs =>{
-          return {
-              plains: imgs.slice(0, 6),
-              forrests: [imgs[6], imgs[7]]
-          };
-      });
-  }
+  //
 
   var script$b = {
-    props: {
-      hexes: null
-    },
-    mounted() {
-      loadImages().then(images => {
-      var imageShapes = {
-          plains: images.plains.map(createShape),
-          forrests: images.forrests.map(createShape)
-      };
-      this.$refs.layer.getNode().destroyChildren();
-      this.hexes
-        .map(hex => {
-          function getHexTerrainImage(hex) {
-            if (hex.cost < 0) {
-              return;
-            }
-            var shape;
-            if (hex.cost == 1) {
-              var gNumber = Math.floor(Math.random() * 6);
-              shape = imageShapes.plains[gNumber].clone();
-            } else {
-              var gNumber = Math.floor(Math.random() * 2);
-              shape = imageShapes.forrests[gNumber].clone();
-            }
-
-            return shape;
-          }
-
-          var group = new Konva.Group({
-            x: center.x + hex.center.x,
-            y: center.y + hex.center.y
-          });
-
-          var terrain = getHexTerrainImage(hex);
-
-          if (terrain) {
-            group.add(terrain);
-          }
-          group.add(hexShape.clone());
-
-          return group;
-        })
-        .forEach(node => {
-          this.$refs.layer.getNode().add(node);
-        });
-      });
-    }
+      props: {
+          x: Number,
+          y: Number,
+          fill: String,
+          opacity: Number
+      }
   };
 
   /* script */
@@ -26281,35 +26217,32 @@
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
-    return _c(
-      "konva-layer",
-      { ref: "layer" },
-      _vm._l(_vm.hexes, function(hex) {
-        return _c("konva-shape", {
-          key: hex.x + ":" + hex.y,
-          attrs: {
-            config: {
-              sceneFunc: function(context, shape) {
-                context.beginPath();
-                context.moveTo(0, 30);
-                context.lineTo(-26, 15);
-                context.lineTo(-26, -15);
-                context.lineTo(0, -30);
-                context.lineTo(26, -15);
-                context.lineTo(26, 15);
-                context.closePath();
-                context.fillStrokeShape(shape);
-              },
-              stroke: "#003300",
-              strokeWidth: 0.7,
-              strokeHitEnabled: false,
-              perfectDrawEnabled: false
-            }
-          }
-        })
-      }),
-      1
-    )
+    return _c("konva-shape", {
+      attrs: {
+        config: {
+          sceneFunc: function(context, shape) {
+            context.beginPath();
+            context.moveTo(0, 30);
+            context.lineTo(-26, 15);
+            context.lineTo(-26, -15);
+            context.lineTo(0, -30);
+            context.lineTo(26, -15);
+            context.lineTo(26, 15);
+            context.closePath();
+            context.fillStrokeShape(shape);
+          },
+          stroke: "#113311",
+          strokeWidth: 0.7,
+          strokeHitEnabled: false,
+          perfectDrawEnabled: false,
+          fill: _vm.fill,
+          opacity: _vm.opacity,
+          listening: false,
+          x: _vm.x,
+          y: _vm.y
+        }
+      }
+    })
   };
   var __vue_staticRenderFns__$d = [];
   __vue_render__$d._withStripped = true;
@@ -26343,6 +26276,709 @@
       undefined
     );
 
+  //
+
+  var script$c = {
+    components: {
+      Hex: __vue_component__$d
+    },
+    props: {
+      hexes: null,
+      center: null,
+      imageShapes: null
+    },
+    methods: {
+      getHexTerrainImage(hex) {
+        if (hex.cost < 0) {
+          return;
+        } else if (hex.cost == 1) {
+          var gNumber = Math.floor(Math.random() * 6);
+          return this.imageShapes.plains[gNumber];
+        } else {
+          var gNumber = Math.floor(Math.random() * 2);
+          return this.imageShapes.forrests[gNumber];
+        }
+      },
+      hexSelected(evt, hex) {
+        this.$emit("selected", hex);
+      },
+      hexFocused(evt, hex) {
+        this.$emit("focused", hex);
+      },
+      hexUnfocused(evt) {
+        //this.$emit("focused", null);
+      }
+    }
+  };
+
+  /* script */
+  const __vue_script__$c = script$c;
+
+  /* template */
+  var __vue_render__$e = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "konva-layer",
+      { ref: "layer" },
+      _vm._l(_vm.hexes, function(hex) {
+        return _c(
+          "konva-group",
+          {
+            key: hex.x + ":" + hex.y,
+            attrs: {
+              config: {
+                x: _vm.center.x + hex.center.x,
+                y: _vm.center.y + hex.center.y
+              }
+            },
+            on: {
+              click: function(evt) {
+                return _vm.hexSelected(evt, hex)
+              },
+              dbltap: function(evt) {
+                return _vm.hexSelected(evt, hex)
+              },
+              mouseenter: function(evt) {
+                return _vm.hexFocused(evt, hex)
+              },
+              mouseleave: function(evt) {
+                return _vm.hexUnfocused(evt, hex)
+              }
+            }
+          },
+          [
+            _c("konva-image", {
+              attrs: {
+                config: {
+                  image: _vm.getHexTerrainImage(hex),
+                  width: 70,
+                  height: 70,
+                  offset: {
+                    x: 35,
+                    y: 35
+                  },
+                  opacity: 0.99,
+                  rotation: 30,
+                  listening: true,
+                  perfectDrawEnabled: false
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("Hex")
+          ],
+          1
+        )
+      }),
+      1
+    )
+  };
+  var __vue_staticRenderFns__$e = [];
+  __vue_render__$e._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$e = undefined;
+    /* scoped */
+    const __vue_scope_id__$e = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$e = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$e = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$e = normalizeComponent(
+      { render: __vue_render__$e, staticRenderFns: __vue_staticRenderFns__$e },
+      __vue_inject_styles__$e,
+      __vue_script__$c,
+      __vue_scope_id__$e,
+      __vue_is_functional_template__$e,
+      __vue_module_identifier__$e,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  //
+  var script$d = {
+    components: {
+      Hex: __vue_component__$d
+    },
+    props: {
+      center: Object,
+      highlight: Object,
+      focus: Object,
+      path: Array,
+      range: Array,
+      rangeType: String
+    },
+    methods: {
+        getFill(){
+            switch(this.rangeType){
+                case 'moving': return '#ffffff';
+                case 'turning': return '#ffad33';
+                case 'attacking': return '#DD1111';
+            }
+        },
+        getOpacity(){
+            switch(this.rangeType){
+                case 'moving': return 0.15;
+                case 'turning': return 0.15;
+                case 'attacking': return 0.5;
+            }
+        }
+    }
+  };
+
+  /* script */
+  const __vue_script__$d = script$d;
+
+  /* template */
+  var __vue_render__$f = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "konva-fast-layer",
+      { ref: "layer" },
+      [
+        _vm.highlight
+          ? _c("Hex", {
+              attrs: {
+                x: _vm.center.x + _vm.highlight.center.x,
+                y: _vm.center.y + _vm.highlight.center.y,
+                fill: "#ffffff",
+                opacity: 0.35
+              }
+            })
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.focus
+          ? _c("Hex", {
+              attrs: {
+                x: _vm.center.x + _vm.focus.center.x,
+                y: _vm.center.y + _vm.focus.center.y,
+                fill: "#ffffff",
+                opacity: 0.35
+              }
+            })
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._l(_vm.range, function(hex) {
+          return _c("Hex", {
+            key: hex.x + ":" + hex.y,
+            attrs: {
+              x: _vm.center.x + hex.center.x,
+              y: _vm.center.y + hex.center.y,
+              fill: _vm.getFill(),
+              opacity: _vm.getOpacity()
+            }
+          })
+        })
+      ],
+      2
+    )
+  };
+  var __vue_staticRenderFns__$f = [];
+  __vue_render__$f._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$f = undefined;
+    /* scoped */
+    const __vue_scope_id__$f = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$f = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$f = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$f = normalizeComponent(
+      { render: __vue_render__$f, staticRenderFns: __vue_staticRenderFns__$f },
+      __vue_inject_styles__$f,
+      __vue_script__$d,
+      __vue_scope_id__$f,
+      __vue_is_functional_template__$f,
+      __vue_module_identifier__$f,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  function getShape(id) {
+      switch (id) {
+          case 'unitBack':
+              return 'M 316 308 c -11 0 -22 -7 -26 -17 l -2 -5 l 45 -7 a 6 6 0 0 0 5 -7 c -6 -37 -7 -76 -3 -113 l 1 -12 a 107 107 0 0 0 -74 -114 c -13 -4 -23 -15 -26 -29 c 0 -2 -2 -4 -5 -4 a 6 6 0 0 0 -5 5 c -3 13 -13 24 -26 28 a 106 106 0 0 0 -74 114 l 1 12 a 415 415 0 0 1 -2 117 l 4 3 l 48 7 l -2 5 c -5 10 -15 17 -27 17 h -2 c -32 0 -58 26 -58 58 v 91 c 0 3 2 5 5 5 h 276 c 3 0 5 -2 5 -5 v -91 c 0 -32 -26 -58 -58 -58 z';
+          case 'unitPath':
+              return 'M316 308c-11 0-22-7-26-17l-2-5 45-7a6 6 0 0 0 5-7c-6-37-7-76-3-113l1-12a107 107 0 0 0-74-114c-13-4-23-15-26-29 0-2-2-4-5-4a6 6 0 0 0-5 5c-3 13-13 24-26 28a106 106 0 0 0-74 114l1 12a415 415 0 0 1-2 117l4 3 48 7-2 5c-5 10-15 17-27 17h-2c-32 0-58 26-58 58v91c0 3 2 5 5 5h276c3 0 5-2 5-5v-91c0-32-26-58-58-58zm47 58v59a61 61 0 0 1-70-60c0-18 8-35 22-46h1c26 0 47 21 47 47zm-132-63c-14 0-27-5-37-14l17 3a5 5 0 0 0 7-7l-2-10a66 66 0 0 0 30 0l-1 10a6 6 0 0 0 6 7l17-3c-10 9-23 14-37 14zm18-40a55 55 0 0 1-35 0l-14-75c-1-3-3-4-6-4h-16a19 19 0 0 1-20-21c0-10 9-19 20-19h106a19 19 0 0 1 20 20c0 11-9 20-20 20h-16c-3 0-5 1-6 4l-13 75zM138 157l-1-11a96 96 0 0 1 66-103c9-2 17-8 23-14v86a6 6 0 0 0 11 0V29c5 6 13 12 22 14a95 95 0 0 1 66 103l-1 11c-4 37-3 75 2 112l-69 11 15-85h12c17 0 31-14 31-30a30 30 0 0 0-31-32H178c-16 0-30 14-31 30a30 30 0 0 0 31 32h12l15 85-69-11c6-37 6-75 2-112zm8 162h1c14 11 22 28 22 46a61 61 0 0 1-70 60v-59c0-26 21-47 47-47zM99 436a72 72 0 0 0 81-71c0-18-7-35-19-48 10-4 19-11 24-22 11 11 25 18 40 19v137H99v-15zm137 15V314c17-1 32-9 43-21l1 2c4 10 12 17 22 21a72 72 0 0 0 62 120v15H235z';
+          case 'inf1':
+              return 'M237.3 60.5c-4.7 3.5-68.5 51-150.2 67.3-10.8 188.8 150 286.5 150.2 286.4 0 0 161-97.6 150.2-286.4-81.8-16.3-150.2-67.3-150.2-67.3z';
+          case 'inf2':
+              return 'M440.6 97.4a12.6 12.6 0 0 0-10-11.6c-99.8-20-185-82.7-185.8-83.3a12.6 12.6 0 0 0-15.2 0C226.3 5.2 146.2 65.4 44 85.9c-5.6 1.1-9.8 6-10.1 11.6-8.2 143.4 59 246.6 117 307.9a479.7 479.7 0 0 0 73 63c7 4.8 9.1 6.1 13 6.2h.5c4 0 6.3-1.5 12.4-5.7a473 473 0 0 0 65.3-54.7c37.3-37.5 67-79.4 88.3-124.3a392.4 392.4 0 0 0 37.2-192.4zm-110.4 262a442 442 0 0 1-93 87.5 442 442 0 0 1-92.8-87.5c-60-75.2-88.8-159.6-85.8-251C145 89 214.8 44 237.3 28.2c22.9 15.8 94 61.1 178.6 80.4 3 91.3-25.8 175.7-85.7 250.9z';
+          case 'arch':
+              return 'M301.3 246.2l-55.7-19s-2.3-1.1-3.2-2L188 170.8c-1.1-.7-.4-1.8 0-2.2L288.5 68.1c24.1-24.1 14.5-46.3-8.3-23.5-6 6-18.3 6.2-33.6 3l-10.2-2.4C200.9 37 161 27.8 101 82.1c-.3.3-1.1 1.2-2.4-.1C87 70.4 78 61 69.8 52.7c-1.8-1.9-.4-3.1-.4-3.1l4.4-4.4c5.5-5.5 4.2-12.6-2.8-15.9l-61-28C3-2 0 1.2 3.1 8.2l28 61c3.3 7 10.5 8.3 16 2.8l3.4-3.5s2-2.5 4-.5l28.4 28.4c1.5 1.3 1.3 2.4 1 2.7-56 61.2-45.6 108.2-37.2 146.3l.4 1.8c3.7 16.7 2.2 29.9-5.8 37.9-17.3 17.3-11.2 41.4 26.4 3.8l103-103c.3-.2.9-.7 2 .3l54.6 54.6c.7.7 1.7 2.9 1.7 2.9l19 55.8c2.6 7.4 7.1 7.5 10.2.4l7.5-17.5c3-7.2 11.4-15.5 18.5-18.5l17.5-7.5c7.2-3.1 7-7.7-.4-10.2zM231 69c3.5.8 7 1.7 10.7 2.4 4.3 1 8.4 1.6 12.3 2L173.2 154c-1.1 1-2.2-.2-2.2-.2l-52.5-52.6c-.9-1-.5-1.6-.2-1.9 49.9-45 80.4-37.9 112.6-30.4zm-158 185.3c-.3-3.9-1-8-2-12.4l-.4-1.8c-7.8-35.6-16-72.4 30.7-123.7.3-.3 1.2-.6 2 .3l53 53s.5.9-.3 1.7l-83 83z';
+          case 'cav1':
+              return 'M82.2 50c-.5-.2-13.1-3-12.6-22.7.3-10.7-6.3-18.8-19.2-23.5A69.4 69.4 0 0 0 31.7 0a3 3 0 0 0-2.9 2.3 3 3 0 0 0-2.3 2l-.6 2-1.7-1.7a3 3 0 0 0-3.4-.6l-1.2.6a3 3 0 0 0-1.7 3l.1 1.5c.1 1.4.2 3 .7 4.6.4 1.3.3 2.2-.5 3.4A20.5 20.5 0 0 0 14 30.8c.3 4.3-2.3 8.4-5.3 12.7-3.4 4.9-1.1 9 .3 11.5a9.7 9.7 0 0 0 11 4c2.1-.7 4-2.8 4.6-4.9 1-3.5 3.7-5.4 7-7.6l1.8-1.4 2.6-1.3c1.3 10.6-.2 18.4-5 24.7a19.3 19.3 0 0 0-2.1 20.7l.1.3a3 3 0 0 0 3.6 1.9 58.2 58.2 0 0 0 34.6-27.7c.4.3.9.1 1.2-.2h.7c7.6 0 14.2-7.9 15-8.8a3 3 0 0 0-1.8-4.8zM31.7 88.4c0-.2 0-.4-.2-.6-2.7-6-2.4-11.9 1.8-17.5 6-8.1 6.8-17.5 5.5-27.1-.1-1.3-1-2.4-1.5-3.5-2.3 1.2-4.2 1.8-5.7 3-4 2.8-8.5 5.2-10 10.5a4.9 4.9 0 0 1-2.7 3l-1.7.2c-2.3 0-4.8-1.2-5.7-3-1.5-2.6-2.7-5-.4-8.3 3-4.4 6.2-9.2 5.8-14.6-.3-4.8 1.4-8.2 3.8-11.8a6.5 6.5 0 0 0 .9-6C21 11 21 9 20.9 7.2l1.2-.6 5.3 5 2-6.5L32 9.4l1.6 2.6c.1.4.4.7 1 .7 23 .2 22.4 32 30.6 48.2a55.2 55.2 0 0 1-33.5 27.6zm37.3-28c-.6 0-1.2 0-1.8-.2-8.9-16.5-7.8-48.3-31.6-49.5L31.7 3s35.6 1.6 35 24.2C66 50 81.6 53 81.6 53s-6.3 7.7-12.7 7.7z';
+          case 'cav2':
+              return 'M20.9 29.9c-1.3 0-1.3 2 0 2s1.3-2 0-2zM12.5 48.2c-1.1-.6-2.1 1.1-1 1.7.7.4 1.1.9 1 1.7 0 .5.5 1 1 1 .6 0 1-.5 1-1 .2-1.5-.8-2.8-2-3.4z';
+          default:
+              return undefined;
+      }
+  }
+
+  //
+
+  var script$e = {
+    props: { type: String },
+    data() {
+      return {
+        parts: getParts()
+      };
+    },
+    methods: {
+      getShape: getShape,
+      getParts() {
+        switch (this.type) {
+          case "inf":
+            return [
+              {
+                index: 0,
+                config: {
+                  data: getShape("inf1"),
+                  fill: "#000000",
+                  scale: {
+                    x: 0.035,
+                    y: 0.035
+                  },
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              },
+              {
+                index: 1,
+                config: {
+                  data: getShape("inf2"),
+                  fill: "#222222",
+                  scale: {
+                    x: 0.035,
+                    y: 0.035
+                  },
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              }
+            ];
+          case "arch":
+            return [
+              {
+                index: 0,
+                config: {
+                  data: getShape("arch"),
+                  fill: "#000000",
+                  scale: {
+                    x: 0.04,
+                    y: 0.04
+                  },
+                  offset: {
+                    x: -80,
+                    y: -80
+                  },
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              }
+            ];
+          case "cav":
+            return [
+              {
+                index: 0,
+                config: {
+                  data: getShape("cav1"),
+                  fill: "#222222",
+                  scale: {
+                    x: 0.2,
+                    y: 0.2
+                  },
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              },
+              {
+                index: 1,
+                config: {
+                  data: getShape("cav2"),
+                  fill: "#222222",
+                  scale: {
+                    x: 0.2,
+                    y: 0.2
+                  },
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              }
+            ];
+        }
+      }
+    }
+  };
+
+  /* script */
+  const __vue_script__$e = script$e;
+
+  /* template */
+  var __vue_render__$g = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "konva-group",
+      {
+        ref: "unitType",
+        attrs: {
+          config: {
+            offset: {
+              x: -18,
+              y: -17
+            }
+          }
+        }
+      },
+      [
+        _c("konva-circle", {
+          attrs: {
+            config: {
+              radius: 10,
+              fill: "white",
+              stroke: "black",
+              strokeWidth: 1,
+              offset: {
+                x: -8,
+                y: -8
+              },
+              opacity: 0.7,
+              strokeHitEnabled: false,
+              perfectDrawEnabled: false
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.parts, function(part) {
+          return _c("konva-path", {
+            key: part.index,
+            attrs: { config: part.config }
+          })
+        })
+      ],
+      2
+    )
+  };
+  var __vue_staticRenderFns__$g = [];
+  __vue_render__$g._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$g = undefined;
+    /* scoped */
+    const __vue_scope_id__$g = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$g = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$g = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$g = normalizeComponent(
+      { render: __vue_render__$g, staticRenderFns: __vue_staticRenderFns__$g },
+      __vue_inject_styles__$g,
+      __vue_script__$e,
+      __vue_scope_id__$g,
+      __vue_is_functional_template__$g,
+      __vue_module_identifier__$g,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  //
+  var script$f = {
+    components: {
+      UnitType: __vue_component__$g
+    },
+    props: {
+      center: Object,
+      hexCenter: Object,
+      unit: Object
+    },
+    methods: {
+      getShape: getShape,
+    }
+  };
+
+  /* script */
+  const __vue_script__$f = script$f;
+
+  /* template */
+  var __vue_render__$h = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "konva-group",
+      {
+        attrs: {
+          config: {
+            listening: false,
+            x: _vm.center.x + _vm.hexCenter.x,
+            y: _vm.center.y + _vm.hexCenter.y,
+            offset: {
+              x: 19,
+              y: 15
+            }
+          }
+        }
+      },
+      [
+        _c("konva-path", {
+          ref: "direction",
+          attrs: {
+            config: {
+              x: 19,
+              y: 15,
+              fill: "#ffff66",
+              opacity: 0.35,
+              perfectDrawEnabled: false,
+              strokeHitEnabled: false,
+              sceneFunc: function(context, shape) {
+                if (!_vm.unit.armor) {
+                  return
+                }
+                var x = 0;
+                if (_vm.unit.directions.length > 1) {
+                  x = 1;
+                }
+                var rotation = -30 + (_vm.unit.directions[0] - 1) * 60 - x * 60;
+                var angle = 60 * _vm.unit.directions.length;
+                context.rotate(_vm.Konva.getAngle(rotation));
+                context.beginPath();
+                context.arc(0, 0, 32, 0, _vm.Konva.getAngle(angle), false);
+                context.lineTo(0, 0);
+                context.closePath();
+                context.fillStrokeShape(shape);
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("konva-path", {
+          ref: "unitBack",
+          attrs: {
+            config: {
+              data: _vm.getShape("unitBack"),
+              fill: _vm.color,
+              scale: {
+                x: 0.08,
+                y: 0.08
+              },
+              offsetY: 60,
+              shadowColor: "black",
+              shadowBlur: 10,
+              shadowOffset: { x: 40, y: 20 },
+              shadowOpacity: 0.5,
+              strokeHitEnabled: false,
+              perfectDrawEnabled: false
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("konva-path", {
+          ref: "unitPath",
+          attrs: {
+            config: {
+              data: _vm.getShape("unitPath"),
+              fill: "#000000",
+              scale: {
+                x: 0.08,
+                y: 0.08
+              },
+              offsetY: 60,
+              strokeHitEnabled: false,
+              perfectDrawEnabled: false
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("UnitType", { attrs: { type: _vm.unit.type } }),
+        _vm._v(" "),
+        _c(
+          "konva-group",
+          { ref: "health" },
+          [
+            _c("konva-rect", {
+              attrs: {
+                config: {
+                  width: 2,
+                  height: 30,
+                  fill: "white",
+                  stroke: "black",
+                  strokeWidth: 1,
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("konva-shape", {
+              attrs: {
+                config: {
+                  sceneFunc: function(context, shape) {
+                    var fillValue =
+                      _vm.unit.endurance / _vm.unit.lifetime.endurance;
+                    if (fillValue < 0) {
+                      fillValue = 0;
+                    }
+                    var off = Math.floor(30 * fillValue);
+                    context.beginPath();
+                    context.rect(0, 30 - off, 2, off);
+                    context.closePath();
+                    context.fillStrokeShape(shape);
+                  },
+                  fill: "green",
+                  stroke: "black",
+                  strokeWidth: 0.5,
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              }
+            })
+          ],
+          1
+        )
+      ],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$h = [];
+  __vue_render__$h._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$h = undefined;
+    /* scoped */
+    const __vue_scope_id__$h = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$h = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$h = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$h = normalizeComponent(
+      { render: __vue_render__$h, staticRenderFns: __vue_staticRenderFns__$h },
+      __vue_inject_styles__$h,
+      __vue_script__$f,
+      __vue_scope_id__$h,
+      __vue_is_functional_template__$h,
+      __vue_module_identifier__$h,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  //
+  var script$g = {
+    components: {
+      Unit: __vue_component__$h
+    },
+    data() {
+      return {
+        unitHexes: this.hexes.map(x => x)
+      };
+    },
+    props: {
+      hexes: null,
+      center: Object
+    }
+  };
+
+  /* script */
+  const __vue_script__$g = script$g;
+
+  /* template */
+  var __vue_render__$i = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "konva-fast-layer",
+      { ref: "layer" },
+      [
+        _vm._l(_vm.hexes, function(hex) {
+          return _c("Unit", {
+            key: hex.x + ":" + hex.y,
+            attrs: { center: _vm.center, hexCenter: hex.center }
+          })
+        }),
+        _vm._v("\n  >\n")
+      ],
+      2
+    )
+  };
+  var __vue_staticRenderFns__$i = [];
+  __vue_render__$i._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$i = undefined;
+    /* scoped */
+    const __vue_scope_id__$i = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$i = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$i = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$i = normalizeComponent(
+      { render: __vue_render__$i, staticRenderFns: __vue_staticRenderFns__$i },
+      __vue_inject_styles__$i,
+      __vue_script__$g,
+      __vue_scope_id__$i,
+      __vue_is_functional_template__$i,
+      __vue_module_identifier__$i,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
   var eventBus = (function EventBus(){
     var events = {};
     return {
@@ -26359,6 +26995,63 @@
         }
     };    
   })();
+
+  function getUnitMoveAnim(steps, node, center) {
+      return new Promise(function (resolve, reject) {
+          if (steps.length <= 1) {
+              resolve();
+          }
+          else {
+              var currStep = steps.shift();
+              var anim = new Konva.Animation(function (frame) {
+                  var progress = frame.time / 400;
+                  var sourceY = center.y + currStep.center.y;
+                  var targetY = center.y + steps[0].center.y;
+                  var diffY = targetY - sourceY;
+                  var calcY = sourceY + diffY * progress;
+                  node.setY(calcY);
+                  var sourceX = center.x + currStep.center.x;
+                  var targetX = center.x + steps[0].center.x;
+                  var diffX = targetX - sourceX;
+                  var calcX = sourceX + diffX * progress;
+                  node.setX(calcX);
+                  if ((diffX > 0 && calcX >= targetX) || (diffX < 0 && calcX <= targetX) ||
+                      (diffY > 0 && calcY >= targetY) || (diffY < 0 && calcY <= targetY)) {
+                      currStep = steps.shift();
+                      frame.time = 0; // ????????
+                      if (!steps.length) {
+                          anim.stop();
+                          node.setY(targetY);
+                          node.setX(targetX);
+                          resolve();
+                      }
+                  }
+              }, node.getLayer());
+              anim.start();
+          }
+      });
+  }
+
+  function Animator() {
+      var anims = [];
+      var c;
+      var currentAnimation;
+
+      return {
+          registerAnimation: (id, node, center) => {
+              anims[id] = node;
+              c = center;
+          },
+          getAnimation: (id, path) => {
+              currentAnimation = getUnitMoveAnim(path, anims[id], c).then(() => currentAnimation = null);
+              return currentAnimation;
+          },
+          isAnimating: () => {
+              return currentAnimation;
+          }
+      }
+  }
+  var animator = Animator();
 
   // Binary Heap implementation by bgrins https://github.com/bgrins/javascript-astar
   // Based on implementation by Marijn Haverbeke http://eloquentjavascript.net/1st_edition/appendix2.html
@@ -27315,11 +28008,103 @@
     }
   }
 
+  /*! npm.im/image-promise 5.0.1 */
+
+  function load(image) {
+  	if (!image) {
+  		return Promise.reject();
+  	} else if (typeof image === 'string') {
+  		/* Create a <img> from a string */
+  		var src = image;
+  		image = new Image();
+  		image.src = src;
+  	} else if (image.length !== undefined) {
+  		/* Treat as multiple images */
+
+  		// Momentarily ignore errors
+  		var reflected = [].map.call(image, function (img) { return load(img).catch(function (err) { return err; }); });
+
+  		return Promise.all(reflected).then(function (results) {
+  			var loaded = results.filter(function (x) { return x.naturalWidth; });
+  			if (loaded.length === results.length) {
+  				return loaded;
+  			}
+  			return Promise.reject({
+  				loaded: loaded,
+  				errored: results.filter(function (x) { return !x.naturalWidth; })
+  			});
+  		});
+  	} else if (image.tagName !== 'IMG') {
+  		return Promise.reject();
+  	}
+
+  	var promise = new Promise(function (resolve, reject) {
+  		if (image.naturalWidth) {
+  			// If the browser can determine the naturalWidth the
+  			// image is already loaded successfully
+  			resolve(image);
+  		} else if (image.complete) {
+  			// If the image is complete but the naturalWidth is 0px
+  			// it is probably broken
+  			reject(image);
+  		} else {
+  			image.addEventListener('load', fullfill);
+  			image.addEventListener('error', fullfill);
+  		}
+  		function fullfill() {
+  			if (image.naturalWidth) {
+  				resolve(image);
+  			} else {
+  				reject(image);
+  			}
+  			image.removeEventListener('load', fullfill);
+  			image.removeEventListener('error', fullfill);
+  		}
+  	});
+  	promise.image = image;
+  	return promise;
+  }
+
+  var imagePromise_commonJs = load;
+
   //
 
-  var script$c = {
+  function loadImages() {
+    return imagePromise_commonJs([
+      "/images/grid/plain1.png",
+      "/images/grid/plain2.png",
+      "/images/grid/plain3.png",
+      "/images/grid/plain4.png",
+      "/images/grid/plain5.png",
+      "/images/grid/plain6.png",
+      "/images/grid/forrest1.png",
+      "/images/grid/forrest2.png"
+    ]).then(imgs => {
+      return {
+        plains: imgs.slice(0, 6),
+        forrests: [imgs[6], imgs[7]]
+      };
+    });
+  }
+
+  function centerHex(stage, center, unitPos) {
+    var margin = 100;
+    if ((stage.getX() + center.x + unitPos.x < margin || stage.getX() + center.x + unitPos.x > container.clientWidth - margin)
+      || (stage.getY() + center.y + unitPos.y < margin || stage.getY() + center.y + unitPos.y > container.clientHeight - margin)) {
+      setTimeout(() => {
+        stage.setX(-unitPos.x);
+        stage.setY(-unitPos.y);
+        //cullViews(this.visualViewport, stage, [terrainLayer, unitLayer.node, effectLayer]);
+        stage.batchDraw();
+      }, 0);
+    }
+  }
+
+  var script$h = {
     components: {
-      TerrainLayer: __vue_component__$d
+      TerrainLayer: __vue_component__$e,
+      EffectLayer: __vue_component__$f,
+      UnitLayer: __vue_component__$i
     },
     props: {
       battle: null
@@ -27347,6 +28132,18 @@
         args.center.y = args.height / 2;
         // terrainLayer.setY(center.y);
 
+        g.hexSelected();
+        var selHex = g.getSelectedHex();
+        if (selHex) {
+          var unit = g.getUnitAt(selHex.x, selHex.y);
+          if (g.isPlayerArmy(unit.id)) {
+            args.selectedHex = selHex;
+            args.unitRange = g.getSelectedHexRange();
+            args.unitState = g.getSelectedHexState();
+          }
+          centerHex(args.$refs.stage.getStage(), args.center, selHex.center);
+        }
+
         eventBus.publish("battlestarted");
 
         return g;
@@ -27357,39 +28154,82 @@
       this.width = container.clientWidth;
       this.height = container.offsetTop;
       this.center = { x: this.width / 2, y: this.height / 2 };
+
+      loadImages().then(images => {
+        this.imageShapes = {
+          plains: images.plains,
+          forrests: images.forrests
+        };
+      });
     },
     methods: {
       handleDragStart() {
-        this.listening(false);
+        this.listening = false;
       },
       handleDragEnd() {
-        this.listening(true);
+        this.listening = true;
+      },
+      hexSelected(hex) {
+        this.selectedHex = hex;
+        this.grid.hexSelected(hex);
+      },
+      hexFocused(hex) {
+        if (animator.isAnimating()) {
+          return;
+        }
+        this.focusHex = hex;
+
+        if (!hex) {
+          return;
+        }
+
+        var aUnit = null;
+        var selHex = this.grid.getSelectedHex();
+        if (selHex) {
+          aUnit = this.grid.getUnitAt(selHex.x, selHex.y);
+        }
+        var tUnit = this.grid.getUnitAt(hex.x, hex.y);
+        this.unitState = this.grid.getSelectedHexState();
+
+        if (aUnit != null && this.grid.isPlayerArmy(aUnit.id)) {
+          this.path = this.grid.getPathBetween(selHex, hex);
+          this.unitRange = this.grid.getSelectedHexRange();
+        }
+
+        if (this.unitState == "moving" || this.unitState == "turning") ; else if (this.unitState == "attacking") ;
       }
     },
     data() {
       return {
+        imageShapes: null,
+        focusHex: null,
+        selectedHex: null,
+        path: null,
+        unitState: null,
+        unitRange: null,
+        listening: true,
         width: 0,
         height: 0,
-        center: 0,
+        center: {},
         stageConfig: {
           width: this.width,
           height: this.height,
           draggable: true,
           dragBoundFunc: pos => {
-            var ratiox = window.visualViewport.width / stageWidth;
-            var ratioy = window.visualViewport.height / stageHeight;
+            var ratiox = window.visualViewport.width / this.width;
+            var ratioy = window.visualViewport.height / this.height;
             var margin = 50;
             var c = {
               x: pos.x,
               y: pos.y,
-              sx: center.x / ratiox,
-              sy: center.y / ratioy
+              sx: this.center.x / ratiox,
+              sy: this.center.y / ratioy
             };
             if (Math.abs(c.x) + margin > c.sx) {
-              c.x = this.$refs.stage.getAbsolutePosition().x;
+              c.x = this.$refs.stage.getStage().getAbsolutePosition().x;
             }
             if (Math.abs(c.y) + margin > c.sy) {
-              c.y = this.$refs.stage.getAbsolutePosition().y;
+              c.y = this.$refs.stage.getStage().getAbsolutePosition().y;
             }
             /*cullViews(window.visualViewport, this.$refs.stage, [
               terrainLayer,
@@ -27405,10 +28245,10 @@
   };
 
   /* script */
-  const __vue_script__$c = script$c;
+  const __vue_script__$h = script$h;
 
   /* template */
-  var __vue_render__$e = function() {
+  var __vue_render__$j = function() {
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -27424,10 +28264,36 @@
             on: { dragstart: _vm.handleDragStart, dragend: _vm.handleDragEnd }
           },
           [
-            _vm.hexes.length
+            _vm.hexes.length && _vm.imageShapes
               ? _c("TerrainLayer", {
                   ref: "terrainLayer",
-                  attrs: { hexes: _vm.hexes }
+                  attrs: {
+                    hexes: _vm.hexes,
+                    center: _vm.center,
+                    imageShapes: _vm.imageShapes
+                  },
+                  on: { selected: _vm.hexSelected, focused: _vm.hexFocused }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.hexes.length
+              ? _c("EffectLayer", {
+                  ref: "effectLayer",
+                  attrs: {
+                    center: _vm.center,
+                    highlight: _vm.selectedHex,
+                    focus: _vm.focusHex,
+                    path: _vm.path,
+                    range: _vm.unitRange,
+                    rangeType: _vm.unitState
+                  }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.hexes.length
+              ? _c("UnitLayer", {
+                  ref: "unitLayer",
+                  attrs: { hexes: _vm.hexes, center: _vm.center }
                 })
               : _vm._e()
           ],
@@ -27437,17 +28303,17 @@
       1
     )
   };
-  var __vue_staticRenderFns__$e = [];
-  __vue_render__$e._withStripped = true;
+  var __vue_staticRenderFns__$j = [];
+  __vue_render__$j._withStripped = true;
 
     /* style */
-    const __vue_inject_styles__$e = undefined;
+    const __vue_inject_styles__$j = undefined;
     /* scoped */
-    const __vue_scope_id__$e = undefined;
+    const __vue_scope_id__$j = undefined;
     /* module identifier */
-    const __vue_module_identifier__$e = undefined;
+    const __vue_module_identifier__$j = undefined;
     /* functional template */
-    const __vue_is_functional_template__$e = false;
+    const __vue_is_functional_template__$j = false;
     /* style inject */
     
     /* style inject SSR */
@@ -27456,13 +28322,13 @@
     
 
     
-    const __vue_component__$e = normalizeComponent(
-      { render: __vue_render__$e, staticRenderFns: __vue_staticRenderFns__$e },
-      __vue_inject_styles__$e,
-      __vue_script__$c,
-      __vue_scope_id__$e,
-      __vue_is_functional_template__$e,
-      __vue_module_identifier__$e,
+    const __vue_component__$j = normalizeComponent(
+      { render: __vue_render__$j, staticRenderFns: __vue_staticRenderFns__$j },
+      __vue_inject_styles__$j,
+      __vue_script__$h,
+      __vue_scope_id__$j,
+      __vue_is_functional_template__$j,
+      __vue_module_identifier__$j,
       false,
       undefined,
       undefined,
@@ -27706,10 +28572,10 @@
 
   //
 
-  var script$d = {
+  var script$i = {
     components: {
       Menu: __vue_component__$c,
-      GameStage: __vue_component__$e
+      GameStage: __vue_component__$j
     },
     data: function() {
       return {
@@ -27724,10 +28590,10 @@
   };
 
   /* script */
-  const __vue_script__$d = script$d;
+  const __vue_script__$i = script$i;
 
   /* template */
-  var __vue_render__$f = function() {
+  var __vue_render__$k = function() {
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -27742,17 +28608,17 @@
       1
     )
   };
-  var __vue_staticRenderFns__$f = [];
-  __vue_render__$f._withStripped = true;
+  var __vue_staticRenderFns__$k = [];
+  __vue_render__$k._withStripped = true;
 
     /* style */
-    const __vue_inject_styles__$f = undefined;
+    const __vue_inject_styles__$k = undefined;
     /* scoped */
-    const __vue_scope_id__$f = undefined;
+    const __vue_scope_id__$k = undefined;
     /* module identifier */
-    const __vue_module_identifier__$f = undefined;
+    const __vue_module_identifier__$k = undefined;
     /* functional template */
-    const __vue_is_functional_template__$f = false;
+    const __vue_is_functional_template__$k = false;
     /* style inject */
     
     /* style inject SSR */
@@ -27761,13 +28627,13 @@
     
 
     
-    const __vue_component__$f = normalizeComponent(
-      { render: __vue_render__$f, staticRenderFns: __vue_staticRenderFns__$f },
-      __vue_inject_styles__$f,
-      __vue_script__$d,
-      __vue_scope_id__$f,
-      __vue_is_functional_template__$f,
-      __vue_module_identifier__$f,
+    const __vue_component__$k = normalizeComponent(
+      { render: __vue_render__$k, staticRenderFns: __vue_staticRenderFns__$k },
+      __vue_inject_styles__$k,
+      __vue_script__$i,
+      __vue_scope_id__$k,
+      __vue_is_functional_template__$k,
+      __vue_module_identifier__$k,
       false,
       undefined,
       undefined,
@@ -27775,7 +28641,7 @@
     );
 
   //
-  var script$e = {
+  var script$j = {
     components: {
       Title: __vue_component__$4,
       Panel: __vue_component__$3
@@ -27784,10 +28650,10 @@
   };
 
   /* script */
-  const __vue_script__$e = script$e;
+  const __vue_script__$j = script$j;
 
   /* template */
-  var __vue_render__$g = function() {
+  var __vue_render__$l = function() {
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -27812,34 +28678,34 @@
       1
     )
   };
-  var __vue_staticRenderFns__$g = [];
-  __vue_render__$g._withStripped = true;
+  var __vue_staticRenderFns__$l = [];
+  __vue_render__$l._withStripped = true;
 
     /* style */
-    const __vue_inject_styles__$g = function (inject) {
+    const __vue_inject_styles__$l = function (inject) {
       if (!inject) return
       inject("data-v-31952736_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$g = "data-v-31952736";
+    const __vue_scope_id__$l = "data-v-31952736";
     /* module identifier */
-    const __vue_module_identifier__$g = undefined;
+    const __vue_module_identifier__$l = undefined;
     /* functional template */
-    const __vue_is_functional_template__$g = false;
+    const __vue_is_functional_template__$l = false;
     /* style inject SSR */
     
     /* style inject shadow dom */
     
 
     
-    const __vue_component__$g = normalizeComponent(
-      { render: __vue_render__$g, staticRenderFns: __vue_staticRenderFns__$g },
-      __vue_inject_styles__$g,
-      __vue_script__$e,
-      __vue_scope_id__$g,
-      __vue_is_functional_template__$g,
-      __vue_module_identifier__$g,
+    const __vue_component__$l = normalizeComponent(
+      { render: __vue_render__$l, staticRenderFns: __vue_staticRenderFns__$l },
+      __vue_inject_styles__$l,
+      __vue_script__$j,
+      __vue_scope_id__$l,
+      __vue_is_functional_template__$l,
+      __vue_module_identifier__$l,
       false,
       createInjector,
       undefined,
@@ -27847,7 +28713,7 @@
     );
 
   //
-  var script$f = {
+  var script$k = {
     components: {
       Title: __vue_component__$4,
       Panel: __vue_component__$3
@@ -27855,10 +28721,10 @@
   };
 
   /* script */
-  const __vue_script__$f = script$f;
+  const __vue_script__$k = script$k;
 
   /* template */
-  var __vue_render__$h = function() {
+  var __vue_render__$m = function() {
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -27881,34 +28747,34 @@
       1
     )
   };
-  var __vue_staticRenderFns__$h = [];
-  __vue_render__$h._withStripped = true;
+  var __vue_staticRenderFns__$m = [];
+  __vue_render__$m._withStripped = true;
 
     /* style */
-    const __vue_inject_styles__$h = function (inject) {
+    const __vue_inject_styles__$m = function (inject) {
       if (!inject) return
       inject("data-v-5c47c5cc_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$h = "data-v-5c47c5cc";
+    const __vue_scope_id__$m = "data-v-5c47c5cc";
     /* module identifier */
-    const __vue_module_identifier__$h = undefined;
+    const __vue_module_identifier__$m = undefined;
     /* functional template */
-    const __vue_is_functional_template__$h = false;
+    const __vue_is_functional_template__$m = false;
     /* style inject SSR */
     
     /* style inject shadow dom */
     
 
     
-    const __vue_component__$h = normalizeComponent(
-      { render: __vue_render__$h, staticRenderFns: __vue_staticRenderFns__$h },
-      __vue_inject_styles__$h,
-      __vue_script__$f,
-      __vue_scope_id__$h,
-      __vue_is_functional_template__$h,
-      __vue_module_identifier__$h,
+    const __vue_component__$m = normalizeComponent(
+      { render: __vue_render__$m, staticRenderFns: __vue_staticRenderFns__$m },
+      __vue_inject_styles__$m,
+      __vue_script__$k,
+      __vue_scope_id__$m,
+      __vue_is_functional_template__$m,
+      __vue_module_identifier__$m,
       false,
       createInjector,
       undefined,
@@ -27930,9 +28796,9 @@
       { path: '/tutorial', component: __vue_component__$9, beforeEnter: ifAuthenticated },
       { path: '/start', component: __vue_component__$a, beforeEnter: ifAuthenticated },
       { path: '/battle', component: __vue_component__$b, beforeEnter: ifAuthenticated },
-      { path: '/single', component: __vue_component__$f, beforeEnter: ifAuthenticated },
-      { path: "/error", name: 'error', component: __vue_component__$g, props: true },
-      { path: "*", component: __vue_component__$h }
+      { path: '/single', component: __vue_component__$k, beforeEnter: ifAuthenticated },
+      { path: "/error", name: 'error', component: __vue_component__$l, props: true },
+      { path: "*", component: __vue_component__$m }
   ];
 
   const router = new VueRouter({

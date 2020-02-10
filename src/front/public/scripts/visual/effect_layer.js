@@ -1,38 +1,38 @@
 function createEffectLayer(center) {
-  var layer = new Konva.FastLayer();
+    var layer = new Konva.FastLayer();
 
-  function getMoveLinePoints(path) {
-    var linepoints = path.map(h => h.center).reduce((acc, curr) => acc.concat([center.x + curr.x, center.y + curr.y]), []);
-    return linepoints;
-  }
-
-  layer.drawPath = (path) => {
-    var moveLines = layer.find('.move_line');
-    moveLines.each(line => {
-      line.remove();
-      line.destroy();
-    });
-
-    var linepoints = getMoveLinePoints(path, center);
-    if (linepoints && linepoints.length) {
-      var moveLine = createMoveLineVisual(linepoints);
-      layer.add(moveLine);
+    function getMoveLinePoints(path) {
+        var linepoints = path.map(h => h.center).reduce((acc, curr) => acc.concat([center.x + curr.x, center.y + curr.y]), []);
+        return linepoints;
     }
-    layer.draw();
-  };
 
-  var overNodes = [];
+    layer.drawPath = (path) => {
+        var moveLines = layer.find('.move_line');
+        moveLines.each(line => {
+            line.remove();
+            line.destroy();
+        });
+
+        var linepoints = getMoveLinePoints(path, center);
+        if (linepoints && linepoints.length) {
+            var moveLine = createMoveLineVisual(linepoints);
+            layer.add(moveLine);
+        }
+        layer.draw();
+    };
+
+    var overNodes = [];
 
     layer.highlightNode = (hexes) => {
-        if (overNodes.length){
-            for (var i = 0; i < overNodes.length; i++){
+        if (overNodes.length) {
+            for (var i = 0; i < overNodes.length; i++) {
                 overNodes[i].remove();
                 overNodes[i].destroy();
             }
             overNodes = [];
         }
-        if (hexes){
-            for (var i = 0; i < hexes.length; i++){
+        if (hexes) {
+            for (var i = 0; i < hexes.length; i++) {
                 var node = createHexVisual();
                 node.position({
                     x: center.x + hexes[i].center.x,
@@ -48,10 +48,10 @@ function createEffectLayer(center) {
         layer.draw();
     };
 
-    function highlightMoveRange (hexes) {
+    function highlightMoveRange(hexes) {
         layer.destroyChildren();
-        if (hexes){
-            for (var i = 0; i < hexes.length; i++){
+        if (hexes) {
+            for (var i = 0; i < hexes.length; i++) {
                 var node = createHexVisual();
                 node.position({
                     x: center.x + hexes[i].center.x,
@@ -65,10 +65,10 @@ function createEffectLayer(center) {
         }
     };
 
-    function highlightTurnRange (hexes) {
+    function highlightTurnRange(hexes) {
         layer.destroyChildren();
-        if (hexes){
-            for (var i = 0; i < hexes.length; i++){
+        if (hexes) {
+            for (var i = 0; i < hexes.length; i++) {
                 var node = createHexVisual();
                 node.position({
                     x: center.x + hexes[i].center.x,
@@ -82,10 +82,10 @@ function createEffectLayer(center) {
         }
     };
 
-    function highlightAttackRange (hexes) {
+    function highlightAttackRange(hexes) {
         layer.destroyChildren();
-        if (hexes){
-            for (var i = 0; i < hexes.length; i++){
+        if (hexes) {
+            for (var i = 0; i < hexes.length; i++) {
                 var node = createHexVisual(hexes[i]);
                 node.position({
                     x: center.x + hexes[i].center.x,
@@ -100,7 +100,7 @@ function createEffectLayer(center) {
     };
 
     layer.highlightRange = (hexes, highlightType) => {
-        switch(highlightType){
+        switch (highlightType) {
             case "moving":
                 highlightMoveRange(hexes, center);
                 break;
@@ -113,13 +113,13 @@ function createEffectLayer(center) {
             default:
                 layer.destroyChildren();
         }
-        if (overNodes.length){
-            for (var i = 0; i < overNodes.length; i++){
+        if (overNodes.length) {
+            for (var i = 0; i < overNodes.length; i++) {
                 layer.add(overNodes[i]);
             }
         }
         layer.draw();
     };
 
-  return layer;
+    return layer;
 }
