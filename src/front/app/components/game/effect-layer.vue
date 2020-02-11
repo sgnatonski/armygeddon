@@ -27,17 +27,20 @@
 
 <script>
 import Hex from "./hex.vue";
+import { getters, actions } from "../../stores/battle";
 export default {
   components: {
     Hex
   },
   props: {
-    center: Object,
     highlight: Object,
     focus: Object,
     path: Array,
     range: Array,
     rangeType: String
+  },
+  computed:{
+    center: () => getters.center()
   },
   methods: {
       getFill(){

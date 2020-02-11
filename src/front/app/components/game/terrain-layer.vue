@@ -34,15 +34,16 @@
 
 <script>
 import Hex from "./hex.vue";
+import { getters, actions } from "../../stores/battle";
 
 export default {
   components: {
     Hex
   },
-  props: {
-    hexes: null,
-    center: null,
-    imageShapes: null
+  computed:{
+    imageShapes: () => getters.imageShapes(),
+    center: () => getters.center(),
+    hexes: () => getters.grid() ? getters.grid().getHexes() : []
   },
   methods: {
     getHexTerrainImage(hex) {

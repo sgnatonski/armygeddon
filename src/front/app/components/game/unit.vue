@@ -19,23 +19,7 @@
         opacity: 0.35,
         perfectDrawEnabled : false,
         strokeHitEnabled: false,
-        sceneFunc: (context, shape) => {
-            if (!unit.armor){
-                return;
-            }
-            var x = 0;
-            if (unit.directions.length > 1){
-                x = 1;
-            }
-            var rotation = -30 + (unit.directions[0] - 1) * 60 - (x * 60);
-            var angle = 60 * unit.directions.length;
-            context.rotate(Konva.getAngle(rotation));
-            context.beginPath();
-            context.arc(0, 0, 32, 0, Konva.getAngle(angle), false);
-            context.lineTo(0, 0);
-            context.closePath();
-            context.fillStrokeShape(shape);
-        }
+        sceneFunc: (ctx, shp) => directionSceneFunc(ctx, shp, unit)
     }"
     ></konva-path>
     <konva-path
@@ -85,17 +69,7 @@
       ></konva-rect>
       <konva-shape
         :config="{
-        sceneFunc: (context, shape) => {
-            var fillValue = unit.endurance / unit.lifetime.endurance;
-            if (fillValue < 0){
-                fillValue = 0;
-            }
-            var off = Math.floor(30 * fillValue);
-            context.beginPath();
-            context.rect(0, 30 - off, 2, off);
-            context.closePath();
-            context.fillStrokeShape(shape);
-            },
+        sceneFunc: (ctx, shp) => healthSceneFunc(ctx, shp, unit),
         fill: 'green',
         stroke: 'black',
         strokeWidth: 0.5,
@@ -117,10 +91,39 @@ export default {
   props: {
     center: Object,
     hexCenter: Object,
-    unit: Object
+    unit: Object,
+    color: String
   },
   methods: {
     getShape: getShape,
+    directionSceneFunc: (context, shape, unit) => {
+      if (!unit.armor) {
+        return;
+      }
+      var x = 0;
+      if (unit.directions.length > 1) {
+        x = 1;
+      }
+      var rotation = -30 + (unit.directions[0] - 1) * 60 - x * 60;
+      var angle = 60 * unit.directions.length;
+      context.rotate(window.Konva.getAngle(rotation));
+      context.beginPath();
+      context.arc(0, 0, 32, 0, window.Konva.getAngle(angle), false);
+      context.lineTo(0, 0);
+      context.closePath();
+      context.fillStrokeShape(shape);
+    },
+    healthSceneFunc: (context, shape, unit) => {
+      var fillValue = unit.endurance / unit.lifetime.endurance;
+      if (fillValue < 0) {
+        fillValue = 0;
+      }
+      var off = Math.floor(30 * fillValue);
+      context.beginPath();
+      context.rect(0, 30 - off, 2, off);
+      context.closePath();
+      context.fillStrokeShape(shape);
+    }
   }
 };
 </script>

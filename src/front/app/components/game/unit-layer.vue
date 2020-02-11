@@ -1,29 +1,39 @@
 <template>
-  <konva-fast-layer ref="layer">
-      <Unit
+  <konva-layer ref="layer"
+    :config="{
+        hitGraphEnabled : false
+    }">
+    <Unit
       v-for="hex in hexes"
       :key="hex.x + ':' + hex.y"
       :center="center"
       :hexCenter="hex.center"
-      />
-    >
-  </konva-fast-layer>
+      :unit="getUnit(hex)"
+      :color="getUnitColor(hex)"
+    />>
+  </konva-layer>
 </template>
 
 <script>
 import Unit from "./unit.vue";
+import { getters, actions } from "../../stores/battle";
+
 export default {
   components: {
     Unit
   },
-  data() {
-    return {
-      unitHexes: this.hexes.map(x => x)
-    };
+  computed:{
+    center: () => getters.center(),
+    hexes: () => getters.grid() ? getters.grid().getHexes().filter(h => getters.grid().getUnitAt(h.x, h.y)) : []
   },
-  props: {
-    hexes: null,
-    center: Object
+  methods: {
+    getUnit: (hex) => getters.grid().getUnitAt(hex.x, hex.y),
+    getUnitColor(hex) {
+      var armyColors = ["#00cc00", "#c80b04"];
+      var unit = actions.getUnitAt(hex.x, hex.y);
+      var isPlayerArmy = actions.isPlayerArmy(unit);
+      return isPlayerArmy ? armyColors[0] : armyColors[1];
+    }
   }
 };
 </script>

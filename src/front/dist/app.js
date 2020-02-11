@@ -23845,6 +23845,11 @@
     return parsed;
   };
 
+  var isValidXss = function isValidXss(requestURL) {
+    var xssRegex = /(\b)(on\w+)=|javascript|(<\s*)(\/*)script/gi;
+    return xssRegex.test(requestURL);
+  };
+
   var isURLSameOrigin = (
     utils.isStandardBrowserEnv() ?
 
@@ -23863,6 +23868,10 @@
       */
         function resolveURL(url) {
           var href = url;
+
+          if (isValidXss(url)) {
+            throw new Error('URL contains XSS injection attempt');
+          }
 
           if (msie) {
           // IE needs attribute set twice to normalize properties
@@ -24819,11 +24828,11 @@
     /* style */
     const __vue_inject_styles__ = function (inject) {
       if (!inject) return
-      inject("data-v-16e31f62_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-7d873a31_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__ = "data-v-16e31f62";
+    const __vue_scope_id__ = "data-v-7d873a31";
     /* module identifier */
     const __vue_module_identifier__ = undefined;
     /* functional template */
@@ -24912,11 +24921,11 @@
     /* style */
     const __vue_inject_styles__$1 = function (inject) {
       if (!inject) return
-      inject("data-v-0c96d458_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-7ebdd8b6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$1 = "data-v-0c96d458";
+    const __vue_scope_id__$1 = "data-v-7ebdd8b6";
     /* module identifier */
     const __vue_module_identifier__$1 = undefined;
     /* functional template */
@@ -25040,11 +25049,11 @@
     /* style */
     const __vue_inject_styles__$2 = function (inject) {
       if (!inject) return
-      inject("data-v-3f3cd12b_0", { source: "\n.user[data-v-3f3cd12b]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-3501618d_0", { source: "\n.user[data-v-3501618d]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$2 = "data-v-3f3cd12b";
+    const __vue_scope_id__$2 = "data-v-3501618d";
     /* module identifier */
     const __vue_module_identifier__$2 = undefined;
     /* functional template */
@@ -25150,7 +25159,7 @@
     /* style */
     const __vue_inject_styles__$3 = function (inject) {
       if (!inject) return
-      inject("data-v-e244cfdc_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-1bd59c18_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -25248,7 +25257,7 @@
     /* style */
     const __vue_inject_styles__$4 = function (inject) {
       if (!inject) return
-      inject("data-v-027f9268_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 6px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: pulsate-anim 0.8s ease-in-out infinite both;\n}\n@keyframes pulsate-anim {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 52%;\n}\n50% {\r\n    background-position: 100% 68%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 56%;\n}\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-27dffaaa_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 6px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: pulsate-anim 0.8s ease-in-out infinite both;\n}\n@keyframes pulsate-anim {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 52%;\n}\n50% {\r\n    background-position: 100% 68%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 56%;\n}\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -25330,11 +25339,11 @@
     /* style */
     const __vue_inject_styles__$5 = function (inject) {
       if (!inject) return
-      inject("data-v-ecd262ce_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-77a6eb12_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$5 = "data-v-ecd262ce";
+    const __vue_scope_id__$5 = "data-v-77a6eb12";
     /* module identifier */
     const __vue_module_identifier__$5 = undefined;
     /* functional template */
@@ -25400,11 +25409,11 @@
     /* style */
     const __vue_inject_styles__$6 = function (inject) {
       if (!inject) return
-      inject("data-v-50cf9cee_0", { source: "\np[data-v-50cf9cee] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-0420eeeb_0", { source: "\np[data-v-0420eeeb] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$6 = "data-v-50cf9cee";
+    const __vue_scope_id__$6 = "data-v-0420eeeb";
     /* module identifier */
     const __vue_module_identifier__$6 = undefined;
     /* functional template */
@@ -25595,11 +25604,11 @@
     /* style */
     const __vue_inject_styles__$7 = function (inject) {
       if (!inject) return
-      inject("data-v-22778218_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-6e634d14_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$7 = "data-v-22778218";
+    const __vue_scope_id__$7 = "data-v-6e634d14";
     /* module identifier */
     const __vue_module_identifier__$7 = undefined;
     /* functional template */
@@ -25850,11 +25859,11 @@
     /* style */
     const __vue_inject_styles__$8 = function (inject) {
       if (!inject) return
-      inject("data-v-c3d4d9ac_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-18958e08_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$8 = "data-v-c3d4d9ac";
+    const __vue_scope_id__$8 = "data-v-18958e08";
     /* module identifier */
     const __vue_module_identifier__$8 = undefined;
     /* functional template */
@@ -25901,11 +25910,11 @@
     /* style */
     const __vue_inject_styles__$9 = function (inject) {
       if (!inject) return
-      inject("data-v-149f3524_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-2ebcd5f4_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$9 = "data-v-149f3524";
+    const __vue_scope_id__$9 = "data-v-2ebcd5f4";
     /* module identifier */
     const __vue_module_identifier__$9 = undefined;
     /* functional template */
@@ -26028,11 +26037,11 @@
     /* style */
     const __vue_inject_styles__$a = function (inject) {
       if (!inject) return
-      inject("data-v-d0273bd8_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-d4169814_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$a = "data-v-d0273bd8";
+    const __vue_scope_id__$a = "data-v-d4169814";
     /* module identifier */
     const __vue_module_identifier__$a = undefined;
     /* functional template */
@@ -26082,11 +26091,11 @@
     /* style */
     const __vue_inject_styles__$b = function (inject) {
       if (!inject) return
-      inject("data-v-76e7e0f6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-8bfb4e50_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$b = "data-v-76e7e0f6";
+    const __vue_scope_id__$b = "data-v-8bfb4e50";
     /* module identifier */
     const __vue_module_identifier__$b = undefined;
     /* functional template */
@@ -26178,35 +26187,50 @@
   //
   //
   //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
 
   var script$b = {
-      props: {
-          x: Number,
-          y: Number,
-          fill: String,
-          opacity: Number
+    props: {
+      stageOffset: Object
+    },
+    watch: {
+      // whenever stageX changes, this function will run
+      stageOffset: function(newOffset, oldOffset) {
+        var stage = this.$children[0].getStage();
+        var layers = stage.children
+          .forEach(l => this.cullView(this.$el, stage, l));
       }
+    },
+    mounted() {},
+    methods: {
+      cullView(container, stage, layer) {
+        var c = layer.children;
+        var cullMargin = 20;
+        var boundingX =
+          -1 * stage.getAbsolutePosition().x - layer.getX() - cullMargin;
+        var boundingY =
+          -1 * stage.getAbsolutePosition().y - layer.getY() - cullMargin;
+        var boundingWidth = container.clientWidth + cullMargin * 2;
+        var boundingHeight = container.clientHeight + cullMargin * 2;
+        var x = 0;
+        var y = 0;
+        for (var i = 0; i < c.length; i++) {
+          x = c[i].getX();
+          y = c[i].getY();
+          if (
+            x > boundingX &&
+            x < boundingX + boundingWidth &&
+            y > boundingY &&
+            y < boundingY + boundingHeight
+          ) {
+            if (!c[i].visible()) {
+              c[i].show();
+            }
+          } else {
+            c[i].hide();
+          }
+        }
+      }
+    }
   };
 
   /* script */
@@ -26217,32 +26241,7 @@
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
-    return _c("konva-shape", {
-      attrs: {
-        config: {
-          sceneFunc: function(context, shape) {
-            context.beginPath();
-            context.moveTo(0, 30);
-            context.lineTo(-26, 15);
-            context.lineTo(-26, -15);
-            context.lineTo(0, -30);
-            context.lineTo(26, -15);
-            context.lineTo(26, 15);
-            context.closePath();
-            context.fillStrokeShape(shape);
-          },
-          stroke: "#113311",
-          strokeWidth: 0.7,
-          strokeHitEnabled: false,
-          perfectDrawEnabled: false,
-          fill: _vm.fill,
-          opacity: _vm.opacity,
-          listening: false,
-          x: _vm.x,
-          y: _vm.y
-        }
-      }
-    })
+    return _c("div", { ref: "slot" }, [_vm._t("default")], 2)
   };
   var __vue_staticRenderFns__$d = [];
   __vue_render__$d._withStripped = true;
@@ -26277,38 +26276,40 @@
     );
 
   //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
 
   var script$c = {
-    components: {
-      Hex: __vue_component__$d
-    },
-    props: {
-      hexes: null,
-      center: null,
-      imageShapes: null
-    },
-    methods: {
-      getHexTerrainImage(hex) {
-        if (hex.cost < 0) {
-          return;
-        } else if (hex.cost == 1) {
-          var gNumber = Math.floor(Math.random() * 6);
-          return this.imageShapes.plains[gNumber];
-        } else {
-          var gNumber = Math.floor(Math.random() * 2);
-          return this.imageShapes.forrests[gNumber];
-        }
-      },
-      hexSelected(evt, hex) {
-        this.$emit("selected", hex);
-      },
-      hexFocused(evt, hex) {
-        this.$emit("focused", hex);
-      },
-      hexUnfocused(evt) {
-        //this.$emit("focused", null);
+      props: {
+          x: Number,
+          y: Number,
+          fill: String,
+          opacity: Number
       }
-    }
   };
 
   /* script */
@@ -26319,61 +26320,32 @@
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
-    return _c(
-      "konva-layer",
-      { ref: "layer" },
-      _vm._l(_vm.hexes, function(hex) {
-        return _c(
-          "konva-group",
-          {
-            key: hex.x + ":" + hex.y,
-            attrs: {
-              config: {
-                x: _vm.center.x + hex.center.x,
-                y: _vm.center.y + hex.center.y
-              }
-            },
-            on: {
-              click: function(evt) {
-                return _vm.hexSelected(evt, hex)
-              },
-              dbltap: function(evt) {
-                return _vm.hexSelected(evt, hex)
-              },
-              mouseenter: function(evt) {
-                return _vm.hexFocused(evt, hex)
-              },
-              mouseleave: function(evt) {
-                return _vm.hexUnfocused(evt, hex)
-              }
-            }
+    return _c("konva-shape", {
+      attrs: {
+        config: {
+          sceneFunc: function(context, shape) {
+            context.beginPath();
+            context.moveTo(0, 30);
+            context.lineTo(-26, 15);
+            context.lineTo(-26, -15);
+            context.lineTo(0, -30);
+            context.lineTo(26, -15);
+            context.lineTo(26, 15);
+            context.closePath();
+            context.fillStrokeShape(shape);
           },
-          [
-            _c("konva-image", {
-              attrs: {
-                config: {
-                  image: _vm.getHexTerrainImage(hex),
-                  width: 70,
-                  height: 70,
-                  offset: {
-                    x: 35,
-                    y: 35
-                  },
-                  opacity: 0.99,
-                  rotation: 30,
-                  listening: true,
-                  perfectDrawEnabled: false
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("Hex")
-          ],
-          1
-        )
-      }),
-      1
-    )
+          stroke: "#113311",
+          strokeWidth: 0.7,
+          strokeHitEnabled: false,
+          perfectDrawEnabled: false,
+          fill: _vm.fill,
+          opacity: _vm.opacity,
+          listening: false,
+          x: _vm.x,
+          y: _vm.y
+        }
+      }
+    })
   };
   var __vue_staticRenderFns__$e = [];
   __vue_render__$e._withStripped = true;
@@ -26407,651 +26379,124 @@
       undefined
     );
 
-  //
-  var script$d = {
-    components: {
-      Hex: __vue_component__$d
-    },
-    props: {
-      center: Object,
-      highlight: Object,
-      focus: Object,
-      path: Array,
-      range: Array,
-      rangeType: String
-    },
-    methods: {
-        getFill(){
-            switch(this.rangeType){
-                case 'moving': return '#ffffff';
-                case 'turning': return '#ffad33';
-                case 'attacking': return '#DD1111';
-            }
-        },
-        getOpacity(){
-            switch(this.rangeType){
-                case 'moving': return 0.15;
-                case 'turning': return 0.15;
-                case 'attacking': return 0.5;
-            }
-        }
-    }
-  };
-
-  /* script */
-  const __vue_script__$d = script$d;
-
-  /* template */
-  var __vue_render__$f = function() {
-    var _vm = this;
-    var _h = _vm.$createElement;
-    var _c = _vm._self._c || _h;
-    return _c(
-      "konva-fast-layer",
-      { ref: "layer" },
-      [
-        _vm.highlight
-          ? _c("Hex", {
-              attrs: {
-                x: _vm.center.x + _vm.highlight.center.x,
-                y: _vm.center.y + _vm.highlight.center.y,
-                fill: "#ffffff",
-                opacity: 0.35
-              }
-            })
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.focus
-          ? _c("Hex", {
-              attrs: {
-                x: _vm.center.x + _vm.focus.center.x,
-                y: _vm.center.y + _vm.focus.center.y,
-                fill: "#ffffff",
-                opacity: 0.35
-              }
-            })
-          : _vm._e(),
-        _vm._v(" "),
-        _vm._l(_vm.range, function(hex) {
-          return _c("Hex", {
-            key: hex.x + ":" + hex.y,
-            attrs: {
-              x: _vm.center.x + hex.center.x,
-              y: _vm.center.y + hex.center.y,
-              fill: _vm.getFill(),
-              opacity: _vm.getOpacity()
-            }
-          })
-        })
-      ],
-      2
-    )
-  };
-  var __vue_staticRenderFns__$f = [];
-  __vue_render__$f._withStripped = true;
-
-    /* style */
-    const __vue_inject_styles__$f = undefined;
-    /* scoped */
-    const __vue_scope_id__$f = undefined;
-    /* module identifier */
-    const __vue_module_identifier__$f = undefined;
-    /* functional template */
-    const __vue_is_functional_template__$f = false;
-    /* style inject */
-    
-    /* style inject SSR */
-    
-    /* style inject shadow dom */
-    
-
-    
-    const __vue_component__$f = normalizeComponent(
-      { render: __vue_render__$f, staticRenderFns: __vue_staticRenderFns__$f },
-      __vue_inject_styles__$f,
-      __vue_script__$d,
-      __vue_scope_id__$f,
-      __vue_is_functional_template__$f,
-      __vue_module_identifier__$f,
-      false,
-      undefined,
-      undefined,
-      undefined
-    );
-
-  function getShape(id) {
-      switch (id) {
-          case 'unitBack':
-              return 'M 316 308 c -11 0 -22 -7 -26 -17 l -2 -5 l 45 -7 a 6 6 0 0 0 5 -7 c -6 -37 -7 -76 -3 -113 l 1 -12 a 107 107 0 0 0 -74 -114 c -13 -4 -23 -15 -26 -29 c 0 -2 -2 -4 -5 -4 a 6 6 0 0 0 -5 5 c -3 13 -13 24 -26 28 a 106 106 0 0 0 -74 114 l 1 12 a 415 415 0 0 1 -2 117 l 4 3 l 48 7 l -2 5 c -5 10 -15 17 -27 17 h -2 c -32 0 -58 26 -58 58 v 91 c 0 3 2 5 5 5 h 276 c 3 0 5 -2 5 -5 v -91 c 0 -32 -26 -58 -58 -58 z';
-          case 'unitPath':
-              return 'M316 308c-11 0-22-7-26-17l-2-5 45-7a6 6 0 0 0 5-7c-6-37-7-76-3-113l1-12a107 107 0 0 0-74-114c-13-4-23-15-26-29 0-2-2-4-5-4a6 6 0 0 0-5 5c-3 13-13 24-26 28a106 106 0 0 0-74 114l1 12a415 415 0 0 1-2 117l4 3 48 7-2 5c-5 10-15 17-27 17h-2c-32 0-58 26-58 58v91c0 3 2 5 5 5h276c3 0 5-2 5-5v-91c0-32-26-58-58-58zm47 58v59a61 61 0 0 1-70-60c0-18 8-35 22-46h1c26 0 47 21 47 47zm-132-63c-14 0-27-5-37-14l17 3a5 5 0 0 0 7-7l-2-10a66 66 0 0 0 30 0l-1 10a6 6 0 0 0 6 7l17-3c-10 9-23 14-37 14zm18-40a55 55 0 0 1-35 0l-14-75c-1-3-3-4-6-4h-16a19 19 0 0 1-20-21c0-10 9-19 20-19h106a19 19 0 0 1 20 20c0 11-9 20-20 20h-16c-3 0-5 1-6 4l-13 75zM138 157l-1-11a96 96 0 0 1 66-103c9-2 17-8 23-14v86a6 6 0 0 0 11 0V29c5 6 13 12 22 14a95 95 0 0 1 66 103l-1 11c-4 37-3 75 2 112l-69 11 15-85h12c17 0 31-14 31-30a30 30 0 0 0-31-32H178c-16 0-30 14-31 30a30 30 0 0 0 31 32h12l15 85-69-11c6-37 6-75 2-112zm8 162h1c14 11 22 28 22 46a61 61 0 0 1-70 60v-59c0-26 21-47 47-47zM99 436a72 72 0 0 0 81-71c0-18-7-35-19-48 10-4 19-11 24-22 11 11 25 18 40 19v137H99v-15zm137 15V314c17-1 32-9 43-21l1 2c4 10 12 17 22 21a72 72 0 0 0 62 120v15H235z';
-          case 'inf1':
-              return 'M237.3 60.5c-4.7 3.5-68.5 51-150.2 67.3-10.8 188.8 150 286.5 150.2 286.4 0 0 161-97.6 150.2-286.4-81.8-16.3-150.2-67.3-150.2-67.3z';
-          case 'inf2':
-              return 'M440.6 97.4a12.6 12.6 0 0 0-10-11.6c-99.8-20-185-82.7-185.8-83.3a12.6 12.6 0 0 0-15.2 0C226.3 5.2 146.2 65.4 44 85.9c-5.6 1.1-9.8 6-10.1 11.6-8.2 143.4 59 246.6 117 307.9a479.7 479.7 0 0 0 73 63c7 4.8 9.1 6.1 13 6.2h.5c4 0 6.3-1.5 12.4-5.7a473 473 0 0 0 65.3-54.7c37.3-37.5 67-79.4 88.3-124.3a392.4 392.4 0 0 0 37.2-192.4zm-110.4 262a442 442 0 0 1-93 87.5 442 442 0 0 1-92.8-87.5c-60-75.2-88.8-159.6-85.8-251C145 89 214.8 44 237.3 28.2c22.9 15.8 94 61.1 178.6 80.4 3 91.3-25.8 175.7-85.7 250.9z';
-          case 'arch':
-              return 'M301.3 246.2l-55.7-19s-2.3-1.1-3.2-2L188 170.8c-1.1-.7-.4-1.8 0-2.2L288.5 68.1c24.1-24.1 14.5-46.3-8.3-23.5-6 6-18.3 6.2-33.6 3l-10.2-2.4C200.9 37 161 27.8 101 82.1c-.3.3-1.1 1.2-2.4-.1C87 70.4 78 61 69.8 52.7c-1.8-1.9-.4-3.1-.4-3.1l4.4-4.4c5.5-5.5 4.2-12.6-2.8-15.9l-61-28C3-2 0 1.2 3.1 8.2l28 61c3.3 7 10.5 8.3 16 2.8l3.4-3.5s2-2.5 4-.5l28.4 28.4c1.5 1.3 1.3 2.4 1 2.7-56 61.2-45.6 108.2-37.2 146.3l.4 1.8c3.7 16.7 2.2 29.9-5.8 37.9-17.3 17.3-11.2 41.4 26.4 3.8l103-103c.3-.2.9-.7 2 .3l54.6 54.6c.7.7 1.7 2.9 1.7 2.9l19 55.8c2.6 7.4 7.1 7.5 10.2.4l7.5-17.5c3-7.2 11.4-15.5 18.5-18.5l17.5-7.5c7.2-3.1 7-7.7-.4-10.2zM231 69c3.5.8 7 1.7 10.7 2.4 4.3 1 8.4 1.6 12.3 2L173.2 154c-1.1 1-2.2-.2-2.2-.2l-52.5-52.6c-.9-1-.5-1.6-.2-1.9 49.9-45 80.4-37.9 112.6-30.4zm-158 185.3c-.3-3.9-1-8-2-12.4l-.4-1.8c-7.8-35.6-16-72.4 30.7-123.7.3-.3 1.2-.6 2 .3l53 53s.5.9-.3 1.7l-83 83z';
-          case 'cav1':
-              return 'M82.2 50c-.5-.2-13.1-3-12.6-22.7.3-10.7-6.3-18.8-19.2-23.5A69.4 69.4 0 0 0 31.7 0a3 3 0 0 0-2.9 2.3 3 3 0 0 0-2.3 2l-.6 2-1.7-1.7a3 3 0 0 0-3.4-.6l-1.2.6a3 3 0 0 0-1.7 3l.1 1.5c.1 1.4.2 3 .7 4.6.4 1.3.3 2.2-.5 3.4A20.5 20.5 0 0 0 14 30.8c.3 4.3-2.3 8.4-5.3 12.7-3.4 4.9-1.1 9 .3 11.5a9.7 9.7 0 0 0 11 4c2.1-.7 4-2.8 4.6-4.9 1-3.5 3.7-5.4 7-7.6l1.8-1.4 2.6-1.3c1.3 10.6-.2 18.4-5 24.7a19.3 19.3 0 0 0-2.1 20.7l.1.3a3 3 0 0 0 3.6 1.9 58.2 58.2 0 0 0 34.6-27.7c.4.3.9.1 1.2-.2h.7c7.6 0 14.2-7.9 15-8.8a3 3 0 0 0-1.8-4.8zM31.7 88.4c0-.2 0-.4-.2-.6-2.7-6-2.4-11.9 1.8-17.5 6-8.1 6.8-17.5 5.5-27.1-.1-1.3-1-2.4-1.5-3.5-2.3 1.2-4.2 1.8-5.7 3-4 2.8-8.5 5.2-10 10.5a4.9 4.9 0 0 1-2.7 3l-1.7.2c-2.3 0-4.8-1.2-5.7-3-1.5-2.6-2.7-5-.4-8.3 3-4.4 6.2-9.2 5.8-14.6-.3-4.8 1.4-8.2 3.8-11.8a6.5 6.5 0 0 0 .9-6C21 11 21 9 20.9 7.2l1.2-.6 5.3 5 2-6.5L32 9.4l1.6 2.6c.1.4.4.7 1 .7 23 .2 22.4 32 30.6 48.2a55.2 55.2 0 0 1-33.5 27.6zm37.3-28c-.6 0-1.2 0-1.8-.2-8.9-16.5-7.8-48.3-31.6-49.5L31.7 3s35.6 1.6 35 24.2C66 50 81.6 53 81.6 53s-6.3 7.7-12.7 7.7z';
-          case 'cav2':
-              return 'M20.9 29.9c-1.3 0-1.3 2 0 2s1.3-2 0-2zM12.5 48.2c-1.1-.6-2.1 1.1-1 1.7.7.4 1.1.9 1 1.7 0 .5.5 1 1 1 .6 0 1-.5 1-1 .2-1.5-.8-2.8-2-3.4z';
-          default:
-              return undefined;
-      }
+  function isArrayLike(input) {
+      return input.length !== undefined;
   }
-
-  //
-
-  var script$e = {
-    props: { type: String },
-    data() {
-      return {
-        parts: getParts()
-      };
-    },
-    methods: {
-      getShape: getShape,
-      getParts() {
-        switch (this.type) {
-          case "inf":
-            return [
-              {
-                index: 0,
-                config: {
-                  data: getShape("inf1"),
-                  fill: "#000000",
-                  scale: {
-                    x: 0.035,
-                    y: 0.035
-                  },
-                  strokeHitEnabled: false,
-                  perfectDrawEnabled: false
-                }
-              },
-              {
-                index: 1,
-                config: {
-                  data: getShape("inf2"),
-                  fill: "#222222",
-                  scale: {
-                    x: 0.035,
-                    y: 0.035
-                  },
-                  strokeHitEnabled: false,
-                  perfectDrawEnabled: false
-                }
-              }
-            ];
-          case "arch":
-            return [
-              {
-                index: 0,
-                config: {
-                  data: getShape("arch"),
-                  fill: "#000000",
-                  scale: {
-                    x: 0.04,
-                    y: 0.04
-                  },
-                  offset: {
-                    x: -80,
-                    y: -80
-                  },
-                  strokeHitEnabled: false,
-                  perfectDrawEnabled: false
-                }
-              }
-            ];
-          case "cav":
-            return [
-              {
-                index: 0,
-                config: {
-                  data: getShape("cav1"),
-                  fill: "#222222",
-                  scale: {
-                    x: 0.2,
-                    y: 0.2
-                  },
-                  strokeHitEnabled: false,
-                  perfectDrawEnabled: false
-                }
-              },
-              {
-                index: 1,
-                config: {
-                  data: getShape("cav2"),
-                  fill: "#222222",
-                  scale: {
-                    x: 0.2,
-                    y: 0.2
-                  },
-                  strokeHitEnabled: false,
-                  perfectDrawEnabled: false
-                }
-              }
-            ];
-        }
-      }
-    }
-  };
-
-  /* script */
-  const __vue_script__$e = script$e;
-
-  /* template */
-  var __vue_render__$g = function() {
-    var _vm = this;
-    var _h = _vm.$createElement;
-    var _c = _vm._self._c || _h;
-    return _c(
-      "konva-group",
-      {
-        ref: "unitType",
-        attrs: {
-          config: {
-            offset: {
-              x: -18,
-              y: -17
-            }
+  function loadSingleImage(image) {
+      var promise = new Promise(function (resolve, reject) {
+          if (image.naturalWidth) {
+              // If the browser can determine the naturalWidth the image is already loaded successfully
+              resolve(image);
           }
-        }
-      },
-      [
-        _c("konva-circle", {
-          attrs: {
-            config: {
-              radius: 10,
-              fill: "white",
-              stroke: "black",
-              strokeWidth: 1,
-              offset: {
-                x: -8,
-                y: -8
-              },
-              opacity: 0.7,
-              strokeHitEnabled: false,
-              perfectDrawEnabled: false
-            }
-          }
-        }),
-        _vm._v(" "),
-        _vm._l(_vm.parts, function(part) {
-          return _c("konva-path", {
-            key: part.index,
-            attrs: { config: part.config }
-          })
-        })
-      ],
-      2
-    )
-  };
-  var __vue_staticRenderFns__$g = [];
-  __vue_render__$g._withStripped = true;
-
-    /* style */
-    const __vue_inject_styles__$g = undefined;
-    /* scoped */
-    const __vue_scope_id__$g = undefined;
-    /* module identifier */
-    const __vue_module_identifier__$g = undefined;
-    /* functional template */
-    const __vue_is_functional_template__$g = false;
-    /* style inject */
-    
-    /* style inject SSR */
-    
-    /* style inject shadow dom */
-    
-
-    
-    const __vue_component__$g = normalizeComponent(
-      { render: __vue_render__$g, staticRenderFns: __vue_staticRenderFns__$g },
-      __vue_inject_styles__$g,
-      __vue_script__$e,
-      __vue_scope_id__$g,
-      __vue_is_functional_template__$g,
-      __vue_module_identifier__$g,
-      false,
-      undefined,
-      undefined,
-      undefined
-    );
-
-  //
-  var script$f = {
-    components: {
-      UnitType: __vue_component__$g
-    },
-    props: {
-      center: Object,
-      hexCenter: Object,
-      unit: Object
-    },
-    methods: {
-      getShape: getShape,
-    }
-  };
-
-  /* script */
-  const __vue_script__$f = script$f;
-
-  /* template */
-  var __vue_render__$h = function() {
-    var _vm = this;
-    var _h = _vm.$createElement;
-    var _c = _vm._self._c || _h;
-    return _c(
-      "konva-group",
-      {
-        attrs: {
-          config: {
-            listening: false,
-            x: _vm.center.x + _vm.hexCenter.x,
-            y: _vm.center.y + _vm.hexCenter.y,
-            offset: {
-              x: 19,
-              y: 15
-            }
-          }
-        }
-      },
-      [
-        _c("konva-path", {
-          ref: "direction",
-          attrs: {
-            config: {
-              x: 19,
-              y: 15,
-              fill: "#ffff66",
-              opacity: 0.35,
-              perfectDrawEnabled: false,
-              strokeHitEnabled: false,
-              sceneFunc: function(context, shape) {
-                if (!_vm.unit.armor) {
-                  return
-                }
-                var x = 0;
-                if (_vm.unit.directions.length > 1) {
-                  x = 1;
-                }
-                var rotation = -30 + (_vm.unit.directions[0] - 1) * 60 - x * 60;
-                var angle = 60 * _vm.unit.directions.length;
-                context.rotate(_vm.Konva.getAngle(rotation));
-                context.beginPath();
-                context.arc(0, 0, 32, 0, _vm.Konva.getAngle(angle), false);
-                context.lineTo(0, 0);
-                context.closePath();
-                context.fillStrokeShape(shape);
-              }
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("konva-path", {
-          ref: "unitBack",
-          attrs: {
-            config: {
-              data: _vm.getShape("unitBack"),
-              fill: _vm.color,
-              scale: {
-                x: 0.08,
-                y: 0.08
-              },
-              offsetY: 60,
-              shadowColor: "black",
-              shadowBlur: 10,
-              shadowOffset: { x: 40, y: 20 },
-              shadowOpacity: 0.5,
-              strokeHitEnabled: false,
-              perfectDrawEnabled: false
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("konva-path", {
-          ref: "unitPath",
-          attrs: {
-            config: {
-              data: _vm.getShape("unitPath"),
-              fill: "#000000",
-              scale: {
-                x: 0.08,
-                y: 0.08
-              },
-              offsetY: 60,
-              strokeHitEnabled: false,
-              perfectDrawEnabled: false
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("UnitType", { attrs: { type: _vm.unit.type } }),
-        _vm._v(" "),
-        _c(
-          "konva-group",
-          { ref: "health" },
-          [
-            _c("konva-rect", {
-              attrs: {
-                config: {
-                  width: 2,
-                  height: 30,
-                  fill: "white",
-                  stroke: "black",
-                  strokeWidth: 1,
-                  strokeHitEnabled: false,
-                  perfectDrawEnabled: false
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("konva-shape", {
-              attrs: {
-                config: {
-                  sceneFunc: function(context, shape) {
-                    var fillValue =
-                      _vm.unit.endurance / _vm.unit.lifetime.endurance;
-                    if (fillValue < 0) {
-                      fillValue = 0;
-                    }
-                    var off = Math.floor(30 * fillValue);
-                    context.beginPath();
-                    context.rect(0, 30 - off, 2, off);
-                    context.closePath();
-                    context.fillStrokeShape(shape);
-                  },
-                  fill: "green",
-                  stroke: "black",
-                  strokeWidth: 0.5,
-                  strokeHitEnabled: false,
-                  perfectDrawEnabled: false
-                }
-              }
-            })
-          ],
-          1
-        )
-      ],
-      1
-    )
-  };
-  var __vue_staticRenderFns__$h = [];
-  __vue_render__$h._withStripped = true;
-
-    /* style */
-    const __vue_inject_styles__$h = undefined;
-    /* scoped */
-    const __vue_scope_id__$h = undefined;
-    /* module identifier */
-    const __vue_module_identifier__$h = undefined;
-    /* functional template */
-    const __vue_is_functional_template__$h = false;
-    /* style inject */
-    
-    /* style inject SSR */
-    
-    /* style inject shadow dom */
-    
-
-    
-    const __vue_component__$h = normalizeComponent(
-      { render: __vue_render__$h, staticRenderFns: __vue_staticRenderFns__$h },
-      __vue_inject_styles__$h,
-      __vue_script__$f,
-      __vue_scope_id__$h,
-      __vue_is_functional_template__$h,
-      __vue_module_identifier__$h,
-      false,
-      undefined,
-      undefined,
-      undefined
-    );
-
-  //
-  var script$g = {
-    components: {
-      Unit: __vue_component__$h
-    },
-    data() {
-      return {
-        unitHexes: this.hexes.map(x => x)
-      };
-    },
-    props: {
-      hexes: null,
-      center: Object
-    }
-  };
-
-  /* script */
-  const __vue_script__$g = script$g;
-
-  /* template */
-  var __vue_render__$i = function() {
-    var _vm = this;
-    var _h = _vm.$createElement;
-    var _c = _vm._self._c || _h;
-    return _c(
-      "konva-fast-layer",
-      { ref: "layer" },
-      [
-        _vm._l(_vm.hexes, function(hex) {
-          return _c("Unit", {
-            key: hex.x + ":" + hex.y,
-            attrs: { center: _vm.center, hexCenter: hex.center }
-          })
-        }),
-        _vm._v("\n  >\n")
-      ],
-      2
-    )
-  };
-  var __vue_staticRenderFns__$i = [];
-  __vue_render__$i._withStripped = true;
-
-    /* style */
-    const __vue_inject_styles__$i = undefined;
-    /* scoped */
-    const __vue_scope_id__$i = undefined;
-    /* module identifier */
-    const __vue_module_identifier__$i = undefined;
-    /* functional template */
-    const __vue_is_functional_template__$i = false;
-    /* style inject */
-    
-    /* style inject SSR */
-    
-    /* style inject shadow dom */
-    
-
-    
-    const __vue_component__$i = normalizeComponent(
-      { render: __vue_render__$i, staticRenderFns: __vue_staticRenderFns__$i },
-      __vue_inject_styles__$i,
-      __vue_script__$g,
-      __vue_scope_id__$i,
-      __vue_is_functional_template__$i,
-      __vue_module_identifier__$i,
-      false,
-      undefined,
-      undefined,
-      undefined
-    );
-
-  var eventBus = (function EventBus(){
-    var events = {};
-    return {
-        on: (eventName, callback) => {
-          if (!events[eventName]){
-            events[eventName] = [];
-          }
-          events[eventName].push(callback);
-        },
-        publish: (eventName, data) => {
-          if (events[eventName]){
-            events[eventName].forEach(cb => cb(data));
-          }
-        }
-    };    
-  })();
-
-  function getUnitMoveAnim(steps, node, center) {
-      return new Promise(function (resolve, reject) {
-          if (steps.length <= 1) {
-              resolve();
+          else if (image.complete) {
+              // If the image is complete but the naturalWidth is 0px it is probably broken
+              reject(image);
           }
           else {
-              var currStep = steps.shift();
-              var anim = new Konva.Animation(function (frame) {
-                  var progress = frame.time / 400;
-                  var sourceY = center.y + currStep.center.y;
-                  var targetY = center.y + steps[0].center.y;
-                  var diffY = targetY - sourceY;
-                  var calcY = sourceY + diffY * progress;
-                  node.setY(calcY);
-                  var sourceX = center.x + currStep.center.x;
-                  var targetX = center.x + steps[0].center.x;
-                  var diffX = targetX - sourceX;
-                  var calcX = sourceX + diffX * progress;
-                  node.setX(calcX);
-                  if ((diffX > 0 && calcX >= targetX) || (diffX < 0 && calcX <= targetX) ||
-                      (diffY > 0 && calcY >= targetY) || (diffY < 0 && calcY <= targetY)) {
-                      currStep = steps.shift();
-                      frame.time = 0; // ????????
-                      if (!steps.length) {
-                          anim.stop();
-                          node.setY(targetY);
-                          node.setX(targetX);
-                          resolve();
-                      }
-                  }
-              }, node.getLayer());
-              anim.start();
+              image.addEventListener('load', fulfill);
+              image.addEventListener('error', fulfill);
+          }
+          function fulfill() {
+              if (image.naturalWidth) {
+                  resolve(image);
+              }
+              else {
+                  reject(image);
+              }
+              image.removeEventListener('load', fulfill);
+              image.removeEventListener('error', fulfill);
           }
       });
+      return Object.assign(promise, { image: image });
   }
-
-  function Animator() {
-      var anims = [];
-      var c;
-      var currentAnimation;
-
-      return {
-          registerAnimation: (id, node, center) => {
-              anims[id] = node;
-              c = center;
-          },
-          getAnimation: (id, path) => {
-              currentAnimation = getUnitMoveAnim(path, anims[id], c).then(() => currentAnimation = null);
-              return currentAnimation;
-          },
-          isAnimating: () => {
-              return currentAnimation;
-          }
+  function loadImages(input, attributes) {
+      if (attributes === void 0) { attributes = {}; }
+      if (input instanceof HTMLImageElement) {
+          return loadSingleImage(input);
       }
+      if (typeof input === 'string') {
+          /* Create a <img> from a string */
+          var src = input;
+          var image_1 = new Image();
+          Object.keys(attributes).forEach(function (name) { return image_1.setAttribute(name, attributes[name]); });
+          image_1.src = src;
+          return loadSingleImage(image_1);
+      }
+      if (isArrayLike(input)) {
+          // Momentarily ignore errors
+          var reflect = function (img) { return loadImages(img, attributes).catch(function (error) { return error; }); };
+          var reflected = [].map.call(input, reflect);
+          var tsFix_1 = Promise.all(reflected).then(function (results) {
+              var loaded = results.filter(function (x) { return x.naturalWidth; });
+              if (loaded.length === results.length) {
+                  return loaded;
+              }
+              return Promise.reject({
+                  loaded: loaded,
+                  errored: results.filter(function (x) { return !x.naturalWidth; })
+              });
+          });
+          // Variables named `tsFix` are only here because TypeScript hates Promise-returning functions.
+          return tsFix_1;
+      }
+      var tsFix = Promise.reject(new TypeError('input is not an image, a URL string, or an array of them.'));
+      return tsFix;
   }
-  var animator = Animator();
+  //# sourceMappingURL=index.js.map
+
+  var defaultHeaders = { 'Content-Type': 'application/json' };
+  var fetchOpts = {
+      get: {
+          method: 'GET',
+          credentials: 'include',
+          defaultHeaders
+      },
+      post: {
+          method: 'POST',
+          credentials: 'include',
+          defaultHeaders
+      }
+  };
+
+  function fetch$1 () {
+      return { 
+          get: url => fetch(url, fetchOpts.get)
+              .then(response => response.text())
+              .then(json => JSON.parse(json)),
+          post: (url, body) => {
+              var opts = body 
+              ? Object.assign({}, fetchOpts.post, { 
+                  body: JSON.stringify(body),
+                  headers: {
+                      'Accept': 'application/json, text/plain, */*',
+                      'Content-Type': 'application/json'
+                  }
+              })
+              : fetchOpts.post;
+              
+              return fetch(url, opts)
+                  .then(response => response.text())
+                  .then(json => JSON.parse(json));
+          }
+              
+      };	
+  }
+
+  var army = function (army, unitTypes) {
+  	this.playerId = army.id;
+  	this.playerName = army.name;
+  	this.unitTypes = unitTypes;
+  	this.units = Object.keys(army.units).map(key => army.units[key]);
+  };
+
+  army.prototype.getArmy = function () {
+  	return this.units;
+  };
+
+  army.prototype.restoreUnit = function(upd) {
+  	var unit = this.units.find(u => u.id == upd.id);
+  	Object.assign(unit, upd);
+  };
 
   // Binary Heap implementation by bgrins https://github.com/bgrins/javascript-astar
   // Based on implementation by Marijn Haverbeke http://eloquentjavascript.net/1st_edition/appendix2.html
@@ -27772,7 +27217,7 @@
   	}
   };
 
-  function initGrid(battle) {
+  function initGrid(sceneSize, terrain, units, getters, actions) {
     function setSelectedHex(x, y) {
       grid.selectedHex = null;
       if (x != undefined && y != undefined) {
@@ -27783,25 +27228,23 @@
 
     function getMoveCost(sourceHex, targetHex, range) {
       var gridPath = grid.findPath(new bhex.Axial(sourceHex.x, sourceHex.y), new bhex.Axial(targetHex.x, targetHex.y));
-      var terrain = battle.getTerrain();
-      var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y)) || [];
+      var path = gridPath.filter(h => getters.terrain().find(t => t.x == h.x && t.y == h.y)) || [];
       var cost = path.map(x => x.cost).reduce((a, b) => a + b, 0);
       return cost;
     }
 
     function getPathInRange(sourceHex, targetHex) {
-      var unit = battle.getUnitAt(sourceHex.x, sourceHex.y);
+      var unit = actions.getUnitAt(sourceHex.x, sourceHex.y);
       if (!unit) {
         var gridPath = grid.findPath(new bhex.Axial(sourceHex.x, sourceHex.y), new bhex.Axial(targetHex.x, targetHex.y), ignoreInertia);
-        var terrain = battle.getTerrain();
-        var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
+        var path = gridPath.filter(h => getters.terrain().find(t => t.x == h.x && t.y == h.y));
 
         return [sourceHex].concat(path);
       }
       else {
         var range;
         var ignoreInertia;
-        var unitState = battle.getUnitState(unit);
+        var unitState = actions.getUnitState(unit);
         var gridPath = [];
 
         switch (unitState) {
@@ -27823,8 +27266,7 @@
             gridPath = grid.findPath(new bhex.Axial(sourceHex.x, sourceHex.y), new bhex.Axial(targetHex.x, targetHex.y), ignoreInertia);
             break;
         }
-        var terrain = battle.getTerrain();
-        var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
+        var path = gridPath.filter(h => getters.terrain().find(t => t.x == h.x && t.y == h.y));
 
         var inRange = path.reduce((acc, curr) => {
           var accCost = acc.map(x => x.cost).reduce((a, b) => a + b, -sourceHex.cost);
@@ -27841,7 +27283,7 @@
       var hex = grid.getHexAt(new bhex.Axial(unit.pos.x, unit.pos.y));
       hex.blocked = true;
 
-      var nextUnit = battle.nextUnit();
+      var nextUnit = getters.nextUnit();
       var nextHex = grid.getHexAt(new bhex.Axial(nextUnit.pos.x, nextUnit.pos.y));
       setSelectedHex(nextHex.x, nextHex.y);
       return nextHex;
@@ -27852,29 +27294,25 @@
       if (selectedHex) {
         selectedHex.blocked = false;
       }
-      var unit = grid.selectedHex && hex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
+      var unit = grid.selectedHex && hex ? actions.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
 
-      var unitState = battle.getUnitState(unit);
+      var unitState = actions.getUnitState(unit);
       switch (unitState) {
         case 'moving':
           var path = getPathInRange(selectedHex, hex);
           var lastStep = path[path.length - 1];
-          if (lastStep.x == hex.x && lastStep.y == hex.y) {
-            battle.unitMoving(unit, hex.x, hex.y);
-          }
+          if (lastStep.x == hex.x && lastStep.y == hex.y) ;
           break;
         case 'turning':
-          battle.unitTurning(unit, hex.x, hex.y);
+          //battle.unitTurning(unit, hex.x, hex.y);
           break;
         case 'attacking':
           var path = getPathInRange(selectedHex, hex, unit.range);
           var lastStep = path[path.length - 1];
-          if (lastStep.x == hex.x && lastStep.y == hex.y) {
-            battle.unitAttacking(unit, hex.x, hex.y);
-          }
+          if (lastStep.x == hex.x && lastStep.y == hex.y) ;
           break;
         default:
-          var unit = battle.nextUnit();
+          var unit = getters.nextUnit();
           if (unit) {
             var nextHex = grid.getHexAt(new bhex.Axial(unit.pos.x, unit.pos.y));
             setSelectedHex(nextHex.x, nextHex.y);
@@ -27915,12 +27353,12 @@
     }
 
     function getSelectedHexRange() {
-      var unit = grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
+      var unit = grid.selectedHex ? actions.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
       if (!unit) {
         return [];
       }
 
-      var state = battle.getUnitState(unit);
+      var state = actions.getUnitState(unit);
       var gridRange = [];
       if (state == 'moving') {
         if (!unit.agility) {
@@ -27941,11 +27379,10 @@
         gridRange = grid.getRange(new bhex.Axial(grid.selectedHex.x, grid.selectedHex.y), unit.range, true);
       }
 
-      var terrain = battle.getTerrain();
-      return gridRange.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
+      return gridRange.filter(h => getters.terrain().find(t => t.x == h.x && t.y == h.y));
     }
     function getSelectedHexState() {
-      return battle.getUnitState(grid.selectedHex ? battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null);
+      return actions.getUnitState(grid.selectedHex ? actions.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null);
     }
     function initDrawing(center) {
       var sideWidth = 30;
@@ -27974,20 +27411,20 @@
       return { minX, minY, maxX, maxY };
     }
     function getHexes() {
-      return battle.getTerrain().map(t => grid.hexes.find(h => t.x == h.x && t.y == h.y));
+      return getters.terrain().map(t => grid.hexes.find(h => t.x == h.x && t.y == h.y));
     }
     function getUnits() {
-      return battle.getUnits();
+      return getters.units();
     }
 
-    var grid = new bhex.Grid(battle.getSceneSize());
+    var grid = new bhex.Grid(sceneSize);
 
-    battle.getUnits().forEach(unit => {
+    units.forEach(unit => {
       var hex = grid.getHexAt(new bhex.Axial(unit.pos.x, unit.pos.y));
       hex.blocked = true;
     });
 
-    battle.getTerrain().forEach(terrain => {
+    terrain.forEach(terrain => {
       grid.getHexAt(new bhex.Axial(terrain.x, terrain.y)).cost = terrain.cost;
     });
 
@@ -27995,172 +27432,1057 @@
       getHexes: getHexes,
       getSelectedHex: () => grid.selectedHex ? grid.getHexAt(new bhex.Axial(grid.selectedHex.x, grid.selectedHex.y)) : null,
       getHexAt: (x, y) => grid.getHexAt(new bhex.Axial(x, y)),
-      getUnitAt: (x, y) => battle.getUnitAt(x, y),
+      getUnitAt: (x, y) => actions.getUnitAt(x, y),
       getUnits: getUnits,
-      isPlayerArmy: (unitId, exactMatch) => battle.isPlayerArmy(unitId, exactMatch),
+      isPlayerArmy: (unitId, exactMatch) => actions.isPlayerArmy(unitId, exactMatch),
       hexSelected: hexSelected,
       getSelectedHexRange: getSelectedHexRange,
       getSelectedHexState: getSelectedHexState,
       getPathBetween: getPathInRange,
-      getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new bhex.Axial(x, y)), battle.getUnitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
+      getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new bhex.Axial(x, y)), actions.getUnitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
       initDrawing: initDrawing,
       updateSelection: updateSelection
     }
   }
 
-  /*! npm.im/image-promise 5.0.1 */
-
-  function load(image) {
-  	if (!image) {
-  		return Promise.reject();
-  	} else if (typeof image === 'string') {
-  		/* Create a <img> from a string */
-  		var src = image;
-  		image = new Image();
-  		image.src = src;
-  	} else if (image.length !== undefined) {
-  		/* Treat as multiple images */
-
-  		// Momentarily ignore errors
-  		var reflected = [].map.call(image, function (img) { return load(img).catch(function (err) { return err; }); });
-
-  		return Promise.all(reflected).then(function (results) {
-  			var loaded = results.filter(function (x) { return x.naturalWidth; });
-  			if (loaded.length === results.length) {
-  				return loaded;
-  			}
-  			return Promise.reject({
-  				loaded: loaded,
-  				errored: results.filter(function (x) { return !x.naturalWidth; })
-  			});
-  		});
-  	} else if (image.tagName !== 'IMG') {
-  		return Promise.reject();
-  	}
-
-  	var promise = new Promise(function (resolve, reject) {
-  		if (image.naturalWidth) {
-  			// If the browser can determine the naturalWidth the
-  			// image is already loaded successfully
-  			resolve(image);
-  		} else if (image.complete) {
-  			// If the image is complete but the naturalWidth is 0px
-  			// it is probably broken
-  			reject(image);
-  		} else {
-  			image.addEventListener('load', fullfill);
-  			image.addEventListener('error', fullfill);
-  		}
-  		function fullfill() {
-  			if (image.naturalWidth) {
-  				resolve(image);
-  			} else {
-  				reject(image);
-  			}
-  			image.removeEventListener('load', fullfill);
-  			image.removeEventListener('error', fullfill);
-  		}
-  	});
-  	promise.image = image;
-  	return promise;
+  function loadImages$1() {
+      return loadImages([
+          "/images/grid/plain1.png",
+          "/images/grid/plain2.png",
+          "/images/grid/plain3.png",
+          "/images/grid/plain4.png",
+          "/images/grid/plain5.png",
+          "/images/grid/plain6.png",
+          "/images/grid/forrest1.png",
+          "/images/grid/forrest2.png"
+      ]).then(imgs => {
+          return {
+              plains: imgs.slice(0, 6),
+              forrests: [imgs[6], imgs[7]]
+          };
+      });
   }
 
-  var imagePromise_commonJs = load;
+  const state$1 = Vue.observable({
+      center: { x: 0, y: 0 },
+      boundingBox: null,
+      sceneSize: '',
+      battleState: '',
+      battleId: '',
+      selfArmy: null,
+      terrain: null,
+      unitQueue: [],
+      firstArmy: null,
+      secondArmy: null,
+      nextPlayer: null,
+      winningArmy: null,
+      grid: null,
+      imageShapes: []
+  });
+
+  const getters$1 = {
+      center: () => state$1.center,
+      boundingBox: () => state$1.boundingBox,
+      grid: () => state$1.grid,
+      imageShapes: () => state$1.imageShapes,
+      sceneSize: () => state$1.sceneSize,
+      battleState: () => state$1.battleState,
+      battleId: () => state$1.battleId,
+      selfArmy: () => state$1.selfArmy,
+      terrain: () => state$1.terrain,
+      unitQueue: () => state$1.unitQueue,
+      firstArmy: () => state$1.firstArmy,
+      secondArmy: () => state$1.secondArmy,
+      nextUnit: () => getters$1.units().find(u => u.id == state$1.unitQueue[0]),
+      nextPlayer: () => actions.getArmy(nextUnit).playerName,
+      winningArmy: () => state$1.winningArmy,
+      units: () => {
+          if (!state$1.firstArmy) {
+              return null;
+          }
+          if (!state$1.secondArmy) {
+              return state$1.firstArmy.getArmy();
+          }
+          return state$1.firstArmy.getArmy().concat(state$1.secondArmy.getArmy());
+      },
+
+  };
+
+  const mutations$1 = {
+      loadData(data, single) {
+          var armies = Object.keys(data.armies).map(key => data.armies[key]);
+          sessionStorage.setItem(single ? 'singlebattleid' : 'battleid', data.id);
+          state$1.battleState = 'created';
+          state$1.battleId = data.id;
+          state$1.selfArmy = data.selfArmy;
+          state$1.terrain = data.terrain;
+          state$1.sceneSize = data.sceneSize;
+          state$1.unitQueue = data.turns[data.turns.length - 1].readyUnits;
+          state$1.firstArmy = new army(armies[0], data.unitTypes);
+          //var bsTxt1 = this.getBattleStateText();
+          //setTimeout(() => eventBus.publish('battlestate', bsTxt1), 0);
+          if (armies.length == 2) {
+              state$1.secondArmy = new army(armies[1], data.unitTypes);
+              state$1.battleState = 'ready';
+              state$1.winningArmy = data.winningArmy;
+              if (state$1.winningArmy) ;
+              //var bsTxt2 = this.getBattleStateText();
+              //setTimeout(() => eventBus.publish('battlestarted'), 0);
+              //setTimeout(() => eventBus.publish('battlestate', bsTxt2), 0);
+              //setTimeout(() => eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
+          }
+          state$1.grid = initGrid(state$1.sceneSize, state$1.terrain, state$1.firstArmy.getArmy().concat(state$1.secondArmy.getArmy()), getters$1, actions);
+
+          var { minX, minY, maxX, maxY } = state$1.grid.initDrawing(state$1.center);
+          state$1.boundingBox = { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
+          var y = (Math.abs(state$1.boundingBox.minY) + Math.abs(state$1.boundingBox.maxY) + 160) / 2;
+          mutations$1.setCenter(state$1.center.x, y);
+
+          state$1.grid.hexSelected();
+          var selHex = state$1.grid.getSelectedHex();
+          if (selHex) {
+              var unit = state$1.grid.getUnitAt(selHex.x, selHex.y);
+              if (state$1.grid.isPlayerArmy(unit.id)) ;
+              //centerHex(args.$refs.stage.getStage(), args.center, selHex.center);
+          }
+
+          //eventBus.publish("battlestarted");
+      },
+      update(data) {
+          state$1.battleState = 'started';
+          var delta = {
+              source: state$1.nextUnit.pos,
+              target: data.currUnit.pos
+          };
+
+          state$1.unitQueue = data.unitQueue;
+          var army = actions.getArmy(data.currUnit.id);
+          army.restoreUnit(data.currUnit);
+          if (data.targetUnit) {
+              var targetArmy = actions.getArmy(data.targetUnit.id);
+              targetArmy.restoreUnit(data.targetUnit);
+          }
+          var nextUnitArmy = actions.getArmy(data.nextUnit.id);
+          nextUnitArmy.restoreUnit(data.nextUnit);
+          //setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data}), 0);
+          //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
+          //setTimeout(() => eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
+      },
+      end(data) {
+          state$1.battleState = 'finished';
+          //setTimeout(() => eventBus.publish('battleended', this.getBattleSummary(data)), 0);
+          //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
+      },
+      setCenter(x, y) {
+          state$1.center = { x: x, y: y };
+      }
+  };
+
+  const actions = {
+      getArmy(unitId) {
+          return state$1.firstArmy.getArmy().some(x => x.id == unitId)
+              ? state$1.firstArmy
+              : state$1.secondArmy;
+      },
+      getOtherArmy(unitId) {
+          return state$1.firstArmy.getArmy().some(x => x.id == unitId)
+              ? state$1.secondArmy
+              : state$1.firstArmy;
+      },
+      getUnitAt(x, y) {
+          return getters$1.units().find(u => u.pos.x == x && u.pos.y == y);
+      },
+      getUnitState(unit) {
+          if (!unit) {
+              return 'none';
+          }
+          if (unit.endurance <= 0) {
+              return 'dead';
+          }
+          if (unit.mobility > 0) {
+              return 'moving';
+          }
+          if (unit.agility > 0) {
+              return 'turning';
+          }
+          if (unit.attacks > 0) {
+              return 'attacking';
+          }
+      },
+      isPlayerArmy(unitId, exactMatch) {
+          if (exactMatch) {
+              return state$1.selfArmy === actions.getArmy(unitId).playerId;
+          }
+
+          return state$1.selfArmy === actions.getArmy(unitId).playerId
+              || '_' + state$1.selfArmy === actions.getArmy(unitId).playerId
+              || state$1.selfArmy === '_' + actions.getArmy(unitId).playerId;
+      },
+      load() {
+          loadImages$1().then(images => {
+              state$1.imageShapes = {
+                  plains: images.plains,
+                  forrests: images.forrests
+              };
+              var battleid = sessionStorage.getItem('singlebattleid');
+              var url = `/singlebattle/join/${battleid ? battleid : ''}`;
+              return fetch$1().post(url);
+          }).then(data => {
+              mutations$1.loadData(data, true);
+          });
+      },
+      setCenter(x, y) {
+          mutations$1.setCenter(x, y);
+      }
+  };
 
   //
 
-  function loadImages() {
-    return imagePromise_commonJs([
-      "/images/grid/plain1.png",
-      "/images/grid/plain2.png",
-      "/images/grid/plain3.png",
-      "/images/grid/plain4.png",
-      "/images/grid/plain5.png",
-      "/images/grid/plain6.png",
-      "/images/grid/forrest1.png",
-      "/images/grid/forrest2.png"
-    ]).then(imgs => {
-      return {
-        plains: imgs.slice(0, 6),
-        forrests: [imgs[6], imgs[7]]
-      };
-    });
+  var script$d = {
+    components: {
+      Hex: __vue_component__$e
+    },
+    computed:{
+      imageShapes: () => getters$1.imageShapes(),
+      center: () => getters$1.center(),
+      hexes: () => getters$1.grid() ? getters$1.grid().getHexes() : []
+    },
+    methods: {
+      getHexTerrainImage(hex) {
+        if (hex.cost < 0) {
+          return;
+        } else if (hex.cost == 1) {
+          var gNumber = Math.floor(Math.random() * 6);
+          return this.imageShapes.plains[gNumber];
+        } else {
+          var gNumber = Math.floor(Math.random() * 2);
+          return this.imageShapes.forrests[gNumber];
+        }
+      },
+      hexSelected(evt, hex) {
+        this.$emit("selected", hex);
+      },
+      hexFocused(evt, hex) {
+        this.$emit("focused", hex);
+      },
+      hexUnfocused(evt) {
+        //this.$emit("focused", null);
+      }
+    }
+  };
+
+  /* script */
+  const __vue_script__$d = script$d;
+
+  /* template */
+  var __vue_render__$f = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "konva-layer",
+      { ref: "layer" },
+      _vm._l(_vm.hexes, function(hex) {
+        return _c(
+          "konva-group",
+          {
+            key: hex.x + ":" + hex.y,
+            attrs: {
+              config: {
+                x: _vm.center.x + hex.center.x,
+                y: _vm.center.y + hex.center.y
+              }
+            },
+            on: {
+              click: function(evt) {
+                return _vm.hexSelected(evt, hex)
+              },
+              dbltap: function(evt) {
+                return _vm.hexSelected(evt, hex)
+              },
+              mouseenter: function(evt) {
+                return _vm.hexFocused(evt, hex)
+              },
+              mouseleave: function(evt) {
+                return _vm.hexUnfocused(evt, hex)
+              }
+            }
+          },
+          [
+            _c("konva-image", {
+              attrs: {
+                config: {
+                  image: _vm.getHexTerrainImage(hex),
+                  width: 70,
+                  height: 70,
+                  offset: {
+                    x: 35,
+                    y: 35
+                  },
+                  opacity: 0.99,
+                  rotation: 30,
+                  listening: true,
+                  perfectDrawEnabled: false
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("Hex")
+          ],
+          1
+        )
+      }),
+      1
+    )
+  };
+  var __vue_staticRenderFns__$f = [];
+  __vue_render__$f._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$f = undefined;
+    /* scoped */
+    const __vue_scope_id__$f = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$f = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$f = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$f = normalizeComponent(
+      { render: __vue_render__$f, staticRenderFns: __vue_staticRenderFns__$f },
+      __vue_inject_styles__$f,
+      __vue_script__$d,
+      __vue_scope_id__$f,
+      __vue_is_functional_template__$f,
+      __vue_module_identifier__$f,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  //
+  var script$e = {
+    components: {
+      Hex: __vue_component__$e
+    },
+    props: {
+      highlight: Object,
+      focus: Object,
+      path: Array,
+      range: Array,
+      rangeType: String
+    },
+    computed:{
+      center: () => getters$1.center()
+    },
+    methods: {
+        getFill(){
+            switch(this.rangeType){
+                case 'moving': return '#ffffff';
+                case 'turning': return '#ffad33';
+                case 'attacking': return '#DD1111';
+            }
+        },
+        getOpacity(){
+            switch(this.rangeType){
+                case 'moving': return 0.15;
+                case 'turning': return 0.15;
+                case 'attacking': return 0.5;
+            }
+        }
+    }
+  };
+
+  /* script */
+  const __vue_script__$e = script$e;
+
+  /* template */
+  var __vue_render__$g = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "konva-fast-layer",
+      { ref: "layer" },
+      [
+        _vm.highlight
+          ? _c("Hex", {
+              attrs: {
+                x: _vm.center.x + _vm.highlight.center.x,
+                y: _vm.center.y + _vm.highlight.center.y,
+                fill: "#ffffff",
+                opacity: 0.35
+              }
+            })
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.focus
+          ? _c("Hex", {
+              attrs: {
+                x: _vm.center.x + _vm.focus.center.x,
+                y: _vm.center.y + _vm.focus.center.y,
+                fill: "#ffffff",
+                opacity: 0.35
+              }
+            })
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._l(_vm.range, function(hex) {
+          return _c("Hex", {
+            key: hex.x + ":" + hex.y,
+            attrs: {
+              x: _vm.center.x + hex.center.x,
+              y: _vm.center.y + hex.center.y,
+              fill: _vm.getFill(),
+              opacity: _vm.getOpacity()
+            }
+          })
+        })
+      ],
+      2
+    )
+  };
+  var __vue_staticRenderFns__$g = [];
+  __vue_render__$g._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$g = undefined;
+    /* scoped */
+    const __vue_scope_id__$g = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$g = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$g = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$g = normalizeComponent(
+      { render: __vue_render__$g, staticRenderFns: __vue_staticRenderFns__$g },
+      __vue_inject_styles__$g,
+      __vue_script__$e,
+      __vue_scope_id__$g,
+      __vue_is_functional_template__$g,
+      __vue_module_identifier__$g,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  function getShape(id) {
+      switch (id) {
+          case 'unitBack':
+              return 'M 316 308 c -11 0 -22 -7 -26 -17 l -2 -5 l 45 -7 a 6 6 0 0 0 5 -7 c -6 -37 -7 -76 -3 -113 l 1 -12 a 107 107 0 0 0 -74 -114 c -13 -4 -23 -15 -26 -29 c 0 -2 -2 -4 -5 -4 a 6 6 0 0 0 -5 5 c -3 13 -13 24 -26 28 a 106 106 0 0 0 -74 114 l 1 12 a 415 415 0 0 1 -2 117 l 4 3 l 48 7 l -2 5 c -5 10 -15 17 -27 17 h -2 c -32 0 -58 26 -58 58 v 91 c 0 3 2 5 5 5 h 276 c 3 0 5 -2 5 -5 v -91 c 0 -32 -26 -58 -58 -58 z';
+          case 'unitPath':
+              return 'M316 308c-11 0-22-7-26-17l-2-5 45-7a6 6 0 0 0 5-7c-6-37-7-76-3-113l1-12a107 107 0 0 0-74-114c-13-4-23-15-26-29 0-2-2-4-5-4a6 6 0 0 0-5 5c-3 13-13 24-26 28a106 106 0 0 0-74 114l1 12a415 415 0 0 1-2 117l4 3 48 7-2 5c-5 10-15 17-27 17h-2c-32 0-58 26-58 58v91c0 3 2 5 5 5h276c3 0 5-2 5-5v-91c0-32-26-58-58-58zm47 58v59a61 61 0 0 1-70-60c0-18 8-35 22-46h1c26 0 47 21 47 47zm-132-63c-14 0-27-5-37-14l17 3a5 5 0 0 0 7-7l-2-10a66 66 0 0 0 30 0l-1 10a6 6 0 0 0 6 7l17-3c-10 9-23 14-37 14zm18-40a55 55 0 0 1-35 0l-14-75c-1-3-3-4-6-4h-16a19 19 0 0 1-20-21c0-10 9-19 20-19h106a19 19 0 0 1 20 20c0 11-9 20-20 20h-16c-3 0-5 1-6 4l-13 75zM138 157l-1-11a96 96 0 0 1 66-103c9-2 17-8 23-14v86a6 6 0 0 0 11 0V29c5 6 13 12 22 14a95 95 0 0 1 66 103l-1 11c-4 37-3 75 2 112l-69 11 15-85h12c17 0 31-14 31-30a30 30 0 0 0-31-32H178c-16 0-30 14-31 30a30 30 0 0 0 31 32h12l15 85-69-11c6-37 6-75 2-112zm8 162h1c14 11 22 28 22 46a61 61 0 0 1-70 60v-59c0-26 21-47 47-47zM99 436a72 72 0 0 0 81-71c0-18-7-35-19-48 10-4 19-11 24-22 11 11 25 18 40 19v137H99v-15zm137 15V314c17-1 32-9 43-21l1 2c4 10 12 17 22 21a72 72 0 0 0 62 120v15H235z';
+          case 'inf1':
+              return 'M237.3 60.5c-4.7 3.5-68.5 51-150.2 67.3-10.8 188.8 150 286.5 150.2 286.4 0 0 161-97.6 150.2-286.4-81.8-16.3-150.2-67.3-150.2-67.3z';
+          case 'inf2':
+              return 'M440.6 97.4a12.6 12.6 0 0 0-10-11.6c-99.8-20-185-82.7-185.8-83.3a12.6 12.6 0 0 0-15.2 0C226.3 5.2 146.2 65.4 44 85.9c-5.6 1.1-9.8 6-10.1 11.6-8.2 143.4 59 246.6 117 307.9a479.7 479.7 0 0 0 73 63c7 4.8 9.1 6.1 13 6.2h.5c4 0 6.3-1.5 12.4-5.7a473 473 0 0 0 65.3-54.7c37.3-37.5 67-79.4 88.3-124.3a392.4 392.4 0 0 0 37.2-192.4zm-110.4 262a442 442 0 0 1-93 87.5 442 442 0 0 1-92.8-87.5c-60-75.2-88.8-159.6-85.8-251C145 89 214.8 44 237.3 28.2c22.9 15.8 94 61.1 178.6 80.4 3 91.3-25.8 175.7-85.7 250.9z';
+          case 'arch':
+              return 'M301.3 246.2l-55.7-19s-2.3-1.1-3.2-2L188 170.8c-1.1-.7-.4-1.8 0-2.2L288.5 68.1c24.1-24.1 14.5-46.3-8.3-23.5-6 6-18.3 6.2-33.6 3l-10.2-2.4C200.9 37 161 27.8 101 82.1c-.3.3-1.1 1.2-2.4-.1C87 70.4 78 61 69.8 52.7c-1.8-1.9-.4-3.1-.4-3.1l4.4-4.4c5.5-5.5 4.2-12.6-2.8-15.9l-61-28C3-2 0 1.2 3.1 8.2l28 61c3.3 7 10.5 8.3 16 2.8l3.4-3.5s2-2.5 4-.5l28.4 28.4c1.5 1.3 1.3 2.4 1 2.7-56 61.2-45.6 108.2-37.2 146.3l.4 1.8c3.7 16.7 2.2 29.9-5.8 37.9-17.3 17.3-11.2 41.4 26.4 3.8l103-103c.3-.2.9-.7 2 .3l54.6 54.6c.7.7 1.7 2.9 1.7 2.9l19 55.8c2.6 7.4 7.1 7.5 10.2.4l7.5-17.5c3-7.2 11.4-15.5 18.5-18.5l17.5-7.5c7.2-3.1 7-7.7-.4-10.2zM231 69c3.5.8 7 1.7 10.7 2.4 4.3 1 8.4 1.6 12.3 2L173.2 154c-1.1 1-2.2-.2-2.2-.2l-52.5-52.6c-.9-1-.5-1.6-.2-1.9 49.9-45 80.4-37.9 112.6-30.4zm-158 185.3c-.3-3.9-1-8-2-12.4l-.4-1.8c-7.8-35.6-16-72.4 30.7-123.7.3-.3 1.2-.6 2 .3l53 53s.5.9-.3 1.7l-83 83z';
+          case 'cav1':
+              return 'M82.2 50c-.5-.2-13.1-3-12.6-22.7.3-10.7-6.3-18.8-19.2-23.5A69.4 69.4 0 0 0 31.7 0a3 3 0 0 0-2.9 2.3 3 3 0 0 0-2.3 2l-.6 2-1.7-1.7a3 3 0 0 0-3.4-.6l-1.2.6a3 3 0 0 0-1.7 3l.1 1.5c.1 1.4.2 3 .7 4.6.4 1.3.3 2.2-.5 3.4A20.5 20.5 0 0 0 14 30.8c.3 4.3-2.3 8.4-5.3 12.7-3.4 4.9-1.1 9 .3 11.5a9.7 9.7 0 0 0 11 4c2.1-.7 4-2.8 4.6-4.9 1-3.5 3.7-5.4 7-7.6l1.8-1.4 2.6-1.3c1.3 10.6-.2 18.4-5 24.7a19.3 19.3 0 0 0-2.1 20.7l.1.3a3 3 0 0 0 3.6 1.9 58.2 58.2 0 0 0 34.6-27.7c.4.3.9.1 1.2-.2h.7c7.6 0 14.2-7.9 15-8.8a3 3 0 0 0-1.8-4.8zM31.7 88.4c0-.2 0-.4-.2-.6-2.7-6-2.4-11.9 1.8-17.5 6-8.1 6.8-17.5 5.5-27.1-.1-1.3-1-2.4-1.5-3.5-2.3 1.2-4.2 1.8-5.7 3-4 2.8-8.5 5.2-10 10.5a4.9 4.9 0 0 1-2.7 3l-1.7.2c-2.3 0-4.8-1.2-5.7-3-1.5-2.6-2.7-5-.4-8.3 3-4.4 6.2-9.2 5.8-14.6-.3-4.8 1.4-8.2 3.8-11.8a6.5 6.5 0 0 0 .9-6C21 11 21 9 20.9 7.2l1.2-.6 5.3 5 2-6.5L32 9.4l1.6 2.6c.1.4.4.7 1 .7 23 .2 22.4 32 30.6 48.2a55.2 55.2 0 0 1-33.5 27.6zm37.3-28c-.6 0-1.2 0-1.8-.2-8.9-16.5-7.8-48.3-31.6-49.5L31.7 3s35.6 1.6 35 24.2C66 50 81.6 53 81.6 53s-6.3 7.7-12.7 7.7z';
+          case 'cav2':
+              return 'M20.9 29.9c-1.3 0-1.3 2 0 2s1.3-2 0-2zM12.5 48.2c-1.1-.6-2.1 1.1-1 1.7.7.4 1.1.9 1 1.7 0 .5.5 1 1 1 .6 0 1-.5 1-1 .2-1.5-.8-2.8-2-3.4z';
+          default:
+              return undefined;
+      }
   }
 
-  function centerHex(stage, center, unitPos) {
-    var margin = 100;
-    if ((stage.getX() + center.x + unitPos.x < margin || stage.getX() + center.x + unitPos.x > container.clientWidth - margin)
-      || (stage.getY() + center.y + unitPos.y < margin || stage.getY() + center.y + unitPos.y > container.clientHeight - margin)) {
-      setTimeout(() => {
-        stage.setX(-unitPos.x);
-        stage.setY(-unitPos.y);
-        //cullViews(this.visualViewport, stage, [terrainLayer, unitLayer.node, effectLayer]);
-        stage.batchDraw();
-      }, 0);
+  //
+
+  var script$f = {
+    props: { type: String },
+    data() {
+      return {
+        parts: this.getParts()
+      };
+    },
+    methods: {
+      getShape: getShape,
+      getParts() {
+        switch (this.type) {
+          case "inf":
+            return [
+              {
+                index: 0,
+                config: {
+                  data: getShape("inf1"),
+                  fill: "#000000",
+                  scale: {
+                    x: 0.035,
+                    y: 0.035
+                  },
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              },
+              {
+                index: 1,
+                config: {
+                  data: getShape("inf2"),
+                  fill: "#222222",
+                  scale: {
+                    x: 0.035,
+                    y: 0.035
+                  },
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              }
+            ];
+          case "arch":
+            return [
+              {
+                index: 0,
+                config: {
+                  data: getShape("arch"),
+                  fill: "#000000",
+                  scale: {
+                    x: 0.04,
+                    y: 0.04
+                  },
+                  offset: {
+                    x: -80,
+                    y: -80
+                  },
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              }
+            ];
+          case "cav":
+            return [
+              {
+                index: 0,
+                config: {
+                  data: getShape("cav1"),
+                  fill: "#222222",
+                  scale: {
+                    x: 0.2,
+                    y: 0.2
+                  },
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              },
+              {
+                index: 1,
+                config: {
+                  data: getShape("cav2"),
+                  fill: "#222222",
+                  scale: {
+                    x: 0.2,
+                    y: 0.2
+                  },
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              }
+            ];
+        }
+      }
     }
-  }
+  };
+
+  /* script */
+  const __vue_script__$f = script$f;
+
+  /* template */
+  var __vue_render__$h = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "konva-group",
+      {
+        ref: "unitType",
+        attrs: {
+          config: {
+            offset: {
+              x: -18,
+              y: -17
+            }
+          }
+        }
+      },
+      [
+        _c("konva-circle", {
+          attrs: {
+            config: {
+              radius: 10,
+              fill: "white",
+              stroke: "black",
+              strokeWidth: 1,
+              offset: {
+                x: -8,
+                y: -8
+              },
+              opacity: 0.7,
+              strokeHitEnabled: false,
+              perfectDrawEnabled: false
+            }
+          }
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.parts, function(part) {
+          return _c("konva-path", {
+            key: part.index,
+            attrs: { config: part.config }
+          })
+        })
+      ],
+      2
+    )
+  };
+  var __vue_staticRenderFns__$h = [];
+  __vue_render__$h._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$h = undefined;
+    /* scoped */
+    const __vue_scope_id__$h = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$h = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$h = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$h = normalizeComponent(
+      { render: __vue_render__$h, staticRenderFns: __vue_staticRenderFns__$h },
+      __vue_inject_styles__$h,
+      __vue_script__$f,
+      __vue_scope_id__$h,
+      __vue_is_functional_template__$h,
+      __vue_module_identifier__$h,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  //
+  var script$g = {
+    components: {
+      UnitType: __vue_component__$h
+    },
+    props: {
+      center: Object,
+      hexCenter: Object,
+      unit: Object,
+      color: String
+    },
+    methods: {
+      getShape: getShape,
+      directionSceneFunc: (context, shape, unit) => {
+        if (!unit.armor) {
+          return;
+        }
+        var x = 0;
+        if (unit.directions.length > 1) {
+          x = 1;
+        }
+        var rotation = -30 + (unit.directions[0] - 1) * 60 - x * 60;
+        var angle = 60 * unit.directions.length;
+        context.rotate(window.Konva.getAngle(rotation));
+        context.beginPath();
+        context.arc(0, 0, 32, 0, window.Konva.getAngle(angle), false);
+        context.lineTo(0, 0);
+        context.closePath();
+        context.fillStrokeShape(shape);
+      },
+      healthSceneFunc: (context, shape, unit) => {
+        var fillValue = unit.endurance / unit.lifetime.endurance;
+        if (fillValue < 0) {
+          fillValue = 0;
+        }
+        var off = Math.floor(30 * fillValue);
+        context.beginPath();
+        context.rect(0, 30 - off, 2, off);
+        context.closePath();
+        context.fillStrokeShape(shape);
+      }
+    }
+  };
+
+  /* script */
+  const __vue_script__$g = script$g;
+
+  /* template */
+  var __vue_render__$i = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "konva-group",
+      {
+        attrs: {
+          config: {
+            listening: false,
+            x: _vm.center.x + _vm.hexCenter.x,
+            y: _vm.center.y + _vm.hexCenter.y,
+            offset: {
+              x: 19,
+              y: 15
+            }
+          }
+        }
+      },
+      [
+        _c("konva-path", {
+          ref: "direction",
+          attrs: {
+            config: {
+              x: 19,
+              y: 15,
+              fill: "#ffff66",
+              opacity: 0.35,
+              perfectDrawEnabled: false,
+              strokeHitEnabled: false,
+              sceneFunc: function(ctx, shp) {
+                return _vm.directionSceneFunc(ctx, shp, _vm.unit)
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("konva-path", {
+          ref: "unitBack",
+          attrs: {
+            config: {
+              data: _vm.getShape("unitBack"),
+              fill: _vm.color,
+              scale: {
+                x: 0.08,
+                y: 0.08
+              },
+              offsetY: 60,
+              shadowColor: "black",
+              shadowBlur: 10,
+              shadowOffset: { x: 40, y: 20 },
+              shadowOpacity: 0.5,
+              strokeHitEnabled: false,
+              perfectDrawEnabled: false
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("konva-path", {
+          ref: "unitPath",
+          attrs: {
+            config: {
+              data: _vm.getShape("unitPath"),
+              fill: "#000000",
+              scale: {
+                x: 0.08,
+                y: 0.08
+              },
+              offsetY: 60,
+              strokeHitEnabled: false,
+              perfectDrawEnabled: false
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("UnitType", { attrs: { type: _vm.unit.type } }),
+        _vm._v(" "),
+        _c(
+          "konva-group",
+          { ref: "health" },
+          [
+            _c("konva-rect", {
+              attrs: {
+                config: {
+                  width: 2,
+                  height: 30,
+                  fill: "white",
+                  stroke: "black",
+                  strokeWidth: 1,
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("konva-shape", {
+              attrs: {
+                config: {
+                  sceneFunc: function(ctx, shp) {
+                    return _vm.healthSceneFunc(ctx, shp, _vm.unit)
+                  },
+                  fill: "green",
+                  stroke: "black",
+                  strokeWidth: 0.5,
+                  strokeHitEnabled: false,
+                  perfectDrawEnabled: false
+                }
+              }
+            })
+          ],
+          1
+        )
+      ],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$i = [];
+  __vue_render__$i._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$i = undefined;
+    /* scoped */
+    const __vue_scope_id__$i = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$i = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$i = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$i = normalizeComponent(
+      { render: __vue_render__$i, staticRenderFns: __vue_staticRenderFns__$i },
+      __vue_inject_styles__$i,
+      __vue_script__$g,
+      __vue_scope_id__$i,
+      __vue_is_functional_template__$i,
+      __vue_module_identifier__$i,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  //
 
   var script$h = {
     components: {
-      TerrainLayer: __vue_component__$e,
-      EffectLayer: __vue_component__$f,
-      UnitLayer: __vue_component__$i
+      Unit: __vue_component__$i
     },
-    props: {
-      battle: null
+    computed:{
+      center: () => getters$1.center(),
+      hexes: () => getters$1.grid() ? getters$1.grid().getHexes().filter(h => getters$1.grid().getUnitAt(h.x, h.y)) : []
+    },
+    methods: {
+      getUnit: (hex) => getters$1.grid().getUnitAt(hex.x, hex.y),
+      getUnitColor(hex) {
+        var armyColors = ["#00cc00", "#c80b04"];
+        var unit = actions.getUnitAt(hex.x, hex.y);
+        var isPlayerArmy = actions.isPlayerArmy(unit);
+        return isPlayerArmy ? armyColors[0] : armyColors[1];
+      }
+    }
+  };
+
+  /* script */
+  const __vue_script__$h = script$h;
+
+  /* template */
+  var __vue_render__$j = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "konva-layer",
+      {
+        ref: "layer",
+        attrs: {
+          config: {
+            hitGraphEnabled: false
+          }
+        }
+      },
+      [
+        _vm._l(_vm.hexes, function(hex) {
+          return _c("Unit", {
+            key: hex.x + ":" + hex.y,
+            attrs: {
+              center: _vm.center,
+              hexCenter: hex.center,
+              unit: _vm.getUnit(hex),
+              color: _vm.getUnitColor(hex)
+            }
+          })
+        }),
+        _vm._v(">\n")
+      ],
+      2
+    )
+  };
+  var __vue_staticRenderFns__$j = [];
+  __vue_render__$j._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$j = undefined;
+    /* scoped */
+    const __vue_scope_id__$j = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$j = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$j = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$j = normalizeComponent(
+      { render: __vue_render__$j, staticRenderFns: __vue_staticRenderFns__$j },
+      __vue_inject_styles__$j,
+      __vue_script__$h,
+      __vue_scope_id__$j,
+      __vue_is_functional_template__$j,
+      __vue_module_identifier__$j,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  function getUnitMoveAnim(steps, node, center) {
+      return new Promise(function (resolve, reject) {
+          if (steps.length <= 1) {
+              resolve();
+          }
+          else {
+              var currStep = steps.shift();
+              var anim = new Konva.Animation(function (frame) {
+                  var progress = frame.time / 400;
+                  var sourceY = center.y + currStep.center.y;
+                  var targetY = center.y + steps[0].center.y;
+                  var diffY = targetY - sourceY;
+                  var calcY = sourceY + diffY * progress;
+                  node.setY(calcY);
+                  var sourceX = center.x + currStep.center.x;
+                  var targetX = center.x + steps[0].center.x;
+                  var diffX = targetX - sourceX;
+                  var calcX = sourceX + diffX * progress;
+                  node.setX(calcX);
+                  if ((diffX > 0 && calcX >= targetX) || (diffX < 0 && calcX <= targetX) ||
+                      (diffY > 0 && calcY >= targetY) || (diffY < 0 && calcY <= targetY)) {
+                      currStep = steps.shift();
+                      frame.time = 0; // ????????
+                      if (!steps.length) {
+                          anim.stop();
+                          node.setY(targetY);
+                          node.setX(targetX);
+                          resolve();
+                      }
+                  }
+              }, node.getLayer());
+              anim.start();
+          }
+      });
+  }
+
+  function Animator() {
+      var anims = [];
+      var c;
+      var currentAnimation;
+
+      return {
+          registerAnimation: (id, node, center) => {
+              anims[id] = node;
+              c = center;
+          },
+          getAnimation: (id, path) => {
+              currentAnimation = getUnitMoveAnim(path, anims[id], c).then(() => currentAnimation = null);
+              return currentAnimation;
+          },
+          isAnimating: () => {
+              return currentAnimation;
+          }
+      }
+  }
+  var animator = Animator();
+
+  //
+
+  var script$i = {
+    components: {
+      ViewCull: __vue_component__$d,
+      TerrainLayer: __vue_component__$f,
+      EffectLayer: __vue_component__$g,
+      UnitLayer: __vue_component__$j
     },
     computed: {
-      hexes: args => {
-        if (!args.grid) {
-          return [];
-        }
+      grid: () => getters$1.grid(),
+      center: () => getters$1.center(),
+      stageConfig: args => {
+        var width =
+          Math.abs(getters$1.boundingBox().minX) +
+          Math.abs(getters$1.boundingBox().maxX) +
+          60;
+        var height =
+          Math.abs(getters$1.boundingBox().minY) +
+          Math.abs(getters$1.boundingBox().maxY) +
+          60;
+        return {
+          width: width,
+          height: height,
+          draggable: true,
+          dragBoundFunc: pos => {
+            var ratiox = window.visualViewport.width / width;
+            var ratioy = window.visualViewport.height / height;
+            var margin = 50;
+            var c = {
+              x: pos.x,
+              y: pos.y,
+              sx: args.center.x / ratiox,
+              sy: args.center.y / ratioy
+            };
+            if (Math.abs(c.x) + margin > c.sx) {
+              c.x = args.$refs.stage.getStage().getAbsolutePosition().x;
+            }
+            if (Math.abs(c.y) + margin > c.sy) {
+              c.y = args.$refs.stage.getStage().getAbsolutePosition().y;
+            }
+            args.stageOffset = { x: c.x, y: c.y };
 
-        return args.grid.getHexes();
-      },
-      grid: args => {
-        if (!args.battle) {
-          return null;
-        }
-        var g = initGrid(args.battle);
-
-        var { minX, minY, maxX, maxY } = g.initDrawing(args.center);
-        args.stageConfig.width = Math.abs(minX) + Math.abs(maxX) + 60;
-        args.stageConfig.height = Math.abs(minY) + Math.abs(maxY) + 160;
-        container.style.minHeight = args.stageConfig.height + "px";
-        args.$refs.stage.getStage().setHeight(args.stageConfig.height);
-        args.height = args.stageConfig.height;
-        args.center.y = args.height / 2;
-        // terrainLayer.setY(center.y);
-
-        g.hexSelected();
-        var selHex = g.getSelectedHex();
-        if (selHex) {
-          var unit = g.getUnitAt(selHex.x, selHex.y);
-          if (g.isPlayerArmy(unit.id)) {
-            args.selectedHex = selHex;
-            args.unitRange = g.getSelectedHexRange();
-            args.unitState = g.getSelectedHexState();
+            return args.stageOffset;
           }
-          centerHex(args.$refs.stage.getStage(), args.center, selHex.center);
-        }
-
-        eventBus.publish("battlestarted");
-
-        return g;
+        };
       }
     },
+    data() {
+      return {
+        imageShapes: null,
+        focusHex: null,
+        selectedHex: null,
+        path: null,
+        unitState: null,
+        unitRange: null,
+        listening: true,
+        stageOffset: { x: 0, y: 0},
+      };
+    },
     mounted() {
-      var container = document.getElementById("container");
-      this.width = container.clientWidth;
-      this.height = container.offsetTop;
-      this.center = { x: this.width / 2, y: this.height / 2 };
-
-      loadImages().then(images => {
-        this.imageShapes = {
-          plains: images.plains,
-          forrests: images.forrests
-        };
-      });
+      actions.setCenter(window.innerWidth / 2, window.innerHeight / 2);
     },
     methods: {
       handleDragStart() {
@@ -28198,394 +28520,6 @@
 
         if (this.unitState == "moving" || this.unitState == "turning") ; else if (this.unitState == "attacking") ;
       }
-    },
-    data() {
-      return {
-        imageShapes: null,
-        focusHex: null,
-        selectedHex: null,
-        path: null,
-        unitState: null,
-        unitRange: null,
-        listening: true,
-        width: 0,
-        height: 0,
-        center: {},
-        stageConfig: {
-          width: this.width,
-          height: this.height,
-          draggable: true,
-          dragBoundFunc: pos => {
-            var ratiox = window.visualViewport.width / this.width;
-            var ratioy = window.visualViewport.height / this.height;
-            var margin = 50;
-            var c = {
-              x: pos.x,
-              y: pos.y,
-              sx: this.center.x / ratiox,
-              sy: this.center.y / ratioy
-            };
-            if (Math.abs(c.x) + margin > c.sx) {
-              c.x = this.$refs.stage.getStage().getAbsolutePosition().x;
-            }
-            if (Math.abs(c.y) + margin > c.sy) {
-              c.y = this.$refs.stage.getStage().getAbsolutePosition().y;
-            }
-            /*cullViews(window.visualViewport, this.$refs.stage, [
-              terrainLayer,
-              unitLayer.node,
-              effectLayer
-            ]);*/
-
-            return { x: c.x, y: c.y };
-          }
-        }
-      };
-    }
-  };
-
-  /* script */
-  const __vue_script__$h = script$h;
-
-  /* template */
-  var __vue_render__$j = function() {
-    var _vm = this;
-    var _h = _vm.$createElement;
-    var _c = _vm._self._c || _h;
-    return _c(
-      "div",
-      { attrs: { id: "container" } },
-      [
-        _c(
-          "konva-stage",
-          {
-            ref: "stage",
-            attrs: { config: _vm.stageConfig },
-            on: { dragstart: _vm.handleDragStart, dragend: _vm.handleDragEnd }
-          },
-          [
-            _vm.hexes.length && _vm.imageShapes
-              ? _c("TerrainLayer", {
-                  ref: "terrainLayer",
-                  attrs: {
-                    hexes: _vm.hexes,
-                    center: _vm.center,
-                    imageShapes: _vm.imageShapes
-                  },
-                  on: { selected: _vm.hexSelected, focused: _vm.hexFocused }
-                })
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.hexes.length
-              ? _c("EffectLayer", {
-                  ref: "effectLayer",
-                  attrs: {
-                    center: _vm.center,
-                    highlight: _vm.selectedHex,
-                    focus: _vm.focusHex,
-                    path: _vm.path,
-                    range: _vm.unitRange,
-                    rangeType: _vm.unitState
-                  }
-                })
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.hexes.length
-              ? _c("UnitLayer", {
-                  ref: "unitLayer",
-                  attrs: { hexes: _vm.hexes, center: _vm.center }
-                })
-              : _vm._e()
-          ],
-          1
-        )
-      ],
-      1
-    )
-  };
-  var __vue_staticRenderFns__$j = [];
-  __vue_render__$j._withStripped = true;
-
-    /* style */
-    const __vue_inject_styles__$j = undefined;
-    /* scoped */
-    const __vue_scope_id__$j = undefined;
-    /* module identifier */
-    const __vue_module_identifier__$j = undefined;
-    /* functional template */
-    const __vue_is_functional_template__$j = false;
-    /* style inject */
-    
-    /* style inject SSR */
-    
-    /* style inject shadow dom */
-    
-
-    
-    const __vue_component__$j = normalizeComponent(
-      { render: __vue_render__$j, staticRenderFns: __vue_staticRenderFns__$j },
-      __vue_inject_styles__$j,
-      __vue_script__$h,
-      __vue_scope_id__$j,
-      __vue_is_functional_template__$j,
-      __vue_module_identifier__$j,
-      false,
-      undefined,
-      undefined,
-      undefined
-    );
-
-  var army = function (army, unitTypes) {
-  	this.playerId = army.id;
-  	this.playerName = army.name;
-  	this.unitTypes = unitTypes;
-  	this.units = Object.keys(army.units).map(key => army.units[key]);
-  };
-
-  army.prototype.getArmy = function () {
-  	return this.units;
-  };
-
-  army.prototype.restoreUnit = function(upd) {
-  	var unit = this.units.find(u => u.id == upd.id);
-  	Object.assign(unit, upd);
-  };
-
-  var defaultHeaders = { 'Content-Type': 'application/json' };
-  var fetchOpts = {
-      get: {
-          method: 'GET',
-          credentials: 'include',
-          defaultHeaders
-      },
-      post: {
-          method: 'POST',
-          credentials: 'include',
-          defaultHeaders
-      }
-  };
-
-  function fetch$1 () {
-      return { 
-          get: url => fetch(url, fetchOpts.get)
-              .then(response => response.text())
-              .then(json => JSON.parse(json)),
-          post: (url, body) => {
-              var opts = body 
-              ? Object.assign({}, fetchOpts.post, { 
-                  body: JSON.stringify(body),
-                  headers: {
-                      'Accept': 'application/json, text/plain, */*',
-                      'Content-Type': 'application/json'
-                  }
-              })
-              : fetchOpts.post;
-              
-              return fetch(url, opts)
-                  .then(response => response.text())
-                  .then(json => JSON.parse(json));
-          }
-              
-      };	
-  }
-
-  var battle = function () {
-  	eventBus.on('update', d => this.onUpdate(d));
-  	eventBus.on('end', d => this.onEnd(d));
-  	this.battleState = 'none';
-  };
-
-  battle.prototype.getSceneSize = function(){
-      return this.sceneSize;
-  }; 
-
-  battle.prototype.load = function(){
-  	var battleid = sessionStorage.getItem('singlebattleid');
-  	var url = `/singlebattle/join/${battleid ? battleid : ''}`;
-  	return fetch$1().post(url).then(data => {
-  		this.battleState = 'created';
-  		this.loadData(data, true);
-  		return Promise.resolve(this);
-  	});
-  };
-
-  battle.prototype.loadData = function(data, single){
-  	var armies = Object.keys(data.armies).map(key => data.armies[key]);
-  	sessionStorage.setItem(single ? 'singlebattleid' : 'battleid', data.id);
-  	this.id = data.id;
-  	this.selfArmy = data.selfArmy;
-  	this.terrain = data.terrain;
-  	this.sceneSize = data.sceneSize;
-  	this.unitQueue = data.turns[data.turns.length - 1].readyUnits;
-  	this.firstArmy = new army(armies[0], data.unitTypes);
-  	var bsTxt1 = this.getBattleStateText();
-  	setTimeout(() => eventBus.publish('battlestate', bsTxt1), 0);
-  	if (armies.length == 2){
-  		this.secondArmy = new army(armies[1], data.unitTypes);	
-  		this.battleState = 'ready';
-  		if (data.winningArmy){
-  			return this.onEnd({ battle: data });
-  		}
-  		var bsTxt2 = this.getBattleStateText();
-  		setTimeout(() => eventBus.publish('battlestarted'), 0);
-  		setTimeout(() => eventBus.publish('battlestate', bsTxt2), 0);
-  		var nextUnit = this.nextUnit();
-  		var nextPlayer = this.getArmy(nextUnit).playerName;
-  		setTimeout(() => eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
-  	}
-  	else{
-  		setTimeout(() => eventBus.publish('battlewaiting'), 0);		
-  	}
-  };
-
-  battle.prototype.getTerrain = function() {
-  	return this.terrain;
-  };
-
-  battle.prototype.getUnits = function() {
-  	if (!this.secondArmy){
-  		return this.firstArmy.getArmy();
-  	}
-  	return this.firstArmy.getArmy().concat(this.secondArmy.getArmy());
-  };
-
-  battle.prototype.nextUnit = function() {
-  	return this.getUnits().find(u => u.id == this.unitQueue[0]);
-  };
-
-  battle.prototype.getArmy = function(unitId) {
-  	return this.firstArmy.getArmy().some(x => x.id == unitId)
-  	? this.firstArmy
-  	: this.secondArmy;
-  };
-
-  battle.prototype.getOtherArmy = function(unitId) {
-  	return this.firstArmy.getArmy().some(x => x.id == unitId)
-  	? this.secondArmy
-  	: this.firstArmy;
-  };
-
-  battle.prototype.onUpdate = function(data){
-  	this.battleState = 'started';
-  	var delta = {
-  		source: this.nextUnit().pos,
-  		target: data.currUnit.pos
-  	};
-
-  	this.unitQueue = data.unitQueue;
-  	var army = this.getArmy(data.currUnit.id);
-  	army.restoreUnit(data.currUnit);
-  	if (data.targetUnit){
-  		var targetArmy = this.getArmy(data.targetUnit.id);
-  		targetArmy.restoreUnit(data.targetUnit);
-  	}
-  	var nextUnitArmy = this.getArmy(data.nextUnit.id);
-  	nextUnitArmy.restoreUnit(data.nextUnit);
-  	setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data}), 0);
-  	setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
-  	var nextUnit = this.nextUnit();
-  	var nextPlayer = this.getArmy(nextUnit).playerName;
-  	setTimeout(() => eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
-  };
-
-  battle.prototype.onEnd = function(data){
-  	this.battleState = 'finished';
-  	setTimeout(() => eventBus.publish('battleended', this.getBattleSummary(data.battle)), 0);
-  	setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
-  };
-
-  battle.prototype.unitMoving = function(unit, x, y, distance) {	
-  	requestMove(eventBus, this.id, unit.id, x, y);
-  };
-
-  battle.prototype.unitTurning = function(unit, x, y) {
-  	requestTurn(eventBus, this.id, unit.id, x, y);
-  };
-
-  battle.prototype.unitAttacking = function(unit, x, y) {
-  	requestAttack(eventBus, this.id, unit.id, x, y);
-  };
-
-  battle.prototype.getUnitState = function(unit) {
-  	if (!unit){
-  		return 'none';
-  	}
-  	if (unit.endurance <= 0){
-  		return 'dead';
-  	}
-  	if (unit.mobility > 0){
-  		return 'moving';
-  	}
-  	if (unit.agility > 0){
-  		return 'turning';
-  	}
-  	if (unit.attacks > 0){
-  		return 'attacking';
-  	}
-  };
-
-  battle.prototype.getUnitAt = function(x, y) {
-  	return this.getUnits().find(u => u.pos.x == x && u.pos.y == y);
-  };
-
-  battle.prototype.isPlayerArmy = function(unitId, exactMatch) {
-  	if (exactMatch){
-  		return this.selfArmy === this.getArmy(unitId).playerId;
-  	}
-
-  	return this.selfArmy === this.getArmy(unitId).playerId
-  		|| '_' + this.selfArmy === this.getArmy(unitId).playerId
-  		|| this.selfArmy === '_' + this.getArmy(unitId).playerId;
-  };
-
-  battle.prototype.getBattleStateText = function() {
-  	if (this.battleState == 'none'){
-  		return '';
-  	}
-  	if (this.battleState == 'created'){
-  		return `Army of ${this.firstArmy.playerName} has arrived`;
-  	}
-  	if (this.battleState == 'ready'){
-  		return `Army of ${this.secondArmy.playerName} has arrived`;
-  	}
-  	if (this.battleState == 'started'){
-  		return `Army of ${this.firstArmy.playerName} is fighting with army of ${this.secondArmy.playerName}`;
-  	}
-  	if (this.battleState == 'finished'){
-  		return this.firstArmy.units.some(u => u.endurance > 0)
-  		? `Army of ${this.firstArmy.playerName} has won`
-  		: `Army of ${this.secondArmy.playerName} has won`
-  	}
-  };
-
-  battle.prototype.getBattleSummary = function(data) {
-  	var summary = [];
-  	if (this.battleState == 'finished'){
-  		summary.push(this.firstArmy.playerId == data.winningArmy
-  			? `Army of ${this.firstArmy.playerName} has won`
-  			: `Army of ${this.secondArmy.playerName} has won`);
-
-  		return summary;
-  	}
-  	return [];
-  };
-
-  //
-
-  var script$i = {
-    components: {
-      Menu: __vue_component__$c,
-      GameStage: __vue_component__$j
-    },
-    data: function() {
-      return {
-        battle: null
-      }
-    },
-    mounted() {
-      new battle().load().then(data => {
-        this.battle = data;
-      });
     }
   };
 
@@ -28599,11 +28533,48 @@
     var _c = _vm._self._c || _h;
     return _c(
       "div",
-      { attrs: { id: "battle-scene" } },
+      { attrs: { id: "container" } },
       [
-        _c("Menu"),
-        _vm._v(" "),
-        _c("GameStage", { attrs: { battle: _vm.battle } })
+        _c(
+          "ViewCull",
+          { attrs: { stageOffset: _vm.stageOffset } },
+          [
+            _vm.grid
+              ? _c(
+                  "konva-stage",
+                  {
+                    ref: "stage",
+                    attrs: { config: _vm.stageConfig },
+                    on: {
+                      dragstart: _vm.handleDragStart,
+                      dragend: _vm.handleDragEnd
+                    }
+                  },
+                  [
+                    _c("TerrainLayer", {
+                      ref: "terrainLayer",
+                      on: { selected: _vm.hexSelected, focused: _vm.hexFocused }
+                    }),
+                    _vm._v(" "),
+                    _c("EffectLayer", {
+                      ref: "effectLayer",
+                      attrs: {
+                        highlight: _vm.selectedHex,
+                        focus: _vm.focusHex,
+                        path: _vm.path,
+                        range: _vm.unitRange,
+                        rangeType: _vm.unitState
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("UnitLayer", { ref: "unitLayer" })
+                  ],
+                  1
+                )
+              : _vm._e()
+          ],
+          1
+        )
       ],
       1
     )
@@ -28641,7 +28612,66 @@
     );
 
   //
+
   var script$j = {
+    components: {
+      Menu: __vue_component__$c,
+      GameStage: __vue_component__$k
+    },
+    created() {
+      actions.load();
+    }
+  };
+
+  /* script */
+  const __vue_script__$j = script$j;
+
+  /* template */
+  var __vue_render__$l = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      { attrs: { id: "battle-scene" } },
+      [_c("Menu"), _vm._v(" "), _c("GameStage")],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$l = [];
+  __vue_render__$l._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$l = undefined;
+    /* scoped */
+    const __vue_scope_id__$l = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$l = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$l = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$l = normalizeComponent(
+      { render: __vue_render__$l, staticRenderFns: __vue_staticRenderFns__$l },
+      __vue_inject_styles__$l,
+      __vue_script__$j,
+      __vue_scope_id__$l,
+      __vue_is_functional_template__$l,
+      __vue_module_identifier__$l,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  //
+  var script$k = {
     components: {
       Title: __vue_component__$4,
       Panel: __vue_component__$3
@@ -28650,10 +28680,10 @@
   };
 
   /* script */
-  const __vue_script__$j = script$j;
+  const __vue_script__$k = script$k;
 
   /* template */
-  var __vue_render__$l = function() {
+  var __vue_render__$m = function() {
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -28678,86 +28708,17 @@
       1
     )
   };
-  var __vue_staticRenderFns__$l = [];
-  __vue_render__$l._withStripped = true;
-
-    /* style */
-    const __vue_inject_styles__$l = function (inject) {
-      if (!inject) return
-      inject("data-v-31952736_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
-
-    };
-    /* scoped */
-    const __vue_scope_id__$l = "data-v-31952736";
-    /* module identifier */
-    const __vue_module_identifier__$l = undefined;
-    /* functional template */
-    const __vue_is_functional_template__$l = false;
-    /* style inject SSR */
-    
-    /* style inject shadow dom */
-    
-
-    
-    const __vue_component__$l = normalizeComponent(
-      { render: __vue_render__$l, staticRenderFns: __vue_staticRenderFns__$l },
-      __vue_inject_styles__$l,
-      __vue_script__$j,
-      __vue_scope_id__$l,
-      __vue_is_functional_template__$l,
-      __vue_module_identifier__$l,
-      false,
-      createInjector,
-      undefined,
-      undefined
-    );
-
-  //
-  var script$k = {
-    components: {
-      Title: __vue_component__$4,
-      Panel: __vue_component__$3
-    }
-  };
-
-  /* script */
-  const __vue_script__$k = script$k;
-
-  /* template */
-  var __vue_render__$m = function() {
-    var _vm = this;
-    var _h = _vm.$createElement;
-    var _c = _vm._self._c || _h;
-    return _c(
-      "div",
-      [
-        _c("Title"),
-        _vm._v(" "),
-        _c("div", { staticClass: "pure-g" }, [
-          _c("div", { staticClass: "pure-u-1 pure-u-sm-1-8 pure-u-md-1-4" }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "pure-u-1 pure-u-sm-3-4 pure-u-md-1-2" },
-            [_c("Panel", [_vm._v("\n        Location not found, sir.\n      ")])],
-            1
-          )
-        ])
-      ],
-      1
-    )
-  };
   var __vue_staticRenderFns__$m = [];
   __vue_render__$m._withStripped = true;
 
     /* style */
     const __vue_inject_styles__$m = function (inject) {
       if (!inject) return
-      inject("data-v-5c47c5cc_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-59507c18_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$m = "data-v-5c47c5cc";
+    const __vue_scope_id__$m = "data-v-59507c18";
     /* module identifier */
     const __vue_module_identifier__$m = undefined;
     /* functional template */
@@ -28781,6 +28742,75 @@
       undefined
     );
 
+  //
+  var script$l = {
+    components: {
+      Title: __vue_component__$4,
+      Panel: __vue_component__$3
+    }
+  };
+
+  /* script */
+  const __vue_script__$l = script$l;
+
+  /* template */
+  var __vue_render__$n = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      [
+        _c("Title"),
+        _vm._v(" "),
+        _c("div", { staticClass: "pure-g" }, [
+          _c("div", { staticClass: "pure-u-1 pure-u-sm-1-8 pure-u-md-1-4" }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "pure-u-1 pure-u-sm-3-4 pure-u-md-1-2" },
+            [_c("Panel", [_vm._v("\n        Location not found, sir.\n      ")])],
+            1
+          )
+        ])
+      ],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$n = [];
+  __vue_render__$n._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$n = function (inject) {
+      if (!inject) return
+      inject("data-v-088d9a08_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+
+    };
+    /* scoped */
+    const __vue_scope_id__$n = "data-v-088d9a08";
+    /* module identifier */
+    const __vue_module_identifier__$n = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$n = false;
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$n = normalizeComponent(
+      { render: __vue_render__$n, staticRenderFns: __vue_staticRenderFns__$n },
+      __vue_inject_styles__$n,
+      __vue_script__$l,
+      __vue_scope_id__$n,
+      __vue_is_functional_template__$n,
+      __vue_module_identifier__$n,
+      false,
+      createInjector,
+      undefined,
+      undefined
+    );
+
   const ifAuthenticated = (to, from, next) => {
       if (getters.authenticated()) {
         next();
@@ -28796,9 +28826,9 @@
       { path: '/tutorial', component: __vue_component__$9, beforeEnter: ifAuthenticated },
       { path: '/start', component: __vue_component__$a, beforeEnter: ifAuthenticated },
       { path: '/battle', component: __vue_component__$b, beforeEnter: ifAuthenticated },
-      { path: '/single', component: __vue_component__$k, beforeEnter: ifAuthenticated },
-      { path: "/error", name: 'error', component: __vue_component__$l, props: true },
-      { path: "*", component: __vue_component__$m }
+      { path: '/single', component: __vue_component__$l, beforeEnter: ifAuthenticated },
+      { path: "/error", name: 'error', component: __vue_component__$m, props: true },
+      { path: "*", component: __vue_component__$n }
   ];
 
   const router = new VueRouter({

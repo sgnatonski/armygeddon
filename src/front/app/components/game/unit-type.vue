@@ -34,7 +34,7 @@ export default {
   props: { type: String },
   data() {
     return {
-      parts: getParts()
+      parts: this.getParts()
     };
   },
   methods: {

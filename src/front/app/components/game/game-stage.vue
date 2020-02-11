@@ -1,75 +1,49 @@
 <template>
   <div id="container">
-    <konva-stage
-      ref="stage"
-      :config="stageConfig"
-      @dragstart="handleDragStart"
-      @dragend="handleDragEnd"
-    >
-      <TerrainLayer
-        ref="terrainLayer"
-        v-if="hexes.length && imageShapes"
-        :hexes="hexes"
-        :center="center"
-        :imageShapes="imageShapes"
-        @selected="hexSelected"
-        @focused="hexFocused"
-      ></TerrainLayer>
-      <EffectLayer
-        ref="effectLayer"
-        v-if="hexes.length"
-        :center="center"
-        :highlight="selectedHex"
-        :focus="focusHex"
-        :path="path"
-        :range="unitRange"
-        :rangeType="unitState"
-      ></EffectLayer>
-      <UnitLayer
-        ref="unitLayer"
-        v-if="hexes.length"
-        :hexes="hexes"
-        :center="center"
-      ></UnitLayer>
-    </konva-stage>
+    <ViewCull :stageOffset="stageOffset">
+      <konva-stage
+        ref="stage"
+        v-if="grid"
+        :config="stageConfig"
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
+      >
+        <TerrainLayer ref="terrainLayer" @selected="hexSelected" @focused="hexFocused"></TerrainLayer>
+        <EffectLayer
+          ref="effectLayer"
+          :highlight="selectedHex"
+          :focus="focusHex"
+          :path="path"
+          :range="unitRange"
+          :rangeType="unitState"
+        ></EffectLayer>
+        <UnitLayer ref="unitLayer"></UnitLayer>
+      </konva-stage>
+    </ViewCull>
   </div>
 </template>
 
 <script>
+import ViewCull from "./view-cull.vue";
 import TerrainLayer from "./terrain-layer.vue";
 import EffectLayer from "./effect-layer.vue";
 import UnitLayer from "./unit-layer.vue";
 import eventBus from "../../eventbus.js";
 import animator from "../../animator.js";
-import grid from "../../../game/grid.js";
-import loadImage from "image-promise";
-
-function loadImages() {
-  return loadImage([
-    "/images/grid/plain1.png",
-    "/images/grid/plain2.png",
-    "/images/grid/plain3.png",
-    "/images/grid/plain4.png",
-    "/images/grid/plain5.png",
-    "/images/grid/plain6.png",
-    "/images/grid/forrest1.png",
-    "/images/grid/forrest2.png"
-  ]).then(imgs => {
-    return {
-      plains: imgs.slice(0, 6),
-      forrests: [imgs[6], imgs[7]]
-    };
-  });
-}
+import { getters, actions } from "../../stores/battle";
 
 function centerHex(stage, center, unitPos) {
   var margin = 100;
-  if ((stage.getX() + center.x + unitPos.x < margin || stage.getX() + center.x + unitPos.x > container.clientWidth - margin)
-    || (stage.getY() + center.y + unitPos.y < margin || stage.getY() + center.y + unitPos.y > container.clientHeight - margin)) {
+  if (
+    stage.getX() + center.x + unitPos.x < margin ||
+    stage.getX() + center.x + unitPos.x > container.clientWidth - margin ||
+    stage.getY() + center.y + unitPos.y < margin ||
+    stage.getY() + center.y + unitPos.y > container.clientHeight - margin
+  ) {
     setTimeout(() => {
       stage.setX(-unitPos.x);
       stage.setY(-unitPos.y);
-      //cullViews(this.visualViewport, stage, [terrainLayer, unitLayer.node, effectLayer]);
+      args.stageOffset = { x: stage.getX(), y: stage.getY() };
       stage.batchDraw();
     }, 0);
   }
@@ -77,65 +51,64 @@ function centerHex(stage, center, unitPos) {
 
 export default {
   components: {
+    ViewCull,
     TerrainLayer,
     EffectLayer,
     UnitLayer
   },
-  props: {
-    battle: null
-  },
   computed: {
-    hexes: args => {
-      if (!args.grid) {
-        return [];
-      }
+    grid: () => getters.grid(),
+    center: () => getters.center(),
+    stageConfig: args => {
+      var width =
+        Math.abs(getters.boundingBox().minX) +
+        Math.abs(getters.boundingBox().maxX) +
+        60;
+      var height =
+        Math.abs(getters.boundingBox().minY) +
+        Math.abs(getters.boundingBox().maxY) +
+        60;
+      return {
+        width: width,
+        height: height,
+        draggable: true,
+        dragBoundFunc: pos => {
+          var ratiox = window.visualViewport.width / width;
+          var ratioy = window.visualViewport.height / height;
+          var margin = 50;
+          var c = {
+            x: pos.x,
+            y: pos.y,
+            sx: args.center.x / ratiox,
+            sy: args.center.y / ratioy
+          };
+          if (Math.abs(c.x) + margin > c.sx) {
+            c.x = args.$refs.stage.getStage().getAbsolutePosition().x;
+          }
+          if (Math.abs(c.y) + margin > c.sy) {
+            c.y = args.$refs.stage.getStage().getAbsolutePosition().y;
+          }
+          args.stageOffset = { x: c.x, y: c.y };
 
-      return args.grid.getHexes();
-    },
-    grid: args => {
-      if (!args.battle) {
-        return null;
-      }
-      var g = grid(args.battle);
-
-      var { minX, minY, maxX, maxY } = g.initDrawing(args.center);
-      args.stageConfig.width = Math.abs(minX) + Math.abs(maxX) + 60;
-      args.stageConfig.height = Math.abs(minY) + Math.abs(maxY) + 160;
-      container.style.minHeight = args.stageConfig.height + "px";
-      args.$refs.stage.getStage().setHeight(args.stageConfig.height);
-      args.height = args.stageConfig.height;
-      args.center.y = args.height / 2;
-      // terrainLayer.setY(center.y);
-
-      g.hexSelected();
-      var selHex = g.getSelectedHex();
-      if (selHex) {
-        var unit = g.getUnitAt(selHex.x, selHex.y);
-        if (g.isPlayerArmy(unit.id)) {
-          args.selectedHex = selHex;
-          args.unitRange = g.getSelectedHexRange();
-          args.unitState = g.getSelectedHexState();
+          return args.stageOffset;
         }
-        centerHex(args.$refs.stage.getStage(), args.center, selHex.center);
-      }
-
-      eventBus.publish("battlestarted");
-
-      return g;
+      };
     }
   },
+  data() {
+    return {
+      imageShapes: null,
+      focusHex: null,
+      selectedHex: null,
+      path: null,
+      unitState: null,
+      unitRange: null,
+      listening: true,
+      stageOffset: { x: 0, y: 0},
+    };
+  },
   mounted() {
-    var container = document.getElementById("container");
-    this.width = container.clientWidth;
-    this.height = container.offsetTop;
-    this.center = { x: this.width / 2, y: this.height / 2 };
-
-    loadImages().then(images => {
-      this.imageShapes = {
-        plains: images.plains,
-        forrests: images.forrests
-      };
-    });
+    actions.setCenter(window.innerWidth / 2, window.innerHeight / 2);
   },
   methods: {
     handleDragStart() {
@@ -184,49 +157,6 @@ export default {
         }
       }
     }
-  },
-  data() {
-    return {
-      imageShapes: null,
-      focusHex: null,
-      selectedHex: null,
-      path: null,
-      unitState: null,
-      unitRange: null,
-      listening: true,
-      width: 0,
-      height: 0,
-      center: {},
-      stageConfig: {
-        width: this.width,
-        height: this.height,
-        draggable: true,
-        dragBoundFunc: pos => {
-          var ratiox = window.visualViewport.width / this.width;
-          var ratioy = window.visualViewport.height / this.height;
-          var margin = 50;
-          var c = {
-            x: pos.x,
-            y: pos.y,
-            sx: this.center.x / ratiox,
-            sy: this.center.y / ratioy
-          };
-          if (Math.abs(c.x) + margin > c.sx) {
-            c.x = this.$refs.stage.getStage().getAbsolutePosition().x;
-          }
-          if (Math.abs(c.y) + margin > c.sy) {
-            c.y = this.$refs.stage.getStage().getAbsolutePosition().y;
-          }
-          /*cullViews(window.visualViewport, this.$refs.stage, [
-            terrainLayer,
-            unitLayer.node,
-            effectLayer
-          ]);*/
-
-          return { x: c.x, y: c.y };
-        }
-      }
-    };
   }
 };
 </script>

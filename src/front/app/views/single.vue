@@ -1,29 +1,22 @@
 <template>
   <div id="battle-scene">
     <Menu />
-    <GameStage :battle="battle" />
+    <GameStage />
   </div>
 </template>
 
 <script>
 import Menu from "../components/game/menu.vue";
 import GameStage from "../components/game/game-stage.vue";
-import { Battle } from "../../game/game.js";
+import { actions } from "../stores/battle";
 
 export default {
   components: {
     Menu,
     GameStage
   },
-  data: function() {
-    return {
-      battle: null
-    }
-  },
-  mounted() {
-    new Battle().load().then(data => {
-      this.battle = data;
-    });
+  created() {
+    actions.load();
   }
 };
 </script>
