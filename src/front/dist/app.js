@@ -28439,6 +28439,14 @@
           Math.abs(getters$1.boundingBox().minY) +
           Math.abs(getters$1.boundingBox().maxY) +
           60;
+
+        if (width < window.visualViewport.width){
+          width = window.visualViewport.width;
+        }
+        if (height < window.visualViewport.height){
+          height = window.visualViewport.height;
+        }
+
         return {
           width: width,
           height: height,
