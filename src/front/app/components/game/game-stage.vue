@@ -1,26 +1,24 @@
 <template>
-  <div id="container">
-    <ViewCull :stageOffset="stageOffset">
-      <konva-stage
-        ref="stage"
-        v-if="grid"
-        :config="stageConfig"
-        @dragstart="handleDragStart"
-        @dragend="handleDragEnd"
-      >
-        <TerrainLayer ref="terrainLayer" @selected="hexSelected" @focused="hexFocused"></TerrainLayer>
-        <EffectLayer
-          ref="effectLayer"
-          :highlight="selectedHex"
-          :focus="focusHex"
-          :path="path"
-          :range="unitRange"
-          :rangeType="unitState"
-        ></EffectLayer>
-        <UnitLayer ref="unitLayer"></UnitLayer>
-      </konva-stage>
-    </ViewCull>
-  </div>
+  <ViewCull :stageOffset="stageOffset">
+    <konva-stage
+      ref="stage"
+      v-if="grid"
+      :config="stageConfig"
+      @dragstart="handleDragStart"
+      @dragend="handleDragEnd"
+    >
+      <TerrainLayer ref="terrainLayer" @selected="hexSelected" @focused="hexFocused"></TerrainLayer>
+      <EffectLayer
+        ref="effectLayer"
+        :highlight="selectedHex"
+        :focus="focusHex"
+        :path="path"
+        :range="unitRange"
+        :rangeType="unitState"
+      ></EffectLayer>
+      <UnitLayer ref="unitLayer"></UnitLayer>
+    </konva-stage>
+  </ViewCull>
 </template>
 
 <script>

@@ -26126,30 +26126,27 @@
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
-    return _vm._m(0)
-  };
-  var __vue_staticRenderFns__$c = [
-    function() {
-      var _vm = this;
-      var _h = _vm.$createElement;
-      var _c = _vm._self._c || _h;
-      return _c("div", { staticClass: "game-menu" }, [
-        _c("div", { staticClass: "icon" }),
-        _vm._v(" "),
-        _c("input", { staticClass: "wrapper", attrs: { type: "checkbox" } }),
-        _vm._v(" "),
-        _c("div", { staticClass: "contents" }, [
-          _c("ul", [
-            _c("li", [_vm._v("test 1")]),
-            _vm._v(" "),
-            _c("li", [_vm._v("test 2")]),
-            _vm._v(" "),
-            _c("li", [_vm._v("test 3")])
-          ])
+    return _c("div", { staticClass: "game-menu" }, [
+      _c("div", { staticClass: "icon" }),
+      _vm._v(" "),
+      _c("input", { staticClass: "wrapper", attrs: { type: "checkbox" } }),
+      _vm._v(" "),
+      _c("div", { staticClass: "contents" }, [
+        _c("ul", [
+          _c("li", [_vm._v("test 1")]),
+          _vm._v(" "),
+          _c("li", [_vm._v("test 2")]),
+          _vm._v(" "),
+          _c(
+            "li",
+            [_c("router-link", { attrs: { to: "/" } }, [_vm._v("Exit")])],
+            1
+          )
         ])
       ])
-    }
-  ];
+    ])
+  };
+  var __vue_staticRenderFns__$c = [];
   __vue_render__$c._withStripped = true;
 
     /* style */
@@ -28532,49 +28529,39 @@
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
     return _c(
-      "div",
-      { attrs: { id: "container" } },
+      "ViewCull",
+      { attrs: { stageOffset: _vm.stageOffset } },
       [
-        _c(
-          "ViewCull",
-          { attrs: { stageOffset: _vm.stageOffset } },
-          [
-            _vm.grid
-              ? _c(
-                  "konva-stage",
-                  {
-                    ref: "stage",
-                    attrs: { config: _vm.stageConfig },
-                    on: {
-                      dragstart: _vm.handleDragStart,
-                      dragend: _vm.handleDragEnd
-                    }
-                  },
-                  [
-                    _c("TerrainLayer", {
-                      ref: "terrainLayer",
-                      on: { selected: _vm.hexSelected, focused: _vm.hexFocused }
-                    }),
-                    _vm._v(" "),
-                    _c("EffectLayer", {
-                      ref: "effectLayer",
-                      attrs: {
-                        highlight: _vm.selectedHex,
-                        focus: _vm.focusHex,
-                        path: _vm.path,
-                        range: _vm.unitRange,
-                        rangeType: _vm.unitState
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("UnitLayer", { ref: "unitLayer" })
-                  ],
-                  1
-                )
-              : _vm._e()
-          ],
-          1
-        )
+        _vm.grid
+          ? _c(
+              "konva-stage",
+              {
+                ref: "stage",
+                attrs: { config: _vm.stageConfig },
+                on: { dragstart: _vm.handleDragStart, dragend: _vm.handleDragEnd }
+              },
+              [
+                _c("TerrainLayer", {
+                  ref: "terrainLayer",
+                  on: { selected: _vm.hexSelected, focused: _vm.hexFocused }
+                }),
+                _vm._v(" "),
+                _c("EffectLayer", {
+                  ref: "effectLayer",
+                  attrs: {
+                    highlight: _vm.selectedHex,
+                    focus: _vm.focusHex,
+                    path: _vm.path,
+                    range: _vm.unitRange,
+                    rangeType: _vm.unitState
+                  }
+                }),
+                _vm._v(" "),
+                _c("UnitLayer", { ref: "unitLayer" })
+              ],
+              1
+            )
+          : _vm._e()
       ],
       1
     )
@@ -28616,6 +28603,7 @@
   var script$j = {
     components: {
       Menu: __vue_component__$c,
+      Panel: __vue_component__$3,
       GameStage: __vue_component__$k
     },
     created() {
@@ -28634,7 +28622,16 @@
     return _c(
       "div",
       { attrs: { id: "battle-scene" } },
-      [_c("Menu"), _vm._v(" "), _c("GameStage")],
+      [
+        _c("Menu"),
+        _vm._v(" "),
+        _c(
+          "Panel",
+          { staticClass: "battle-panel" },
+          [_c("GameStage", { staticClass: "battle-stage" })],
+          1
+        )
+      ],
       1
     )
   };
@@ -28642,15 +28639,17 @@
   __vue_render__$l._withStripped = true;
 
     /* style */
-    const __vue_inject_styles__$l = undefined;
+    const __vue_inject_styles__$l = function (inject) {
+      if (!inject) return
+      inject("data-v-6a8ec69c_0", { source: "\n.battle-panel[data-v-6a8ec69c] {\r\n  margin: -5px;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\n}\n.battle-stage[data-v-6a8ec69c] {\r\n  margin: -10px;\r\n  position: absolute;\n}\r\n", map: undefined, media: undefined });
+
+    };
     /* scoped */
-    const __vue_scope_id__$l = undefined;
+    const __vue_scope_id__$l = "data-v-6a8ec69c";
     /* module identifier */
     const __vue_module_identifier__$l = undefined;
     /* functional template */
     const __vue_is_functional_template__$l = false;
-    /* style inject */
-    
     /* style inject SSR */
     
     /* style inject shadow dom */
@@ -28665,7 +28664,7 @@
       __vue_is_functional_template__$l,
       __vue_module_identifier__$l,
       false,
-      undefined,
+      createInjector,
       undefined,
       undefined
     );
