@@ -23,10 +23,6 @@ body > div > div:not(#battle-scene):before {
   height: 100%;
 }
 
-div#container{
-  position: relative;
-}
-
 body > div > div#battle-scene:before {
   content: "";
   position: fixed;

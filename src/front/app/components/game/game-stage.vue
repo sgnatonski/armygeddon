@@ -55,6 +55,7 @@ export default {
     UnitLayer
   },
   computed: {
+    selectedHex: () => getters.selectedHex(),
     grid: () => getters.grid(),
     center: () => getters.center(),
     stageConfig: args => {
@@ -105,7 +106,6 @@ export default {
     return {
       imageShapes: null,
       focusHex: null,
-      selectedHex: null,
       path: null,
       unitState: null,
       unitRange: null,
@@ -124,7 +124,7 @@ export default {
       this.listening = true;
     },
     hexSelected(hex) {
-      this.selectedHex = hex;
+      actions.setSelectedHex(hex);
       this.grid.hexSelected(hex);
     },
     hexFocused(hex) {

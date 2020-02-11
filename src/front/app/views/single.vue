@@ -28,11 +28,13 @@ export default {
 <style scoped>
 .battle-panel {
   margin: -5px;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  overflow: hidden;
+  margin-right: 0px;
 }
 
 .battle-stage {

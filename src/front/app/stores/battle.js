@@ -36,6 +36,7 @@ const state = Vue.observable({
     nextPlayer: null,
     winningArmy: null,
     grid: null,
+    selectedHex: null,
     imageShapes: []
 });
 
@@ -43,6 +44,7 @@ export const getters = {
     center: () => state.center,
     boundingBox: () => state.boundingBox,
     grid: () => state.grid,
+    selectedHex: () => state.selectedHex,
     imageShapes: () => state.imageShapes,
     sceneSize: () => state.sceneSize,
     battleState: () => state.battleState,
@@ -107,7 +109,7 @@ export const mutations = {
         if (selHex) {
             var unit = state.grid.getUnitAt(selHex.x, selHex.y);
             if (state.grid.isPlayerArmy(unit.id)) {
-                //state.selectedHex = selHex;
+                state.selectedHex = selHex;
                 //state.unitRange = state.grid.getSelectedHexRange();
                 //state.unitState = state.grid.getSelectedHexState();
             }
@@ -143,6 +145,9 @@ export const mutations = {
     },
     setCenter(x, y) {
         state.center = { x: x, y: y };
+    },
+    setSelectedHex(hex) {
+        state.selectedHex = hex;
     }
 };
 
@@ -201,5 +206,8 @@ export const actions = {
     },
     setCenter(x, y) {
         mutations.setCenter(x, y);
+    },
+    setSelectedHex(hex) {
+        mutations.setSelectedHex(hex);
     }
 }

@@ -9,8 +9,8 @@
           }"
       @click="evt => hexSelected(evt, hex)"
       @dbltap="evt => hexSelected(evt, hex)"
+      @tap="evt => hexFocused(evt, hex)"
       @mouseenter="evt => hexFocused(evt, hex)"
-      @mouseleave="evt => hexUnfocused(evt, hex)"
     >
       <konva-image
         :config="{

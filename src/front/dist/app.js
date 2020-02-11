@@ -23845,11 +23845,6 @@
     return parsed;
   };
 
-  var isValidXss = function isValidXss(requestURL) {
-    var xssRegex = /(\b)(on\w+)=|javascript|(<\s*)(\/*)script/gi;
-    return xssRegex.test(requestURL);
-  };
-
   var isURLSameOrigin = (
     utils.isStandardBrowserEnv() ?
 
@@ -23868,10 +23863,6 @@
       */
         function resolveURL(url) {
           var href = url;
-
-          if (isValidXss(url)) {
-            throw new Error('URL contains XSS injection attempt');
-          }
 
           if (msie) {
           // IE needs attribute set twice to normalize properties
@@ -24828,11 +24819,11 @@
     /* style */
     const __vue_inject_styles__ = function (inject) {
       if (!inject) return
-      inject("data-v-7d873a31_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-16e31f62_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__ = "data-v-7d873a31";
+    const __vue_scope_id__ = "data-v-16e31f62";
     /* module identifier */
     const __vue_module_identifier__ = undefined;
     /* functional template */
@@ -24921,11 +24912,11 @@
     /* style */
     const __vue_inject_styles__$1 = function (inject) {
       if (!inject) return
-      inject("data-v-7ebdd8b6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-0c96d458_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$1 = "data-v-7ebdd8b6";
+    const __vue_scope_id__$1 = "data-v-0c96d458";
     /* module identifier */
     const __vue_module_identifier__$1 = undefined;
     /* functional template */
@@ -25049,11 +25040,11 @@
     /* style */
     const __vue_inject_styles__$2 = function (inject) {
       if (!inject) return
-      inject("data-v-3501618d_0", { source: "\n.user[data-v-3501618d]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-3f3cd12b_0", { source: "\n.user[data-v-3f3cd12b]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$2 = "data-v-3501618d";
+    const __vue_scope_id__$2 = "data-v-3f3cd12b";
     /* module identifier */
     const __vue_module_identifier__$2 = undefined;
     /* functional template */
@@ -25159,7 +25150,7 @@
     /* style */
     const __vue_inject_styles__$3 = function (inject) {
       if (!inject) return
-      inject("data-v-1bd59c18_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-e244cfdc_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -25257,7 +25248,7 @@
     /* style */
     const __vue_inject_styles__$4 = function (inject) {
       if (!inject) return
-      inject("data-v-27dffaaa_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 6px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: pulsate-anim 0.8s ease-in-out infinite both;\n}\n@keyframes pulsate-anim {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 52%;\n}\n50% {\r\n    background-position: 100% 68%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 56%;\n}\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-027f9268_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 6px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: pulsate-anim 0.8s ease-in-out infinite both;\n}\n@keyframes pulsate-anim {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 52%;\n}\n50% {\r\n    background-position: 100% 68%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 56%;\n}\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -25339,11 +25330,11 @@
     /* style */
     const __vue_inject_styles__$5 = function (inject) {
       if (!inject) return
-      inject("data-v-77a6eb12_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-ecd262ce_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$5 = "data-v-77a6eb12";
+    const __vue_scope_id__$5 = "data-v-ecd262ce";
     /* module identifier */
     const __vue_module_identifier__$5 = undefined;
     /* functional template */
@@ -25409,11 +25400,11 @@
     /* style */
     const __vue_inject_styles__$6 = function (inject) {
       if (!inject) return
-      inject("data-v-0420eeeb_0", { source: "\np[data-v-0420eeeb] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-50cf9cee_0", { source: "\np[data-v-50cf9cee] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$6 = "data-v-0420eeeb";
+    const __vue_scope_id__$6 = "data-v-50cf9cee";
     /* module identifier */
     const __vue_module_identifier__$6 = undefined;
     /* functional template */
@@ -25604,11 +25595,11 @@
     /* style */
     const __vue_inject_styles__$7 = function (inject) {
       if (!inject) return
-      inject("data-v-6e634d14_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-22778218_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$7 = "data-v-6e634d14";
+    const __vue_scope_id__$7 = "data-v-22778218";
     /* module identifier */
     const __vue_module_identifier__$7 = undefined;
     /* functional template */
@@ -25859,11 +25850,11 @@
     /* style */
     const __vue_inject_styles__$8 = function (inject) {
       if (!inject) return
-      inject("data-v-18958e08_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-c3d4d9ac_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$8 = "data-v-18958e08";
+    const __vue_scope_id__$8 = "data-v-c3d4d9ac";
     /* module identifier */
     const __vue_module_identifier__$8 = undefined;
     /* functional template */
@@ -25910,11 +25901,11 @@
     /* style */
     const __vue_inject_styles__$9 = function (inject) {
       if (!inject) return
-      inject("data-v-2ebcd5f4_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-149f3524_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$9 = "data-v-2ebcd5f4";
+    const __vue_scope_id__$9 = "data-v-149f3524";
     /* module identifier */
     const __vue_module_identifier__$9 = undefined;
     /* functional template */
@@ -26037,11 +26028,11 @@
     /* style */
     const __vue_inject_styles__$a = function (inject) {
       if (!inject) return
-      inject("data-v-d4169814_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-d0273bd8_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$a = "data-v-d4169814";
+    const __vue_scope_id__$a = "data-v-d0273bd8";
     /* module identifier */
     const __vue_module_identifier__$a = undefined;
     /* functional template */
@@ -26091,11 +26082,11 @@
     /* style */
     const __vue_inject_styles__$b = function (inject) {
       if (!inject) return
-      inject("data-v-8bfb4e50_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-76e7e0f6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$b = "data-v-8bfb4e50";
+    const __vue_scope_id__$b = "data-v-76e7e0f6";
     /* module identifier */
     const __vue_module_identifier__$b = undefined;
     /* functional template */
@@ -27474,6 +27465,7 @@
       nextPlayer: null,
       winningArmy: null,
       grid: null,
+      selectedHex: null,
       imageShapes: []
   });
 
@@ -27481,6 +27473,7 @@
       center: () => state$1.center,
       boundingBox: () => state$1.boundingBox,
       grid: () => state$1.grid,
+      selectedHex: () => state$1.selectedHex,
       imageShapes: () => state$1.imageShapes,
       sceneSize: () => state$1.sceneSize,
       battleState: () => state$1.battleState,
@@ -27539,7 +27532,11 @@
           var selHex = state$1.grid.getSelectedHex();
           if (selHex) {
               var unit = state$1.grid.getUnitAt(selHex.x, selHex.y);
-              if (state$1.grid.isPlayerArmy(unit.id)) ;
+              if (state$1.grid.isPlayerArmy(unit.id)) {
+                  state$1.selectedHex = selHex;
+                  //state.unitRange = state.grid.getSelectedHexRange();
+                  //state.unitState = state.grid.getSelectedHexState();
+              }
               //centerHex(args.$refs.stage.getStage(), args.center, selHex.center);
           }
 
@@ -27572,6 +27569,9 @@
       },
       setCenter(x, y) {
           state$1.center = { x: x, y: y };
+      },
+      setSelectedHex(hex) {
+          state$1.selectedHex = hex;
       }
   };
 
@@ -27630,6 +27630,9 @@
       },
       setCenter(x, y) {
           mutations$1.setCenter(x, y);
+      },
+      setSelectedHex(hex) {
+          mutations$1.setSelectedHex(hex);
       }
   };
 
@@ -27697,11 +27700,11 @@
               dbltap: function(evt) {
                 return _vm.hexSelected(evt, hex)
               },
-              mouseenter: function(evt) {
+              tap: function(evt) {
                 return _vm.hexFocused(evt, hex)
               },
-              mouseleave: function(evt) {
-                return _vm.hexUnfocused(evt, hex)
+              mouseenter: function(evt) {
+                return _vm.hexFocused(evt, hex)
               }
             }
           },
@@ -28428,6 +28431,7 @@
       UnitLayer: __vue_component__$j
     },
     computed: {
+      selectedHex: () => getters$1.selectedHex(),
       grid: () => getters$1.grid(),
       center: () => getters$1.center(),
       stageConfig: args => {
@@ -28478,7 +28482,6 @@
       return {
         imageShapes: null,
         focusHex: null,
-        selectedHex: null,
         path: null,
         unitState: null,
         unitRange: null,
@@ -28497,7 +28500,7 @@
         this.listening = true;
       },
       hexSelected(hex) {
-        this.selectedHex = hex;
+        actions.setSelectedHex(hex);
         this.grid.hexSelected(hex);
       },
       hexFocused(hex) {
@@ -28649,11 +28652,11 @@
     /* style */
     const __vue_inject_styles__$l = function (inject) {
       if (!inject) return
-      inject("data-v-6a8ec69c_0", { source: "\n.battle-panel[data-v-6a8ec69c] {\r\n  margin: -5px;\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\n}\n.battle-stage[data-v-6a8ec69c] {\r\n  margin: -10px;\r\n  position: absolute;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-3eae35e2_0", { source: "\n.battle-panel[data-v-3eae35e2] {\r\n  margin: -5px;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  overflow: hidden;\r\n  margin-right: 0px;\n}\n.battle-stage[data-v-3eae35e2] {\r\n  margin: -10px;\r\n  position: absolute;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$l = "data-v-6a8ec69c";
+    const __vue_scope_id__$l = "data-v-3eae35e2";
     /* module identifier */
     const __vue_module_identifier__$l = undefined;
     /* functional template */
@@ -28721,11 +28724,11 @@
     /* style */
     const __vue_inject_styles__$m = function (inject) {
       if (!inject) return
-      inject("data-v-59507c18_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-31952736_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$m = "data-v-59507c18";
+    const __vue_scope_id__$m = "data-v-31952736";
     /* module identifier */
     const __vue_module_identifier__$m = undefined;
     /* functional template */
@@ -28790,11 +28793,11 @@
     /* style */
     const __vue_inject_styles__$n = function (inject) {
       if (!inject) return
-      inject("data-v-088d9a08_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-5c47c5cc_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$n = "data-v-088d9a08";
+    const __vue_scope_id__$n = "data-v-5c47c5cc";
     /* module identifier */
     const __vue_module_identifier__$n = undefined;
     /* functional template */
