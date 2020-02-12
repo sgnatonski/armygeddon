@@ -31,7 +31,11 @@ export default {
             port: 3001
         }),
         livereload(),
-        commonjs(),
+        commonjs({
+            namedExports: {
+                'node_modules/konva/lib/index.js': ['Animation']
+          }
+        }),
         //terser()
     ],
     onwarn: function (warning) {

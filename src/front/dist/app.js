@@ -22751,6 +22751,7 @@
   exports['default'] = Konva;
   module.exports = exports['default'];
   });
+  var lib_1 = lib.Animation;
 
   var vueKonva = createCommonjsModule(function (module, exports) {
   /*!
@@ -23845,6 +23846,11 @@
     return parsed;
   };
 
+  var isValidXss = function isValidXss(requestURL) {
+    var xssRegex = /(\b)(on\w+)=|javascript|(<\s*)(\/*)script/gi;
+    return xssRegex.test(requestURL);
+  };
+
   var isURLSameOrigin = (
     utils.isStandardBrowserEnv() ?
 
@@ -23863,6 +23869,10 @@
       */
         function resolveURL(url) {
           var href = url;
+
+          if (isValidXss(url)) {
+            throw new Error('URL contains XSS injection attempt');
+          }
 
           if (msie) {
           // IE needs attribute set twice to normalize properties
@@ -24819,11 +24829,11 @@
     /* style */
     const __vue_inject_styles__ = function (inject) {
       if (!inject) return
-      inject("data-v-16e31f62_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-7d873a31_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__ = "data-v-16e31f62";
+    const __vue_scope_id__ = "data-v-7d873a31";
     /* module identifier */
     const __vue_module_identifier__ = undefined;
     /* functional template */
@@ -24912,11 +24922,11 @@
     /* style */
     const __vue_inject_styles__$1 = function (inject) {
       if (!inject) return
-      inject("data-v-0c96d458_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-7ebdd8b6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$1 = "data-v-0c96d458";
+    const __vue_scope_id__$1 = "data-v-7ebdd8b6";
     /* module identifier */
     const __vue_module_identifier__$1 = undefined;
     /* functional template */
@@ -25040,11 +25050,11 @@
     /* style */
     const __vue_inject_styles__$2 = function (inject) {
       if (!inject) return
-      inject("data-v-3f3cd12b_0", { source: "\n.user[data-v-3f3cd12b]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-3501618d_0", { source: "\n.user[data-v-3501618d]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$2 = "data-v-3f3cd12b";
+    const __vue_scope_id__$2 = "data-v-3501618d";
     /* module identifier */
     const __vue_module_identifier__$2 = undefined;
     /* functional template */
@@ -25150,7 +25160,7 @@
     /* style */
     const __vue_inject_styles__$3 = function (inject) {
       if (!inject) return
-      inject("data-v-e244cfdc_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-1bd59c18_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -25248,7 +25258,7 @@
     /* style */
     const __vue_inject_styles__$4 = function (inject) {
       if (!inject) return
-      inject("data-v-027f9268_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 6px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: pulsate-anim 0.8s ease-in-out infinite both;\n}\n@keyframes pulsate-anim {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 52%;\n}\n50% {\r\n    background-position: 100% 68%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 56%;\n}\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-27dffaaa_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 6px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: pulsate-anim 0.8s ease-in-out infinite both;\n}\n@keyframes pulsate-anim {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 52%;\n}\n50% {\r\n    background-position: 100% 68%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 56%;\n}\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -25330,11 +25340,11 @@
     /* style */
     const __vue_inject_styles__$5 = function (inject) {
       if (!inject) return
-      inject("data-v-ecd262ce_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-77a6eb12_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$5 = "data-v-ecd262ce";
+    const __vue_scope_id__$5 = "data-v-77a6eb12";
     /* module identifier */
     const __vue_module_identifier__$5 = undefined;
     /* functional template */
@@ -25400,11 +25410,11 @@
     /* style */
     const __vue_inject_styles__$6 = function (inject) {
       if (!inject) return
-      inject("data-v-50cf9cee_0", { source: "\np[data-v-50cf9cee] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-0420eeeb_0", { source: "\np[data-v-0420eeeb] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$6 = "data-v-50cf9cee";
+    const __vue_scope_id__$6 = "data-v-0420eeeb";
     /* module identifier */
     const __vue_module_identifier__$6 = undefined;
     /* functional template */
@@ -25595,11 +25605,11 @@
     /* style */
     const __vue_inject_styles__$7 = function (inject) {
       if (!inject) return
-      inject("data-v-22778218_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-6e634d14_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$7 = "data-v-22778218";
+    const __vue_scope_id__$7 = "data-v-6e634d14";
     /* module identifier */
     const __vue_module_identifier__$7 = undefined;
     /* functional template */
@@ -25850,11 +25860,11 @@
     /* style */
     const __vue_inject_styles__$8 = function (inject) {
       if (!inject) return
-      inject("data-v-c3d4d9ac_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-18958e08_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$8 = "data-v-c3d4d9ac";
+    const __vue_scope_id__$8 = "data-v-18958e08";
     /* module identifier */
     const __vue_module_identifier__$8 = undefined;
     /* functional template */
@@ -25901,11 +25911,11 @@
     /* style */
     const __vue_inject_styles__$9 = function (inject) {
       if (!inject) return
-      inject("data-v-149f3524_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-2ebcd5f4_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$9 = "data-v-149f3524";
+    const __vue_scope_id__$9 = "data-v-2ebcd5f4";
     /* module identifier */
     const __vue_module_identifier__$9 = undefined;
     /* functional template */
@@ -26028,11 +26038,11 @@
     /* style */
     const __vue_inject_styles__$a = function (inject) {
       if (!inject) return
-      inject("data-v-d0273bd8_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-d4169814_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$a = "data-v-d0273bd8";
+    const __vue_scope_id__$a = "data-v-d4169814";
     /* module identifier */
     const __vue_module_identifier__$a = undefined;
     /* functional template */
@@ -26082,11 +26092,11 @@
     /* style */
     const __vue_inject_styles__$b = function (inject) {
       if (!inject) return
-      inject("data-v-76e7e0f6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-8bfb4e50_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$b = "data-v-76e7e0f6";
+    const __vue_scope_id__$b = "data-v-8bfb4e50";
     /* module identifier */
     const __vue_module_identifier__$b = undefined;
     /* functional template */
@@ -26182,13 +26192,12 @@
     },
     watch: {
       // whenever stageX changes, this function will run
-      stageOffset: function(newOffset, oldOffset) {
+      stageOffset(newOffset, oldOffset) {
         var stage = this.$children[0].getStage();
         var layers = stage.children
           .forEach(l => this.cullView(this.$el, stage, l));
       }
     },
-    mounted() {},
     methods: {
       cullView(container, stage, layer) {
         var c = layer.children;
@@ -26280,24 +26289,27 @@
   //
   //
   //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
 
   var script$c = {
-      props: {
-          x: Number,
-          y: Number,
-          fill: String,
-          opacity: Number
+    props: {
+      x: Number,
+      y: Number,
+      fill: String,
+      opacity: Number
+    },
+    methods: {
+      hexDrawSceneFunc(context, shape) {
+        context.beginPath();
+        context.moveTo(0, 30);
+        context.lineTo(-26, 15);
+        context.lineTo(-26, -15);
+        context.lineTo(0, -30);
+        context.lineTo(26, -15);
+        context.lineTo(26, 15);
+        context.closePath();
+        context.fillStrokeShape(shape);
       }
+    }
   };
 
   /* script */
@@ -26311,17 +26323,7 @@
     return _c("konva-shape", {
       attrs: {
         config: {
-          sceneFunc: function(context, shape) {
-            context.beginPath();
-            context.moveTo(0, 30);
-            context.lineTo(-26, 15);
-            context.lineTo(-26, -15);
-            context.lineTo(0, -30);
-            context.lineTo(26, -15);
-            context.lineTo(26, 15);
-            context.closePath();
-            context.fillStrokeShape(shape);
-          },
+          sceneFunc: _vm.hexDrawSceneFunc,
           stroke: "#113311",
           strokeWidth: 0.7,
           strokeHitEnabled: false,
@@ -26469,6 +26471,23 @@
               
       };	
   }
+
+  var eventBus = (function EventBus(){
+    var events = {};
+    return {
+        on: (eventName, callback) => {
+          if (!events[eventName]){
+            events[eventName] = [];
+          }
+          events[eventName].push(callback);
+        },
+        publish: (eventName, data) => {
+          if (events[eventName]){
+            events[eventName].forEach(cb => cb(data));
+          }
+        }
+    };    
+  })();
 
   var army = function (army, unitTypes) {
   	this.playerId = army.id;
@@ -27267,16 +27286,6 @@
       }
     }
 
-    function updateSelection(unit) {
-      var hex = grid.getHexAt(new bhex.Axial(unit.pos.x, unit.pos.y));
-      hex.blocked = true;
-
-      var nextUnit = getters.nextUnit();
-      var nextHex = grid.getHexAt(new bhex.Axial(nextUnit.pos.x, nextUnit.pos.y));
-      setSelectedHex(nextHex.x, nextHex.y);
-      return nextHex;
-    }
-
     function hexSelected(hex) {
       var selectedHex = grid.selectedHex;
       if (selectedHex) {
@@ -27289,15 +27298,19 @@
         case 'moving':
           var path = getPathInRange(selectedHex, hex);
           var lastStep = path[path.length - 1];
-          if (lastStep.x == hex.x && lastStep.y == hex.y) ;
+          if (lastStep.x == hex.x && lastStep.y == hex.y) {
+            actions.unitMoving(unit, hex.x, hex.y);
+          }
           break;
         case 'turning':
-          //battle.unitTurning(unit, hex.x, hex.y);
+          actions.unitTurning(unit, hex.x, hex.y);
           break;
         case 'attacking':
           var path = getPathInRange(selectedHex, hex, unit.range);
           var lastStep = path[path.length - 1];
-          if (lastStep.x == hex.x && lastStep.y == hex.y) ;
+          if (lastStep.x == hex.x && lastStep.y == hex.y) {
+            actions.unitAttacking(unit, hex.x, hex.y);
+          }
           break;
         default:
           var unit = getters.nextUnit();
@@ -27401,16 +27414,7 @@
     function getHexes() {
       return getters.terrain().map(t => grid.hexes.find(h => t.x == h.x && t.y == h.y));
     }
-    function getUnits() {
-      return getters.units();
-    }
-
     var grid = new bhex.Grid(sceneSize);
-
-    units.forEach(unit => {
-      var hex = grid.getHexAt(new bhex.Axial(unit.pos.x, unit.pos.y));
-      hex.blocked = true;
-    });
 
     terrain.forEach(terrain => {
       grid.getHexAt(new bhex.Axial(terrain.x, terrain.y)).cost = terrain.cost;
@@ -27420,17 +27424,35 @@
       getHexes: getHexes,
       getSelectedHex: () => grid.selectedHex ? grid.getHexAt(new bhex.Axial(grid.selectedHex.x, grid.selectedHex.y)) : null,
       getHexAt: (x, y) => grid.getHexAt(new bhex.Axial(x, y)),
-      getUnitAt: (x, y) => actions.getUnitAt(x, y),
-      getUnits: getUnits,
-      isPlayerArmy: (unitId, exactMatch) => actions.isPlayerArmy(unitId, exactMatch),
       hexSelected: hexSelected,
       getSelectedHexRange: getSelectedHexRange,
       getSelectedHexState: getSelectedHexState,
       getPathBetween: getPathInRange,
       getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new bhex.Axial(x, y)), actions.getUnitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
       initDrawing: initDrawing,
-      updateSelection: updateSelection
+      setBlocked: (posArray) => {
+        var set = new Set(posArray.map(p => `${p.x}:${p.y}`));
+        getHexes().forEach(h => {
+          h.blocked = set.has(`${h.x}:${h.y}`);
+        });
+      }
     }
+  }
+
+  function requestMove(bid, uid, x, y) {
+      fetch$1().post(`/singlebattle/${bid}/${uid}/move/${x}/${y}`).then(data =>{
+          eventBus.publish(data.event, data);
+      });
+  }
+  function requestTurn(bid, uid, x, y){
+      fetch$1().post(`/singlebattle/${bid}/${uid}/turn/${x}/${y}`).then(data =>{
+          eventBus.publish(data.event, data);
+      });
+  }
+  function requestAttack(bid, uid, x, y){
+      fetch$1().post(`/singlebattle/${bid}/${uid}/attack/${x}/${y}`).then(data =>{
+          eventBus.publish(data.event, data);
+      });
   }
 
   function loadImages$1() {
@@ -27466,10 +27488,15 @@
       winningArmy: null,
       grid: null,
       selectedHex: null,
-      imageShapes: []
+      imageShapes: [],
+      unitHexes: [],
+      animating: false,
+      pendingAnimations: {}
   });
 
   const getters$1 = {
+      animating: () => state$1.animating,
+      pendingAnimations: () => state$1.pendingAnimations,
       center: () => state$1.center,
       boundingBox: () => state$1.boundingBox,
       grid: () => state$1.grid,
@@ -27495,7 +27522,7 @@
           }
           return state$1.firstArmy.getArmy().concat(state$1.secondArmy.getArmy());
       },
-
+      unitHexes: () => state$1.unitHexes
   };
 
   const mutations$1 = {
@@ -27515,11 +27542,17 @@
               state$1.secondArmy = new army(armies[1], data.unitTypes);
               state$1.battleState = 'ready';
               state$1.winningArmy = data.winningArmy;
-              if (state$1.winningArmy) ;
+              if (state$1.winningArmy) {
+                  return mutations$1.end(data);
+              }
               //var bsTxt2 = this.getBattleStateText();
-              //setTimeout(() => eventBus.publish('battlestarted'), 0);
+              setTimeout(() => eventBus.publish('battlestarted'), 0);
               //setTimeout(() => eventBus.publish('battlestate', bsTxt2), 0);
-              //setTimeout(() => eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
+              var nextUnitArmy = actions.getArmy(getters$1.nextUnit().id);
+              setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters$1.nextUnit().type} unit is next to act`), 0);
+          }
+          else {
+              setTimeout(() => eventBus.publish('battlewaiting'), 0);
           }
           state$1.grid = initGrid(state$1.sceneSize, state$1.terrain, state$1.firstArmy.getArmy().concat(state$1.secondArmy.getArmy()), getters$1, actions);
 
@@ -27528,24 +27561,23 @@
           var y = (Math.abs(state$1.boundingBox.minY) + Math.abs(state$1.boundingBox.maxY) + 160) / 2;
           mutations$1.setCenter(state$1.center.x, y);
 
+          mutations$1.setUnitHexes();
+
           state$1.grid.hexSelected();
           var selHex = state$1.grid.getSelectedHex();
           if (selHex) {
-              var unit = state$1.grid.getUnitAt(selHex.x, selHex.y);
-              if (state$1.grid.isPlayerArmy(unit.id)) {
-                  state$1.selectedHex = selHex;
-                  //state.unitRange = state.grid.getSelectedHexRange();
-                  //state.unitState = state.grid.getSelectedHexState();
-              }
-              //centerHex(args.$refs.stage.getStage(), args.center, selHex.center);
+              state$1.selectedHex = selHex;
+              var unit = actions.getUnitAt(selHex.x, selHex.y);
+              if (actions.isPlayerArmy(unit.id)) ;
           }
 
-          //eventBus.publish("battlestarted");
+          eventBus.on('update', mutations$1.update);
+          eventBus.on('end', mutations$1.end);
       },
       update(data) {
           state$1.battleState = 'started';
           var delta = {
-              source: state$1.nextUnit.pos,
+              source: getters$1.nextUnit().pos,
               target: data.currUnit.pos
           };
 
@@ -27558,12 +27590,18 @@
           }
           var nextUnitArmy = actions.getArmy(data.nextUnit.id);
           nextUnitArmy.restoreUnit(data.nextUnit);
-          //setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data}), 0);
+          mutations$1.setUnitHexes();        
+          var nextUnit = getters$1.nextUnit();
+          var nextHex = getters$1.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
+          mutations$1.setSelectedHex(nextHex);
+
+          setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
           //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
-          //setTimeout(() => eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
+          setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters$1.nextUnit().type} unit is next to act`), 0);
       },
       end(data) {
           state$1.battleState = 'finished';
+          mutations$1.setUnitHexes();
           //setTimeout(() => eventBus.publish('battleended', this.getBattleSummary(data)), 0);
           //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
       },
@@ -27572,6 +27610,26 @@
       },
       setSelectedHex(hex) {
           state$1.selectedHex = hex;
+          state$1.grid.hexSelected(hex);
+      },
+      setUnitHexes() {
+          state$1.unitHexes = getters$1.units().map(u => getters$1.grid().getHexAt(u.pos.x, u.pos.y));
+          getters$1.grid().setBlocked(state$1.unitHexes);        
+      },
+      setPendingAnimations(unit, animation) {
+          if (!unit || !animation){
+              state$1.pendingAnimations = {};
+          }
+          else{
+              state$1.pendingAnimations[unit.id] = animation;
+              state$1.pendingAnimations = Object.assign({}, state$1.pendingAnimations);
+          }
+      },
+      setAnimating(anim) {
+          if (!anim){
+              mutations$1.setPendingAnimations(null);
+          }
+          state$1.animating = anim;
       }
   };
 
@@ -27616,15 +27674,16 @@
               || state$1.selfArmy === '_' + actions.getArmy(unitId).playerId;
       },
       load() {
-          loadImages$1().then(images => {
+          var battleid = sessionStorage.getItem('singlebattleid');
+          var url = `/singlebattle/join/${battleid ? battleid : ''}`;
+          Promise.all([loadImages$1(), fetch$1().post(url)]).then(result => {
+              var images = result[0];
+              var data = result[1];
+
               state$1.imageShapes = {
                   plains: images.plains,
                   forrests: images.forrests
               };
-              var battleid = sessionStorage.getItem('singlebattleid');
-              var url = `/singlebattle/join/${battleid ? battleid : ''}`;
-              return fetch$1().post(url);
-          }).then(data => {
               mutations$1.loadData(data, true);
           });
       },
@@ -27633,6 +27692,23 @@
       },
       setSelectedHex(hex) {
           mutations$1.setSelectedHex(hex);
+      },
+      unitMoving(unit, x, y) {
+          requestMove(state$1.battleId, unit.id, x, y);
+      },
+      unitTurning(unit, x, y) {
+          requestTurn(state$1.battleId, unit.id, x, y);
+      },
+      unitAttacking(unit, x, y) {
+          requestAttack(state$1.battleId, unit.id, x, y);
+      },
+      animateUnit(unit, from, to) {
+          var animationPath = getters$1.grid().getPathBetween(
+              getters$1.grid().getHexAt(from.x, from.y),
+              getters$1.grid().getHexAt(to.x, to.y)
+          );
+          mutations$1.setPendingAnimations(unit, animationPath);
+          mutations$1.setAnimating(true);
       }
   };
 
@@ -27660,7 +27736,7 @@
         }
       },
       hexSelected(evt, hex) {
-        this.$emit("selected", hex);
+        actions.setSelectedHex(hex);
       },
       hexFocused(evt, hex) {
         this.$emit("focused", hex);
@@ -28081,6 +28157,7 @@
     );
 
   //
+
   var script$g = {
     components: {
       UnitType: __vue_component__$h
@@ -28093,16 +28170,16 @@
     },
     methods: {
       getShape: getShape,
-      directionSceneFunc: (context, shape, unit) => {
-        if (!unit.armor) {
+      directionSceneFunc(context, shape) {
+        if (!this.unit.armor) {
           return;
         }
         var x = 0;
-        if (unit.directions.length > 1) {
+        if (this.unit.directions.length > 1) {
           x = 1;
         }
-        var rotation = -30 + (unit.directions[0] - 1) * 60 - x * 60;
-        var angle = 60 * unit.directions.length;
+        var rotation = -30 + (this.unit.directions[0] - 1) * 60 - x * 60;
+        var angle = 60 * this.unit.directions.length;
         context.rotate(window.Konva.getAngle(rotation));
         context.beginPath();
         context.arc(0, 0, 32, 0, window.Konva.getAngle(angle), false);
@@ -28110,8 +28187,8 @@
         context.closePath();
         context.fillStrokeShape(shape);
       },
-      healthSceneFunc: (context, shape, unit) => {
-        var fillValue = unit.endurance / unit.lifetime.endurance;
+      healthSceneFunc(context, shape) {
+        var fillValue = this.unit.endurance / this.unit.lifetime.endurance;
         if (fillValue < 0) {
           fillValue = 0;
         }
@@ -28158,9 +28235,7 @@
               opacity: 0.35,
               perfectDrawEnabled: false,
               strokeHitEnabled: false,
-              sceneFunc: function(ctx, shp) {
-                return _vm.directionSceneFunc(ctx, shp, _vm.unit)
-              }
+              sceneFunc: _vm.directionSceneFunc
             }
           }
         }),
@@ -28226,9 +28301,7 @@
             _c("konva-shape", {
               attrs: {
                 config: {
-                  sceneFunc: function(ctx, shp) {
-                    return _vm.healthSceneFunc(ctx, shp, _vm.unit)
-                  },
+                  sceneFunc: _vm.healthSceneFunc,
                   fill: "green",
                   stroke: "black",
                   strokeWidth: 0.5,
@@ -28278,21 +28351,75 @@
 
   //
 
+  function getUnitMoveAnim(steps, node, center) {
+    return new Promise(function(resolve, reject) {
+      if (!steps || steps.length <= 1) {
+        resolve();
+        return;
+      }
+
+      console.log('animating');
+      var currStep = steps.shift();
+      var anim = new lib_1((frame) => {
+        var progress = frame.time / 400;
+        var sourceY = center.y + currStep.center.y;
+        var targetY = center.y + steps[0].center.y;
+        var diffY = targetY - sourceY;
+        var calcY = sourceY + diffY * progress;
+        node.setY(calcY);
+        var sourceX = center.x + currStep.center.x;
+        var targetX = center.x + steps[0].center.x;
+        var diffX = targetX - sourceX;
+        var calcX = sourceX + diffX * progress;
+        node.setX(calcX);
+        if (
+          (diffX > 0 && calcX >= targetX) ||
+          (diffX < 0 && calcX <= targetX) ||
+          (diffY > 0 && calcY >= targetY) ||
+          (diffY < 0 && calcY <= targetY)
+        ) {
+          currStep = steps.shift();
+          frame.time = 0; // ????????
+          if (!steps.length) {
+            anim.stop();
+            node.setY(targetY);
+            node.setX(targetX);
+            resolve();
+          }
+        }
+      }, node.getLayer());
+      anim.start();
+    });
+  }
+
   var script$h = {
-    components: {
-      Unit: __vue_component__$i
+    props: {
+      unitHexes: Array
     },
-    computed:{
+    computed: {
       center: () => getters$1.center(),
-      hexes: () => getters$1.grid() ? getters$1.grid().getHexes().filter(h => getters$1.grid().getUnitAt(h.x, h.y)) : []
+      pendingAnimations: () => getters$1.pendingAnimations()
     },
-    methods: {
-      getUnit: (hex) => getters$1.grid().getUnitAt(hex.x, hex.y),
-      getUnitColor(hex) {
-        var armyColors = ["#00cc00", "#c80b04"];
-        var unit = actions.getUnitAt(hex.x, hex.y);
-        var isPlayerArmy = actions.isPlayerArmy(unit);
-        return isPlayerArmy ? armyColors[0] : armyColors[1];
+    watch: {
+      pendingAnimations: {
+        handler(newVal, oldVal) {
+          if (!newVal || Object.keys(newVal).length == 0) {
+            return;
+          }
+          var nodes = this.$children;
+          Promise.all(
+            nodes.map(n =>
+              getUnitMoveAnim(
+                newVal[n.unit.id],
+                n.$children[0].getNode(),
+                this.center
+              )
+            )
+          ).then(() => {
+            mutations$1.setAnimating(false);
+          });
+        },
+        deep: true
       }
     }
   };
@@ -28305,32 +28432,7 @@
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
-    return _c(
-      "konva-layer",
-      {
-        ref: "layer",
-        attrs: {
-          config: {
-            hitGraphEnabled: false
-          }
-        }
-      },
-      [
-        _vm._l(_vm.hexes, function(hex) {
-          return _c("Unit", {
-            key: hex.x + ":" + hex.y,
-            attrs: {
-              center: _vm.center,
-              hexCenter: hex.center,
-              unit: _vm.getUnit(hex),
-              color: _vm.getUnitColor(hex)
-            }
-          })
-        }),
-        _vm._v(">\n")
-      ],
-      2
-    )
+    return _c("div", { ref: "slot" }, [_vm._t("default")], 2)
   };
   var __vue_staticRenderFns__$j = [];
   __vue_render__$j._withStripped = true;
@@ -28364,169 +28466,25 @@
       undefined
     );
 
-  function getUnitMoveAnim(steps, node, center) {
-      return new Promise(function (resolve, reject) {
-          if (steps.length <= 1) {
-              resolve();
-          }
-          else {
-              var currStep = steps.shift();
-              var anim = new Konva.Animation(function (frame) {
-                  var progress = frame.time / 400;
-                  var sourceY = center.y + currStep.center.y;
-                  var targetY = center.y + steps[0].center.y;
-                  var diffY = targetY - sourceY;
-                  var calcY = sourceY + diffY * progress;
-                  node.setY(calcY);
-                  var sourceX = center.x + currStep.center.x;
-                  var targetX = center.x + steps[0].center.x;
-                  var diffX = targetX - sourceX;
-                  var calcX = sourceX + diffX * progress;
-                  node.setX(calcX);
-                  if ((diffX > 0 && calcX >= targetX) || (diffX < 0 && calcX <= targetX) ||
-                      (diffY > 0 && calcY >= targetY) || (diffY < 0 && calcY <= targetY)) {
-                      currStep = steps.shift();
-                      frame.time = 0; // ????????
-                      if (!steps.length) {
-                          anim.stop();
-                          node.setY(targetY);
-                          node.setX(targetX);
-                          resolve();
-                      }
-                  }
-              }, node.getLayer());
-              anim.start();
-          }
-      });
-  }
-
-  function Animator() {
-      var anims = [];
-      var c;
-      var currentAnimation;
-
-      return {
-          registerAnimation: (id, node, center) => {
-              anims[id] = node;
-              c = center;
-          },
-          getAnimation: (id, path) => {
-              currentAnimation = getUnitMoveAnim(path, anims[id], c).then(() => currentAnimation = null);
-              return currentAnimation;
-          },
-          isAnimating: () => {
-              return currentAnimation;
-          }
-      }
-  }
-  var animator = Animator();
-
   //
+
+  var armyColors = ["#00cc00", "#c80b04"];
 
   var script$i = {
     components: {
-      ViewCull: __vue_component__$d,
-      TerrainLayer: __vue_component__$f,
-      EffectLayer: __vue_component__$g,
-      UnitLayer: __vue_component__$j
+      Unit: __vue_component__$i,
+      Animator: __vue_component__$j
     },
     computed: {
-      selectedHex: () => getters$1.selectedHex(),
-      grid: () => getters$1.grid(),
       center: () => getters$1.center(),
-      stageConfig: args => {
-        var width =
-          Math.abs(getters$1.boundingBox().minX) +
-          Math.abs(getters$1.boundingBox().maxX) +
-          60;
-        var height =
-          Math.abs(getters$1.boundingBox().minY) +
-          Math.abs(getters$1.boundingBox().maxY) +
-          60;
-
-        if (width < window.visualViewport.width){
-          width = window.visualViewport.width;
-        }
-        if (height < window.visualViewport.height){
-          height = window.visualViewport.height;
-        }
-
-        return {
-          width: width,
-          height: height,
-          draggable: true,
-          dragBoundFunc: pos => {
-            var ratiox = window.visualViewport.width / width;
-            var ratioy = window.visualViewport.height / height;
-            var margin = 50;
-            var c = {
-              x: pos.x,
-              y: pos.y,
-              sx: args.center.x / ratiox,
-              sy: args.center.y / ratioy
-            };
-            if (Math.abs(c.x) + margin > c.sx) {
-              c.x = args.$refs.stage.getStage().getAbsolutePosition().x;
-            }
-            if (Math.abs(c.y) + margin > c.sy) {
-              c.y = args.$refs.stage.getStage().getAbsolutePosition().y;
-            }
-            args.stageOffset = { x: c.x, y: c.y };
-
-            return args.stageOffset;
-          }
-        };
-      }
-    },
-    data() {
-      return {
-        imageShapes: null,
-        focusHex: null,
-        path: null,
-        unitState: null,
-        unitRange: null,
-        listening: true,
-        stageOffset: { x: 0, y: 0},
-      };
-    },
-    mounted() {
-      actions.setCenter(window.innerWidth / 2, window.innerHeight / 2);
+      unitHexes: () => getters$1.unitHexes()
     },
     methods: {
-      handleDragStart() {
-        this.listening = false;
-      },
-      handleDragEnd() {
-        this.listening = true;
-      },
-      hexSelected(hex) {
-        actions.setSelectedHex(hex);
-        this.grid.hexSelected(hex);
-      },
-      hexFocused(hex) {
-        if (animator.isAnimating()) {
-          return;
-        }
-        this.focusHex = hex;
-
-        if (!hex) {
-          return;
-        }
-
-        var aUnit = null;
-        var selHex = this.grid.getSelectedHex();
-        if (selHex) {
-          aUnit = this.grid.getUnitAt(selHex.x, selHex.y);
-        }
-        var tUnit = this.grid.getUnitAt(hex.x, hex.y);
-        this.unitState = this.grid.getSelectedHexState();
-
-        if (aUnit != null && this.grid.isPlayerArmy(aUnit.id)) {
-          this.path = this.grid.getPathBetween(selHex, hex);
-          this.unitRange = this.grid.getSelectedHexRange();
-        }
-
-        if (this.unitState == "moving" || this.unitState == "turning") ; else if (this.unitState == "attacking") ;
+      getUnit: hex => actions.getUnitAt(hex.x, hex.y),
+      getUnitColor(hex) {
+        var unit = actions.getUnitAt(hex.x, hex.y);
+        var isPlayerArmy = actions.isPlayerArmy(unit);
+        return isPlayerArmy ? armyColors[0] : armyColors[1];
       }
     }
   };
@@ -28540,39 +28498,32 @@
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
     return _c(
-      "ViewCull",
-      { attrs: { stageOffset: _vm.stageOffset } },
+      "konva-layer",
+      {
+        ref: "layer",
+        attrs: {
+          config: {
+            hitGraphEnabled: false
+          }
+        }
+      },
       [
-        _vm.grid
-          ? _c(
-              "konva-stage",
-              {
-                ref: "stage",
-                attrs: { config: _vm.stageConfig },
-                on: { dragstart: _vm.handleDragStart, dragend: _vm.handleDragEnd }
-              },
-              [
-                _c("TerrainLayer", {
-                  ref: "terrainLayer",
-                  on: { selected: _vm.hexSelected, focused: _vm.hexFocused }
-                }),
-                _vm._v(" "),
-                _c("EffectLayer", {
-                  ref: "effectLayer",
-                  attrs: {
-                    highlight: _vm.selectedHex,
-                    focus: _vm.focusHex,
-                    path: _vm.path,
-                    range: _vm.unitRange,
-                    rangeType: _vm.unitState
-                  }
-                }),
-                _vm._v(" "),
-                _c("UnitLayer", { ref: "unitLayer" })
-              ],
-              1
-            )
-          : _vm._e()
+        _c(
+          "Animator",
+          { attrs: { unitHexes: _vm.unitHexes } },
+          _vm._l(_vm.unitHexes, function(hex) {
+            return _c("Unit", {
+              key: hex.x + ":" + hex.y,
+              attrs: {
+                center: _vm.center,
+                hexCenter: hex.center,
+                unit: _vm.getUnit(hex),
+                color: _vm.getUnitColor(hex)
+              }
+            })
+          }),
+          1
+        )
       ],
       1
     )
@@ -28613,12 +28564,164 @@
 
   var script$j = {
     components: {
-      Menu: __vue_component__$c,
-      Panel: __vue_component__$3,
-      GameStage: __vue_component__$k
+      ViewCull: __vue_component__$d,
+      TerrainLayer: __vue_component__$f,
+      EffectLayer: __vue_component__$g,
+      UnitLayer: __vue_component__$k
     },
-    created() {
-      actions.load();
+    computed: {
+      animating: () => getters$1.animating(),
+      selectedHex: () => getters$1.selectedHex(),
+      grid: () => getters$1.grid(),
+      center: () => getters$1.center(),
+      stageConfig: args => {
+        var width =
+          Math.abs(getters$1.boundingBox().minX) +
+          Math.abs(getters$1.boundingBox().maxX) +
+          60;
+        var height =
+          Math.abs(getters$1.boundingBox().minY) +
+          Math.abs(getters$1.boundingBox().maxY) +
+          60;
+
+        if (width < window.visualViewport.width) {
+          width = window.visualViewport.width;
+        }
+        if (height < window.visualViewport.height) {
+          height = window.visualViewport.height;
+        }
+
+        return {
+          width: width,
+          height: height,
+          draggable: true,
+          dragBoundFunc: pos => {
+            var ratiox = window.visualViewport.width / width;
+            var ratioy = window.visualViewport.height / height;
+            var margin = 50;
+            var c = {
+              x: pos.x,
+              y: pos.y,
+              sx: args.center.x / ratiox,
+              sy: args.center.y / ratioy
+            };
+            if (Math.abs(c.x) + margin > c.sx) {
+              c.x = args.$refs.stage.getStage().getAbsolutePosition().x;
+            }
+            if (Math.abs(c.y) + margin > c.sy) {
+              c.y = args.$refs.stage.getStage().getAbsolutePosition().y;
+            }
+            args.stageOffset = { x: c.x, y: c.y };
+
+            return args.stageOffset;
+          }
+        };
+      }
+    },
+    watch: {
+      selectedHex(newVal, oldVal) {
+        this.$nextTick().then(() => {
+          this.hexFocused(newVal);
+          this.centerHex(this.$refs.stage.getStage(), newVal);
+        });
+      }
+    },
+    data() {
+      return {
+        imageShapes: null,
+        focusHex: null,
+        path: null,
+        unitState: null,
+        unitRange: null,
+        listening: true,
+        stageOffset: { x: 0, y: 0 }
+      };
+    },
+    mounted() {
+      actions.setCenter(window.innerWidth / 2, window.innerHeight / 2);
+      eventBus.on("battlewaiting", () => {
+        console.log('battlewaiting');
+        /*waitLayer.show([
+          "Sir, You're first on the battlefield.",
+          "Hopefully the other army will arrive soon."
+        ]);*/
+      });
+
+      eventBus.on("battlestarted", () => {
+        console.log('battlestarted');
+        //waitLayer.hide();
+      });
+
+      eventBus.on("battleended", result => {
+        this.focusHex = null;
+        this.path = [];
+        this.unitRange = [];      /*effectLayer.highlightNode(null);
+        effectLayer.drawPath([]);
+        effectLayer.highlightRange([], grid.getSelectedHexState());*/
+        //grid.hexSelected();
+        //tooltipLayer.hideTooltip();
+        //waitLayer.show(["Battle has ended", ...result]);
+      });
+
+      eventBus.on("battlestate", txt => {
+        console.log(txt);
+      });
+
+      eventBus.on("battleupdated", u => {
+        actions.animateUnit(u.data.currUnit, u.delta.source, u.delta.target);
+      });
+    },
+    methods: {
+      handleDragStart() {
+        this.listening = false;
+      },
+      handleDragEnd() {
+        this.listening = true;
+      },
+      hexFocused(hex) {
+        if (this.animating) {
+          return;
+        }
+        this.focusHex = hex;
+
+        if (!hex) {
+          return;
+        }
+
+        var aUnit = null;
+        var selHex = this.grid.getSelectedHex();
+        if (selHex) {
+          aUnit = actions.getUnitAt(selHex.x, selHex.y);
+        }
+        var tUnit = actions.getUnitAt(hex.x, hex.y);
+        this.unitState = this.grid.getSelectedHexState();
+
+        if (aUnit != null && actions.isPlayerArmy(aUnit.id)) {
+          this.path = this.grid.getPathBetween(selHex, hex);
+          this.unitRange = this.grid.getSelectedHexRange();
+        }
+
+        if (this.unitState == "moving" || this.unitState == "turning") ; else if (this.unitState == "attacking") ;
+      },
+      centerHex(stage, hex) {
+        var unit = actions.getUnitAt(hex.x, hex.y);
+        if (!unit) {
+          return;
+        }
+        var margin = 100;
+        var center = getters$1.center();
+        if (
+          stage.getX() + center.x + hex.center.x < margin ||
+          stage.getX() + center.x + hex.center.x > window.innerWidth - margin ||
+          stage.getY() + center.y + hex.center.y < margin ||
+          stage.getY() + center.y + hex.center.y > window.innerHeight - margin
+        ) {
+          stage.setX(-hex.center.x);
+          stage.setY(-hex.center.y);
+          this.stageOffset = { x: stage.getX(), y: stage.getY() };
+          stage.batchDraw();
+        }
+      }
     }
   };
 
@@ -28627,6 +28730,97 @@
 
   /* template */
   var __vue_render__$l = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "ViewCull",
+      { attrs: { stageOffset: _vm.stageOffset } },
+      [
+        _vm.grid
+          ? _c(
+              "konva-stage",
+              {
+                ref: "stage",
+                attrs: { config: _vm.stageConfig },
+                on: { dragstart: _vm.handleDragStart, dragend: _vm.handleDragEnd }
+              },
+              [
+                _c("TerrainLayer", {
+                  ref: "terrainLayer",
+                  on: { focused: _vm.hexFocused }
+                }),
+                _vm._v(" "),
+                _c("EffectLayer", {
+                  ref: "effectLayer",
+                  attrs: {
+                    highlight: _vm.selectedHex,
+                    focus: _vm.focusHex,
+                    path: _vm.path,
+                    range: _vm.unitRange,
+                    rangeType: _vm.unitState
+                  }
+                }),
+                _vm._v(" "),
+                _c("UnitLayer", { ref: "unitLayer" })
+              ],
+              1
+            )
+          : _vm._e()
+      ],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$l = [];
+  __vue_render__$l._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$l = undefined;
+    /* scoped */
+    const __vue_scope_id__$l = undefined;
+    /* module identifier */
+    const __vue_module_identifier__$l = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$l = false;
+    /* style inject */
+    
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$l = normalizeComponent(
+      { render: __vue_render__$l, staticRenderFns: __vue_staticRenderFns__$l },
+      __vue_inject_styles__$l,
+      __vue_script__$j,
+      __vue_scope_id__$l,
+      __vue_is_functional_template__$l,
+      __vue_module_identifier__$l,
+      false,
+      undefined,
+      undefined,
+      undefined
+    );
+
+  //
+
+  var script$k = {
+    components: {
+      Menu: __vue_component__$c,
+      Panel: __vue_component__$3,
+      GameStage: __vue_component__$l
+    },
+    created() {
+      actions.load();
+    }
+  };
+
+  /* script */
+  const __vue_script__$k = script$k;
+
+  /* template */
+  var __vue_render__$m = function() {
     var _vm = this;
     var _h = _vm.$createElement;
     var _c = _vm._self._c || _h;
@@ -28646,89 +28840,17 @@
       1
     )
   };
-  var __vue_staticRenderFns__$l = [];
-  __vue_render__$l._withStripped = true;
-
-    /* style */
-    const __vue_inject_styles__$l = function (inject) {
-      if (!inject) return
-      inject("data-v-3eae35e2_0", { source: "\n.battle-panel[data-v-3eae35e2] {\r\n  margin: -5px;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  overflow: hidden;\r\n  margin-right: 0px;\n}\n.battle-stage[data-v-3eae35e2] {\r\n  margin: -10px;\r\n  position: absolute;\n}\r\n", map: undefined, media: undefined });
-
-    };
-    /* scoped */
-    const __vue_scope_id__$l = "data-v-3eae35e2";
-    /* module identifier */
-    const __vue_module_identifier__$l = undefined;
-    /* functional template */
-    const __vue_is_functional_template__$l = false;
-    /* style inject SSR */
-    
-    /* style inject shadow dom */
-    
-
-    
-    const __vue_component__$l = normalizeComponent(
-      { render: __vue_render__$l, staticRenderFns: __vue_staticRenderFns__$l },
-      __vue_inject_styles__$l,
-      __vue_script__$j,
-      __vue_scope_id__$l,
-      __vue_is_functional_template__$l,
-      __vue_module_identifier__$l,
-      false,
-      createInjector,
-      undefined,
-      undefined
-    );
-
-  //
-  var script$k = {
-    components: {
-      Title: __vue_component__$4,
-      Panel: __vue_component__$3
-    },
-    props: ["error"],
-  };
-
-  /* script */
-  const __vue_script__$k = script$k;
-
-  /* template */
-  var __vue_render__$m = function() {
-    var _vm = this;
-    var _h = _vm.$createElement;
-    var _c = _vm._self._c || _h;
-    return _c(
-      "div",
-      [
-        _c("Title"),
-        _vm._v(" "),
-        _c("div", { staticClass: "pure-g" }, [
-          _c("div", { staticClass: "pure-u-1 pure-u-sm-1-8 pure-u-md-1-4" }),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "pure-u-1 pure-u-sm-3-4 pure-u-md-1-2" },
-            [
-              _c("Panel", [_vm._v("\n        " + _vm._s(_vm.error) + "\n      ")])
-            ],
-            1
-          )
-        ])
-      ],
-      1
-    )
-  };
   var __vue_staticRenderFns__$m = [];
   __vue_render__$m._withStripped = true;
 
     /* style */
     const __vue_inject_styles__$m = function (inject) {
       if (!inject) return
-      inject("data-v-31952736_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-1d8178c0_0", { source: "\n.battle-panel[data-v-1d8178c0] {\r\n  margin: -5px;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  overflow: hidden;\r\n  margin-right: 0px;\n}\n.battle-stage[data-v-1d8178c0] {\r\n  margin: -10px;\r\n  position: absolute;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$m = "data-v-31952736";
+    const __vue_scope_id__$m = "data-v-1d8178c0";
     /* module identifier */
     const __vue_module_identifier__$m = undefined;
     /* functional template */
@@ -28757,7 +28879,8 @@
     components: {
       Title: __vue_component__$4,
       Panel: __vue_component__$3
-    }
+    },
+    props: ["error"],
   };
 
   /* script */
@@ -28779,7 +28902,9 @@
           _c(
             "div",
             { staticClass: "pure-u-1 pure-u-sm-3-4 pure-u-md-1-2" },
-            [_c("Panel", [_vm._v("\n        Location not found, sir.\n      ")])],
+            [
+              _c("Panel", [_vm._v("\n        " + _vm._s(_vm.error) + "\n      ")])
+            ],
             1
           )
         ])
@@ -28793,11 +28918,11 @@
     /* style */
     const __vue_inject_styles__$n = function (inject) {
       if (!inject) return
-      inject("data-v-5c47c5cc_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-59507c18_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$n = "data-v-5c47c5cc";
+    const __vue_scope_id__$n = "data-v-59507c18";
     /* module identifier */
     const __vue_module_identifier__$n = undefined;
     /* functional template */
@@ -28821,6 +28946,75 @@
       undefined
     );
 
+  //
+  var script$m = {
+    components: {
+      Title: __vue_component__$4,
+      Panel: __vue_component__$3
+    }
+  };
+
+  /* script */
+  const __vue_script__$m = script$m;
+
+  /* template */
+  var __vue_render__$o = function() {
+    var _vm = this;
+    var _h = _vm.$createElement;
+    var _c = _vm._self._c || _h;
+    return _c(
+      "div",
+      [
+        _c("Title"),
+        _vm._v(" "),
+        _c("div", { staticClass: "pure-g" }, [
+          _c("div", { staticClass: "pure-u-1 pure-u-sm-1-8 pure-u-md-1-4" }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "pure-u-1 pure-u-sm-3-4 pure-u-md-1-2" },
+            [_c("Panel", [_vm._v("\n        Location not found, sir.\n      ")])],
+            1
+          )
+        ])
+      ],
+      1
+    )
+  };
+  var __vue_staticRenderFns__$o = [];
+  __vue_render__$o._withStripped = true;
+
+    /* style */
+    const __vue_inject_styles__$o = function (inject) {
+      if (!inject) return
+      inject("data-v-088d9a08_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+
+    };
+    /* scoped */
+    const __vue_scope_id__$o = "data-v-088d9a08";
+    /* module identifier */
+    const __vue_module_identifier__$o = undefined;
+    /* functional template */
+    const __vue_is_functional_template__$o = false;
+    /* style inject SSR */
+    
+    /* style inject shadow dom */
+    
+
+    
+    const __vue_component__$o = normalizeComponent(
+      { render: __vue_render__$o, staticRenderFns: __vue_staticRenderFns__$o },
+      __vue_inject_styles__$o,
+      __vue_script__$m,
+      __vue_scope_id__$o,
+      __vue_is_functional_template__$o,
+      __vue_module_identifier__$o,
+      false,
+      createInjector,
+      undefined,
+      undefined
+    );
+
   const ifAuthenticated = (to, from, next) => {
       if (getters.authenticated()) {
         next();
@@ -28836,9 +29030,9 @@
       { path: '/tutorial', component: __vue_component__$9, beforeEnter: ifAuthenticated },
       { path: '/start', component: __vue_component__$a, beforeEnter: ifAuthenticated },
       { path: '/battle', component: __vue_component__$b, beforeEnter: ifAuthenticated },
-      { path: '/single', component: __vue_component__$l, beforeEnter: ifAuthenticated },
-      { path: "/error", name: 'error', component: __vue_component__$m, props: true },
-      { path: "*", component: __vue_component__$n }
+      { path: '/single', component: __vue_component__$m, beforeEnter: ifAuthenticated },
+      { path: "/error", name: 'error', component: __vue_component__$n, props: true },
+      { path: "*", component: __vue_component__$o }
   ];
 
   const router = new VueRouter({

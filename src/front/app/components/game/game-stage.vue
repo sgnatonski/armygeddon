@@ -27,7 +27,6 @@ import TerrainLayer from "./terrain-layer.vue";
 import EffectLayer from "./effect-layer.vue";
 import UnitLayer from "./unit-layer.vue";
 import eventBus from "../../eventBus.js";
-import animator from "../../animator.js";
 import { getters, actions } from "../../stores/battle";
 
 export default {
@@ -38,6 +37,7 @@ export default {
     UnitLayer
   },
   computed: {
+    animating: () => getters.animating(),
     selectedHex: () => getters.selectedHex(),
     grid: () => getters.grid(),
     center: () => getters.center(),
@@ -120,13 +120,15 @@ export default {
     });
 
     eventBus.on("battleended", result => {
-      effectLayer.highlightNode(null);
+      this.focusHex = null;
+      this.path = [];
+      this.unitRange = [];;
+      /*effectLayer.highlightNode(null);
       effectLayer.drawPath([]);
-      effectLayer.highlightRange([], grid.getSelectedHexState());
-      grid.hexSelected();
-      unitLayer.refresh();
-      tooltipLayer.hideTooltip();
-      waitLayer.show(["Battle has ended", ...result]);
+      effectLayer.highlightRange([], grid.getSelectedHexState());*/
+      //grid.hexSelected();
+      //tooltipLayer.hideTooltip();
+      //waitLayer.show(["Battle has ended", ...result]);
     });
 
     eventBus.on("battlestate", txt => {
@@ -134,22 +136,7 @@ export default {
     });
 
     eventBus.on("battleupdated", u => {
-      var animationPath = getters.grid().getPathBetween(
-        getters.grid().getHexAt(u.delta.source.x, u.delta.source.y),
-        getters.grid().getHexAt(u.delta.target.x, u.delta.target.y)
-      );
-      animator.getAnimation(u.data.currUnit.id, animationPath).then(() => {
-        var nextHex = getters.grid().updateSelection(u.data.currUnit);
-        if (actions.isPlayerArmy(u.data.nextUnit.id)) {
-          effectLayer.highlightNode([nextHex]);
-          effectLayer.highlightRange(
-            grid.getSelectedHexRange(),
-            grid.getSelectedHexState()
-          );
-        }
-        this.centerHex(this.$refs.stage.getStage(), nextHex);
-        unitLayer.refresh();
-      });
+      actions.animateUnit(u.data.currUnit, u.delta.source, u.delta.target);
     });
   },
   methods: {
@@ -160,7 +147,7 @@ export default {
       this.listening = true;
     },
     hexFocused(hex) {
-      if (animator.isAnimating()) {
+      if (this.animating) {
         return;
       }
       this.focusHex = hex;

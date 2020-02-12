@@ -63,16 +63,6 @@ function initGrid(sceneSize, terrain, units, getters, actions) {
     }
   }
 
-  function updateSelection(unit) {
-    var hex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
-    hex.blocked = true;
-
-    var nextUnit = getters.nextUnit();
-    var nextHex = grid.getHexAt(new BHex.Axial(nextUnit.pos.x, nextUnit.pos.y));
-    setSelectedHex(nextHex.x, nextHex.y);
-    return nextHex;
-  }
-
   function hexSelected(hex) {
     var selectedHex = grid.selectedHex;
     if (selectedHex) {
@@ -208,11 +198,6 @@ function initGrid(sceneSize, terrain, units, getters, actions) {
 
   var grid = new BHex.Grid(sceneSize);
 
-  units.forEach(unit => {
-    var hex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
-    hex.blocked = true;
-  });
-
   terrain.forEach(terrain => {
     grid.getHexAt(new BHex.Axial(terrain.x, terrain.y)).cost = terrain.cost;
   });
@@ -227,7 +212,12 @@ function initGrid(sceneSize, terrain, units, getters, actions) {
     getPathBetween: getPathInRange,
     getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new BHex.Axial(x, y)), actions.getUnitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
     initDrawing: initDrawing,
-    updateSelection: updateSelection
+    setBlocked: (posArray) => {
+      var set = new Set(posArray.map(p => `${p.x}:${p.y}`));
+      getHexes().forEach(h => {
+        h.blocked = set.has(`${h.x}:${h.y}`);
+      });
+    }
   }
 }
 
