@@ -58,7 +58,7 @@ export default {
       }
     },
     hexSelected(evt, hex) {
-      this.$emit("selected", hex);
+      actions.setSelectedHex(hex);
     },
     hexFocused(evt, hex) {
       this.$emit("focused", hex);

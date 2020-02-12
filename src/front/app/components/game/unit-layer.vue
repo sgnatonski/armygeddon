@@ -18,18 +18,19 @@
 import Unit from "./unit.vue";
 import { getters, actions } from "../../stores/battle";
 
+var armyColors = ["#00cc00", "#c80b04"];
+      
 export default {
   components: {
     Unit
   },
   computed:{
     center: () => getters.center(),
-    hexes: () => getters.grid() ? getters.grid().getHexes().filter(h => getters.grid().getUnitAt(h.x, h.y)) : []
+    hexes: () => getters.grid() ? getters.grid().getHexes().filter(h => actions.getUnitAt(h.x, h.y)) : []
   },
   methods: {
-    getUnit: (hex) => getters.grid().getUnitAt(hex.x, hex.y),
+    getUnit: (hex) => actions.getUnitAt(hex.x, hex.y),
     getUnitColor(hex) {
-      var armyColors = ["#00cc00", "#c80b04"];
       var unit = actions.getUnitAt(hex.x, hex.y);
       var isPlayerArmy = actions.isPlayerArmy(unit);
       return isPlayerArmy ? armyColors[0] : armyColors[1];

@@ -1,8 +1,10 @@
 import Vue from "vue";
 import loadImage from "image-promise";
 import fetch from "../../game/fetch";
+import eventBus from "../eventBus";
 import Army from "../../game/army";
 import Grid from "../../game/grid";
+import { requestMove, requestTurn, requestAttack } from "../../game/requests/http_request";
 
 function loadImages() {
     return loadImage([
@@ -87,15 +89,15 @@ export const mutations = {
             state.battleState = 'ready';
             state.winningArmy = data.winningArmy;
             if (state.winningArmy) {
-                //return this.onEnd({ battle: data });
+                return mutations.end(data);
             }
             //var bsTxt2 = this.getBattleStateText();
-            //setTimeout(() => eventBus.publish('battlestarted'), 0);
+            setTimeout(() => eventBus.publish('battlestarted'), 0);
             //setTimeout(() => eventBus.publish('battlestate', bsTxt2), 0);
             //setTimeout(() => eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
         }
         else {
-            //setTimeout(() => eventBus.publish('battlewaiting'), 0);		
+            setTimeout(() => eventBus.publish('battlewaiting'), 0);		
         }
         state.grid = Grid(state.sceneSize, state.terrain, state.firstArmy.getArmy().concat(state.secondArmy.getArmy()), getters, actions);
 
@@ -107,16 +109,13 @@ export const mutations = {
         state.grid.hexSelected();
         var selHex = state.grid.getSelectedHex();
         if (selHex) {
-            var unit = state.grid.getUnitAt(selHex.x, selHex.y);
-            if (state.grid.isPlayerArmy(unit.id)) {
-                state.selectedHex = selHex;
+            state.selectedHex = selHex;
+            var unit = actions.getUnitAt(selHex.x, selHex.y);
+            if (actions.isPlayerArmy(unit.id)) {
                 //state.unitRange = state.grid.getSelectedHexRange();
                 //state.unitState = state.grid.getSelectedHexState();
             }
-            //centerHex(args.$refs.stage.getStage(), args.center, selHex.center);
         }
-
-        //eventBus.publish("battlestarted");
     },
     update(data) {
         state.battleState = 'started';
@@ -134,9 +133,9 @@ export const mutations = {
         }
         var nextUnitArmy = actions.getArmy(data.nextUnit.id);
         nextUnitArmy.restoreUnit(data.nextUnit);
-        //setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data}), 0);
+        setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data}), 0);
         //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
-        //setTimeout(() => eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
+        setTimeout(() => eventBus.publish('battlestate', `${nextPlayer} ${nextUnit.type} unit is next to act`), 0);
     },
     end(data) {
         state.battleState = 'finished';
@@ -147,7 +146,8 @@ export const mutations = {
         state.center = { x: x, y: y };
     },
     setSelectedHex(hex) {
-        state.selectedHex = hex;
+        state.selectedHex = hex;        
+        state.grid.hexSelected(hex);
     }
 };
 
@@ -209,5 +209,14 @@ export const actions = {
     },
     setSelectedHex(hex) {
         mutations.setSelectedHex(hex);
+    },
+    unitMoving(unit, x, y, distance) {	
+        requestMove(state.battleId, unit.id, x, y);
+    },    
+    unitTurning(unit, x, y) {
+        requestTurn(state.battleId, unit.id, x, y);
+    },    
+    unitAttacking(unit, x, y) {
+        requestAttack(state.battleId, unit.id, x, y);
     }
 }

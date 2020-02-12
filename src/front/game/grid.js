@@ -86,17 +86,17 @@ function initGrid(sceneSize, terrain, units, getters, actions) {
         var path = getPathInRange(selectedHex, hex);
         var lastStep = path[path.length - 1];
         if (lastStep.x == hex.x && lastStep.y == hex.y) {
-          //battle.unitMoving(unit, hex.x, hex.y);
+          actions.unitMoving(unit, hex.x, hex.y);
         }
         break;
       case 'turning':
-        //battle.unitTurning(unit, hex.x, hex.y);
+        actions.unitTurning(unit, hex.x, hex.y);
         break;
       case 'attacking':
         var path = getPathInRange(selectedHex, hex, unit.range, true);
         var lastStep = path[path.length - 1];
         if (lastStep.x == hex.x && lastStep.y == hex.y) {
-          //battle.unitAttacking(unit, hex.x, hex.y);
+          actions.unitAttacking(unit, hex.x, hex.y);
         }
         break;
       default:
@@ -206,10 +206,6 @@ function initGrid(sceneSize, terrain, units, getters, actions) {
     return getters.terrain().map(t => grid.hexes.find(h => t.x == h.x && t.y == h.y));
   };
 
-  function getUnits() {
-    return getters.units();
-  }
-
   var grid = new BHex.Grid(sceneSize);
 
   units.forEach(unit => {
@@ -225,9 +221,6 @@ function initGrid(sceneSize, terrain, units, getters, actions) {
     getHexes: getHexes,
     getSelectedHex: () => grid.selectedHex ? grid.getHexAt(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y)) : null,
     getHexAt: (x, y) => grid.getHexAt(new BHex.Axial(x, y)),
-    getUnitAt: (x, y) => actions.getUnitAt(x, y),
-    getUnits: getUnits,
-    isPlayerArmy: (unitId, exactMatch) => actions.isPlayerArmy(unitId, exactMatch),
     hexSelected: hexSelected,
     getSelectedHexRange: getSelectedHexRange,
     getSelectedHexState: getSelectedHexState,

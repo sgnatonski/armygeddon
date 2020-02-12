@@ -5,3 +5,4 @@ package-lock.json
 /__pycache__/*
 /src/services/node_modules/*
 /src/front/node_modules/*
+/src/front/dist/*.*

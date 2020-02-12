@@ -7,7 +7,7 @@
       @dragstart="handleDragStart"
       @dragend="handleDragEnd"
     >
-      <TerrainLayer ref="terrainLayer" @selected="hexSelected" @focused="hexFocused"></TerrainLayer>
+      <TerrainLayer ref="terrainLayer" @focused="hexFocused"></TerrainLayer>
       <EffectLayer
         ref="effectLayer"
         :highlight="selectedHex"
@@ -26,26 +26,9 @@ import ViewCull from "./view-cull.vue";
 import TerrainLayer from "./terrain-layer.vue";
 import EffectLayer from "./effect-layer.vue";
 import UnitLayer from "./unit-layer.vue";
-import eventBus from "../../eventbus.js";
+import eventBus from "../../eventBus.js";
 import animator from "../../animator.js";
 import { getters, actions } from "../../stores/battle";
-
-function centerHex(stage, center, unitPos) {
-  var margin = 100;
-  if (
-    stage.getX() + center.x + unitPos.x < margin ||
-    stage.getX() + center.x + unitPos.x > container.clientWidth - margin ||
-    stage.getY() + center.y + unitPos.y < margin ||
-    stage.getY() + center.y + unitPos.y > container.clientHeight - margin
-  ) {
-    setTimeout(() => {
-      stage.setX(-unitPos.x);
-      stage.setY(-unitPos.y);
-      args.stageOffset = { x: stage.getX(), y: stage.getY() };
-      stage.batchDraw();
-    }, 0);
-  }
-}
 
 export default {
   components: {
@@ -68,10 +51,10 @@ export default {
         Math.abs(getters.boundingBox().maxY) +
         60;
 
-      if (width < window.visualViewport.width){
+      if (width < window.visualViewport.width) {
         width = window.visualViewport.width;
       }
-      if (height < window.visualViewport.height){
+      if (height < window.visualViewport.height) {
         height = window.visualViewport.height;
       }
 
@@ -102,6 +85,14 @@ export default {
       };
     }
   },
+  watch: {
+    selectedHex(newVal, oldVal) {
+      this.$nextTick().then(() => {
+        this.hexFocused(newVal);
+        this.centerHex(this.$refs.stage.getStage(), newVal);
+      });
+    }
+  },
   data() {
     return {
       imageShapes: null,
@@ -110,11 +101,56 @@ export default {
       unitState: null,
       unitRange: null,
       listening: true,
-      stageOffset: { x: 0, y: 0},
+      stageOffset: { x: 0, y: 0 }
     };
   },
   mounted() {
     actions.setCenter(window.innerWidth / 2, window.innerHeight / 2);
+    eventBus.on("battlewaiting", () => {
+      console.log('battlewaiting');
+      /*waitLayer.show([
+        "Sir, You're first on the battlefield.",
+        "Hopefully the other army will arrive soon."
+      ]);*/
+    });
+
+    eventBus.on("battlestarted", () => {
+      console.log('battlestarted');
+      //waitLayer.hide();
+    });
+
+    eventBus.on("battleended", result => {
+      effectLayer.highlightNode(null);
+      effectLayer.drawPath([]);
+      effectLayer.highlightRange([], grid.getSelectedHexState());
+      grid.hexSelected();
+      unitLayer.refresh();
+      tooltipLayer.hideTooltip();
+      waitLayer.show(["Battle has ended", ...result]);
+    });
+
+    eventBus.on("battlestate", txt => {
+      console.log(txt);
+    });
+
+    eventBus.on("battleupdated", u => {
+      var animationPath = getters.grid().getPathBetween(
+        getters.grid().getHexAt(u.delta.source.x, u.delta.source.y),
+        getters.grid().getHexAt(u.delta.target.x, u.delta.target.y)
+      );
+      animator.getAnimation(u.data.currUnit.id, animationPath).then(() => {
+        var nextHex = getters.grid().updateSelection(u.data.currUnit);
+        if (actions.isPlayerArmy(u.data.nextUnit.id)) {
+          effectLayer.highlightNode([nextHex]);
+          effectLayer.highlightRange(
+            grid.getSelectedHexRange(),
+            grid.getSelectedHexState()
+          );
+        }
+        this.centerHex(this.$refs.stage.getStage(), nextHex);
+        unitLayer.refresh();
+      });
+    });
   },
   methods: {
     handleDragStart() {
@@ -122,10 +158,6 @@ export default {
     },
     handleDragEnd() {
       this.listening = true;
-    },
-    hexSelected(hex) {
-      actions.setSelectedHex(hex);
-      this.grid.hexSelected(hex);
     },
     hexFocused(hex) {
       if (animator.isAnimating()) {
@@ -140,12 +172,12 @@ export default {
       var aUnit = null;
       var selHex = this.grid.getSelectedHex();
       if (selHex) {
-        aUnit = this.grid.getUnitAt(selHex.x, selHex.y);
+        aUnit = actions.getUnitAt(selHex.x, selHex.y);
       }
-      var tUnit = this.grid.getUnitAt(hex.x, hex.y);
+      var tUnit = actions.getUnitAt(hex.x, hex.y);
       this.unitState = this.grid.getSelectedHexState();
 
-      if (aUnit != null && this.grid.isPlayerArmy(aUnit.id)) {
+      if (aUnit != null && actions.isPlayerArmy(aUnit.id)) {
         this.path = this.grid.getPathBetween(selHex, hex);
         this.unitRange = this.grid.getSelectedHexRange();
       }
@@ -161,6 +193,25 @@ export default {
         if (aUnit && tUnit) {
           //tooltipLayer.updateTooltipWithAttackStats(aUnit, tUnit);
         }
+      }
+    },
+    centerHex(stage, hex) {
+      var unit = actions.getUnitAt(hex.x, hex.y);
+      if (!unit) {
+        return;
+      }
+      var margin = 100;
+      var center = getters.center();
+      if (
+        stage.getX() + center.x + hex.center.x < margin ||
+        stage.getX() + center.x + hex.center.x > window.innerWidth - margin ||
+        stage.getY() + center.y + hex.center.y < margin ||
+        stage.getY() + center.y + hex.center.y > window.innerHeight - margin
+      ) {
+        stage.setX(-hex.center.x);
+        stage.setY(-hex.center.y);
+        this.stageOffset = { x: stage.getX(), y: stage.getY() };
+        stage.batchDraw();
       }
     }
   }

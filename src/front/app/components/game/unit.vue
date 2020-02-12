@@ -84,6 +84,7 @@
 <script>
 import getShape from "../../shapes.js";
 import UnitType from "./unit-type.vue";
+
 export default {
   components: {
     UnitType

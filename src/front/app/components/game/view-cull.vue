@@ -11,13 +11,12 @@ export default {
   },
   watch: {
     // whenever stageX changes, this function will run
-    stageOffset: function(newOffset, oldOffset) {
+    stageOffset(newOffset, oldOffset) {
       var stage = this.$children[0].getStage();
       var layers = stage.children
         .forEach(l => this.cullView(this.$el, stage, l));
     }
   },
-  mounted() {},
   methods: {
     cullView(container, stage, layer) {
       var c = layer.children;
