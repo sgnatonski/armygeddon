@@ -27477,6 +27477,10 @@
       center: { x: 0, y: 0 },
       boundingBox: null,
       sceneSize: '',
+      grid: null,
+      imageShapes: [],
+      animating: false,
+      pendingAnimations: {},
       battleState: '',
       battleId: '',
       selfArmy: null,
@@ -27486,12 +27490,10 @@
       secondArmy: null,
       nextPlayer: null,
       winningArmy: null,
-      grid: null,
       selectedHex: null,
-      imageShapes: [],
       unitHexes: [],
-      animating: false,
-      pendingAnimations: {}
+      targetUnit: null,
+      currentUnit: null
   });
 
   const getters$1 = {
@@ -27510,6 +27512,9 @@
       unitQueue: () => state$1.unitQueue,
       firstArmy: () => state$1.firstArmy,
       secondArmy: () => state$1.secondArmy,
+      currentUnit: () => state$1.currentUnit,
+      targetUnit: () => state$1.targetUnit,
+      nextUnit: () => getters$1.units().find(u => u.id == state$1.unitQueue[0]),
       nextUnit: () => getters$1.units().find(u => u.id == state$1.unitQueue[0]),
       nextPlayer: () => actions.getArmy(nextUnit).playerName,
       winningArmy: () => state$1.winningArmy,
@@ -27568,7 +27573,11 @@
           if (selHex) {
               state$1.selectedHex = selHex;
               var unit = actions.getUnitAt(selHex.x, selHex.y);
-              if (actions.isPlayerArmy(unit.id)) ;
+              if (actions.isPlayerArmy(unit.id)) {
+                  state$1.currentUnit = unit;
+                  //state.unitRange = state.grid.getSelectedHexRange();
+                  //state.unitState = state.grid.getSelectedHexState();
+              }
           }
 
           eventBus.on('update', mutations$1.update);
@@ -27576,27 +27585,21 @@
       },
       update(data) {
           state$1.battleState = 'started';
+          state$1.currentUnit = data.currUnit;
+          
           var delta = {
               source: getters$1.nextUnit().pos,
               target: data.currUnit.pos
           };
-
-          state$1.unitQueue = data.unitQueue;
-          var army = actions.getArmy(data.currUnit.id);
-          army.restoreUnit(data.currUnit);
-          if (data.targetUnit) {
-              var targetArmy = actions.getArmy(data.targetUnit.id);
-              targetArmy.restoreUnit(data.targetUnit);
-          }
-          var nextUnitArmy = actions.getArmy(data.nextUnit.id);
-          nextUnitArmy.restoreUnit(data.nextUnit);
-          mutations$1.setUnitHexes();        
-          var nextUnit = getters$1.nextUnit();
-          var nextHex = getters$1.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
-          mutations$1.setSelectedHex(nextHex);
+          state$1.unitQueue = data.unitQueue;        
+          state$1.targetUnit = delta.target;
+          
+          actions.animateUnit(state$1.currentUnit, delta.source, delta.target);
 
           setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
           //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
+          var nextUnit = getters$1.nextUnit();
+          var nextUnitArmy = actions.getArmy(nextUnit.id);
           setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters$1.nextUnit().type} unit is next to act`), 0);
       },
       end(data) {
@@ -27709,6 +27712,21 @@
           );
           mutations$1.setPendingAnimations(unit, animationPath);
           mutations$1.setAnimating(true);
+      },
+      updateGrid() {
+          var army = actions.getArmy(getters$1.currentUnit().id);
+          army.restoreUnit(getters$1.currentUnit());
+          var targetUnit = getters$1.targetUnit();
+          if (targetUnit && targetUnit.id) {
+              var targetArmy = actions.getArmy(targetUnit.id);
+              targetArmy.restoreUnit(targetUnit);
+          }
+          var nextUnit = getters$1.nextUnit();
+          var nextUnitArmy = actions.getArmy(nextUnit.id);
+          nextUnitArmy.restoreUnit(nextUnit);
+          mutations$1.setUnitHexes();        
+          var nextHex = getters$1.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
+          mutations$1.setSelectedHex(nextHex);
       }
   };
 
@@ -28351,47 +28369,6 @@
 
   //
 
-  function getUnitMoveAnim(steps, node, center) {
-    return new Promise(function(resolve, reject) {
-      if (!steps || steps.length <= 1) {
-        resolve();
-        return;
-      }
-
-      console.log('animating');
-      var currStep = steps.shift();
-      var anim = new lib_1((frame) => {
-        var progress = frame.time / 400;
-        var sourceY = center.y + currStep.center.y;
-        var targetY = center.y + steps[0].center.y;
-        var diffY = targetY - sourceY;
-        var calcY = sourceY + diffY * progress;
-        node.setY(calcY);
-        var sourceX = center.x + currStep.center.x;
-        var targetX = center.x + steps[0].center.x;
-        var diffX = targetX - sourceX;
-        var calcX = sourceX + diffX * progress;
-        node.setX(calcX);
-        if (
-          (diffX > 0 && calcX >= targetX) ||
-          (diffX < 0 && calcX <= targetX) ||
-          (diffY > 0 && calcY >= targetY) ||
-          (diffY < 0 && calcY <= targetY)
-        ) {
-          currStep = steps.shift();
-          frame.time = 0; // ????????
-          if (!steps.length) {
-            anim.stop();
-            node.setY(targetY);
-            node.setX(targetX);
-            resolve();
-          }
-        }
-      }, node.getLayer());
-      anim.start();
-    });
-  }
-
   var script$h = {
     props: {
       unitHexes: Array
@@ -28406,20 +28383,62 @@
           if (!newVal || Object.keys(newVal).length == 0) {
             return;
           }
-          var nodes = this.$children;
-          Promise.all(
-            nodes.map(n =>
-              getUnitMoveAnim(
-                newVal[n.unit.id],
-                n.$children[0].getNode(),
-                this.center
-              )
-            )
-          ).then(() => {
+
+          var animations = this.$children
+            .filter(n => newVal[n.unit.id])
+            .map(n =>
+              this.getUnitMoveAnim(newVal[n.unit.id], n.$children[0].getNode())
+            );
+
+          Promise.all(animations).then(() => {
             mutations$1.setAnimating(false);
           });
-        },
-        deep: true
+        }
+      }
+    },
+    methods: {
+      getUnitMoveAnim(steps, node) {
+        var center = this.center;
+        return new Promise((resolve, reject) => {
+          if (!steps || steps.length <= 1) {
+            resolve();
+            return;
+          }
+
+          console.log("animating");
+          var currStep = steps.shift();
+          var anim = new lib_1(frame => {
+            if (!steps.length) {
+              anim.stop();
+              node.setY(targetY);
+              node.setX(targetX);
+              resolve();
+              return;
+            }
+
+            var progress = frame.time / 400;
+            var sourceY = center.y + currStep.center.y;
+            var targetY = center.y + steps[0].center.y;
+            var diffY = targetY - sourceY;
+            var calcY = sourceY + diffY * progress;
+            node.setY(calcY);
+            var sourceX = center.x + currStep.center.x;
+            var targetX = center.x + steps[0].center.x;
+            var diffX = targetX - sourceX;
+            var calcX = sourceX + diffX * progress;
+            node.setX(calcX);
+            if (
+              (diffX > 0 && calcX >= targetX) ||
+              (diffX < 0 && calcX <= targetX) ||
+              (diffY > 0 && calcY >= targetY) ||
+              (diffY < 0 && calcY <= targetY)
+            ) {
+              currStep = steps.shift();
+              frame.time = 0; // ????????
+            }
+          }, node.getLayer());
+          anim.start();
+        });
       }
     }
   };
@@ -28624,6 +28643,11 @@
           this.hexFocused(newVal);
           this.centerHex(this.$refs.stage.getStage(), newVal);
         });
+      },
+      animating(newVal, oldVal) {
+        if (!newVal){
+          actions.updateGrid();
+        }
       }
     },
     data() {
@@ -28665,10 +28689,6 @@
 
       eventBus.on("battlestate", txt => {
         console.log(txt);
-      });
-
-      eventBus.on("battleupdated", u => {
-        actions.animateUnit(u.data.currUnit, u.delta.source, u.delta.target);
       });
     },
     methods: {

@@ -91,6 +91,11 @@ export default {
         this.hexFocused(newVal);
         this.centerHex(this.$refs.stage.getStage(), newVal);
       });
+    },
+    animating(newVal, oldVal) {
+      if (!newVal){
+        actions.updateGrid();
+      }
     }
   },
   data() {
@@ -133,10 +138,6 @@ export default {
 
     eventBus.on("battlestate", txt => {
       console.log(txt);
-    });
-
-    eventBus.on("battleupdated", u => {
-      actions.animateUnit(u.data.currUnit, u.delta.source, u.delta.target);
     });
   },
   methods: {
