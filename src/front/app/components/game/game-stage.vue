@@ -87,17 +87,13 @@ export default {
   },
   watch: {
     animating(newVal, oldVal) {
-      this.$nextTick().then(() => {
-        if (newVal){
-          this.unitRange = [];
-        }
-        else {
-          actions.updateGrid();
-        }
-        this.centerHex(this.$refs.stage.getStage(), this.selectedHex);
-        this.hexFocused(this.selectedHex);
-        this.$refs.stage.getStage().batchDraw();
-      });
+      this.unitRange = [];
+      if (!newVal){
+        actions.updateGrid();
+      }
+      this.centerHex(this.$refs.stage.getStage(), this.selectedHex);
+      this.hexFocused(this.selectedHex);
+      this.$refs.stage.getStage().batchDraw();
     }
   },
   data() {
@@ -158,12 +154,12 @@ export default {
       var aUnit = null;
       var selHex = this.selectedHex;
       if (selHex) {
-        aUnit = actions.getUnitAt(selHex.x, selHex.y);
+        aUnit = getters.unitAt(selHex.x, selHex.y);
       }
-      var tUnit = actions.getUnitAt(hex.x, hex.y);
+      var tUnit = getters.unitAt(hex.x, hex.y);
       this.unitState = this.grid.getSelectedHexState();
 
-      if (aUnit != null && actions.isPlayerArmy(aUnit.id)) {
+      if (aUnit != null && getters.isPlayerArmy(aUnit.id)) {
         this.unitRange = this.grid.getSelectedHexRange();
         //this.path = this.grid.getPathBetween(selHex, hex);
       }
@@ -182,7 +178,7 @@ export default {
       }
     },
     centerHex(stage, hex) {
-      var unit = actions.getUnitAt(hex.x, hex.y);
+      var unit = getters.unitAt(hex.x, hex.y);
       if (!unit) {
         return;
       }

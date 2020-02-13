@@ -96,10 +96,8 @@ export default {
     color: String
   },
   computed: {
-    directions() { return this.unit.directions; }
-  },
-  endurance: {
-    directions() { return this.unit.endurance; }
+    directions() { return this.unit.directions; },
+    endurance() { return Math.min(0, this.unit.endurance / this.unit.lifetime.endurance); }
   },
   methods: {
     getShape: getShape,
@@ -118,11 +116,7 @@ export default {
       context.fillStrokeShape(shape);
     },
     healthSceneFunc(context, shape) {
-      var fillValue = this.endurance / this.unit.lifetime.endurance;
-      if (fillValue < 0) {
-        fillValue = 0;
-      }
-      var off = Math.floor(30 * fillValue);
+      var off = Math.floor(30 * this.endurance);
       context.beginPath();
       context.rect(0, 30 - off, 2, off);
       context.closePath();

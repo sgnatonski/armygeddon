@@ -27241,7 +27241,7 @@
     }
 
     function getPathInRange(sourceHex, targetHex) {
-      var unit = actions.getUnitAt(sourceHex.x, sourceHex.y);
+      var unit = getters.unitAt(sourceHex.x, sourceHex.y);
       if (!unit) {
         var gridPath = grid.findPath(new bhex.Axial(sourceHex.x, sourceHex.y), new bhex.Axial(targetHex.x, targetHex.y), ignoreInertia);
         var path = gridPath.filter(h => getters.terrain().find(t => t.x == h.x && t.y == h.y));
@@ -27251,7 +27251,7 @@
       else {
         var range;
         var ignoreInertia;
-        var unitState = actions.getUnitState(unit);
+        var unitState = getters.unitState(unit);
         var gridPath = [];
 
         switch (unitState) {
@@ -27291,9 +27291,9 @@
       if (selectedHex) {
         selectedHex.blocked = false;
       }
-      var unit = grid.selectedHex && hex ? actions.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
+      var unit = grid.selectedHex && hex ? getters.unitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
 
-      var unitState = actions.getUnitState(unit);
+      var unitState = getters.unitState(unit);
       switch (unitState) {
         case 'moving':
           var path = getPathInRange(selectedHex, hex);
@@ -27354,12 +27354,12 @@
     }
 
     function getSelectedHexRange() {
-      var unit = grid.selectedHex ? actions.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
+      var unit = grid.selectedHex ? getters.unitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
       if (!unit) {
         return [];
       }
 
-      var state = actions.getUnitState(unit);
+      var state = getters.unitState(unit);
       var gridRange = [];
       if (state == 'moving') {
         if (!unit.agility) {
@@ -27383,7 +27383,7 @@
       return gridRange.filter(h => getters.terrain().find(t => t.x == h.x && t.y == h.y));
     }
     function getSelectedHexState() {
-      return actions.getUnitState(grid.selectedHex ? actions.getUnitAt(grid.selectedHex.x, grid.selectedHex.y) : null);
+      return getters.unitState(grid.selectedHex ? getters.unitAt(grid.selectedHex.x, grid.selectedHex.y) : null);
     }
     function initDrawing(center) {
       var sideWidth = 30;
@@ -27428,7 +27428,7 @@
       getSelectedHexRange: getSelectedHexRange,
       getSelectedHexState: getSelectedHexState,
       getPathBetween: getPathInRange,
-      getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new bhex.Axial(x, y)), actions.getUnitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
+      getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new bhex.Axial(x, y)), getters.unitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
       initDrawing: initDrawing,
       setBlocked: (posArray) => {
         var set = new Set(posArray.map(p => `${p.x}:${p.y}`));
@@ -27518,6 +27518,7 @@
       nextUnit: () => getters$1.units().find(u => u.id == state$1.unitQueue[0]),
       nextPlayer: () => actions.getArmy(nextUnit).playerName,
       winningArmy: () => state$1.winningArmy,
+      unitHexes: () => state$1.unitHexes,
       units: () => {
           if (!state$1.firstArmy) {
               return null;
@@ -27527,7 +27528,46 @@
           }
           return state$1.firstArmy.getArmy().concat(state$1.secondArmy.getArmy());
       },
-      unitHexes: () => state$1.unitHexes
+      army(unitId) {
+          return state$1.firstArmy.getArmy().some(x => x.id == unitId)
+              ? state$1.firstArmy
+              : state$1.secondArmy;
+      },
+      opposingArmy(unitId) {
+          return state$1.firstArmy.getArmy().some(x => x.id == unitId)
+              ? state$1.secondArmy
+              : state$1.firstArmy;
+      },
+      unitAt(x, y) {
+          return getters$1.units().find(u => u.pos.x == x && u.pos.y == y);
+      },
+      unitState(unit) {
+          if (!unit) {
+              return 'none';
+          }
+          if (unit.endurance <= 0) {
+              return 'dead';
+          }
+          if (unit.mobility > 0) {
+              return 'moving';
+          }
+          if (unit.agility > 0) {
+              return 'turning';
+          }
+          if (unit.attacks > 0) {
+              return 'attacking';
+          }
+      },
+      isPlayerArmy(unitId, exactMatch) {
+          var army = getters$1.army(unitId);
+          if (exactMatch) {
+              return state$1.selfArmy === army.playerId;
+          }
+
+          return state$1.selfArmy === army.playerId
+              || '_' + state$1.selfArmy === army.playerId
+              || state$1.selfArmy === '_' + army.playerId;
+      },
   };
 
   const mutations$1 = {
@@ -27553,7 +27593,7 @@
               //var bsTxt2 = this.getBattleStateText();
               setTimeout(() => eventBus.publish('battlestarted'), 0);
               //setTimeout(() => eventBus.publish('battlestate', bsTxt2), 0);
-              var nextUnitArmy = actions.getArmy(getters$1.nextUnit().id);
+              var nextUnitArmy = getters$1.army(getters$1.nextUnit().id);
               setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters$1.nextUnit().type} unit is next to act`), 0);
           }
           else {
@@ -27572,8 +27612,8 @@
           var selHex = state$1.grid.getSelectedHex();
           if (selHex) {
               state$1.selectedHex = selHex;
-              var unit = actions.getUnitAt(selHex.x, selHex.y);
-              if (actions.isPlayerArmy(unit.id)) {
+              var unit = getters$1.unitAt(selHex.x, selHex.y);
+              if (getters$1.isPlayerArmy(unit.id)) {
                   state$1.currentUnit = unit;
                   //state.unitRange = state.grid.getSelectedHexRange();
                   //state.unitState = state.grid.getSelectedHexState();
@@ -27599,7 +27639,7 @@
           setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
           //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
           var nextUnit = getters$1.nextUnit();
-          var nextUnitArmy = actions.getArmy(nextUnit.id);
+          var nextUnitArmy = getters$1.army(nextUnit.id);
           setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters$1.nextUnit().type} unit is next to act`), 0);
       },
       end(data) {
@@ -27637,46 +27677,6 @@
   };
 
   const actions = {
-      getArmy(unitId) {
-          return state$1.firstArmy.getArmy().some(x => x.id == unitId)
-              ? state$1.firstArmy
-              : state$1.secondArmy;
-      },
-      getOtherArmy(unitId) {
-          return state$1.firstArmy.getArmy().some(x => x.id == unitId)
-              ? state$1.secondArmy
-              : state$1.firstArmy;
-      },
-      getUnitAt(x, y) {
-          return getters$1.units().find(u => u.pos.x == x && u.pos.y == y);
-      },
-      getUnitState(unit) {
-          if (!unit) {
-              return 'none';
-          }
-          if (unit.endurance <= 0) {
-              return 'dead';
-          }
-          if (unit.mobility > 0) {
-              return 'moving';
-          }
-          if (unit.agility > 0) {
-              return 'turning';
-          }
-          if (unit.attacks > 0) {
-              return 'attacking';
-          }
-      },
-      isPlayerArmy(unitId, exactMatch) {
-          var army = actions.getArmy(unitId);
-          if (exactMatch) {
-              return state$1.selfArmy === army.playerId;
-          }
-
-          return state$1.selfArmy === army.playerId
-              || '_' + state$1.selfArmy === army.playerId
-              || state$1.selfArmy === '_' + army.playerId;
-      },
       load() {
           var battleid = sessionStorage.getItem('singlebattleid');
           var url = `/singlebattle/join/${battleid ? battleid : ''}`;
@@ -27715,15 +27715,15 @@
           mutations$1.setAnimating(true);
       },
       updateGrid() {
-          var army = actions.getArmy(getters$1.currentUnit().id);
+          var army = getters$1.army(getters$1.currentUnit().id);
           army.restoreUnit(getters$1.currentUnit());
           var targetUnit = getters$1.targetUnit();
           if (targetUnit && targetUnit.id) {
-              var targetArmy = actions.getArmy(targetUnit.id);
+              var targetArmy = getters$1.army(targetUnit.id);
               targetArmy.restoreUnit(targetUnit);
           }
           var nextUnit = getters$1.nextUnit();
-          var nextUnitArmy = actions.getArmy(nextUnit.id);
+          var nextUnitArmy = getters$1.army(nextUnit.id);
           nextUnitArmy.restoreUnit(nextUnit);
           mutations$1.setUnitHexes();
           var nextHex = getters$1.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
@@ -28185,10 +28185,8 @@
       color: String
     },
     computed: {
-      directions() { return this.unit.directions; }
-    },
-    endurance: {
-      directions() { return this.unit.endurance; }
+      directions() { return this.unit.directions; },
+      endurance() { return Math.min(0, this.unit.endurance / this.unit.lifetime.endurance); }
     },
     methods: {
       getShape: getShape,
@@ -28207,11 +28205,7 @@
         context.fillStrokeShape(shape);
       },
       healthSceneFunc(context, shape) {
-        var fillValue = this.endurance / this.unit.lifetime.endurance;
-        if (fillValue < 0) {
-          fillValue = 0;
-        }
-        var off = Math.floor(30 * fillValue);
+        var off = Math.floor(30 * this.endurance);
         context.beginPath();
         context.rect(0, 30 - off, 2, off);
         context.closePath();
@@ -28493,11 +28487,11 @@
       center: () => getters$1.center(),
       units: () =>
         getters$1.unitHexes().map(h => {
-          var u = actions.getUnitAt(h.x, h.y);
+          var u = getters$1.unitAt(h.x, h.y);
           return {
             unit: u,
             hexCenter: h.center,
-            color: actions.isPlayerArmy(u) ? armyColors[0] : armyColors[1]
+            color: getters$1.isPlayerArmy(u) ? armyColors[0] : armyColors[1]
           };
         })
     }
@@ -28633,17 +28627,13 @@
     },
     watch: {
       animating(newVal, oldVal) {
-        this.$nextTick().then(() => {
-          if (newVal){
-            this.unitRange = [];
-          }
-          else {
-            actions.updateGrid();
-          }
-          this.centerHex(this.$refs.stage.getStage(), this.selectedHex);
-          this.hexFocused(this.selectedHex);
-          this.$refs.stage.getStage().batchDraw();
-        });
+        this.unitRange = [];
+        if (!newVal){
+          actions.updateGrid();
+        }
+        this.centerHex(this.$refs.stage.getStage(), this.selectedHex);
+        this.hexFocused(this.selectedHex);
+        this.$refs.stage.getStage().batchDraw();
       }
     },
     data() {
@@ -28704,12 +28694,12 @@
         var aUnit = null;
         var selHex = this.selectedHex;
         if (selHex) {
-          aUnit = actions.getUnitAt(selHex.x, selHex.y);
+          aUnit = getters$1.unitAt(selHex.x, selHex.y);
         }
-        var tUnit = actions.getUnitAt(hex.x, hex.y);
+        var tUnit = getters$1.unitAt(hex.x, hex.y);
         this.unitState = this.grid.getSelectedHexState();
 
-        if (aUnit != null && actions.isPlayerArmy(aUnit.id)) {
+        if (aUnit != null && getters$1.isPlayerArmy(aUnit.id)) {
           this.unitRange = this.grid.getSelectedHexRange();
           //this.path = this.grid.getPathBetween(selHex, hex);
         }
@@ -28717,7 +28707,7 @@
         if (this.unitState == "moving" || this.unitState == "turning") ; else if (this.unitState == "attacking") ;
       },
       centerHex(stage, hex) {
-        var unit = actions.getUnitAt(hex.x, hex.y);
+        var unit = getters$1.unitAt(hex.x, hex.y);
         if (!unit) {
           return;
         }

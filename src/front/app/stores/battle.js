@@ -69,6 +69,7 @@ export const getters = {
     nextUnit: () => getters.units().find(u => u.id == state.unitQueue[0]),
     nextPlayer: () => actions.getArmy(nextUnit).playerName,
     winningArmy: () => state.winningArmy,
+    unitHexes: () => state.unitHexes,
     units: () => {
         if (!state.firstArmy) {
             return null;
@@ -78,7 +79,46 @@ export const getters = {
         }
         return state.firstArmy.getArmy().concat(state.secondArmy.getArmy());
     },
-    unitHexes: () => state.unitHexes
+    army(unitId) {
+        return state.firstArmy.getArmy().some(x => x.id == unitId)
+            ? state.firstArmy
+            : state.secondArmy;
+    },
+    opposingArmy(unitId) {
+        return state.firstArmy.getArmy().some(x => x.id == unitId)
+            ? state.secondArmy
+            : state.firstArmy;
+    },
+    unitAt(x, y) {
+        return getters.units().find(u => u.pos.x == x && u.pos.y == y);
+    },
+    unitState(unit) {
+        if (!unit) {
+            return 'none';
+        }
+        if (unit.endurance <= 0) {
+            return 'dead';
+        }
+        if (unit.mobility > 0) {
+            return 'moving';
+        }
+        if (unit.agility > 0) {
+            return 'turning';
+        }
+        if (unit.attacks > 0) {
+            return 'attacking';
+        }
+    },
+    isPlayerArmy(unitId, exactMatch) {
+        var army = getters.army(unitId);
+        if (exactMatch) {
+            return state.selfArmy === army.playerId;
+        }
+
+        return state.selfArmy === army.playerId
+            || '_' + state.selfArmy === army.playerId
+            || state.selfArmy === '_' + army.playerId;
+    },
 }
 
 export const mutations = {
@@ -104,7 +144,7 @@ export const mutations = {
             //var bsTxt2 = this.getBattleStateText();
             setTimeout(() => eventBus.publish('battlestarted'), 0);
             //setTimeout(() => eventBus.publish('battlestate', bsTxt2), 0);
-            var nextUnitArmy = actions.getArmy(getters.nextUnit().id);
+            var nextUnitArmy = getters.army(getters.nextUnit().id);
             setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters.nextUnit().type} unit is next to act`), 0);
         }
         else {
@@ -123,8 +163,8 @@ export const mutations = {
         var selHex = state.grid.getSelectedHex();
         if (selHex) {
             state.selectedHex = selHex;
-            var unit = actions.getUnitAt(selHex.x, selHex.y);
-            if (actions.isPlayerArmy(unit.id)) {
+            var unit = getters.unitAt(selHex.x, selHex.y);
+            if (getters.isPlayerArmy(unit.id)) {
                 state.currentUnit = unit;
                 //state.unitRange = state.grid.getSelectedHexRange();
                 //state.unitState = state.grid.getSelectedHexState();
@@ -150,7 +190,7 @@ export const mutations = {
         setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
         //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
         var nextUnit = getters.nextUnit();
-        var nextUnitArmy = actions.getArmy(nextUnit.id);
+        var nextUnitArmy = getters.army(nextUnit.id);
         setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters.nextUnit().type} unit is next to act`), 0);
     },
     end(data) {
@@ -188,46 +228,6 @@ export const mutations = {
 };
 
 export const actions = {
-    getArmy(unitId) {
-        return state.firstArmy.getArmy().some(x => x.id == unitId)
-            ? state.firstArmy
-            : state.secondArmy;
-    },
-    getOtherArmy(unitId) {
-        return state.firstArmy.getArmy().some(x => x.id == unitId)
-            ? state.secondArmy
-            : state.firstArmy;
-    },
-    getUnitAt(x, y) {
-        return getters.units().find(u => u.pos.x == x && u.pos.y == y);
-    },
-    getUnitState(unit) {
-        if (!unit) {
-            return 'none';
-        }
-        if (unit.endurance <= 0) {
-            return 'dead';
-        }
-        if (unit.mobility > 0) {
-            return 'moving';
-        }
-        if (unit.agility > 0) {
-            return 'turning';
-        }
-        if (unit.attacks > 0) {
-            return 'attacking';
-        }
-    },
-    isPlayerArmy(unitId, exactMatch) {
-        var army = actions.getArmy(unitId);
-        if (exactMatch) {
-            return state.selfArmy === army.playerId;
-        }
-
-        return state.selfArmy === army.playerId
-            || '_' + state.selfArmy === army.playerId
-            || state.selfArmy === '_' + army.playerId;
-    },
     load() {
         var battleid = sessionStorage.getItem('singlebattleid');
         var url = `/singlebattle/join/${battleid ? battleid : ''}`;
@@ -266,15 +266,15 @@ export const actions = {
         mutations.setAnimating(true);
     },
     updateGrid() {
-        var army = actions.getArmy(getters.currentUnit().id);
+        var army = getters.army(getters.currentUnit().id);
         army.restoreUnit(getters.currentUnit());
         var targetUnit = getters.targetUnit();
         if (targetUnit && targetUnit.id) {
-            var targetArmy = actions.getArmy(targetUnit.id);
+            var targetArmy = getters.army(targetUnit.id);
             targetArmy.restoreUnit(targetUnit);
         }
         var nextUnit = getters.nextUnit();
-        var nextUnitArmy = actions.getArmy(nextUnit.id);
+        var nextUnitArmy = getters.army(nextUnit.id);
         nextUnitArmy.restoreUnit(nextUnit);
         mutations.setUnitHexes();
         var nextHex = getters.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);

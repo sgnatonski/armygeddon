@@ -18,7 +18,7 @@
 <script>
 import Unit from "./unit.vue";
 import Animator from "./animator.vue";
-import { getters, actions } from "../../stores/battle";
+import { getters } from "../../stores/battle";
 
 var armyColors = ["#12cc31", "#c80b04"];
 
@@ -31,11 +31,11 @@ export default {
     center: () => getters.center(),
     units: () =>
       getters.unitHexes().map(h => {
-        var u = actions.getUnitAt(h.x, h.y);
+        var u = getters.unitAt(h.x, h.y);
         return {
           unit: u,
           hexCenter: h.center,
-          color: actions.isPlayerArmy(u) ? armyColors[0] : armyColors[1]
+          color: getters.isPlayerArmy(u) ? armyColors[0] : armyColors[1]
         };
       })
   }
