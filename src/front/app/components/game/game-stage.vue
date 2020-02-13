@@ -86,16 +86,18 @@ export default {
     }
   },
   watch: {
-    selectedHex(newVal, oldVal) {
-      this.$nextTick().then(() => {
-        this.hexFocused(newVal);
-        this.centerHex(this.$refs.stage.getStage(), newVal);
-      });
-    },
     animating(newVal, oldVal) {
-      if (!newVal){
-        actions.updateGrid();
-      }
+      this.$nextTick().then(() => {
+        if (newVal){
+          this.unitRange = [];
+        }
+        else {
+          actions.updateGrid();
+        }
+        this.centerHex(this.$refs.stage.getStage(), this.selectedHex);
+        this.hexFocused(this.selectedHex);
+        this.$refs.stage.getStage().batchDraw();
+      });
     }
   },
   data() {
@@ -112,7 +114,7 @@ export default {
   mounted() {
     actions.setCenter(window.innerWidth / 2, window.innerHeight / 2);
     eventBus.on("battlewaiting", () => {
-      console.log('battlewaiting');
+      console.log("battlewaiting");
       /*waitLayer.show([
         "Sir, You're first on the battlefield.",
         "Hopefully the other army will arrive soon."
@@ -120,14 +122,14 @@ export default {
     });
 
     eventBus.on("battlestarted", () => {
-      console.log('battlestarted');
+      console.log("battlestarted");
       //waitLayer.hide();
     });
 
     eventBus.on("battleended", result => {
       this.focusHex = null;
       this.path = [];
-      this.unitRange = [];;
+      this.unitRange = [];
       /*effectLayer.highlightNode(null);
       effectLayer.drawPath([]);
       effectLayer.highlightRange([], grid.getSelectedHexState());*/
@@ -153,12 +155,8 @@ export default {
       }
       this.focusHex = hex;
 
-      if (!hex) {
-        return;
-      }
-
       var aUnit = null;
-      var selHex = this.grid.getSelectedHex();
+      var selHex = this.selectedHex;
       if (selHex) {
         aUnit = actions.getUnitAt(selHex.x, selHex.y);
       }
@@ -166,8 +164,8 @@ export default {
       this.unitState = this.grid.getSelectedHexState();
 
       if (aUnit != null && actions.isPlayerArmy(aUnit.id)) {
-        this.path = this.grid.getPathBetween(selHex, hex);
         this.unitRange = this.grid.getSelectedHexRange();
+        //this.path = this.grid.getPathBetween(selHex, hex);
       }
 
       if (this.unitState == "moving" || this.unitState == "turning") {
@@ -188,7 +186,7 @@ export default {
       if (!unit) {
         return;
       }
-      var margin = 100;
+      var margin = 150;
       var center = getters.center();
       if (
         stage.getX() + center.x + hex.center.x < margin ||
@@ -198,8 +196,7 @@ export default {
       ) {
         stage.setX(-hex.center.x);
         stage.setY(-hex.center.y);
-        this.stageOffset = { x: stage.getX(), y: stage.getY() };
-        stage.batchDraw();
+        this.stageOffset = { x: stage.getX(), y: stage.getY() };        
       }
     }
   }

@@ -9,9 +9,6 @@ import { Animation } from "konva";
 import { getters, actions, mutations } from "../../stores/battle";
 
 export default {
-  props: {
-    unitHexes: Array
-  },
   computed: {
     center: () => getters.center(),
     pendingAnimations: () => getters.pendingAnimations()
@@ -44,13 +41,10 @@ export default {
           return;
         }
 
-        console.log("animating");
         var currStep = steps.shift();
         var anim = new Animation(frame => {
           if (!steps.length) {
             anim.stop();
-            node.setY(targetY);
-            node.setX(targetX);
             resolve();
             return;
           }

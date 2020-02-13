@@ -95,18 +95,21 @@ export default {
     unit: Object,
     color: String
   },
+  computed: {
+    directions() { return this.unit.directions; }
+  },
+  endurance: {
+    directions() { return this.unit.endurance; }
+  },
   methods: {
     getShape: getShape,
     directionSceneFunc(context, shape) {
       if (!this.unit.armor) {
         return;
       }
-      var x = 0;
-      if (this.unit.directions.length > 1) {
-        x = 1;
-      }
-      var rotation = -30 + (this.unit.directions[0] - 1) * 60 - x * 60;
-      var angle = 60 * this.unit.directions.length;
+      var x = this.directions.length > 1 ? 1 : 0;
+      var rotation = -30 + (this.directions[0] - 1) * 60 - x * 60;
+      var angle = 60 * this.directions.length;
       context.rotate(window.Konva.getAngle(rotation));
       context.beginPath();
       context.arc(0, 0, 32, 0, window.Konva.getAngle(angle), false);
@@ -115,7 +118,7 @@ export default {
       context.fillStrokeShape(shape);
     },
     healthSceneFunc(context, shape) {
-      var fillValue = this.unit.endurance / this.unit.lifetime.endurance;
+      var fillValue = this.endurance / this.unit.lifetime.endurance;
       if (fillValue < 0) {
         fillValue = 0;
       }

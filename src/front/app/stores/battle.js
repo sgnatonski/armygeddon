@@ -137,14 +137,14 @@ export const mutations = {
     update(data) {
         state.battleState = 'started';
         state.currentUnit = data.currUnit;
-        
+
         var delta = {
             source: getters.nextUnit().pos,
             target: data.currUnit.pos
         };
-        state.unitQueue = data.unitQueue;        
+        state.unitQueue = data.unitQueue;
         state.targetUnit = delta.target;
-        
+
         actions.animateUnit(state.currentUnit, delta.source, delta.target);
 
         setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
@@ -168,19 +168,19 @@ export const mutations = {
     },
     setUnitHexes() {
         state.unitHexes = getters.units().map(u => getters.grid().getHexAt(u.pos.x, u.pos.y));
-        getters.grid().setBlocked(state.unitHexes);        
+        getters.grid().setBlocked(state.unitHexes);
     },
     setPendingAnimations(unit, animation) {
-        if (!unit || !animation){
+        if (!unit || !animation) {
             state.pendingAnimations = {};
         }
-        else{
+        else {
             state.pendingAnimations[unit.id] = animation;
             state.pendingAnimations = Object.assign({}, state.pendingAnimations);
         }
     },
     setAnimating(anim) {
-        if (!anim){
+        if (!anim) {
             mutations.setPendingAnimations(null);
         }
         state.animating = anim;
@@ -219,13 +219,14 @@ export const actions = {
         }
     },
     isPlayerArmy(unitId, exactMatch) {
+        var army = actions.getArmy(unitId);
         if (exactMatch) {
-            return state.selfArmy === actions.getArmy(unitId).playerId;
+            return state.selfArmy === army.playerId;
         }
 
-        return state.selfArmy === actions.getArmy(unitId).playerId
-            || '_' + state.selfArmy === actions.getArmy(unitId).playerId
-            || state.selfArmy === '_' + actions.getArmy(unitId).playerId;
+        return state.selfArmy === army.playerId
+            || '_' + state.selfArmy === army.playerId
+            || state.selfArmy === '_' + army.playerId;
     },
     load() {
         var battleid = sessionStorage.getItem('singlebattleid');
@@ -275,7 +276,7 @@ export const actions = {
         var nextUnit = getters.nextUnit();
         var nextUnitArmy = actions.getArmy(nextUnit.id);
         nextUnitArmy.restoreUnit(nextUnit);
-        mutations.setUnitHexes();        
+        mutations.setUnitHexes();
         var nextHex = getters.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
         mutations.setSelectedHex(nextHex);
     }

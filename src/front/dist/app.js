@@ -27586,14 +27586,14 @@
       update(data) {
           state$1.battleState = 'started';
           state$1.currentUnit = data.currUnit;
-          
+
           var delta = {
               source: getters$1.nextUnit().pos,
               target: data.currUnit.pos
           };
-          state$1.unitQueue = data.unitQueue;        
+          state$1.unitQueue = data.unitQueue;
           state$1.targetUnit = delta.target;
-          
+
           actions.animateUnit(state$1.currentUnit, delta.source, delta.target);
 
           setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
@@ -27617,19 +27617,19 @@
       },
       setUnitHexes() {
           state$1.unitHexes = getters$1.units().map(u => getters$1.grid().getHexAt(u.pos.x, u.pos.y));
-          getters$1.grid().setBlocked(state$1.unitHexes);        
+          getters$1.grid().setBlocked(state$1.unitHexes);
       },
       setPendingAnimations(unit, animation) {
-          if (!unit || !animation){
+          if (!unit || !animation) {
               state$1.pendingAnimations = {};
           }
-          else{
+          else {
               state$1.pendingAnimations[unit.id] = animation;
               state$1.pendingAnimations = Object.assign({}, state$1.pendingAnimations);
           }
       },
       setAnimating(anim) {
-          if (!anim){
+          if (!anim) {
               mutations$1.setPendingAnimations(null);
           }
           state$1.animating = anim;
@@ -27668,13 +27668,14 @@
           }
       },
       isPlayerArmy(unitId, exactMatch) {
+          var army = actions.getArmy(unitId);
           if (exactMatch) {
-              return state$1.selfArmy === actions.getArmy(unitId).playerId;
+              return state$1.selfArmy === army.playerId;
           }
 
-          return state$1.selfArmy === actions.getArmy(unitId).playerId
-              || '_' + state$1.selfArmy === actions.getArmy(unitId).playerId
-              || state$1.selfArmy === '_' + actions.getArmy(unitId).playerId;
+          return state$1.selfArmy === army.playerId
+              || '_' + state$1.selfArmy === army.playerId
+              || state$1.selfArmy === '_' + army.playerId;
       },
       load() {
           var battleid = sessionStorage.getItem('singlebattleid');
@@ -27724,7 +27725,7 @@
           var nextUnit = getters$1.nextUnit();
           var nextUnitArmy = actions.getArmy(nextUnit.id);
           nextUnitArmy.restoreUnit(nextUnit);
-          mutations$1.setUnitHexes();        
+          mutations$1.setUnitHexes();
           var nextHex = getters$1.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
           mutations$1.setSelectedHex(nextHex);
       }
@@ -27758,9 +27759,6 @@
       },
       hexFocused(evt, hex) {
         this.$emit("focused", hex);
-      },
-      hexUnfocused(evt) {
-        //this.$emit("focused", null);
       }
     }
   };
@@ -28186,18 +28184,21 @@
       unit: Object,
       color: String
     },
+    computed: {
+      directions() { return this.unit.directions; }
+    },
+    endurance: {
+      directions() { return this.unit.endurance; }
+    },
     methods: {
       getShape: getShape,
       directionSceneFunc(context, shape) {
         if (!this.unit.armor) {
           return;
         }
-        var x = 0;
-        if (this.unit.directions.length > 1) {
-          x = 1;
-        }
-        var rotation = -30 + (this.unit.directions[0] - 1) * 60 - x * 60;
-        var angle = 60 * this.unit.directions.length;
+        var x = this.directions.length > 1 ? 1 : 0;
+        var rotation = -30 + (this.directions[0] - 1) * 60 - x * 60;
+        var angle = 60 * this.directions.length;
         context.rotate(window.Konva.getAngle(rotation));
         context.beginPath();
         context.arc(0, 0, 32, 0, window.Konva.getAngle(angle), false);
@@ -28206,7 +28207,7 @@
         context.fillStrokeShape(shape);
       },
       healthSceneFunc(context, shape) {
-        var fillValue = this.unit.endurance / this.unit.lifetime.endurance;
+        var fillValue = this.endurance / this.unit.lifetime.endurance;
         if (fillValue < 0) {
           fillValue = 0;
         }
@@ -28370,9 +28371,6 @@
   //
 
   var script$h = {
-    props: {
-      unitHexes: Array
-    },
     computed: {
       center: () => getters$1.center(),
       pendingAnimations: () => getters$1.pendingAnimations()
@@ -28405,13 +28403,10 @@
             return;
           }
 
-          console.log("animating");
           var currStep = steps.shift();
           var anim = new lib_1(frame => {
             if (!steps.length) {
               anim.stop();
-              node.setY(targetY);
-              node.setX(targetX);
               resolve();
               return;
             }
@@ -28487,7 +28482,7 @@
 
   //
 
-  var armyColors = ["#00cc00", "#c80b04"];
+  var armyColors = ["#12cc31", "#c80b04"];
 
   var script$i = {
     components: {
@@ -28496,15 +28491,15 @@
     },
     computed: {
       center: () => getters$1.center(),
-      unitHexes: () => getters$1.unitHexes()
-    },
-    methods: {
-      getUnit: hex => actions.getUnitAt(hex.x, hex.y),
-      getUnitColor(hex) {
-        var unit = actions.getUnitAt(hex.x, hex.y);
-        var isPlayerArmy = actions.isPlayerArmy(unit);
-        return isPlayerArmy ? armyColors[0] : armyColors[1];
-      }
+      units: () =>
+        getters$1.unitHexes().map(h => {
+          var u = actions.getUnitAt(h.x, h.y);
+          return {
+            unit: u,
+            hexCenter: h.center,
+            color: actions.isPlayerArmy(u) ? armyColors[0] : armyColors[1]
+          };
+        })
     }
   };
 
@@ -28529,15 +28524,14 @@
       [
         _c(
           "Animator",
-          { attrs: { unitHexes: _vm.unitHexes } },
-          _vm._l(_vm.unitHexes, function(hex) {
+          _vm._l(_vm.units, function(u) {
             return _c("Unit", {
-              key: hex.x + ":" + hex.y,
+              key: u.unit.pos.x + ":" + u.unit.pos.y,
               attrs: {
                 center: _vm.center,
-                hexCenter: hex.center,
-                unit: _vm.getUnit(hex),
-                color: _vm.getUnitColor(hex)
+                hexCenter: u.hexCenter,
+                unit: u.unit,
+                color: u.color
               }
             })
           }),
@@ -28638,16 +28632,18 @@
       }
     },
     watch: {
-      selectedHex(newVal, oldVal) {
-        this.$nextTick().then(() => {
-          this.hexFocused(newVal);
-          this.centerHex(this.$refs.stage.getStage(), newVal);
-        });
-      },
       animating(newVal, oldVal) {
-        if (!newVal){
-          actions.updateGrid();
-        }
+        this.$nextTick().then(() => {
+          if (newVal){
+            this.unitRange = [];
+          }
+          else {
+            actions.updateGrid();
+          }
+          this.centerHex(this.$refs.stage.getStage(), this.selectedHex);
+          this.hexFocused(this.selectedHex);
+          this.$refs.stage.getStage().batchDraw();
+        });
       }
     },
     data() {
@@ -28664,7 +28660,7 @@
     mounted() {
       actions.setCenter(window.innerWidth / 2, window.innerHeight / 2);
       eventBus.on("battlewaiting", () => {
-        console.log('battlewaiting');
+        console.log("battlewaiting");
         /*waitLayer.show([
           "Sir, You're first on the battlefield.",
           "Hopefully the other army will arrive soon."
@@ -28672,14 +28668,15 @@
       });
 
       eventBus.on("battlestarted", () => {
-        console.log('battlestarted');
+        console.log("battlestarted");
         //waitLayer.hide();
       });
 
       eventBus.on("battleended", result => {
         this.focusHex = null;
         this.path = [];
-        this.unitRange = [];      /*effectLayer.highlightNode(null);
+        this.unitRange = [];
+        /*effectLayer.highlightNode(null);
         effectLayer.drawPath([]);
         effectLayer.highlightRange([], grid.getSelectedHexState());*/
         //grid.hexSelected();
@@ -28704,12 +28701,8 @@
         }
         this.focusHex = hex;
 
-        if (!hex) {
-          return;
-        }
-
         var aUnit = null;
-        var selHex = this.grid.getSelectedHex();
+        var selHex = this.selectedHex;
         if (selHex) {
           aUnit = actions.getUnitAt(selHex.x, selHex.y);
         }
@@ -28717,8 +28710,8 @@
         this.unitState = this.grid.getSelectedHexState();
 
         if (aUnit != null && actions.isPlayerArmy(aUnit.id)) {
-          this.path = this.grid.getPathBetween(selHex, hex);
           this.unitRange = this.grid.getSelectedHexRange();
+          //this.path = this.grid.getPathBetween(selHex, hex);
         }
 
         if (this.unitState == "moving" || this.unitState == "turning") ; else if (this.unitState == "attacking") ;
@@ -28728,7 +28721,7 @@
         if (!unit) {
           return;
         }
-        var margin = 100;
+        var margin = 150;
         var center = getters$1.center();
         if (
           stage.getX() + center.x + hex.center.x < margin ||
@@ -28738,8 +28731,7 @@
         ) {
           stage.setX(-hex.center.x);
           stage.setY(-hex.center.y);
-          this.stageOffset = { x: stage.getX(), y: stage.getY() };
-          stage.batchDraw();
+          this.stageOffset = { x: stage.getX(), y: stage.getY() };        
         }
       }
     }

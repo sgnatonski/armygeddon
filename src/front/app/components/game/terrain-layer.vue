@@ -62,9 +62,6 @@ export default {
     },
     hexFocused(evt, hex) {
       this.$emit("focused", hex);
-    },
-    hexUnfocused(evt) {
-      //this.$emit("focused", null);
     }
   }
 };
