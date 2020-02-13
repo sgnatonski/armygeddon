@@ -27513,8 +27513,21 @@
       firstArmy: () => state$1.firstArmy,
       secondArmy: () => state$1.secondArmy,
       currentUnit: () => state$1.currentUnit,
+      currentUnitRange: () => {
+          if (getters$1.currentUnit() && getters$1.isPlayerArmy(getters$1.currentUnit().id)) {
+              return state$1.grid.getSelectedHexRange();
+              // disabled of performance reasons
+              //this.path = this.grid.getPathBetween(selHex, hex);
+          }
+          return [];
+      },
+      currentUnitState: () => {
+          if (getters$1.currentUnit() && getters$1.isPlayerArmy(getters$1.currentUnit().id)) {
+              return state$1.grid.getSelectedHexState();
+          }
+          return null;
+      },
       targetUnit: () => state$1.targetUnit,
-      nextUnit: () => getters$1.units().find(u => u.id == state$1.unitQueue[0]),
       nextUnit: () => getters$1.units().find(u => u.id == state$1.unitQueue[0]),
       nextPlayer: () => actions.getArmy(nextUnit).playerName,
       winningArmy: () => state$1.winningArmy,
@@ -27613,11 +27626,7 @@
           if (selHex) {
               state$1.selectedHex = selHex;
               var unit = getters$1.unitAt(selHex.x, selHex.y);
-              if (getters$1.isPlayerArmy(unit.id)) {
-                  state$1.currentUnit = unit;
-                  //state.unitRange = state.grid.getSelectedHexRange();
-                  //state.unitState = state.grid.getSelectedHexState();
-              }
+              state$1.currentUnit = unit;
           }
 
           eventBus.on('update', mutations$1.update);
@@ -27626,7 +27635,9 @@
       update(data) {
           state$1.battleState = 'started';
           state$1.currentUnit = data.currUnit;
-
+          state$1.currentUnit.agility = data.currUnit.agility;
+          state$1.currentUnit.mobility = data.currUnit.mobility;
+          state$1.currentUnit.pos = data.currUnit.pos;
           var delta = {
               source: getters$1.nextUnit().pos,
               target: data.currUnit.pos
@@ -27634,11 +27645,16 @@
           state$1.unitQueue = data.unitQueue;
           state$1.targetUnit = delta.target;
 
+          mutations$1.setUnitHexes();
           actions.animateUnit(state$1.currentUnit, delta.source, delta.target);
 
           setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
           //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
           var nextUnit = getters$1.nextUnit();
+          nextUnit.agility = data.nextUnit.agility;
+          nextUnit.mobility = data.nextUnit.mobility;
+          nextUnit.pos = data.nextUnit.pos;
+          
           var nextUnitArmy = getters$1.army(nextUnit.id);
           setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters$1.nextUnit().type} unit is next to act`), 0);
       },
@@ -27715,17 +27731,7 @@
           mutations$1.setAnimating(true);
       },
       updateGrid() {
-          var army = getters$1.army(getters$1.currentUnit().id);
-          army.restoreUnit(getters$1.currentUnit());
-          var targetUnit = getters$1.targetUnit();
-          if (targetUnit && targetUnit.id) {
-              var targetArmy = getters$1.army(targetUnit.id);
-              targetArmy.restoreUnit(targetUnit);
-          }
           var nextUnit = getters$1.nextUnit();
-          var nextUnitArmy = getters$1.army(nextUnit.id);
-          nextUnitArmy.restoreUnit(nextUnit);
-          mutations$1.setUnitHexes();
           var nextHex = getters$1.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
           mutations$1.setSelectedHex(nextHex);
       }
@@ -28581,6 +28587,8 @@
       selectedHex: () => getters$1.selectedHex(),
       grid: () => getters$1.grid(),
       center: () => getters$1.center(),
+      unitRange: () => getters$1.animating() ? [] : getters$1.currentUnitRange(),
+      unitState: () => getters$1.currentUnitState(),
       stageConfig: args => {
         var width =
           Math.abs(getters$1.boundingBox().minX) +
@@ -28627,11 +28635,11 @@
     },
     watch: {
       animating(newVal, oldVal) {
-        this.unitRange = [];
+        this.listening = !newVal;
         if (!newVal){
           actions.updateGrid();
         }
-        this.centerHex(this.$refs.stage.getStage(), this.selectedHex);
+        this.centerHex(this.selectedHex);
         this.hexFocused(this.selectedHex);
         this.$refs.stage.getStage().batchDraw();
       }
@@ -28641,8 +28649,6 @@
         imageShapes: null,
         focusHex: null,
         path: null,
-        unitState: null,
-        unitRange: null,
         listening: true,
         stageOffset: { x: 0, y: 0 }
       };
@@ -28665,7 +28671,6 @@
       eventBus.on("battleended", result => {
         this.focusHex = null;
         this.path = [];
-        this.unitRange = [];
         /*effectLayer.highlightNode(null);
         effectLayer.drawPath([]);
         effectLayer.highlightRange([], grid.getSelectedHexState());*/
@@ -28697,16 +28702,10 @@
           aUnit = getters$1.unitAt(selHex.x, selHex.y);
         }
         var tUnit = getters$1.unitAt(hex.x, hex.y);
-        this.unitState = this.grid.getSelectedHexState();
-
-        if (aUnit != null && getters$1.isPlayerArmy(aUnit.id)) {
-          this.unitRange = this.grid.getSelectedHexRange();
-          //this.path = this.grid.getPathBetween(selHex, hex);
-        }
-
         if (this.unitState == "moving" || this.unitState == "turning") ; else if (this.unitState == "attacking") ;
       },
-      centerHex(stage, hex) {
+      centerHex(hex) {
+        var stage = this.$refs.stage.getStage();
         var unit = getters$1.unitAt(hex.x, hex.y);
         if (!unit) {
           return;
@@ -28721,8 +28720,8 @@
         ) {
           stage.setX(-hex.center.x);
           stage.setY(-hex.center.y);
-          this.stageOffset = { x: stage.getX(), y: stage.getY() };        
         }
+        this.stageOffset = { x: stage.getX(), y: stage.getY() };
       }
     }
   };

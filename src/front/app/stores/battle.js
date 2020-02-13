@@ -64,8 +64,21 @@ export const getters = {
     firstArmy: () => state.firstArmy,
     secondArmy: () => state.secondArmy,
     currentUnit: () => state.currentUnit,
+    currentUnitRange: () => {
+        if (getters.currentUnit() && getters.isPlayerArmy(getters.currentUnit().id)) {
+            return state.grid.getSelectedHexRange();
+            // disabled of performance reasons
+            //this.path = this.grid.getPathBetween(selHex, hex);
+        }
+        return [];
+    },
+    currentUnitState: () => {
+        if (getters.currentUnit() && getters.isPlayerArmy(getters.currentUnit().id)) {
+            return state.grid.getSelectedHexState();
+        }
+        return null;
+    },
     targetUnit: () => state.targetUnit,
-    nextUnit: () => getters.units().find(u => u.id == state.unitQueue[0]),
     nextUnit: () => getters.units().find(u => u.id == state.unitQueue[0]),
     nextPlayer: () => actions.getArmy(nextUnit).playerName,
     winningArmy: () => state.winningArmy,
@@ -164,11 +177,7 @@ export const mutations = {
         if (selHex) {
             state.selectedHex = selHex;
             var unit = getters.unitAt(selHex.x, selHex.y);
-            if (getters.isPlayerArmy(unit.id)) {
-                state.currentUnit = unit;
-                //state.unitRange = state.grid.getSelectedHexRange();
-                //state.unitState = state.grid.getSelectedHexState();
-            }
+            state.currentUnit = unit;
         }
 
         eventBus.on('update', mutations.update);
@@ -177,7 +186,9 @@ export const mutations = {
     update(data) {
         state.battleState = 'started';
         state.currentUnit = data.currUnit;
-
+        state.currentUnit.agility = data.currUnit.agility;
+        state.currentUnit.mobility = data.currUnit.mobility;
+        state.currentUnit.pos = data.currUnit.pos;
         var delta = {
             source: getters.nextUnit().pos,
             target: data.currUnit.pos
@@ -185,11 +196,16 @@ export const mutations = {
         state.unitQueue = data.unitQueue;
         state.targetUnit = delta.target;
 
+        mutations.setUnitHexes();
         actions.animateUnit(state.currentUnit, delta.source, delta.target);
 
         setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
         //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
         var nextUnit = getters.nextUnit();
+        nextUnit.agility = data.nextUnit.agility;
+        nextUnit.mobility = data.nextUnit.mobility;
+        nextUnit.pos = data.nextUnit.pos;
+        
         var nextUnitArmy = getters.army(nextUnit.id);
         setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters.nextUnit().type} unit is next to act`), 0);
     },
@@ -266,17 +282,7 @@ export const actions = {
         mutations.setAnimating(true);
     },
     updateGrid() {
-        var army = getters.army(getters.currentUnit().id);
-        army.restoreUnit(getters.currentUnit());
-        var targetUnit = getters.targetUnit();
-        if (targetUnit && targetUnit.id) {
-            var targetArmy = getters.army(targetUnit.id);
-            targetArmy.restoreUnit(targetUnit);
-        }
         var nextUnit = getters.nextUnit();
-        var nextUnitArmy = getters.army(nextUnit.id);
-        nextUnitArmy.restoreUnit(nextUnit);
-        mutations.setUnitHexes();
         var nextHex = getters.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
         mutations.setSelectedHex(nextHex);
     }

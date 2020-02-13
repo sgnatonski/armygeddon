@@ -41,6 +41,8 @@ export default {
     selectedHex: () => getters.selectedHex(),
     grid: () => getters.grid(),
     center: () => getters.center(),
+    unitRange: () => getters.animating() ? [] : getters.currentUnitRange(),
+    unitState: () => getters.currentUnitState(),
     stageConfig: args => {
       var width =
         Math.abs(getters.boundingBox().minX) +
@@ -87,11 +89,11 @@ export default {
   },
   watch: {
     animating(newVal, oldVal) {
-      this.unitRange = [];
+      this.listening = !newVal;
       if (!newVal){
         actions.updateGrid();
       }
-      this.centerHex(this.$refs.stage.getStage(), this.selectedHex);
+      this.centerHex(this.selectedHex);
       this.hexFocused(this.selectedHex);
       this.$refs.stage.getStage().batchDraw();
     }
@@ -101,8 +103,6 @@ export default {
       imageShapes: null,
       focusHex: null,
       path: null,
-      unitState: null,
-      unitRange: null,
       listening: true,
       stageOffset: { x: 0, y: 0 }
     };
@@ -125,7 +125,6 @@ export default {
     eventBus.on("battleended", result => {
       this.focusHex = null;
       this.path = [];
-      this.unitRange = [];
       /*effectLayer.highlightNode(null);
       effectLayer.drawPath([]);
       effectLayer.highlightRange([], grid.getSelectedHexState());*/
@@ -157,13 +156,6 @@ export default {
         aUnit = getters.unitAt(selHex.x, selHex.y);
       }
       var tUnit = getters.unitAt(hex.x, hex.y);
-      this.unitState = this.grid.getSelectedHexState();
-
-      if (aUnit != null && getters.isPlayerArmy(aUnit.id)) {
-        this.unitRange = this.grid.getSelectedHexRange();
-        //this.path = this.grid.getPathBetween(selHex, hex);
-      }
-
       if (this.unitState == "moving" || this.unitState == "turning") {
         if (aUnit && tUnit) {
           //tooltipLayer.updateTooltipWithUnitStats(tUnit);
@@ -177,7 +169,8 @@ export default {
         }
       }
     },
-    centerHex(stage, hex) {
+    centerHex(hex) {
+      var stage = this.$refs.stage.getStage();
       var unit = getters.unitAt(hex.x, hex.y);
       if (!unit) {
         return;
@@ -192,8 +185,8 @@ export default {
       ) {
         stage.setX(-hex.center.x);
         stage.setY(-hex.center.y);
-        this.stageOffset = { x: stage.getX(), y: stage.getY() };        
       }
+      this.stageOffset = { x: stage.getX(), y: stage.getY() };
     }
   }
 };
