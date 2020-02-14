@@ -22,6 +22,14 @@
       :fill="getFill()"
       :opacity="getOpacity()"
     />
+    <Hex
+      v-for="hex in focusAttackRange"
+      :key="hex.x + ':' + hex.y"
+      :x="center.x + hex.center.x"
+      :y="center.y + hex.center.y"
+      :fill="getFill('attacking')"
+      :opacity="getOpacity('attacking')"
+    />
   </konva-fast-layer>
 </template>
 
@@ -37,26 +45,36 @@ export default {
     focus: Object,
     path: Array,
     range: Array,
-    rangeType: String
+    rangeType: String,
+    attackRange: Array
   },
-  computed:{
-    center: () => getters.center()
+  computed: {
+    center: () => getters.center(),
+    focusAttackRange() {
+      return this.rangeType == "attacking" ? [] : this.attackRange;
+    }
   },
   methods: {
-      getFill(){
-          switch(this.rangeType){
-              case 'moving': return '#ffffff';
-              case 'turning': return '#ffad33';
-              case 'attacking': return '#DD1111';
-          }
-      },
-      getOpacity(){
-          switch(this.rangeType){
-              case 'moving': return 0.15;
-              case 'turning': return 0.15;
-              case 'attacking': return 0.5;
-          }
+    getFill(type) {
+      switch (type || this.rangeType) {
+        case "moving":
+          return "#ffffff";
+        case "turning":
+          return "#ffad33";
+        case "attacking":
+          return "#DD1111";
       }
+    },
+    getOpacity(type) {
+      switch (type || this.rangeType) {
+        case "moving":
+          return 0.15;
+        case "turning":
+          return 0.15;
+        case "attacking":
+          return 0.5;
+      }
+    }
   }
 };
 </script>

@@ -17,6 +17,7 @@
         :rangeType="unitState"
       ></EffectLayer>
       <UnitLayer ref="unitLayer"></UnitLayer>
+      <InfoLayer ref="infoLayer" :tooltip="tooltip" :tooltipPos="tooltipPos"></InfoLayer>
     </konva-stage>
   </ViewCull>
 </template>
@@ -26,22 +27,26 @@ import ViewCull from "./view-cull.vue";
 import TerrainLayer from "./terrain-layer.vue";
 import EffectLayer from "./effect-layer.vue";
 import UnitLayer from "./unit-layer.vue";
+import InfoLayer from "./info-layer.vue";
 import eventBus from "../../eventBus.js";
 import { getters, actions } from "../../stores/battle";
+import damage from "../../../../common/logic/damage_calculator";
 
 export default {
   components: {
     ViewCull,
     TerrainLayer,
     EffectLayer,
-    UnitLayer
+    UnitLayer,
+    InfoLayer
   },
   computed: {
     animating: () => getters.animating(),
     selectedHex: () => getters.selectedHex(),
+    tooltipPos: args => (args.tooltip ? args.focusHex.center : {}),
     grid: () => getters.grid(),
     center: () => getters.center(),
-    unitRange: () => getters.animating() ? [] : getters.currentUnitRange(),
+    unitRange: () => (getters.animating() ? [] : getters.currentUnitRange()),
     unitState: () => getters.currentUnitState(),
     stageConfig: args => {
       var width =
@@ -90,7 +95,7 @@ export default {
   watch: {
     animating(newVal, oldVal) {
       this.listening = !newVal;
-      if (!newVal){
+      if (!newVal) {
         actions.updateGrid();
       }
       this.$nextTick(() => {
@@ -106,7 +111,8 @@ export default {
       focusHex: null,
       path: null,
       listening: true,
-      stageOffset: { x: 0, y: 0 }
+      stageOffset: { x: 0, y: 0 },
+      tooltip: null
     };
   },
   mounted() {
@@ -147,6 +153,7 @@ export default {
       this.listening = true;
     },
     hexFocused(hex) {
+      this.tooltip = null;
       if (this.animating) {
         this.focusHex = null;
         return;
@@ -161,14 +168,19 @@ export default {
       var tUnit = getters.unitAt(hex.x, hex.y);
       if (this.unitState == "moving" || this.unitState == "turning") {
         if (aUnit && tUnit) {
-          //tooltipLayer.updateTooltipWithUnitStats(tUnit);
+          this.updateTooltipWithUnitStats(tUnit);
         } else if (!tUnit) {
-          //var cost = grid.getSelectedHexMoveCost(hex.x, hex.y);
-          //tooltipLayer.updateTooltipWithMoveStats(aUnit, cost);
+          var cost = this.grid.getSelectedHexMoveCost(hex.x, hex.y);
+          this.updateTooltipWithMoveStats(aUnit, cost);
         }
       } else if (this.unitState == "attacking") {
         if (aUnit && tUnit) {
-          //tooltipLayer.updateTooltipWithAttackStats(aUnit, tUnit);
+          if (aUnit.id == tUnit.id){
+            this.updateTooltipWithUnitStats(tUnit);
+          }
+          else {
+            this.updateTooltipWithAttackStats(aUnit, tUnit);
+          }
         }
       }
     },
@@ -190,6 +202,34 @@ export default {
         stage.setY(-hex.center.y);
       }
       this.stageOffset = { x: stage.getX(), y: stage.getY() };
+    },
+    updateTooltipWithUnitStats(unit) {
+      var texts = [
+        `Endurance: ${unit.endurance} / ${unit.lifetime.endurance}`,
+        `Mobility: ${unit.mobility} / ${unit.lifetime.mobility}`,
+        `Agility: ${unit.agility} / ${unit.lifetime.agility}`,
+        `Damage: ${unit.damage}`,
+        `Armor: ${unit.armor}`,
+        `Range: ${unit.range}`
+      ];
+      this.tooltip = texts;
+    },
+    updateTooltipWithMoveStats(unit, cost) {
+      if (cost <= unit.mobility) {
+        var texts = [`Moves: ${cost} / ${unit.mobility}`];
+        if (unit.range == 1) {
+          texts.push(`Charge: +${cost}`);
+        }
+        if (unit.agility && cost == unit.mobility) {
+          texts.push(`Agility: -${unit.agility}`);
+        }
+        this.tooltip = texts;
+      }
+    },
+    updateTooltipWithAttackStats(aUnit, tUnit) {
+      var dmg = damage.getChargeDamage(aUnit, tUnit);
+      var texts = [`Endurance: ${tUnit.endurance}`, `-${dmg} damage`];
+      this.tooltip = texts;
     }
   }
 };
