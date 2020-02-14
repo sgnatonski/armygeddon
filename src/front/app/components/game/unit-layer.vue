@@ -20,7 +20,7 @@ import Unit from "./unit.vue";
 import Animator from "./animator.vue";
 import { getters } from "../../stores/battle";
 
-var armyColors = ["#12cc31", "#c80b04"];
+var armyColors = ["#12cc31", "#c81b14"];
 
 export default {
   components: {
@@ -29,7 +29,8 @@ export default {
   },
   computed: {
     center: () => getters.center(),
-    units: () =>
+    playerArmy: () => getters.selfArmy(),
+    units: args =>
       getters.unitHexes().map(h => {
         var u = getters.unitAt(h.x, h.y);
         if (!u){
@@ -38,7 +39,7 @@ export default {
         return {
           unit: u,
           hexCenter: h.center,
-          color: getters.isPlayerArmy(u) ? armyColors[0] : armyColors[1]
+          color: getters.army(u.id).playerId == args.playerArmy ? armyColors[0] : armyColors[1]
         };
       }).filter(u => u !== null)
   }

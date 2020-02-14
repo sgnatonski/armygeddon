@@ -7,7 +7,7 @@
         cornerRadius: 3,
         fill: 'grey',
         stroke: '#252525',
-        strokeWidth: 2,
+        strokeWidth: 1,
         opacity: 0.8,
         listening: false,
         shadowColor: 'black',

@@ -154,6 +154,16 @@ export const mutations = {
         state.firstArmy = new Army(armies[0], data.unitTypes);
         //var bsTxt1 = this.getBattleStateText();
         //setTimeout(() => eventBus.publish('battlestate', bsTxt1), 0);
+        
+        state.grid = Grid(state.sceneSize, state.terrain, getters, actions);
+
+        var { minX, minY, maxX, maxY } = state.grid.initDrawing(state.center);
+        state.boundingBox = { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
+        var y = (Math.abs(state.boundingBox.minY) + Math.abs(state.boundingBox.maxY) + 160) / 2;
+        
+        mutations.setCenter(state.center.x, y);
+        mutations.setUnitHexes();
+
         if (armies.length == 2) {
             state.secondArmy = new Army(armies[1], data.unitTypes);
             state.battleState = 'ready';
@@ -170,14 +180,6 @@ export const mutations = {
         else {
             setTimeout(() => eventBus.publish('battlewaiting'), 0);
         }
-        state.grid = Grid(state.sceneSize, state.terrain, getters, actions);
-
-        var { minX, minY, maxX, maxY } = state.grid.initDrawing(state.center);
-        state.boundingBox = { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
-        var y = (Math.abs(state.boundingBox.minY) + Math.abs(state.boundingBox.maxY) + 160) / 2;
-        mutations.setCenter(state.center.x, y);
-
-        mutations.setUnitHexes();
 
         state.grid.hexSelected();
         var selHex = state.grid.getSelectedHex();
@@ -210,7 +212,6 @@ export const mutations = {
     },
     end(data) {
         state.battleState = 'finished';
-        mutations.setUnitHexes();
         //setTimeout(() => eventBus.publish('battleended', this.getBattleSummary(data)), 0);
         //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
     },
