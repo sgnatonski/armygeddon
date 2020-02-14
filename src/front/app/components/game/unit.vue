@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     directions() { return this.unit.directions; },
-    endurance() { return Math.min(0, this.unit.endurance / this.unit.lifetime.endurance); }
+    endurance() { return Math.max(0, this.unit.endurance / this.unit.lifetime.endurance); }
   },
   methods: {
     getShape: getShape,
