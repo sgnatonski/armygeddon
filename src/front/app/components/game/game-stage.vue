@@ -169,7 +169,7 @@ export default {
       if (this.unitState == "moving" || this.unitState == "turning") {
         if (aUnit && tUnit) {
           this.updateTooltipWithUnitStats(tUnit);
-        } else if (!tUnit) {
+        } else if (aUnit && !tUnit) {
           var cost = this.grid.getSelectedHexMoveCost(hex.x, hex.y);
           this.updateTooltipWithMoveStats(aUnit, cost);
         }
