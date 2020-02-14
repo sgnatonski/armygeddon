@@ -12,6 +12,7 @@
   >
     <konva-path
       ref="direction"
+      v-if="endurance"
       :config="{
         x: 19,
         y: 15,
@@ -26,7 +27,7 @@
       ref="unitBack"
       :config="{
         data: getShape('unitBack'),
-        fill: color,
+        fill: unitColor,
         scale: {
             x: 0.08,
             y: 0.08
@@ -42,6 +43,7 @@
     ></konva-path>
     <konva-path
       ref="unitPath"
+      v-if="endurance"
       :config="{
         data: getShape('unitPath'),
         fill: '#000000',
@@ -54,9 +56,10 @@
         perfectDrawEnabled : false
     }"
     ></konva-path>
-    <UnitType :type="unit.type" />
+    <UnitType v-if="endurance" :type="unit.type" />
     <konva-group ref="health">
       <konva-rect
+        v-if="endurance"
         :config="{
             width: 2,
             height: 30,
@@ -68,6 +71,7 @@
         }"
       ></konva-rect>
       <konva-shape
+        v-if="endurance"
         :config="{
         sceneFunc: healthSceneFunc,
         fill: 'green',
@@ -97,7 +101,8 @@ export default {
   },
   computed: {
     directions() { return this.unit.directions; },
-    endurance() { return Math.max(0, this.unit.endurance / this.unit.lifetime.endurance); }
+    endurance() { return Math.max(0, this.unit.endurance / this.unit.lifetime.endurance); },
+    unitColor() { return this.endurance ? this.color : '#888888' }
   },
   methods: {
     getShape: getShape,
