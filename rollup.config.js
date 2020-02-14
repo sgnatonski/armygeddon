@@ -7,40 +7,51 @@ import livereload from 'rollup-plugin-livereload'
 import replace from '@rollup/plugin-replace'
 //import { terser } from "rollup-plugin-terser";
 
-export default {
-    input: 'src/front/app/main.js',
-    output: {
-        format: 'iife',
-        file: 'src/front/dist/app.js',
-        sourcemap: true
+export default [
+    {
+        input: 'src/common/bhex/BHex.Drawing.js',
+        output: {
+            format: 'cjs',
+            file: 'src/front/dist/bhex.js'
+        },
+        plugins: [
+            commonjs()
+        ]
     },
-    plugins: [
-        resolve({ browser: true, jsnext: true }),
-        //vue(),
-        vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
-        htmlTemplate({
-            template: 'src/front/app/index.html',
-            target: 'src/front/dist/index.html',
-        }),
-        replace({
-            'process.env.NODE_ENV': JSON.stringify('development') // production for PROD
-        }),
-        dev({
-            dirs: ['src/front/dist', 'src/front/assets'],
-            proxy: { '/*': 'localhost:3000' },
-            port: 3001
-        }),
-        livereload(),
-        commonjs({
-            namedExports: {
-                'node_modules/konva/lib/index.js': ['Animation']
-          }
-        }),
-        //terser()
-    ],
-    onwarn: function (warning) {
-        if (warning.code === 'THIS_IS_UNDEFINED') { return; }
+    {
+        input: 'src/front/app/main.js',
+        output: {
+            format: 'iife',
+            file: 'src/front/dist/app.js',
+            sourcemap: true
+        },
+        plugins: [
+            resolve({ browser: true, jsnext: true }),
+            //vue(),
+            vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
+            htmlTemplate({
+                template: 'src/front/app/index.html',
+                target: 'src/front/dist/index.html',
+            }),
+            replace({
+                'process.env.NODE_ENV': JSON.stringify('development') // production for PROD
+            }),
+            dev({
+                dirs: ['src/front/dist', 'src/front/assets'],
+                proxy: { '/*': 'localhost:3000' },
+                port: 3001
+            }),
+            livereload(),
+            commonjs({
+                namedExports: {
+                    'node_modules/konva/lib/index.js': ['Animation']
+                }
+            }),
+            //terser()
+        ],
+        onwarn: function (warning) {
+            if (warning.code === 'THIS_IS_UNDEFINED') { return; }
 
-        console.warn(warning.message);
-    }
-};
+            console.warn(warning.message);
+        }
+    }];

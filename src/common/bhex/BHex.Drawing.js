@@ -1,4 +1,5 @@
 // Extend a few objects from BHex
+var BHex = require('./BHex.Core');
 
 /**
  * The center of the hexagon.
@@ -190,3 +191,5 @@ BHex.Drawing.Options = function (side, orientation, center) {
 		this.width = Math.sqrt(3) / 2 * this.height;
 	}
 };
+
+module.exports = BHex;
