@@ -116,7 +116,16 @@ export default {
     };
   },
   mounted() {
-    actions.setCenter(window.innerWidth / 2, window.innerHeight / 2);
+    actions.setCenter(window.visualViewport.width / 2, window.visualViewport.height / 2);
+    
+    window.addEventListener('resize', () => {
+      actions.setSize(window.visualViewport.width, window.visualViewport.height);
+    });
+    window.addEventListener('fullscreenchange', () => {
+      actions.setSize(window.visualViewport.width, window.visualViewport.height);
+    });
+
+    Konva.pixelRatio = 1;
     eventBus.on("battlewaiting", () => {
       console.log("battlewaiting");
       /*waitLayer.show([

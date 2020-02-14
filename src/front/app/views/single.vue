@@ -1,9 +1,9 @@
 <template>
   <div id="battle-scene">
-    <Menu />
-    <Panel class="battle-panel">
+    <Panel class="battle-panel" :style="{ 'height': `${height}px` }">
       <GameStage class="battle-stage" />
     </Panel>
+    <Menu />
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 import Menu from "../components/game/menu.vue";
 import Panel from "../components/ui/panel.vue";
 import GameStage from "../components/game/game-stage.vue";
-import { actions } from "../stores/battle";
+import { getters, actions } from "../stores/battle";
 
 export default {
   components: {
@@ -19,26 +19,31 @@ export default {
     Panel,
     GameStage
   },
+  computed: {
+    height: () => getters.height
+  },
   created() {
     actions.load();
   }
 };
 </script>
 
-<style scoped>
-.battle-panel {
-  margin: -5px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+<style>
+#battle-scene{
   overflow: hidden;
-  margin-right: 0px;
+}
+.panel.battle-panel {
+  margin: -5px;
+  position: sticky;
+  overflow: hidden;
 }
 
-.battle-stage {
-  margin: -10px;
-  position: absolute;
+.panel.battle-panel > .slot {
+  overflow: hidden;
+  margin: -21px;
+}
+
+.panel.battle-panel > :not(.slot) {
+  z-index: 10;
 }
 </style>

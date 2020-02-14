@@ -36,7 +36,8 @@ export default {
 
 <style>
 .title-box {
-  position: relative;
+  position: sticky;
+  top: 0;
   margin-top: -20px;
 }
 .title-box > .panel > .slot {

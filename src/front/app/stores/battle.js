@@ -26,6 +26,8 @@ function loadImages() {
 
 const state = Vue.observable({
     center: { x: 0, y: 0 },
+    width: 0,
+    height: 0,
     boundingBox: null,
     sceneSize: '',
     grid: null,
@@ -52,6 +54,8 @@ export const getters = {
     animating: () => state.animating,
     pendingAnimations: () => state.pendingAnimations,
     center: () => state.center,
+    width: () => state.width,
+    height: () => state.height,
     boundingBox: () => state.boundingBox,
     grid: () => state.grid,
     selectedHex: () => state.selectedHex,
@@ -210,6 +214,11 @@ export const mutations = {
         //setTimeout(() => eventBus.publish('battleended', this.getBattleSummary(data)), 0);
         //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
     },
+    setSize(width, height) {
+        state.width = width;
+        state.height = height;
+        mutations.setCenter(width / 2, height / 2);
+    },
     setCenter(x, y) {
         state.center = { x: x, y: y };
     },
@@ -252,6 +261,9 @@ export const actions = {
             };
             mutations.loadData(data, true);
         });
+    },
+    setSize(width, height) {
+        mutations.setSize(width, height);
     },
     setCenter(x, y) {
         mutations.setCenter(x, y);
