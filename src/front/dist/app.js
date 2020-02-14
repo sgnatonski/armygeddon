@@ -23846,11 +23846,6 @@
     return parsed;
   };
 
-  var isValidXss = function isValidXss(requestURL) {
-    var xssRegex = /(\b)(on\w+)=|javascript|(<\s*)(\/*)script/gi;
-    return xssRegex.test(requestURL);
-  };
-
   var isURLSameOrigin = (
     utils.isStandardBrowserEnv() ?
 
@@ -23869,10 +23864,6 @@
       */
         function resolveURL(url) {
           var href = url;
-
-          if (isValidXss(url)) {
-            throw new Error('URL contains XSS injection attempt');
-          }
 
           if (msie) {
           // IE needs attribute set twice to normalize properties
@@ -24829,11 +24820,11 @@
     /* style */
     const __vue_inject_styles__ = function (inject) {
       if (!inject) return
-      inject("data-v-7d873a31_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-16e31f62_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__ = "data-v-7d873a31";
+    const __vue_scope_id__ = "data-v-16e31f62";
     /* module identifier */
     const __vue_module_identifier__ = undefined;
     /* functional template */
@@ -24922,11 +24913,11 @@
     /* style */
     const __vue_inject_styles__$1 = function (inject) {
       if (!inject) return
-      inject("data-v-7ebdd8b6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-0c96d458_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$1 = "data-v-7ebdd8b6";
+    const __vue_scope_id__$1 = "data-v-0c96d458";
     /* module identifier */
     const __vue_module_identifier__$1 = undefined;
     /* functional template */
@@ -25050,11 +25041,11 @@
     /* style */
     const __vue_inject_styles__$2 = function (inject) {
       if (!inject) return
-      inject("data-v-3501618d_0", { source: "\n.user[data-v-3501618d]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-3f3cd12b_0", { source: "\n.user[data-v-3f3cd12b]{\r\n  color: antiquewhite;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$2 = "data-v-3501618d";
+    const __vue_scope_id__$2 = "data-v-3f3cd12b";
     /* module identifier */
     const __vue_module_identifier__$2 = undefined;
     /* functional template */
@@ -25160,7 +25151,7 @@
     /* style */
     const __vue_inject_styles__$3 = function (inject) {
       if (!inject) return
-      inject("data-v-1bd59c18_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-e244cfdc_0", { source: "\n.panel {\r\n  display: grid;\r\n  grid-template-columns: 25px auto 25px;\r\n  grid-template-rows: 25px auto 25px;\r\n  grid-column-gap: 0px;\r\n  grid-row-gap: 0px;\r\n  justify-items: stretch;\r\n  align-items: stretch;\r\n  margin: 8px;\n}\n.panel > .slot {\r\n  background-color: #a59e95;\r\n  margin: -10px;\r\n  padding: 10px;\r\n  box-shadow: black -22px 22px 22px 0px;\n}\n.panel h1 {\r\n  font-weight: normal;\r\n  font-size: 2em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h2 {\r\n  font-weight: normal;\r\n  font-size: 1.5em;\r\n  text-shadow: 1px 2px 2px #ccc;\r\n  margin-top: 0px;\n}\n.panel h1:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 2em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel h2:first-letter {\r\n  font-family: SquareCaps;\r\n  font-size: 1.5em;\r\n  text-shadow: 2px 2px 0px #e6e2d2;\n}\n.panel div.right-aligned {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 30px;\r\n  width: auto;\n}\n.line_dbl_v1 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 1px;\n}\n.line_dbl_h1 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 1px;\n}\n.line_dbl_h2 {\r\n  background: url(styles/line_dbl_h.png) repeat-x;\r\n  width: 100%;\r\n  margin-top: 7px;\n}\n.line_dbl_v2 {\r\n  z-index: 1;\r\n  background: url(styles/line_dbl_v.png) repeat-y;\r\n  height: 100%;\r\n  margin-left: 7px;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -25258,7 +25249,7 @@
     /* style */
     const __vue_inject_styles__$4 = function (inject) {
       if (!inject) return
-      inject("data-v-27dffaaa_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 6px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: pulsate-anim 0.8s ease-in-out infinite both;\n}\n@keyframes pulsate-anim {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 52%;\n}\n50% {\r\n    background-position: 100% 68%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 56%;\n}\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-027f9268_0", { source: "\n.title-box {\r\n  position: relative;\r\n  margin-top: -20px;\n}\n.title-box > .panel > .slot {\r\n  background: url(images/stone1.jpg) repeat;\r\n  background-size: 180px 180px;\n}\n.title-box > .panel > .slot > h1 {\r\n  margin-bottom: -10px;\r\n  margin-top: -20px;\r\n  padding-top: 16px;\r\n  padding-left: 10px;\r\n  background: rgb(0, 0, 0);\r\n  background: linear-gradient(\r\n    180deg,\r\n    rgba(0, 0, 0, 1) 0%,\r\n    rgba(0, 0, 0, 0.7) 0%,\r\n    rgba(0, 0, 0, 0) 100%\r\n  );\r\n  margin-left: -10px;\r\n  margin-right: -10px;\r\n  background-size: 200% 200%;\r\n  padding-bottom: 6px;\n}\n.title-box a {\r\n  font-weight: normal;\r\n  text-decoration-line: none;\r\n  color: inherit;\n}\n.title-box > .panel > .slot .pure-menu a {\r\n  color: antiquewhite;\n}\n.pulsate-bck {\r\n  animation: pulsate-anim 0.8s ease-in-out infinite both;\n}\n@keyframes pulsate-anim {\n0% {\r\n    background-position: 100% 60%;\n}\n40% {\r\n    background-position: 100% 52%;\n}\n50% {\r\n    background-position: 100% 68%;\n}\n65% {\r\n    background-position: 100% 55%;\n}\n90% {\r\n    background-position: 100% 60%;\n}\n100% {\r\n    background-position: 100% 56%;\n}\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
@@ -25340,11 +25331,11 @@
     /* style */
     const __vue_inject_styles__$5 = function (inject) {
       if (!inject) return
-      inject("data-v-77a6eb12_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-ecd262ce_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$5 = "data-v-77a6eb12";
+    const __vue_scope_id__$5 = "data-v-ecd262ce";
     /* module identifier */
     const __vue_module_identifier__$5 = undefined;
     /* functional template */
@@ -25410,11 +25401,11 @@
     /* style */
     const __vue_inject_styles__$6 = function (inject) {
       if (!inject) return
-      inject("data-v-0420eeeb_0", { source: "\np[data-v-0420eeeb] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-50cf9cee_0", { source: "\np[data-v-50cf9cee] {\r\n  font-size: 2em;\r\n  text-align: center;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$6 = "data-v-0420eeeb";
+    const __vue_scope_id__$6 = "data-v-50cf9cee";
     /* module identifier */
     const __vue_module_identifier__$6 = undefined;
     /* functional template */
@@ -25605,11 +25596,11 @@
     /* style */
     const __vue_inject_styles__$7 = function (inject) {
       if (!inject) return
-      inject("data-v-6e634d14_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-22778218_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$7 = "data-v-6e634d14";
+    const __vue_scope_id__$7 = "data-v-22778218";
     /* module identifier */
     const __vue_module_identifier__$7 = undefined;
     /* functional template */
@@ -25860,11 +25851,11 @@
     /* style */
     const __vue_inject_styles__$8 = function (inject) {
       if (!inject) return
-      inject("data-v-18958e08_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-c3d4d9ac_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$8 = "data-v-18958e08";
+    const __vue_scope_id__$8 = "data-v-c3d4d9ac";
     /* module identifier */
     const __vue_module_identifier__$8 = undefined;
     /* functional template */
@@ -25911,11 +25902,11 @@
     /* style */
     const __vue_inject_styles__$9 = function (inject) {
       if (!inject) return
-      inject("data-v-2ebcd5f4_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-149f3524_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$9 = "data-v-2ebcd5f4";
+    const __vue_scope_id__$9 = "data-v-149f3524";
     /* module identifier */
     const __vue_module_identifier__$9 = undefined;
     /* functional template */
@@ -26038,11 +26029,11 @@
     /* style */
     const __vue_inject_styles__$a = function (inject) {
       if (!inject) return
-      inject("data-v-d4169814_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-d0273bd8_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$a = "data-v-d4169814";
+    const __vue_scope_id__$a = "data-v-d0273bd8";
     /* module identifier */
     const __vue_module_identifier__$a = undefined;
     /* functional template */
@@ -26092,11 +26083,11 @@
     /* style */
     const __vue_inject_styles__$b = function (inject) {
       if (!inject) return
-      inject("data-v-8bfb4e50_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-76e7e0f6_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$b = "data-v-8bfb4e50";
+    const __vue_scope_id__$b = "data-v-76e7e0f6";
     /* module identifier */
     const __vue_module_identifier__$b = undefined;
     /* functional template */
@@ -27224,7 +27215,7 @@
   	}
   };
 
-  function initGrid(sceneSize, terrain, units, getters, actions) {
+  function initGrid(sceneSize, terrain, getters, actions) {
     function setSelectedHex(x, y) {
       grid.selectedHex = null;
       if (x != undefined && y != undefined) {
@@ -27287,29 +27278,24 @@
     }
 
     function hexSelected(hex) {
-      var selectedHex = grid.selectedHex;
-      if (selectedHex) {
-        selectedHex.blocked = false;
-      }
       var unit = grid.selectedHex && hex ? getters.unitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
 
       var unitState = getters.unitState(unit);
       switch (unitState) {
         case 'moving':
-          var path = getPathInRange(selectedHex, hex);
+          var path = getPathInRange(grid.selectedHex, hex);
           var lastStep = path[path.length - 1];
           if (lastStep.x == hex.x && lastStep.y == hex.y) {
-            actions.unitMoving(unit, hex.x, hex.y);
+            return () => actions.unitMoving(unit, hex.x, hex.y);
           }
           break;
         case 'turning':
-          actions.unitTurning(unit, hex.x, hex.y);
-          break;
+          return () => actions.unitTurning(unit, hex.x, hex.y);
         case 'attacking':
-          var path = getPathInRange(selectedHex, hex, unit.range);
+          var path = getPathInRange(grid.selectedHex, hex, unit.range);
           var lastStep = path[path.length - 1];
           if (lastStep.x == hex.x && lastStep.y == hex.y) {
-            actions.unitAttacking(unit, hex.x, hex.y);
+            return () => actions.unitAttacking(unit, hex.x, hex.y);
           }
           break;
         default:
@@ -27493,7 +27479,8 @@
       selectedHex: null,
       unitHexes: [],
       targetUnit: null,
-      currentUnit: null
+      currentUnit: null,
+      update: null
   });
 
   const getters$1 = {
@@ -27513,6 +27500,7 @@
       firstArmy: () => state$1.firstArmy,
       secondArmy: () => state$1.secondArmy,
       currentUnit: () => state$1.currentUnit,
+      update: () => state$1.update,
       currentUnitRange: () => {
           if (getters$1.currentUnit() && getters$1.isPlayerArmy(getters$1.currentUnit().id)) {
               return state$1.grid.getSelectedHexRange();
@@ -27541,6 +27529,7 @@
           }
           return state$1.firstArmy.getArmy().concat(state$1.secondArmy.getArmy());
       },
+      unit: (unitId) => getters$1.units().find(u => u.id == unitId),
       army(unitId) {
           return state$1.firstArmy.getArmy().some(x => x.id == unitId)
               ? state$1.firstArmy
@@ -27612,7 +27601,7 @@
           else {
               setTimeout(() => eventBus.publish('battlewaiting'), 0);
           }
-          state$1.grid = initGrid(state$1.sceneSize, state$1.terrain, state$1.firstArmy.getArmy().concat(state$1.secondArmy.getArmy()), getters$1, actions);
+          state$1.grid = initGrid(state$1.sceneSize, state$1.terrain, getters$1, actions);
 
           var { minX, minY, maxX, maxY } = state$1.grid.initDrawing(state$1.center);
           state$1.boundingBox = { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
@@ -27633,30 +27622,22 @@
           eventBus.on('end', mutations$1.end);
       },
       update(data) {
+          state$1.update = data;
           state$1.battleState = 'started';
-          state$1.currentUnit = data.currUnit;
-          state$1.currentUnit.agility = data.currUnit.agility;
-          state$1.currentUnit.mobility = data.currUnit.mobility;
-          state$1.currentUnit.pos = data.currUnit.pos;
+          state$1.unitQueue = data.unitQueue;
+          state$1.targetUnit = data.currUnit.pos;
+
           var delta = {
-              source: getters$1.nextUnit().pos,
+              source: state$1.currentUnit.pos,
               target: data.currUnit.pos
           };
-          state$1.unitQueue = data.unitQueue;
-          state$1.targetUnit = delta.target;
-
-          mutations$1.setUnitHexes();
-          actions.animateUnit(state$1.currentUnit, delta.source, delta.target);
-
+          
           setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
           //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
-          var nextUnit = getters$1.nextUnit();
-          nextUnit.agility = data.nextUnit.agility;
-          nextUnit.mobility = data.nextUnit.mobility;
-          nextUnit.pos = data.nextUnit.pos;
+
+          actions.animateUnit(state$1.currentUnit, delta.source, delta.target);
           
-          var nextUnitArmy = getters$1.army(nextUnit.id);
-          setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters$1.nextUnit().type} unit is next to act`), 0);
+          state$1.currentUnit = data.nextUnit;
       },
       end(data) {
           state$1.battleState = 'finished';
@@ -27669,7 +27650,7 @@
       },
       setSelectedHex(hex) {
           state$1.selectedHex = hex;
-          state$1.grid.hexSelected(hex);
+          return state$1.grid.hexSelected(hex);
       },
       setUnitHexes() {
           state$1.unitHexes = getters$1.units().map(u => getters$1.grid().getHexAt(u.pos.x, u.pos.y));
@@ -27711,7 +27692,10 @@
           mutations$1.setCenter(x, y);
       },
       setSelectedHex(hex) {
-          mutations$1.setSelectedHex(hex);
+          var action = mutations$1.setSelectedHex(hex);
+          if (action){
+              action();
+          }
       },
       unitMoving(unit, x, y) {
           requestMove(state$1.battleId, unit.id, x, y);
@@ -27731,9 +27715,20 @@
           mutations$1.setAnimating(true);
       },
       updateGrid() {
+          function restoreUnit(upd) {
+              if (!upd) { return; }
+              var unit = getters$1.unit(upd.id);
+              Object.assign(unit, upd);
+          }
+          restoreUnit(getters$1.update().currUnit);
+          restoreUnit(getters$1.update().targetUnit);
+          restoreUnit(getters$1.update().nextUnit);
+          mutations$1.setUnitHexes();
           var nextUnit = getters$1.nextUnit();
           var nextHex = getters$1.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
           mutations$1.setSelectedHex(nextHex);
+          var nextUnitArmy = getters$1.army(nextUnit.id);
+          setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters$1.nextUnit().type} unit is next to act`), 0);
       }
   };
 
@@ -28494,12 +28489,15 @@
       units: () =>
         getters$1.unitHexes().map(h => {
           var u = getters$1.unitAt(h.x, h.y);
+          if (!u){
+            return null;
+          }
           return {
             unit: u,
             hexCenter: h.center,
             color: getters$1.isPlayerArmy(u) ? armyColors[0] : armyColors[1]
           };
-        })
+        }).filter(u => u !== null)
     }
   };
 
@@ -28639,9 +28637,11 @@
         if (!newVal){
           actions.updateGrid();
         }
-        this.centerHex(this.selectedHex);
-        this.hexFocused(this.selectedHex);
-        this.$refs.stage.getStage().batchDraw();
+        this.$nextTick(() => {
+          this.centerHex(this.selectedHex);
+          this.hexFocused(this.selectedHex);
+          this.$refs.stage.getStage().batchDraw();
+        });
       }
     },
     data() {
@@ -28692,6 +28692,7 @@
       },
       hexFocused(hex) {
         if (this.animating) {
+          this.focusHex = null;
           return;
         }
         this.focusHex = hex;
@@ -28847,11 +28848,11 @@
     /* style */
     const __vue_inject_styles__$m = function (inject) {
       if (!inject) return
-      inject("data-v-1d8178c0_0", { source: "\n.battle-panel[data-v-1d8178c0] {\r\n  margin: -5px;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  overflow: hidden;\r\n  margin-right: 0px;\n}\n.battle-stage[data-v-1d8178c0] {\r\n  margin: -10px;\r\n  position: absolute;\n}\r\n", map: undefined, media: undefined });
+      inject("data-v-3eae35e2_0", { source: "\n.battle-panel[data-v-3eae35e2] {\r\n  margin: -5px;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  overflow: hidden;\r\n  margin-right: 0px;\n}\n.battle-stage[data-v-3eae35e2] {\r\n  margin: -10px;\r\n  position: absolute;\n}\r\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$m = "data-v-1d8178c0";
+    const __vue_scope_id__$m = "data-v-3eae35e2";
     /* module identifier */
     const __vue_module_identifier__$m = undefined;
     /* functional template */
@@ -28919,11 +28920,11 @@
     /* style */
     const __vue_inject_styles__$n = function (inject) {
       if (!inject) return
-      inject("data-v-59507c18_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-31952736_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$n = "data-v-59507c18";
+    const __vue_scope_id__$n = "data-v-31952736";
     /* module identifier */
     const __vue_module_identifier__$n = undefined;
     /* functional template */
@@ -28988,11 +28989,11 @@
     /* style */
     const __vue_inject_styles__$o = function (inject) {
       if (!inject) return
-      inject("data-v-088d9a08_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
+      inject("data-v-5c47c5cc_0", { source: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", map: undefined, media: undefined });
 
     };
     /* scoped */
-    const __vue_scope_id__$o = "data-v-088d9a08";
+    const __vue_scope_id__$o = "data-v-5c47c5cc";
     /* module identifier */
     const __vue_module_identifier__$o = undefined;
     /* functional template */

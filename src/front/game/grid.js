@@ -1,8 +1,7 @@
 import BHex from "../dist/bhex";
 
-function initGrid(sceneSize, terrain, units, getters, actions) {
+function initGrid(sceneSize, terrain, getters, actions) {
   function setSelectedHex(x, y) {
-    var selectedHex = grid.selectedHex;
     grid.selectedHex = null;
     if (x != undefined && y != undefined) {
       var hex = grid.getHexAt(new BHex.Axial(x, y));
@@ -64,29 +63,25 @@ function initGrid(sceneSize, terrain, units, getters, actions) {
   }
 
   function hexSelected(hex) {
-    var selectedHex = grid.selectedHex;
-    if (selectedHex) {
-      selectedHex.blocked = false;
-    }
     var unit = grid.selectedHex && hex ? getters.unitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
 
     var unitState = getters.unitState(unit);
     switch (unitState) {
       case 'moving':
-        var path = getPathInRange(selectedHex, hex);
+        var path = getPathInRange(grid.selectedHex, hex);
         var lastStep = path[path.length - 1];
         if (lastStep.x == hex.x && lastStep.y == hex.y) {
-          actions.unitMoving(unit, hex.x, hex.y);
+          return () => actions.unitMoving(unit, hex.x, hex.y);
         }
         break;
       case 'turning':
-        actions.unitTurning(unit, hex.x, hex.y);
+        return () => actions.unitTurning(unit, hex.x, hex.y);
         break;
       case 'attacking':
-        var path = getPathInRange(selectedHex, hex, unit.range, true);
+        var path = getPathInRange(grid.selectedHex, hex, unit.range, true);
         var lastStep = path[path.length - 1];
         if (lastStep.x == hex.x && lastStep.y == hex.y) {
-          actions.unitAttacking(unit, hex.x, hex.y);
+          return () => actions.unitAttacking(unit, hex.x, hex.y);
         }
         break;
       default:

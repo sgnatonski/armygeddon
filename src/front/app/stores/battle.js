@@ -44,7 +44,8 @@ const state = Vue.observable({
     selectedHex: null,
     unitHexes: [],
     targetUnit: null,
-    currentUnit: null
+    currentUnit: null,
+    update: null
 });
 
 export const getters = {
@@ -64,6 +65,7 @@ export const getters = {
     firstArmy: () => state.firstArmy,
     secondArmy: () => state.secondArmy,
     currentUnit: () => state.currentUnit,
+    update: () => state.update,
     currentUnitRange: () => {
         if (getters.currentUnit() && getters.isPlayerArmy(getters.currentUnit().id)) {
             return state.grid.getSelectedHexRange();
@@ -92,6 +94,7 @@ export const getters = {
         }
         return state.firstArmy.getArmy().concat(state.secondArmy.getArmy());
     },
+    unit: (unitId) => getters.units().find(u => u.id == unitId),
     army(unitId) {
         return state.firstArmy.getArmy().some(x => x.id == unitId)
             ? state.firstArmy
@@ -163,7 +166,7 @@ export const mutations = {
         else {
             setTimeout(() => eventBus.publish('battlewaiting'), 0);
         }
-        state.grid = Grid(state.sceneSize, state.terrain, state.firstArmy.getArmy().concat(state.secondArmy.getArmy()), getters, actions);
+        state.grid = Grid(state.sceneSize, state.terrain, getters, actions);
 
         var { minX, minY, maxX, maxY } = state.grid.initDrawing(state.center);
         state.boundingBox = { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
@@ -184,30 +187,22 @@ export const mutations = {
         eventBus.on('end', mutations.end);
     },
     update(data) {
+        state.update = data;
         state.battleState = 'started';
-        state.currentUnit = data.currUnit;
-        state.currentUnit.agility = data.currUnit.agility;
-        state.currentUnit.mobility = data.currUnit.mobility;
-        state.currentUnit.pos = data.currUnit.pos;
+        state.unitQueue = data.unitQueue;
+        state.targetUnit = data.currUnit.pos;
+
         var delta = {
-            source: getters.nextUnit().pos,
+            source: state.currentUnit.pos,
             target: data.currUnit.pos
         };
-        state.unitQueue = data.unitQueue;
-        state.targetUnit = delta.target;
-
-        mutations.setUnitHexes();
-        actions.animateUnit(state.currentUnit, delta.source, delta.target);
-
+        
         setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
         //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
-        var nextUnit = getters.nextUnit();
-        nextUnit.agility = data.nextUnit.agility;
-        nextUnit.mobility = data.nextUnit.mobility;
-        nextUnit.pos = data.nextUnit.pos;
+
+        actions.animateUnit(state.currentUnit, delta.source, delta.target);
         
-        var nextUnitArmy = getters.army(nextUnit.id);
-        setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters.nextUnit().type} unit is next to act`), 0);
+        state.currentUnit = data.nextUnit;
     },
     end(data) {
         state.battleState = 'finished';
@@ -220,7 +215,7 @@ export const mutations = {
     },
     setSelectedHex(hex) {
         state.selectedHex = hex;
-        state.grid.hexSelected(hex);
+        return state.grid.hexSelected(hex);
     },
     setUnitHexes() {
         state.unitHexes = getters.units().map(u => getters.grid().getHexAt(u.pos.x, u.pos.y));
@@ -262,7 +257,10 @@ export const actions = {
         mutations.setCenter(x, y);
     },
     setSelectedHex(hex) {
-        mutations.setSelectedHex(hex);
+        var action = mutations.setSelectedHex(hex);
+        if (action){
+            action();
+        }
     },
     unitMoving(unit, x, y) {
         requestMove(state.battleId, unit.id, x, y);
@@ -282,8 +280,19 @@ export const actions = {
         mutations.setAnimating(true);
     },
     updateGrid() {
+        function restoreUnit(upd) {
+            if (!upd) { return; }
+            var unit = getters.unit(upd.id);
+            Object.assign(unit, upd);
+        }
+        restoreUnit(getters.update().currUnit);
+        restoreUnit(getters.update().targetUnit);
+        restoreUnit(getters.update().nextUnit);
+        mutations.setUnitHexes();
         var nextUnit = getters.nextUnit();
         var nextHex = getters.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
         mutations.setSelectedHex(nextHex);
+        var nextUnitArmy = getters.army(nextUnit.id);
+        setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters.nextUnit().type} unit is next to act`), 0);
     }
 }

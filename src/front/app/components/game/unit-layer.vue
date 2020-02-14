@@ -32,12 +32,15 @@ export default {
     units: () =>
       getters.unitHexes().map(h => {
         var u = getters.unitAt(h.x, h.y);
+        if (!u){
+          return null;
+        }
         return {
           unit: u,
           hexCenter: h.center,
           color: getters.isPlayerArmy(u) ? armyColors[0] : armyColors[1]
         };
-      })
+      }).filter(u => u !== null)
   }
 };
 </script>

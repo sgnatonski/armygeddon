@@ -93,9 +93,11 @@ export default {
       if (!newVal){
         actions.updateGrid();
       }
-      this.centerHex(this.selectedHex);
-      this.hexFocused(this.selectedHex);
-      this.$refs.stage.getStage().batchDraw();
+      this.$nextTick(() => {
+        this.centerHex(this.selectedHex);
+        this.hexFocused(this.selectedHex);
+        this.$refs.stage.getStage().batchDraw();
+      });
     }
   },
   data() {
@@ -146,6 +148,7 @@ export default {
     },
     hexFocused(hex) {
       if (this.animating) {
+        this.focusHex = null;
         return;
       }
       this.focusHex = hex;
