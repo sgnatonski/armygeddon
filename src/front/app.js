@@ -42,6 +42,15 @@ app.use(appCookieParser);
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'assets')));
 
+var JL = require('jsnlog').JL;
+var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
+app.post('*.logger', function (req, res) {
+  jsnlog_nodejs(JL, req.body);
+  log.error(req.body);
+  // Send empty response. This is ok, because client side jsnlog does not use response from server.
+  res.send('');
+});
+
 app.use(jwt({
   secret: app.get('TOKEN_SECRET'),
   getToken: req => req.cookies.a_token
@@ -61,15 +70,6 @@ else {
 app.use('/singlebattle', singlebattle);
 app.use('/armies', armies);
 app.use('/map', map);
-
-var JL = require('jsnlog').JL;
-var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
-app.post('*.logger', function (req, res) {
-  jsnlog_nodejs(JL, req.body);
-  log.error(req.body);
-  // Send empty response. This is ok, because client side jsnlog does not use response from server.
-  res.send('');
-});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
