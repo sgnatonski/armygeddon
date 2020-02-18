@@ -86,19 +86,25 @@ export default {
       this.blockHeight = newVal ? stage.getHeight() : 0;
     },
     focusHex(newVal, oldVal) {
-      if (!newVal){
+      if (!newVal || !this.activeUnit){
+        this.tooltip = null;
+        return;
+      }
+      var unitRange = getters.currentUnitRange();
+      var hexInRange = [this.selectedHex].concat(unitRange).find(x => x.x == newVal.x && x.y == newVal.y);
+      if (!hexInRange){
         this.tooltip = null;
         return;
       }
       if (this.unitState == "moving" || this.unitState == "turning") {
-        if (this.activeUnit && this.targetUnit) {
+        if (this.targetUnit) {
           this.updateTooltipWithUnitStats(this.targetUnit);
-        } else if (this.activeUnit && !this.targetUnit) {
+        } else {
           var cost = this.grid.getSelectedHexMoveCost(newVal.x, newVal.y);
           this.updateTooltipWithMoveStats(this.activeUnit, cost);
         }
       } else if (this.unitState == "attacking") {
-        if (this.activeUnit && this.targetUnit) {
+        if (this.targetUnit) {
           if (this.activeUnit.id == this.targetUnit.id) {
             this.updateTooltipWithUnitStats(this.targetUnit);
           } else {
