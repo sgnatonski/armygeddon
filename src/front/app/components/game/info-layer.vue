@@ -1,29 +1,62 @@
 <template>
   <konva-layer ref="layer" :config="{
-        hitGraphEnabled : false
+        hitGraphEnabled : blocking
     }">
     <Info v-if="tooltip && tooltip.length" :text="tooltip" :pos="tooltipPosition" />
+    <konva-group v-if="blocking">
+      <konva-rect
+        @dragstart="handleDragStart"
+        @dragend="handleDragEnd"
+        :config="{
+        x: stageX,
+        y: stageY,
+        width: blockWidth,
+        height: blockHeight,
+        fill: 'black',
+        opacity: 0.5,
+        draggable: true,
+        dragBoundFunc: pos => { return { x: stageX, y: stageY } }
+      }"
+      />
+      <Info :text="blockingInfo" :pos="blockingInfoPos" />
+    </konva-group>
   </konva-layer>
 </template>
 
 <script>
 import Info from "./info.vue";
 import { getters, actions } from "../../stores/battle";
+import damage from "../../../../common/logic/damage_calculator";
+
 export default {
   components: {
     Info
   },
   props: {
-    focusHex: Object
+    focusHex: Object,
+    blockingInfo: Array
   },
   data() {
     return {
-      tooltip: []
-    }
+      tooltip: [],
+      blockWidth: 0,
+      blockHeight: 0,
+      blockInfoWidth: 400
+    };
   },
   computed: {
+    stageX: args =>
+      args.$refs.layer
+        ? args.$refs.layer.getStage().getAbsolutePosition().x
+        : 0,
+    stageY: args =>
+      args.$refs.layer
+        ? args.$refs.layer.getStage().getAbsolutePosition().y
+        : 0,
     center: () => getters.center(),
-    tooltipPos: args => (args.tooltip && args.tooltip.length ? args.focusHex.center : {}),
+    grid: () => getters.grid(),
+    tooltipPos: args =>
+      args.focusHex && args.tooltip && args.tooltip.length ? args.focusHex.center : { x: 0, y: 0 },
     selectedHex: () => getters.selectedHex(),
     tooltipPosition: args => {
       return {
@@ -31,11 +64,32 @@ export default {
         y: args.center.y + args.tooltipPos.y
       };
     },
-    activeUnit: args => args.selectedHex ? getters.unitAt(args.selectedHex.x, args.selectedHex.y) : null,
-    targetUnit: args => args.focusHex ? getters.unitAt(focusHex.x, focusHex.y) : null
+    unitState: () => getters.currentUnitState(),
+    activeUnit: args =>
+      args.selectedHex
+        ? getters.unitAt(args.selectedHex.x, args.selectedHex.y)
+        : null,
+    targetUnit: args =>
+      args.focusHex ? getters.unitAt(args.focusHex.x, args.focusHex.y) : null,
+    blocking: args => args.blockingInfo != null && args.blockingInfo.length > 0,
+    blockingInfoPos: args => {
+      return {
+        x: args.stageX + args.blockWidth / 2 - args.blockInfoWidth / 2,
+        y: args.stageY + args.blockHeight / 2
+      };
+    }
   },
   watch: {
+    blocking(newVal, oldVal) {
+      var stage = this.$refs.layer.getStage();
+      this.blockWidth = newVal ? stage.getWidth() : 0;
+      this.blockHeight = newVal ? stage.getHeight() : 0;
+    },
     focusHex(newVal, oldVal) {
+      if (!newVal){
+        this.tooltip = null;
+        return;
+      }
       if (this.unitState == "moving" || this.unitState == "turning") {
         if (this.activeUnit && this.targetUnit) {
           this.updateTooltipWithUnitStats(this.targetUnit);
@@ -52,6 +106,19 @@ export default {
           }
         }
       }
+    }
+  },
+  mounted() {
+    var stage = this.$refs.layer.getStage();
+    this.blockWidth = this.blocking ? stage.getWidth() : 0;
+    this.blockHeight = this.blocking ? stage.getHeight() : 0;
+  },
+  methods: {
+    handleDragStart(evt) {
+      evt.evt.cancelBubble = true;
+    },
+    handleDragEnd(evt) {
+      evt.evt.cancelBubble = true;
     },
     updateTooltipWithUnitStats(unit) {
       var texts = [

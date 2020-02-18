@@ -16,7 +16,7 @@
             "watch": "src/services/login-service.js",
             "node_args": "--inspect=localhost:9221",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
                 "ARANGO_PASS": "",
@@ -29,7 +29,7 @@
             "watch": "src/services/register-service.js",
             "node_args": "--inspect=localhost:9223",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
                 "ARANGO_PASS": ""
@@ -41,7 +41,7 @@
             "watch": "src/services/army-service.js",
             "node_args": "--inspect=localhost:9224",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
                 "ARANGO_PASS": ""
@@ -53,7 +53,7 @@
             "watch": "src/services/battle-tracker-service.js",
             "node_args": "--inspect=localhost:9225",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
                 "ARANGO_PASS": ""
@@ -65,7 +65,7 @@
             "watch": "src/services/player-service.js",
             "node_args": "--inspect=localhost:9226",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
                 "ARANGO_PASS": ""
@@ -77,7 +77,7 @@
             "watch": "src/services/battle-service.js",
             "node_args": "--inspect=localhost:9227",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
                 "ARANGO_PASS": ""
@@ -89,7 +89,7 @@
             "watch": "src/services/map-service.js",
             "node_args": "--inspect=localhost:9228",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
                 "ARANGO_PASS": ""
@@ -101,7 +101,7 @@
             "watch": "src/services/battle-template-service.js",
             "node_args": "--inspect=localhost:9229",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
                 "ARANGO_PASS": ""

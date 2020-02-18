@@ -17,7 +17,7 @@
         :rangeType="unitState"
       ></EffectLayer>
       <UnitLayer ref="unitLayer"></UnitLayer>
-      <InfoLayer ref="infoLayer" :focusHex="focusHex"></InfoLayer>
+      <InfoLayer ref="infoLayer" :focusHex="focusHex" :blockingInfo="blockingInfo"></InfoLayer>
     </konva-stage>
   </ViewCull>
 </template>
@@ -29,7 +29,6 @@ import EffectLayer from "./effect-layer.vue";
 import UnitLayer from "./unit-layer.vue";
 import InfoLayer from "./info-layer.vue";
 import { getters, actions } from "../../stores/battle";
-import damage from "../../../../common/logic/damage_calculator";
 
 export default {
   components: {
@@ -102,10 +101,26 @@ export default {
       });
     },
     battleState(newVal, oldVal) {
-      if (newVal == "ended") {
-        this.focusHex = null;
-        this.path = [];
+      switch (newVal) {
+        case "created":
+          this.blockingInfo = [
+            "Sir, You're first on the battlefield.",
+            "Hopefully the other army will arrive soon."
+          ];
+          break;
+        case "ready":
+          this.blockingInfo = [];
+          break;
+        case "started":
+          this.blockingInfo = [];
+          break;
+        case "finished":
+          this.focusHex = null;
+          this.path = [];
+          this.blockingInfo = ['', '', 'Battle has ended', '', '', ];
+          break;
       }
+
     }
   },
   data() {
@@ -114,7 +129,8 @@ export default {
       focusHex: null,
       path: null,
       listening: true,
-      stageOffset: { x: 0, y: 0 }
+      stageOffset: { x: 0, y: 0 },
+      blockingInfo: []
     };
   },
   mounted() {
@@ -160,7 +176,7 @@ export default {
         return;
       }
       var margin = 150;
-      var center = getters.center();
+      var center = this.center;
       if (
         stage.getX() + center.x + hex.center.x < margin ||
         stage.getX() + center.x + hex.center.x > window.innerWidth - margin ||

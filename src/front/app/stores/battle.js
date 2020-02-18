@@ -152,8 +152,6 @@ export const mutations = {
         state.sceneSize = data.sceneSize;
         state.unitQueue = data.turns[data.turns.length - 1].readyUnits;
         state.firstArmy = new Army(armies[0], data.unitTypes);
-        //var bsTxt1 = this.getBattleStateText();
-        //setTimeout(() => eventBus.publish('battlestate', bsTxt1), 0);
         
         state.grid = Grid(state.sceneSize, state.terrain, getters, actions);
 
@@ -161,9 +159,6 @@ export const mutations = {
         state.boundingBox = { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
         var y = (Math.abs(state.boundingBox.minY) + Math.abs(state.boundingBox.maxY) + 160) / 2;
         
-        mutations.setCenter(state.center.x, y);
-        mutations.setUnitHexes();
-
         if (armies.length == 2) {
             state.secondArmy = new Army(armies[1], data.unitTypes);
             state.battleState = 'ready';
@@ -171,15 +166,10 @@ export const mutations = {
             if (state.winningArmy) {
                 return mutations.end(data);
             }
-            //var bsTxt2 = this.getBattleStateText();
-            setTimeout(() => eventBus.publish('battlestarted'), 0);
-            //setTimeout(() => eventBus.publish('battlestate', bsTxt2), 0);
-            var nextUnitArmy = getters.army(getters.nextUnit().id);
-            setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters.nextUnit().type} unit is next to act`), 0);
         }
-        else {
-            setTimeout(() => eventBus.publish('battlewaiting'), 0);
-        }
+
+        mutations.setCenter(state.center.x, y);
+        mutations.setUnitHexes();
 
         state.grid.hexSelected();
         var selHex = state.grid.getSelectedHex();
@@ -204,7 +194,6 @@ export const mutations = {
         };
         
         setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
-        //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
 
         actions.animateUnit(state.currentUnit, delta.source, delta.target);
         
@@ -212,8 +201,6 @@ export const mutations = {
     },
     end(data) {
         state.battleState = 'finished';
-        //setTimeout(() => eventBus.publish('battleended', this.getBattleSummary(data)), 0);
-        //setTimeout(() => eventBus.publish('battlestate', this.getBattleStateText()), 0);
     },
     setSize(width, height) {
         state.width = width;
