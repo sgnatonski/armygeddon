@@ -1,5 +1,6 @@
+import { JL } from 'jsnlog';
 import eventBus from "../../app/eventBus";
-import fetch from "../../game/fetch";
+import fetch from "../fetch";
 
 var ws = null;
 
@@ -21,7 +22,7 @@ export function initWebSocket(){
                 wsProtocol = 'wss';
             }
             ws = new WebSocket(`${wsProtocol}://${window.location.hostname}:3000?bid=${battleId}`);
-            ws.onmessage = function (event) {
+            ws.onmessage =  (event) => {
                 var data = JSON.parse(event.data);
                 if (data.msg == 'data'){
                     resolve(data.data);
@@ -33,10 +34,11 @@ export function initWebSocket(){
                     eventBus.publish('end', data.data);
                 }
             };
-            ws.onerror = function (error) {
+            ws.onerror = (error) => {
+                JL().error(error);
                 reject(error);
             };
-            window.addEventListener('beforeunload', function () { ws.close(); });
+            window.addEventListener('beforeunload', () => ws.close());
         }
     });
 }

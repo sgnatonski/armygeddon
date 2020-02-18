@@ -6,7 +6,7 @@
       <ul>
         <li>test 1</li>
         <li>test 2</li>
-        <li><router-link to="/">Exit</router-link></li>
+        <li><router-link to="/start">Exit</router-link></li>
       </ul>
     </div>
   </div>

@@ -23,7 +23,7 @@ export default {
     height: () => getters.height
   },
   created() {
-    actions.loadSingle();
+    actions.loadDuel();
   }
 };
 </script>

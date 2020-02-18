@@ -8,9 +8,8 @@
           <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
             <Panel>
               <h2>Select battle</h2>
-              <a href="/battle" class="btn btn_normal">Start new battle</a>
-              <a href="/single" class="btn btn_normal">Hot seat</a>
-              <router-link to="/single" class="btn btn_normal">Hot seat (Vue)</router-link>
+              <router-link to="/duel" class="btn btn_normal">Duel</router-link>
+              <router-link to="/single" class="btn btn_normal">Hot seat</router-link>
             </Panel>
           </div>
           <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-2-3">

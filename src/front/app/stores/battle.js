@@ -1,10 +1,9 @@
 import Vue from "vue";
 import loadImage from "image-promise";
-import fetch from "../../game/fetch";
 import eventBus from "../eventBus";
 import Army from "../../game/army";
 import Grid from "../../game/grid";
-import { requestMove, requestTurn, requestAttack } from "../../game/requests/http_request";
+import Requests from "../../game/requests/requests";
 
 function loadImages() {
     return loadImage([
@@ -24,31 +23,37 @@ function loadImages() {
     });
 }
 
-const state = Vue.observable({
-    center: { x: 0, y: 0 },
-    width: 0,
-    height: 0,
-    boundingBox: null,
-    sceneSize: '',
-    grid: null,
-    imageShapes: [],
-    animating: false,
-    pendingAnimations: {},
-    battleState: '',
-    battleId: '',
-    selfArmy: null,
-    terrain: null,
-    unitQueue: [],
-    firstArmy: null,
-    secondArmy: null,
-    nextPlayer: null,
-    winningArmy: null,
-    selectedHex: null,
-    unitHexes: [],
-    targetUnit: null,
-    currentUnit: null,
-    update: null
-});
+var loadImagesPromise = loadImages();
+
+function initialState() {
+    return Vue.observable({
+        center: { x: 0, y: 0 },
+        width: 0,
+        height: 0,
+        boundingBox: null,
+        sceneSize: '',
+        grid: null,
+        imageShapes: [],
+        animating: false,
+        pendingAnimations: {},
+        battleState: '',
+        battleId: '',
+        selfArmy: null,
+        terrain: null,
+        unitQueue: [],
+        firstArmy: null,
+        secondArmy: null,
+        nextPlayer: null,
+        winningArmy: null,
+        selectedHex: null,
+        unitHexes: [],
+        targetUnit: null,
+        currentUnit: null,
+        update: null
+    });
+}
+
+var state = initialState();
 
 export const getters = {
     animating: () => state.animating,
@@ -142,9 +147,8 @@ export const getters = {
 }
 
 export const mutations = {
-    loadData(data, single) {
+    loadData(data) {
         var armies = Object.keys(data.armies).map(key => data.armies[key]);
-        sessionStorage.setItem(single ? 'singlebattleid' : 'battleid', data.id);
         state.battleState = 'created';
         state.battleId = data.id;
         state.selfArmy = data.selfArmy;
@@ -152,13 +156,13 @@ export const mutations = {
         state.sceneSize = data.sceneSize;
         state.unitQueue = data.turns[data.turns.length - 1].readyUnits;
         state.firstArmy = new Army(armies[0], data.unitTypes);
-        
+
         state.grid = Grid(state.sceneSize, state.terrain, getters, actions);
 
         var { minX, minY, maxX, maxY } = state.grid.initDrawing(state.center);
         state.boundingBox = { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
         var y = (Math.abs(state.boundingBox.minY) + Math.abs(state.boundingBox.maxY) + 160) / 2;
-        
+
         if (armies.length == 2) {
             state.secondArmy = new Army(armies[1], data.unitTypes);
             state.battleState = 'ready';
@@ -192,11 +196,11 @@ export const mutations = {
             source: state.currentUnit.pos,
             target: data.currUnit.pos
         };
-        
-        setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
+
+        //setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
 
         actions.animateUnit(state.currentUnit, delta.source, delta.target);
-        
+
         state.currentUnit = data.nextUnit;
     },
     end(data) {
@@ -235,11 +239,13 @@ export const mutations = {
     }
 };
 
+var R = null;
+
 export const actions = {
-    load() {
-        var battleid = sessionStorage.getItem('singlebattleid');
-        var url = `/singlebattle/join/${battleid ? battleid : ''}`;
-        Promise.all([loadImages(), fetch().post(url)]).then(result => {
+    loadSingle() {
+        state = initialState();
+        R = Requests(true);
+        Promise.all([loadImagesPromise, R.dataPromise]).then(result => {
             var images = result[0];
             var data = result[1];
 
@@ -247,8 +253,24 @@ export const actions = {
                 plains: images.plains,
                 forrests: images.forrests
             };
-            mutations.loadData(data, true);
+            sessionStorage.setItem('singlebattleid', data.id);
+            mutations.loadData(data);
         });
+    },
+    loadDuel() {
+        state = initialState();
+        R = Requests(false);
+        Promise.all([loadImagesPromise, R.dataPromise]).then(result => {
+            var images = result[0];
+            var data = result[1];
+
+            state.imageShapes = {
+                plains: images.plains,
+                forrests: images.forrests
+            };
+            sessionStorage.setItem('battleid', data.id);
+            mutations.loadData(data);
+        });        
     },
     setSize(width, height) {
         mutations.setSize(width, height);
@@ -258,18 +280,18 @@ export const actions = {
     },
     setSelectedHex(hex) {
         var action = mutations.setSelectedHex(hex);
-        if (action){
+        if (action) {
             action();
         }
     },
     unitMoving(unit, x, y) {
-        requestMove(state.battleId, unit.id, x, y);
+        R.requestMove(state.battleId, unit.id, x, y);
     },
     unitTurning(unit, x, y) {
-        requestTurn(state.battleId, unit.id, x, y);
+        R.requestTurn(state.battleId, unit.id, x, y);
     },
     unitAttacking(unit, x, y) {
-        requestAttack(state.battleId, unit.id, x, y);
+        R.requestAttack(state.battleId, unit.id, x, y);
     },
     animateUnit(unit, from, to) {
         var animationPath = getters.grid().getPathBetween(
