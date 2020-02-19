@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { Animation } from "konva";
+import * as konva from "konva";
 import { getters, actions, mutations } from "../../stores/battle";
 
 export default {
@@ -42,7 +42,7 @@ export default {
         }
 
         var currStep = steps.shift();
-        var anim = new Animation(frame => {
+        var anim = new konva.Animation(frame => {
           if (!steps.length) {
             anim.stop();
             resolve();

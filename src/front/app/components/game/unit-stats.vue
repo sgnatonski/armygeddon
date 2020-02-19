@@ -52,7 +52,7 @@
 
 <script>
 import { getters, actions } from "../../stores/battle";
-import damage from "../../../../common/logic/damage_calculator";
+import * as damage from "../../../../common/logic/damage_calculator";
 
 export default {
   props: {
@@ -65,8 +65,9 @@ export default {
     };
   },
   computed: {
-    activeUnitStats: args => (args.activeStats || []).join("\n"),
-    targetUnitStats: args => (args.targetStats || []).join("\n"),
+    animating: () => getters.animating(),
+    activeUnitStats: args => args.animating ? [] : (args.activeStats || []).join("\n"),
+    targetUnitStats: args => args.animating ? [] : (args.targetStats || []).join("\n"),
     width: args => 120 * (args.targetStats ? 2 : 1),
     height: args =>
       args.activeStats ? 10 + (args.activeStats.length || 1) * 11 : 0,
