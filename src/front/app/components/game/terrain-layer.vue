@@ -40,10 +40,10 @@ export default {
   components: {
     Hex
   },
-  computed:{
+  computed: {
     imageShapes: () => getters.imageShapes(),
     center: () => getters.center(),
-    hexes: () => getters.grid() ? getters.grid().getHexes() : []
+    hexes: () => (getters.grid() ? getters.grid().getHexes() : [])
   },
   methods: {
     getHexTerrainImage(hex) {
@@ -58,6 +58,7 @@ export default {
       }
     },
     hexSelected(evt, hex) {
+      this.$emit("focused", hex);
       actions.setSelectedHex(hex);
     },
     hexFocused(evt, hex) {
