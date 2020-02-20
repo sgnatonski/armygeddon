@@ -1,7 +1,7 @@
 <template>
   <div id="battle-scene">
-    <Panel class="battle-panel" :style="{ 'height': `${height}px` }">
-      <GameStage class="battle-stage" />
+    <Panel class="battle-panel">
+      <GameStage class="battle-stage"/>
     </Panel>
     <Menu />
   </div>
@@ -18,9 +18,6 @@ export default {
     Menu,
     Panel,
     GameStage
-  },
-  computed: {
-    height: () => getters.height
   },
   created() {
     actions.loadSingle();

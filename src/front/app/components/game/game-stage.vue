@@ -54,20 +54,25 @@ export default {
         height: args.stageHeight,
         draggable: true,
         dragBoundFunc: pos => {
-          var ratiox = window.visualViewport.width / args.stageWidth;
-          var ratioy = window.visualViewport.height / args.stageHeight;
-          var margin = 50;
+          var bb = getters.boundingBox();
+          var margin = 34;
           var c = {
             x: pos.x,
-            y: pos.y,
-            sx: args.center.x / ratiox,
-            sy: args.center.y / ratioy
+            y: pos.y
           };
-          if (Math.abs(c.x) + margin > c.sx) {
-            c.x = args.$refs.stage.getStage().getAbsolutePosition().x;
+          if (pos.x >= -bb.minX - window.visualViewport.width / 2 + margin){
+            c.x = -bb.minX - window.visualViewport.width / 2 + margin;
           }
-          if (Math.abs(c.y) + margin > c.sy) {
-            c.y = args.$refs.stage.getStage().getAbsolutePosition().y;
+          if (-pos.x >= bb.maxX + window.visualViewport.width / 2 - margin)
+          {
+            c.x = -(bb.maxX + window.visualViewport.width / 2 - margin);
+          }
+          if (pos.y >= -bb.minY - window.visualViewport.height / 2 + margin){
+            c.y = -bb.minY - window.visualViewport.height / 2 + margin;
+          }
+          if (-pos.y >= bb.maxY + window.visualViewport.height / 2 - margin)
+          {
+            c.y = -(bb.maxY + window.visualViewport.height / 2 - margin);
           }
           args.stageOffset = { x: c.x, y: c.y };
 
