@@ -172,7 +172,8 @@ export const mutations = {
             }
         }
 
-        mutations.setCenter(state.center.x, y);
+        mutations.setSize(Math.abs(state.boundingBox.minX) + Math.abs(state.boundingBox.maxX), Math.abs(state.boundingBox.minY) + Math.abs(state.boundingBox.maxY));
+        mutations.setCenter(getters.width() / 2, getters.height() / 2);
         mutations.setUnitHexes();
 
         state.grid.hexSelected();

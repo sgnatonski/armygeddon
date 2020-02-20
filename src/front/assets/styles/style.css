@@ -62,12 +62,12 @@ a {
 }
 
 #battle-scene{
-  overflow: hidden;
+  margin: -5px;
 }
 .panel.battle-panel {
-  margin: -5px;
+  margin: 0 auto 0 auto;
   position: sticky;
-  overflow: hidden;
+  width: fit-content;
 }
 
 .panel.battle-panel > .slot {

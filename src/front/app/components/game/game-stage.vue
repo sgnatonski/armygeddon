@@ -46,38 +46,14 @@ export default {
     unitRange: () => (getters.animating() ? [] : getters.currentUnitRange()),
     unitState: () => getters.currentUnitState(),
     battleState: () => getters.battleState(),
-    stageWidth: () => window.visualViewport.width - 20,
-    stageHeight: () => window.visualViewport.height - 20,
+    stageWidth: () => Math.min(getters.width(), window.visualViewport.width),
+    stageHeight: () => Math.min(getters.height(), window.visualViewport.height),
     stageConfig: args => {
       return {
         width: args.stageWidth,
         height: args.stageHeight,
         draggable: true,
-        dragBoundFunc: pos => {
-          var bb = getters.boundingBox();
-          var margin = 34;
-          var c = {
-            x: pos.x,
-            y: pos.y
-          };
-          if (pos.x >= -bb.minX - window.visualViewport.width / 2 + margin){
-            c.x = -bb.minX - window.visualViewport.width / 2 + margin;
-          }
-          if (-pos.x >= bb.maxX + window.visualViewport.width / 2 - margin)
-          {
-            c.x = -(bb.maxX + window.visualViewport.width / 2 - margin);
-          }
-          if (pos.y >= -bb.minY - window.visualViewport.height / 2 + margin){
-            c.y = -bb.minY - window.visualViewport.height / 2 + margin;
-          }
-          if (-pos.y >= bb.maxY + window.visualViewport.height / 2 - margin)
-          {
-            c.y = -(bb.maxY + window.visualViewport.height / 2 - margin);
-          }
-          args.stageOffset = { x: c.x, y: c.y };
-
-          return args.stageOffset;
-        }
+        dragBoundFunc: pos => args.sceneBoundFunc(args, pos)
       };
     }
   },
@@ -110,10 +86,9 @@ export default {
         case "finished":
           this.focusHex = null;
           this.path = [];
-          this.blockingInfo = ['', '', 'Battle has ended', '', '', ];
+          this.blockingInfo = ["", "", "Battle has ended", "", ""];
           break;
       }
-
     }
   },
   data() {
@@ -131,8 +106,9 @@ export default {
       window.visualViewport.width / 2,
       window.visualViewport.height / 2
     );
+    //actions.setSize(window.visualViewport.width, window.visualViewport.height);
 
-    window.addEventListener("resize", () => {
+    /*window.addEventListener("resize", () => {
       actions.setSize(
         window.visualViewport.width,
         window.visualViewport.height
@@ -143,7 +119,7 @@ export default {
         window.visualViewport.width,
         window.visualViewport.height
       );
-    });
+    });*/
 
     Konva.pixelRatio = 1;
   },
@@ -170,16 +146,49 @@ export default {
       }
       var margin = 150;
       var center = this.center;
+      var c = {
+        x: stage.getX(),
+        y: stage.getY()
+      };
       if (
         stage.getX() + center.x + hex.center.x < margin ||
         stage.getX() + center.x + hex.center.x > window.innerWidth - margin ||
         stage.getY() + center.y + hex.center.y < margin ||
         stage.getY() + center.y + hex.center.y > window.innerHeight - margin
       ) {
-        stage.setX(-hex.center.x);
-        stage.setY(-hex.center.y);
+        c.x = -hex.center.x;
+        c.y = -hex.center.y;
       }
-      this.stageOffset = { x: stage.getX(), y: stage.getY() };
+      this.sceneBoundFunc(this, c);
+      stage.setX(this.stageOffset.x);
+      stage.setY(this.stageOffset.y);
+    },
+    sceneBoundFunc: (args, pos) => {
+      var bb = getters.boundingBox();
+      var margin = 34;
+      var c = {
+        x: pos.x,
+        y: pos.y
+      };
+      var screenCenter = {
+        minX: window.visualViewport.width / 2 - margin,
+        maxX: window.visualViewport.width / 2 - margin * 1.5,
+        minY: window.visualViewport.height / 2 - margin,
+        maxY: window.visualViewport.height / 2 - margin * 1.5
+      };
+      if (pos.x >= -bb.minX - screenCenter.minX) {
+        c.x = -bb.minX - screenCenter.minX;
+      } else if (-pos.x >= bb.maxX - screenCenter.maxX) {
+        c.x = -(bb.maxX - screenCenter.maxX);
+      }
+      if (pos.y >= -bb.minY - screenCenter.minY) {
+        c.y = -bb.minY - screenCenter.minY;
+      } else if (-pos.y >= bb.maxY - screenCenter.maxY) {
+        c.y = -(bb.maxY - screenCenter.maxY);
+      }
+      args.stageOffset = { x: c.x, y: c.y };
+
+      return args.stageOffset;
     }
   }
 };
