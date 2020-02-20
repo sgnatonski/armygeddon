@@ -21,28 +21,19 @@ export default [
             name: 'BHex',
             entryFileNames: `[name]-[hash].js`,
         },
-        plugins: isProduction ?
-            [
-                clear({ targets: [distDir] }),
-                commonJS(),
-                terser(),
-                htmlTemplate({
-                    template: 'src/front/app/index.html',
-                    target: `${distDir}/index.html`
-                })
-            ] :
+        plugins:
             [
                 clear({ targets: [distDir] }),
                 commonJS(),
                 htmlTemplate({
                     template: 'src/front/app/index.html',
-                    target: `${distDir}/index.html`
+                    target: `${distDir}/_coreindex.html`
                 })
-            ]
+            ].concat(isProduction ? [terser()] : [])
     },
     {
         external: ['konva', 'vue', 'vue-konva', 'vue-router', 'axios', 'jsnlog', 'bhex'],
-        input: { app : 'src/front/app/main.js' },
+        input: { app: 'src/front/app/main.js' },
         output: {
             format: 'iife',
             sourcemap: !isProduction,
@@ -58,46 +49,33 @@ export default [
                 'bhex': 'BHex'
             }
         },
-        plugins: isProduction ?
+        plugins:
             [
-                clear({ targets: [distDir] }),
                 vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
                 htmlTemplate({
-                    template: `${distDir}/index.html`,
+                    template: `${distDir}/_coreindex.html`,
                     target: `${distDir}/index.html`,
-                    attrs: [ 'defer' ],
+                    attrs: ['defer'],
                 }),
                 replace({
-                    'process.env.NODE_ENV': '"production"'
+                    'process.env.NODE_ENV': `"${isProduction ? "production" : "development"}"`
                 }),
                 resolve({
                     jsnext: true, browser: true
                 }),
-                commonJS(),
-                terser()
-            ] :
-            [
-                clear({ targets: [distDir] }),
-                vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
-                htmlTemplate({
-                    template: `${distDir}/index.html`,
-                    target: `${distDir}/index.html`,
-                    attrs: [ 'defer' ],
-                }),
-                replace({
-                    'process.env.NODE_ENV': '"development"'
-                }),
-                resolve({
-                    jsnext: true, browser: true
-                }),
-                commonJS(),
-                dev({
-                    dirs: [distDir, 'src/front/assets'],
-                    proxy: { '/*': 'localhost:3000' },
-                    port: 3001
-                }),
-                livereload(),
-            ],
+                commonJS()
+            ].concat(isProduction
+                ? [
+                    terser()
+                ]
+                : [
+                    dev({
+                        dirs: [distDir, 'src/front/assets'],
+                        proxy: { '/*': 'localhost:3000' },
+                        port: 3001
+                    }),
+                    livereload()
+                ]),
         onwarn: function (warning) {
             if (warning.code === 'THIS_IS_UNDEFINED') { return; }
 
