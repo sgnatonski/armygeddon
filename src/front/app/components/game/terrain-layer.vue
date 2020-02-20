@@ -1,6 +1,6 @@
 <template>
-  <konva-layer ref="layer">
-    <konva-group
+  <v-layer ref="layer">
+    <v-group
       v-for="hex in hexes"
       :key="hex.x + ':' + hex.y"
       :config="{
@@ -12,7 +12,7 @@
       @tap="evt => hexFocused(evt, hex)"
       @mouseenter="evt => hexFocused(evt, hex)"
     >
-      <konva-image
+      <v-image
         :config="{
         image: getHexTerrainImage(hex),
         width: 70,
@@ -28,8 +28,8 @@
       }"
       />
       <Hex />
-    </konva-group>
-  </konva-layer>
+    </v-group>
+  </v-layer>
 </template>
 
 <script>

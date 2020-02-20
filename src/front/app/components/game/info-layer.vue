@@ -1,10 +1,10 @@
 <template>
-  <konva-layer ref="layer" :config="{
+  <v-layer ref="layer" :config="{
         hitGraphEnabled : blocking
     }">
     <UnitStats :targetHex="focusHex" />
-    <konva-group v-if="blocking">
-      <konva-rect
+    <v-group v-if="blocking">
+      <v-rect
         @dragstart="handleDragStart"
         @dragend="handleDragEnd"
         :config="{
@@ -19,8 +19,8 @@
       }"
       />
       <Info :text="blockingInfo" :pos="blockingInfoPos" />
-    </konva-group>
-  </konva-layer>
+    </v-group>
+  </v-layer>
 </template>
 
 <script>

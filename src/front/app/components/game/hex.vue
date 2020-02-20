@@ -1,5 +1,5 @@
 <template>
-  <konva-shape
+  <v-shape
     :config="{
         sceneFunc: hexDrawSceneFunc,
         stroke: '#113311',
@@ -12,7 +12,7 @@
         x: x,
         y: y
       }"
-  ></konva-shape>
+  ></v-shape>
 </template>
 
 <script>

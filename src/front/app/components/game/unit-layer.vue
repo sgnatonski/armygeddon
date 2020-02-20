@@ -1,5 +1,5 @@
 <template>
-  <konva-layer ref="layer" :config="{
+  <v-layer ref="layer" :config="{
         hitGraphEnabled : false
     }">
     <Animator>
@@ -12,7 +12,7 @@
         :color="u.color"
       />
     </Animator>
-  </konva-layer>
+  </v-layer>
 </template>
 
 <script>

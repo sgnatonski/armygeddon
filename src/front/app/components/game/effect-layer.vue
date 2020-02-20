@@ -1,5 +1,5 @@
 <template>
-  <konva-fast-layer ref="layer">
+  <v-fast-layer ref="layer">
     <Hex
       v-if="highlight"
       :x="center.x + highlight.center.x"
@@ -30,7 +30,7 @@
       :fill="getFill('attacking')"
       :opacity="getOpacity('attacking')"
     />
-  </konva-fast-layer>
+  </v-fast-layer>
 </template>
 
 <script>

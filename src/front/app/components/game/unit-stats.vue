@@ -1,6 +1,6 @@
 <template>
-  <konva-group :config="{ listening: false, x: unitStatPos.x, y: unitStatPos.y }">
-    <konva-rect
+  <v-group :config="{ listening: false, x: unitStatPos.x, y: unitStatPos.y }">
+    <v-rect
       v-if="activeStats || targetStats"
       :config="{
         width: width,
@@ -19,7 +19,7 @@
         perfectDrawEnabled : false
     }"
     />
-    <konva-text
+    <v-text
       v-if="activeStats"
       :config="{
         x: !targetUnit || selectedHex.center.x <= targetHex.center.x ? 0 : width / 2,
@@ -33,7 +33,7 @@
         perfectDrawEnabled : false
     }"
     />
-    <konva-text
+    <v-text
       v-if="targetStats"
       :config="{
         x: selectedHex.center.x > targetHex.center.x ? 0 : width / 2,
@@ -47,7 +47,7 @@
         perfectDrawEnabled : false
     }"
     />
-  </konva-group>
+  </v-group>
 </template>
 
 <script>

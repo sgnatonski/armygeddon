@@ -1,6 +1,6 @@
 <template>
-  <konva-group :config="{ listening: false, x: posX, y: posY }">
-    <konva-rect
+  <v-group :config="{ listening: false, x: posX, y: posY }">
+    <v-rect
       :config="{
         width: 100,
         height: height,
@@ -18,7 +18,7 @@
         perfectDrawEnabled : false
     }"
     />
-    <konva-text
+    <v-text
       :config="{
         text: textJoined,
         fontFamily: 'Calibri',
@@ -30,7 +30,7 @@
         perfectDrawEnabled : false
     }"
     />
-  </konva-group>
+  </v-group>
 </template>
 
 <script>

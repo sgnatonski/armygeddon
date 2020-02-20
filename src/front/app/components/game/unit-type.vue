@@ -1,5 +1,5 @@
 <template>
-  <konva-group
+  <v-group
     ref="unitType"
     :config="{
         offset: {
@@ -8,7 +8,7 @@
         }
     }"
   >
-    <konva-circle
+    <v-circle
       :config="{
             radius: 10,
             fill: 'white',
@@ -22,9 +22,9 @@
             strokeHitEnabled: false,
             perfectDrawEnabled : false
         }"
-    ></konva-circle>
-    <konva-path v-for="part in parts" v-bind:key="part.index" :config="part.config"></konva-path>
-  </konva-group>
+    ></v-circle>
+    <v-path v-for="part in parts" v-bind:key="part.index" :config="part.config"></v-path>
+  </v-group>
 </template>
 
 <script>

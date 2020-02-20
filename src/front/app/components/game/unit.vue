@@ -1,5 +1,5 @@
 <template>
-  <konva-group
+  <v-group
     :config="{
         listening: false,
         x: center.x + hexCenter.x,
@@ -10,7 +10,7 @@
         }
     }"
   >
-    <konva-path
+    <v-path
       ref="direction"
       v-if="endurance"
       :config="{
@@ -22,8 +22,8 @@
         strokeHitEnabled: false,
         sceneFunc: directionSceneFunc
     }"
-    ></konva-path>
-    <konva-path
+    ></v-path>
+    <v-path
       ref="unitBack"
       :config="{
         data: getShape('unitBack'),
@@ -40,8 +40,8 @@
         strokeHitEnabled: false,
         perfectDrawEnabled : false
         }"
-    ></konva-path>
-    <konva-path
+    ></v-path>
+    <v-path
       ref="unitPath"
       v-if="endurance"
       :config="{
@@ -55,10 +55,10 @@
         strokeHitEnabled: false,
         perfectDrawEnabled : false
     }"
-    ></konva-path>
+    ></v-path>
     <UnitType v-if="endurance" :type="unit.type" />
-    <konva-group ref="health">
-      <konva-rect
+    <v-group ref="health">
+      <v-rect
         v-if="endurance"
         :config="{
             width: 2,
@@ -69,8 +69,8 @@
             strokeHitEnabled: false,
             perfectDrawEnabled : false
         }"
-      ></konva-rect>
-      <konva-shape
+      ></v-rect>
+      <v-shape
         v-if="endurance"
         :config="{
         sceneFunc: healthSceneFunc,
@@ -80,9 +80,9 @@
         strokeHitEnabled: false,
         perfectDrawEnabled : false
         }"
-      ></konva-shape>
-    </konva-group>
-  </konva-group>
+      ></v-shape>
+    </v-group>
+  </v-group>
 </template>
 
 <script>

@@ -7,8 +7,6 @@ import App from './app.vue';
 import router from './router.js';
 
 Vue.component('vue-headful', VueHeadful);
-Vue.use(VueRouter);
-Vue.use(VueKonva, { prefix: 'Konva' });
 
 //Vue.config.errorHandler = function(err, vm, info) { JL().error(err); }
 //Vue.config.warnHandler = function(msg, vm, info) { JL().warn(msg); }

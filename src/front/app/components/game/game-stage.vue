@@ -1,6 +1,6 @@
 <template>
   <ViewCull :stageOffset="stageOffset">
-    <konva-stage
+    <v-stage
       ref="stage"
       v-if="grid"
       :config="stageConfig"
@@ -18,7 +18,7 @@
       ></EffectLayer>
       <UnitLayer ref="unitLayer"></UnitLayer>
       <InfoLayer ref="infoLayer" :focusHex="focusHex" :blockingInfo="blockingInfo"></InfoLayer>
-    </konva-stage>
+    </v-stage>
   </ViewCull>
 </template>
 
