@@ -1,5 +1,6 @@
-import BHex from "../dist/bhex";
+import BHex from "bhex";
 
+// TODO: get rid of getters & actions references
 function initGrid(sceneSize, terrain, getters, actions) {
   function setSelectedHex(x, y) {
     grid.selectedHex = null;
@@ -11,7 +12,7 @@ function initGrid(sceneSize, terrain, getters, actions) {
 
   function getMoveCost(sourceHex, targetHex, range) {
     var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y));
-    var path = gridPath.filter(h => getters.terrain().find(t => t.x == h.x && t.y == h.y)) || [];
+    var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y)) || [];
     var cost = path.map(x => x.cost).reduce((a, b) => a + b, 0);
     return cost;
   }
@@ -20,7 +21,7 @@ function initGrid(sceneSize, terrain, getters, actions) {
     var unit = getters.unitAt(sourceHex.x, sourceHex.y);
     if (!unit) {
       var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y), ignoreInertia);
-      var path = gridPath.filter(h => getters.terrain().find(t => t.x == h.x && t.y == h.y));
+      var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
 
       return [sourceHex].concat(path);
     }
@@ -49,7 +50,7 @@ function initGrid(sceneSize, terrain, getters, actions) {
           gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y), ignoreInertia);
           break;
       }
-      var path = gridPath.filter(h => getters.terrain().find(t => t.x == h.x && t.y == h.y));
+      var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
 
       var inRange = path.reduce((acc, curr) => {
         var accCost = acc.map(x => x.cost).reduce((a, b) => a + b, -sourceHex.cost);
@@ -153,7 +154,7 @@ function initGrid(sceneSize, terrain, getters, actions) {
       gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), unit.range, true);
     }
 
-    return gridRange.filter(h => getters.terrain().find(t => t.x == h.x && t.y == h.y));
+    return gridRange.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
   };
 
   function getSelectedHexState() {
@@ -188,7 +189,7 @@ function initGrid(sceneSize, terrain, getters, actions) {
   };
 
   function getHexes() {
-    return getters.terrain().map(t => grid.hexes.find(h => t.x == h.x && t.y == h.y));
+    return terrain.map(t => grid.hexes.find(h => t.x == h.x && t.y == h.y));
   };
 
   var grid = new BHex.Grid(sceneSize);
@@ -204,8 +205,8 @@ function initGrid(sceneSize, terrain, getters, actions) {
     hexSelected: hexSelected,
     getSelectedHexRange: getSelectedHexRange,
     getSelectedHexState: getSelectedHexState,
-    getPathBetween: getPathInRange,
     getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new BHex.Axial(x, y)), getters.unitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
+    getPathBetween: getPathInRange,
     initDrawing: initDrawing,
     setBlocked: (posArray) => {
       var set = new Set(posArray.map(p => `${p.x}:${p.y}`));

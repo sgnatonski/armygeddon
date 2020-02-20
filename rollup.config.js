@@ -14,35 +14,48 @@ const distDir = 'src/front/dist';
 export default [
     {
         external: ['bhex'],
-        input: 'src/common/bhex/BHex.Drawing.js',
+        input: { core: 'src/common/bhex/BHex.Drawing.js' },
         output: {
-            format: 'es',
-            file: `${distDir}/bhex.js`
+            format: 'iife',
+            dir: distDir,
+            name: 'BHex',
+            entryFileNames: `[name]-[hash].js`,
         },
         plugins: isProduction ?
             [
                 clear({ targets: [distDir] }),
                 commonJS(),
-                terser()
+                terser(),
+                htmlTemplate({
+                    template: 'src/front/app/index.html',
+                    target: `${distDir}/index.html`
+                })
             ] :
             [
                 clear({ targets: [distDir] }),
-                commonJS()
+                commonJS(),
+                htmlTemplate({
+                    template: 'src/front/app/index.html',
+                    target: `${distDir}/index.html`
+                })
             ]
     },
     {
-        external: ['konva', 'vue', 'vue-konva', 'vue-router', 'axios'],
-        input: 'src/front/app/main.js',
+        external: ['konva', 'vue', 'vue-konva', 'vue-router', 'axios', 'jsnlog', 'bhex'],
+        input: { app : 'src/front/app/main.js' },
         output: {
             format: 'iife',
-            file: `${distDir}/app.js`,
             sourcemap: !isProduction,
+            dir: distDir,
+            entryFileNames: `$[name]-[hash].js`,
             globals: {
                 'konva': 'Konva',
                 'vue': 'Vue',
                 'vue-konva': 'VueKonva',
                 'vue-router': 'VueRouter',
-                'axios': 'axios'
+                'axios': 'axios',
+                'jsnlog': 'JL',
+                'bhex': 'BHex'
             }
         },
         plugins: isProduction ?
@@ -50,7 +63,7 @@ export default [
                 clear({ targets: [distDir] }),
                 vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
                 htmlTemplate({
-                    template: 'src/front/app/index.html',
+                    template: `${distDir}/index.html`,
                     target: `${distDir}/index.html`,
                     attrs: [ 'defer' ],
                 }),
@@ -67,7 +80,7 @@ export default [
                 clear({ targets: [distDir] }),
                 vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
                 htmlTemplate({
-                    template: 'src/front/app/index.html',
+                    template: `${distDir}/index.html`,
                     target: `${distDir}/index.html`,
                     attrs: [ 'defer' ],
                 }),
