@@ -31,7 +31,7 @@ export default [
             ]
     },
     {
-        external: ['konva', 'vue'],
+        external: ['konva', 'vue', 'vue-konva', 'vue-router', 'axios'],
         input: 'src/front/app/main.js',
         output: {
             format: 'iife',
@@ -39,7 +39,10 @@ export default [
             sourcemap: !isProduction,
             globals: {
                 'konva': 'Konva',
-                'vue': 'Vue'
+                'vue': 'Vue',
+                'vue-konva': 'VueKonva',
+                'vue-router': 'VueRouter',
+                'axios': 'axios'
             }
         },
         plugins: isProduction ?
