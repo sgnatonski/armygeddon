@@ -46,20 +46,8 @@ export default {
     unitRange: () => (getters.animating() ? [] : getters.currentUnitRange()),
     unitState: () => getters.currentUnitState(),
     battleState: () => getters.battleState(),
-    stageWidth: () =>
-      Math.max(
-        Math.abs(getters.boundingBox().minX) +
-          Math.abs(getters.boundingBox().maxX) +
-          60,
-        window.visualViewport.width
-      ),
-    stageHeight: () =>
-      Math.max(
-        Math.abs(getters.boundingBox().minY) +
-          Math.abs(getters.boundingBox().maxY) +
-          60,
-        window.visualViewport.width
-      ),
+    stageWidth: () => window.visualViewport.width - 20,
+    stageHeight: () => window.visualViewport.height - 20,
     stageConfig: args => {
       return {
         width: args.stageWidth,

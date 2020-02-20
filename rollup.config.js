@@ -33,7 +33,7 @@ export default [
     },
     {
         external: ['konva', 'vue', 'vue-konva', 'vue-router', 'axios', 'jsnlog', 'bhex'],
-        input: { app: 'src/front/app/main.js' },
+        input: { app: `src/front/app/main.${isProduction ? "prod" : "dev"}.js` },
         output: {
             format: 'iife',
             sourcemap: !isProduction,
@@ -51,14 +51,14 @@ export default [
         },
         plugins:
             [
+                replace({
+                    'process.env.NODE_ENV': `"${isProduction ? "production" : "development"}"`
+                }),
                 vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
                 htmlTemplate({
                     template: `${distDir}/_coreindex.html`,
                     target: `${distDir}/index.html`,
                     attrs: ['defer'],
-                }),
-                replace({
-                    'process.env.NODE_ENV': `"${isProduction ? "production" : "development"}"`
                 }),
                 resolve({
                     jsnext: true, browser: true

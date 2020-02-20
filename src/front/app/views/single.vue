@@ -27,23 +27,3 @@ export default {
   }
 };
 </script>
-
-<style>
-#battle-scene{
-  overflow: hidden;
-}
-.panel.battle-panel {
-  margin: -5px;
-  position: sticky;
-  overflow: hidden;
-}
-
-.panel.battle-panel > .slot {
-  overflow: hidden;
-  margin: -21px;
-}
-
-.panel.battle-panel > :not(.slot) {
-  z-index: 10;
-}
-</style>

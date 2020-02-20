@@ -36,11 +36,11 @@ app.set('TOKEN_SECRET', process.env.TOKEN_SECRET);
 
 app.use(favicon(path.join(__dirname, 'assets', 'favicon.png')));
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'dist'), { maxAge: '30d' }));
+app.use(express.static(path.join(__dirname, 'assets'), { maxAge: '30d' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(appCookieParser);
-app.use(express.static(path.join(__dirname, 'dist')));
-app.use(express.static(path.join(__dirname, 'assets')));
 
 var JL = require('jsnlog').JL;
 var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
