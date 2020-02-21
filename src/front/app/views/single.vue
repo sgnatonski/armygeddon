@@ -2,8 +2,8 @@
   <div id="battle-scene">
     <Panel class="battle-panel">
       <GameStage class="battle-stage"/>
+      <Menu />
     </Panel>
-    <Menu />
   </div>
 </template>
 
