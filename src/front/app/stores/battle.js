@@ -34,7 +34,7 @@ function initialState() {
         sceneSize: '',
         grid: null,
         imageShapes: [],
-        animating: false,
+        animating: true,
         pendingAnimations: {},
         battleState: '',
         battleId: '',
@@ -76,7 +76,7 @@ export const getters = {
     currentUnit: () => state.currentUnit,
     update: () => state.update,
     currentUnitRange: () => {
-        if (getters.currentUnit() && getters.isPlayerArmy(getters.currentUnit().id)) {
+        if (!state.animating && state.currentUnit && getters.isPlayerArmy(state.currentUnit.id)) {
             return state.grid.getSelectedHexRange();
             // disabled of performance reasons
             //this.path = this.grid.getPathBetween(selHex, hex);
@@ -84,7 +84,7 @@ export const getters = {
         return [];
     },
     currentUnitState: () => {
-        if (getters.currentUnit() && getters.isPlayerArmy(getters.currentUnit().id)) {
+        if (!state.animating && state.currentUnit && getters.isPlayerArmy(state.currentUnit.id)) {
             return state.grid.getSelectedHexState();
         }
         return null;
@@ -161,67 +161,50 @@ export const mutations = {
 
         var { minX, minY, maxX, maxY } = state.grid.initDrawing(state.center);
         state.boundingBox = { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
-        var y = (Math.abs(state.boundingBox.minY) + Math.abs(state.boundingBox.maxY) + 160) / 2;
-
+        
+        mutations.setSize(Math.abs(state.boundingBox.minX) + Math.abs(state.boundingBox.maxX), Math.abs(state.boundingBox.minY) + Math.abs(state.boundingBox.maxY));
+        
         if (armies.length == 2) {
             state.secondArmy = new Army(armies[1], data.unitTypes);
             state.battleState = 'ready';
             state.winningArmy = data.winningArmy;
             if (state.winningArmy) {
-                return mutations.end(data);
+                mutations.end(data);
             }
         }
-
-        mutations.setSize(Math.abs(state.boundingBox.minX) + Math.abs(state.boundingBox.maxX), Math.abs(state.boundingBox.minY) + Math.abs(state.boundingBox.maxY));
-        mutations.setCenter(getters.width() / 2, getters.height() / 2);
-        mutations.setUnitHexes();
-
-        state.grid.hexSelected();
-        var selHex = state.grid.getSelectedHex();
-        if (selHex) {
-            state.selectedHex = selHex;
-            var unit = getters.unitAt(selHex.x, selHex.y);
-            state.currentUnit = unit;
-        }
-
+        
         eventBus.on('update', mutations.update);
         eventBus.on('end', mutations.end);
+        mutations.setAnimating(false);
     },
     update(data) {
         state.update = data;
         state.battleState = 'started';
         state.unitQueue = data.unitQueue;
         state.targetUnit = data.currUnit.pos;
-
-        var delta = {
-            source: state.currentUnit.pos,
-            target: data.currUnit.pos
-        };
-
-        //setTimeout(() => eventBus.publish('battleupdated', { delta: delta, data: data }), 0);
-
-        actions.animateUnit(state.currentUnit, delta.source, delta.target);
-
-        state.currentUnit = data.nextUnit;
+        actions.animateUnit(state.currentUnit, data.currUnit.pos);
     },
     end(data) {
+        state.update = data;
         state.battleState = 'finished';
+        state.unitQueue = [];
     },
     setSize(width, height) {
         state.width = width;
         state.height = height;
-        mutations.setCenter(width / 2, height / 2);
-    },
-    setCenter(x, y) {
-        state.center = { x: x, y: y };
+        state.center = { x: width / 2, y: height / 2 };
     },
     setSelectedHex(hex) {
         state.selectedHex = hex;
-        return state.grid.hexSelected(hex);
+    },
+    setCurrentUnit(unit) {
+        var nextHex = getters.grid().getHexAt(unit.pos.x, unit.pos.y);
+        mutations.setSelectedHex(nextHex);
+        state.currentUnit = unit;
     },
     setUnitHexes() {
         state.unitHexes = getters.units().map(u => getters.grid().getHexAt(u.pos.x, u.pos.y));
-        getters.grid().setBlocked(state.unitHexes);
+        getters.grid().setBlocked(getters.units());
     },
     setPendingAnimations(unit, animation) {
         if (!unit || !animation) {
@@ -276,11 +259,8 @@ export const actions = {
     setSize(width, height) {
         mutations.setSize(width, height);
     },
-    setCenter(x, y) {
-        mutations.setCenter(x, y);
-    },
     setSelectedHex(hex) {
-        var action = mutations.setSelectedHex(hex);
+        var action = state.grid.getHexAction(hex);;
         if (action) {
             action();
         }
@@ -294,9 +274,9 @@ export const actions = {
     unitAttacking(unit, x, y) {
         R.requestAttack(state.battleId, unit.id, x, y);
     },
-    animateUnit(unit, from, to) {
+    animateUnit(unit, to) {
         var animationPath = getters.grid().getPathBetween(
-            getters.grid().getHexAt(from.x, from.y),
+            getters.grid().getHexAt(unit.pos.x, unit.pos.y),
             getters.grid().getHexAt(to.x, to.y)
         );
         mutations.setPendingAnimations(unit, animationPath);
@@ -308,14 +288,13 @@ export const actions = {
             var unit = getters.unit(upd.id);
             Object.assign(unit, upd);
         }
-        restoreUnit(getters.update().currUnit);
-        restoreUnit(getters.update().targetUnit);
-        restoreUnit(getters.update().nextUnit);
+        if (getters.update()){
+            restoreUnit(getters.update().currUnit);
+            restoreUnit(getters.update().targetUnit);
+            restoreUnit(getters.update().nextUnit);
+        }
         mutations.setUnitHexes();
         var nextUnit = getters.nextUnit();
-        var nextHex = getters.grid().getHexAt(nextUnit.pos.x, nextUnit.pos.y);
-        mutations.setSelectedHex(nextHex);
-        var nextUnitArmy = getters.army(nextUnit.id);
-        setTimeout(() => eventBus.publish('battlestate', `${nextUnitArmy.playerName} ${getters.nextUnit().type} unit is next to act`), 0);
+        mutations.setCurrentUnit(nextUnit);
     }
 }

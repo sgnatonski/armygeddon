@@ -34,17 +34,18 @@ export default {
     UnitStats
   },
   props: {
-    focusHex: Object,
-    blockingInfo: Array
+    focusHex: Object
   },
   data() {
     return {
+      blockingInfo: [],
       blockWidth: 0,
       blockHeight: 0,
       blockInfoWidth: 400
     };
   },
   computed: {
+    battleState: () => getters.battleState(),
     stageX: args =>
       args.$refs.layer
         ? args.$refs.layer.getStage().getAbsolutePosition().x
@@ -67,7 +68,27 @@ export default {
       this.blockWidth = newVal ? stage.getWidth() : 0;
       this.blockHeight = newVal ? stage.getHeight() : 0;
     },
-    
+    battleState(newVal, oldVal) {
+      switch (newVal) {
+        case "created":
+          this.blockingInfo = [
+            "Sir, You're first on the battlefield.",
+            "Hopefully the other army will arrive soon."
+          ];
+          break;
+        case "ready":
+          this.blockingInfo = [];
+          break;
+        case "started":
+          this.blockingInfo = [];
+          break;
+        case "finished":
+          this.focusHex = null;
+          this.path = [];
+          this.blockingInfo = ["", "", "Battle has ended", "", ""];
+          break;
+      }
+    }
   },
   mounted() {
     var stage = this.$refs.layer.getStage();

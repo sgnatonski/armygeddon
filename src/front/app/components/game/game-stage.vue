@@ -17,7 +17,7 @@
         :rangeType="unitState"
       ></EffectLayer>
       <UnitLayer ref="unitLayer"></UnitLayer>
-      <InfoLayer ref="infoLayer" :focusHex="focusHex" :blockingInfo="blockingInfo"></InfoLayer>
+      <InfoLayer ref="infoLayer" :focusHex="focusHex"></InfoLayer>
     </v-stage>
   </ViewCull>
 </template>
@@ -43,9 +43,8 @@ export default {
     selectedHex: () => getters.selectedHex(),
     grid: () => getters.grid(),
     center: () => getters.center(),
-    unitRange: () => (getters.animating() ? [] : getters.currentUnitRange()),
+    unitRange: () => getters.currentUnitRange(),
     unitState: () => getters.currentUnitState(),
-    battleState: () => getters.battleState(),
     stageWidth: () => Math.min(getters.width(), window.visualViewport.width),
     stageHeight: () => Math.min(getters.height(), window.visualViewport.height),
     stageConfig: args => {
@@ -58,36 +57,17 @@ export default {
     }
   },
   watch: {
-    animating(newVal, oldVal) {
-      this.listening = !newVal;
-      if (!newVal) {
-        actions.updateGrid();
-      }
+    selectedHex(newVal, oldVal) {
       this.$nextTick(() => {
-        this.centerHex(this.selectedHex);
-        this.hexFocused(this.selectedHex);
+        this.centerHex(newVal);
+        this.hexFocused(newVal);
         this.$refs.stage.getStage().batchDraw();
       });
     },
-    battleState(newVal, oldVal) {
-      switch (newVal) {
-        case "created":
-          this.blockingInfo = [
-            "Sir, You're first on the battlefield.",
-            "Hopefully the other army will arrive soon."
-          ];
-          break;
-        case "ready":
-          this.blockingInfo = [];
-          break;
-        case "started":
-          this.blockingInfo = [];
-          break;
-        case "finished":
-          this.focusHex = null;
-          this.path = [];
-          this.blockingInfo = ["", "", "Battle has ended", "", ""];
-          break;
+    animating(newVal, oldVal) {
+      this.listening = !newVal;
+      if (this.listening) {
+        actions.updateGrid();
       }
     }
   },
@@ -97,31 +77,8 @@ export default {
       focusHex: null,
       path: null,
       listening: true,
-      stageOffset: { x: 0, y: 0 },
-      blockingInfo: []
+      stageOffset: { x: 0, y: 0 }
     };
-  },
-  mounted() {
-    actions.setCenter(
-      window.visualViewport.width / 2,
-      window.visualViewport.height / 2
-    );
-    //actions.setSize(window.visualViewport.width, window.visualViewport.height);
-
-    /*window.addEventListener("resize", () => {
-      actions.setSize(
-        window.visualViewport.width,
-        window.visualViewport.height
-      );
-    });
-    window.addEventListener("fullscreenchange", () => {
-      actions.setSize(
-        window.visualViewport.width,
-        window.visualViewport.height
-      );
-    });*/
-
-    Konva.pixelRatio = 1;
   },
   methods: {
     handleDragStart() {
@@ -132,59 +89,50 @@ export default {
     },
     hexFocused(hex) {
       this.tooltip = null;
-      if (this.animating) {
-        this.focusHex = null;
-        return;
-      }
-      this.focusHex = hex;
+      this.focusHex = this.animating ? null : hex;
     },
     centerHex(hex) {
-      var stage = this.$refs.stage.getStage();
       var unit = getters.unitAt(hex.x, hex.y);
       if (!unit) {
         return;
       }
       var margin = 150;
       var center = this.center;
+      var stage = this.$refs.stage.getStage();
       var c = {
         x: stage.getX(),
         y: stage.getY()
       };
       if (
         stage.getX() + center.x + hex.center.x < margin ||
-        stage.getX() + center.x + hex.center.x > window.innerWidth - margin ||
+        stage.getX() + center.x + hex.center.x > this.stageWidth - margin ||
         stage.getY() + center.y + hex.center.y < margin ||
-        stage.getY() + center.y + hex.center.y > window.innerHeight - margin
+        stage.getY() + center.y + hex.center.y > this.stageHeight - margin
       ) {
-        c.x = -hex.center.x;
-        c.y = -hex.center.y;
+        c.x = -(center.x + hex.center.x - this.stageWidth / 2);
+        c.y = -(center.y + hex.center.y - this.stageHeight / 2);
+        this.sceneBoundFunc(this, c);
       }
-      this.sceneBoundFunc(this, c);
       stage.setX(this.stageOffset.x);
       stage.setY(this.stageOffset.y);
     },
     sceneBoundFunc: (args, pos) => {
       var bb = getters.boundingBox();
+      var center = getters.center();
       var margin = 34;
       var c = {
         x: pos.x,
         y: pos.y
       };
-      var screenCenter = {
-        minX: window.visualViewport.width / 2 - margin,
-        maxX: window.visualViewport.width / 2 - margin * 1.5,
-        minY: window.visualViewport.height / 2 - margin,
-        maxY: window.visualViewport.height / 2 - margin * 1.5
-      };
-      if (pos.x >= -bb.minX - screenCenter.minX) {
-        c.x = -bb.minX - screenCenter.minX;
-      } else if (-pos.x >= bb.maxX - screenCenter.maxX) {
-        c.x = -(bb.maxX - screenCenter.maxX);
+      if (pos.x > margin) {
+        c.x = margin;
+      } else if (-pos.x > bb.maxX + center.x - args.stageWidth + margin) {
+        c.x = -(bb.maxX + center.x - args.stageWidth + margin);
       }
-      if (pos.y >= -bb.minY - screenCenter.minY) {
-        c.y = -bb.minY - screenCenter.minY;
-      } else if (-pos.y >= bb.maxY - screenCenter.maxY) {
-        c.y = -(bb.maxY - screenCenter.maxY);
+      if (pos.y > margin) {
+        c.y = margin;
+      } else if (-pos.y > bb.maxY + center.y - args.stageHeight + margin) {
+        c.y = -(bb.maxY + center.y - args.stageHeight + margin);
       }
       args.stageOffset = { x: c.x, y: c.y };
 

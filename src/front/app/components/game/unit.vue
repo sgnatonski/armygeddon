@@ -115,7 +115,7 @@ export default {
       var angle = 60 * this.directions.length;
       context.rotate(window.Konva.getAngle(rotation));
       context.beginPath();
-      context.arc(0, 0, 32, 0, window.Konva.getAngle(angle), false);
+      context.arc(0, 0, 30, 0, window.Konva.getAngle(angle), false);
       context.lineTo(0, 0);
       context.closePath();
       context.fillStrokeShape(shape);

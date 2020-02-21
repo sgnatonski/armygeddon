@@ -2,14 +2,6 @@ import BHex from "bhex";
 
 // TODO: get rid of getters & actions references
 function initGrid(sceneSize, terrain, getters, actions) {
-  function setSelectedHex(x, y) {
-    grid.selectedHex = null;
-    if (x != undefined && y != undefined) {
-      var hex = grid.getHexAt(new BHex.Axial(x, y));
-      grid.selectedHex = hex;
-    }
-  }
-
   function getMoveCost(sourceHex, targetHex, range) {
     var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y));
     var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y)) || [];
@@ -63,13 +55,13 @@ function initGrid(sceneSize, terrain, getters, actions) {
     }
   }
 
-  function hexSelected(hex) {
-    var unit = grid.selectedHex && hex ? getters.unitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
+  function getHexAction(hex) {
+    var unit = getters.selectedHex() && hex ? getters.unitAt(getters.selectedHex().x, getters.selectedHex().y) : null;
 
     var unitState = getters.unitState(unit);
     switch (unitState) {
       case 'moving':
-        var path = getPathInRange(grid.selectedHex, hex);
+        var path = getPathInRange(getters.selectedHex(), hex);
         var lastStep = path[path.length - 1];
         if (lastStep.x == hex.x && lastStep.y == hex.y) {
           return () => actions.unitMoving(unit, hex.x, hex.y);
@@ -77,19 +69,11 @@ function initGrid(sceneSize, terrain, getters, actions) {
         break;
       case 'turning':
         return () => actions.unitTurning(unit, hex.x, hex.y);
-        break;
       case 'attacking':
-        var path = getPathInRange(grid.selectedHex, hex, unit.range, true);
+        var path = getPathInRange(getters.selectedHex(), hex, unit.range, true);
         var lastStep = path[path.length - 1];
         if (lastStep.x == hex.x && lastStep.y == hex.y) {
           return () => actions.unitAttacking(unit, hex.x, hex.y);
-        }
-        break;
-      default:
-        var unit = getters.nextUnit();
-        if (unit) {
-          var nextHex = grid.getHexAt(new BHex.Axial(unit.pos.x, unit.pos.y));
-          setSelectedHex(nextHex.x, nextHex.y);
         }
         break;
     }
@@ -128,7 +112,7 @@ function initGrid(sceneSize, terrain, getters, actions) {
   }
 
   function getSelectedHexRange() {
-    var unit = grid.selectedHex ? getters.unitAt(grid.selectedHex.x, grid.selectedHex.y) : null;
+    var unit = getters.selectedHex() ? getters.unitAt(getters.selectedHex().x, getters.selectedHex().y) : null;
     if (!unit) {
       return [];
     }
@@ -137,12 +121,12 @@ function initGrid(sceneSize, terrain, getters, actions) {
     var gridRange = [];
     if (state == 'moving') {
       if (!unit.agility) {
-        gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), unit.mobility);
+        gridRange = grid.getRange(new BHex.Axial(getters.selectedHex().x, getters.selectedHex().y), unit.mobility);
       }
       else {
         var t = getTurnCoords();
         var x = t[unit.directions[0] - 1];
-        var posStart = new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y);
+        var posStart = new BHex.Axial(getters.selectedHex().x, getters.selectedHex().y);
         var posEnd = new BHex.Axial(unit.pos.x + (x.x * (unit.mobility - 1)), unit.pos.y + (x.y * (unit.mobility - 1)));
         gridRange = grid.getConeRange(posStart, posEnd, unit.mobility);
       }
@@ -151,14 +135,14 @@ function initGrid(sceneSize, terrain, getters, actions) {
       gridRange = getTurnAngle(unit).map(a => grid.getHexAt(new BHex.Axial(unit.pos.x + a.x, unit.pos.y + a.y)));
     }
     else {
-      gridRange = grid.getRange(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y), unit.range, true);
+      gridRange = grid.getRange(new BHex.Axial(getters.selectedHex().x, getters.selectedHex().y), unit.range, true);
     }
 
     return gridRange.filter(h => terrain.find(t => t.x == h.x && t.y == h.y));
   };
 
   function getSelectedHexState() {
-    return getters.unitState(grid.selectedHex ? getters.unitAt(grid.selectedHex.x, grid.selectedHex.y) : null);
+    return getters.unitState(getters.selectedHex() ? getters.unitAt(getters.selectedHex().x, getters.selectedHex().y) : null);
   };
 
   function initDrawing(center) {
@@ -200,19 +184,19 @@ function initGrid(sceneSize, terrain, getters, actions) {
 
   return {
     getHexes: getHexes,
-    getSelectedHex: () => grid.selectedHex ? grid.getHexAt(new BHex.Axial(grid.selectedHex.x, grid.selectedHex.y)) : null,
     getHexAt: (x, y) => grid.getHexAt(new BHex.Axial(x, y)),
-    hexSelected: hexSelected,
+    getHexAction: getHexAction,
     getSelectedHexRange: getSelectedHexRange,
     getSelectedHexState: getSelectedHexState,
-    getSelectedHexMoveCost: (x, y) => grid.selectedHex ? getMoveCost(grid.selectedHex, grid.getHexAt(new BHex.Axial(x, y)), getters.unitAt(grid.selectedHex.x, grid.selectedHex.y)) : null,
+    getSelectedHexMoveCost: (x, y) => getters.selectedHex() ? getMoveCost(getters.selectedHex(), grid.getHexAt(new BHex.Axial(x, y)), getters.unitAt(getters.selectedHex().x, getters.selectedHex().y)) : null,
     getPathBetween: getPathInRange,
     initDrawing: initDrawing,
-    setBlocked: (posArray) => {
-      var set = new Set(posArray.map(p => `${p.x}:${p.y}`));
+    setBlocked: (units) => {   
+      var set = new Set(units.map(u => `${u.pos.x}:${u.pos.y}`));
       getHexes().forEach(h => {
         h.blocked = set.has(`${h.x}:${h.y}`);
       });
+
     }
   }
 }

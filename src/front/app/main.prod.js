@@ -4,6 +4,7 @@ import { JL } from 'jsnlog';
 import App from './app.vue';
 import router from './router.js';
 
+Konva.pixelRatio = 1;
 Vue.component('vue-headful', VueHeadful);
 
 Vue.config.errorHandler = function(err, vm, info) { JL().error(err); }

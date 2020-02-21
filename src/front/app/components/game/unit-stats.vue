@@ -52,7 +52,7 @@
 
 <script>
 import { getters, actions } from "../../stores/battle";
-import * as damage from "../../../../common/logic/damage_calculator";
+import damage from "../../../../common/logic/damage_calculator";
 
 export default {
   props: {
