@@ -157,13 +157,13 @@ export const mutations = {
         state.unitQueue = data.turns[data.turns.length - 1].readyUnits;
         state.firstArmy = new Army(armies[0], data.unitTypes);
 
-        state.grid = Grid(state.sceneSize, state.terrain, getters, actions);
+        state.grid = Grid(state.sceneSize, state.terrain, getters);
 
         var { minX, minY, maxX, maxY } = state.grid.initDrawing(state.center);
         state.boundingBox = { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
-        
+
         mutations.setSize(Math.abs(state.boundingBox.minX) + Math.abs(state.boundingBox.maxX), Math.abs(state.boundingBox.minY) + Math.abs(state.boundingBox.maxY));
-        
+
         if (armies.length == 2) {
             state.secondArmy = new Army(armies[1], data.unitTypes);
             state.battleState = 'ready';
@@ -172,7 +172,7 @@ export const mutations = {
                 mutations.end(data);
             }
         }
-        
+
         eventBus.on('update', mutations.update);
         eventBus.on('end', mutations.end);
         mutations.setAnimating(false);
@@ -254,15 +254,17 @@ export const actions = {
             };
             sessionStorage.setItem('battleid', data.id);
             mutations.loadData(data);
-        });        
+        });
     },
     setSize(width, height) {
         mutations.setSize(width, height);
     },
     setSelectedHex(hex) {
-        var action = state.grid.getHexAction(hex);;
-        if (action) {
-            action();
+        var action = state.grid.getHexAction(hex);
+        switch (action) {
+            case 'moving': actions.unitMoving(getters.currentUnit(), hex.x, hex.y); break;
+            case 'turning': actions.unitTurning(getters.currentUnit(), hex.x, hex.y); break;
+            case 'attacking': actions.unitAttacking(getters.currentUnit(), hex.x, hex.y); break;
         }
     },
     unitMoving(unit, x, y) {
@@ -288,13 +290,15 @@ export const actions = {
             var unit = getters.unit(upd.id);
             Object.assign(unit, upd);
         }
-        if (getters.update()){
+        if (getters.update()) {
             restoreUnit(getters.update().currUnit);
             restoreUnit(getters.update().targetUnit);
             restoreUnit(getters.update().nextUnit);
         }
         mutations.setUnitHexes();
         var nextUnit = getters.nextUnit();
-        mutations.setCurrentUnit(nextUnit);
+        if (nextUnit){
+            mutations.setCurrentUnit(nextUnit);
+        }
     }
 }

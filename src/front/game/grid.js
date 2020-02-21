@@ -1,7 +1,7 @@
 import BHex from "bhex";
 
 // TODO: get rid of getters & actions references
-function initGrid(sceneSize, terrain, getters, actions) {
+function initGrid(sceneSize, terrain, getters) {
   function getMoveCost(sourceHex, targetHex, range) {
     var gridPath = grid.findPath(new BHex.Axial(sourceHex.x, sourceHex.y), new BHex.Axial(targetHex.x, targetHex.y));
     var path = gridPath.filter(h => terrain.find(t => t.x == h.x && t.y == h.y)) || [];
@@ -64,16 +64,16 @@ function initGrid(sceneSize, terrain, getters, actions) {
         var path = getPathInRange(getters.selectedHex(), hex);
         var lastStep = path[path.length - 1];
         if (lastStep.x == hex.x && lastStep.y == hex.y) {
-          return () => actions.unitMoving(unit, hex.x, hex.y);
+          return unitState;
         }
         break;
       case 'turning':
-        return () => actions.unitTurning(unit, hex.x, hex.y);
+        return unitState;
       case 'attacking':
         var path = getPathInRange(getters.selectedHex(), hex, unit.range, true);
         var lastStep = path[path.length - 1];
         if (lastStep.x == hex.x && lastStep.y == hex.y) {
-          return () => actions.unitAttacking(unit, hex.x, hex.y);
+          return unitState;
         }
         break;
     }

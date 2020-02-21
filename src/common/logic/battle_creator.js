@@ -15,6 +15,10 @@ function battleLogic(battle, playerId, playerName, helper) {
             battle.id = crypto.randomBytes(8).toString("hex");
             battle.selfArmy = playerId;
             battle.unitTypes = unitTypes;
+            allUnits = helper.getAllUnits();
+            allUnits.forEach(u => {
+                u = uh.restore.firstTurn(u, battle.unitTypes[u.type])
+            });
             battle.turns = [{
                 readyUnits: [],
                 movedUnits: [],

@@ -100,9 +100,9 @@ export default {
     color: String
   },
   computed: {
-    directions() { return this.unit.directions; },
-    endurance() { return Math.max(0, this.unit.endurance / this.unit.lifetime.endurance); },
-    unitColor() { return this.endurance ? this.color : '#888888' }
+    directions: args => args.unit.directions,
+    endurance: args => Math.max(0, args.unit.endurance / args.unit.lifetime.endurance),
+    unitColor: args => args.endurance ? args.color : '#888888'
   },
   methods: {
     getShape: getShape,

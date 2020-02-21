@@ -2,7 +2,7 @@
   <v-group :config="{ listening: false, x: posX, y: posY }">
     <v-rect
       :config="{
-        width: 100,
+        width: width,
         height: height,
         cornerRadius: 3,
         fill: 'grey',
@@ -19,10 +19,11 @@
     }"
     />
     <v-text
+      ref="text"
       :config="{
         text: textJoined,
         fontFamily: 'Calibri',
-        fontSize: 11,
+        fontSize: 12,
         padding: 6,
         fill: '#dedede',
         listening: false,
@@ -34,18 +35,29 @@
 </template>
 
 <script>
-import { getters, actions } from "../../stores/battle";
 export default {
   props: {
     text: Array,
     pos: Object
   },
+  data() {
+    return {
+      width: 0,
+      height: 0
+    };
+  },
   computed: {
     posX: args => args.pos.x + 5,
     posY: args => args.pos.y + 5,
-    textJoined: args => (args.text || []).join("\n"),
-    height: args => 10 + (args.text.length || 1) * 11
+    textJoined: args => (args.text || []).join("\n")
   },
-  methods: {}
+  mounted() {
+    this.$nextTick(() => {
+      var textRect = this.$refs.text.getNode().getClientRect();
+      this.width = textRect.width;
+      this.height = textRect.height;
+      this.$emit('textsize', { width: textRect.width, height: textRect.height})
+    });
+  }
 };
 </script>

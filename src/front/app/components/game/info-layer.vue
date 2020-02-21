@@ -3,22 +3,24 @@
         hitGraphEnabled : blocking
     }">
     <UnitStats :targetHex="focusHex" />
-    <v-group v-if="blocking">
+    <v-group v-if="blocking" :config="{
+        x: stageX,
+        y: stageY,
+        width: width,
+        height: height}">
       <v-rect
         @dragstart="handleDragStart"
         @dragend="handleDragEnd"
         :config="{
-        x: stageX,
-        y: stageY,
-        width: blockWidth,
-        height: blockHeight,
+        width: width,
+        height: height,
         fill: 'black',
         opacity: 0.5,
         draggable: true,
         dragBoundFunc: pos => { return { x: stageX, y: stageY } }
       }"
       />
-      <Info :text="blockingInfo" :pos="blockingInfoPos" />
+      <Info :text="blockingInfo" :pos="blockingInfoPos" @textsize="blockingSizeUpdated" />
     </v-group>
   </v-layer>
 </template>
@@ -38,14 +40,13 @@ export default {
   },
   data() {
     return {
-      blockingInfo: [],
-      blockWidth: 0,
-      blockHeight: 0,
-      blockInfoWidth: 400
-    };
+      blockingInfoWidth: 0,
+      blockingInfoHeight: 0
+    }
   },
   computed: {
-    battleState: () => getters.battleState(),
+    width: () => getters.width(),
+    height: () => getters.height(),
     stageX: args =>
       args.$refs.layer
         ? args.$refs.layer.getStage().getAbsolutePosition().x
@@ -54,46 +55,35 @@ export default {
       args.$refs.layer
         ? args.$refs.layer.getStage().getAbsolutePosition().y
         : 0,
-    blocking: args => args.blockingInfo != null && args.blockingInfo.length > 0,
+    blockingInfo: () => {
+      switch (getters.battleState()) {
+        case "created":
+          return [
+            "Sir,",
+            "",
+            "You're first on the battlefield.",
+            "Hopefully the other army will arrive soon.",
+            ""
+          ];
+        case "ready":
+        case "started":
+          return [];
+        case "finished":
+          return [
+            "Sir", 
+            "", 
+            "Battle has ended", 
+            "", 
+            ""];
+      }
+    },
+    blocking: args => args.blockingInfo.length > 0,
     blockingInfoPos: args => {
       return {
-        x: args.stageX + args.blockWidth / 2 - args.blockInfoWidth / 2,
-        y: args.stageY + args.blockHeight / 2
+        x: Math.min(args.width, window.visualViewport.width) / 2 - args.blockingInfoWidth / 2,
+        y: Math.min(args.height, window.visualViewport.height) / 2 - args.blockingInfoHeight / 2
       };
     }
-  },
-  watch: {
-    blocking(newVal, oldVal) {
-      var stage = this.$refs.layer.getStage();
-      this.blockWidth = newVal ? stage.getWidth() : 0;
-      this.blockHeight = newVal ? stage.getHeight() : 0;
-    },
-    battleState(newVal, oldVal) {
-      switch (newVal) {
-        case "created":
-          this.blockingInfo = [
-            "Sir, You're first on the battlefield.",
-            "Hopefully the other army will arrive soon."
-          ];
-          break;
-        case "ready":
-          this.blockingInfo = [];
-          break;
-        case "started":
-          this.blockingInfo = [];
-          break;
-        case "finished":
-          this.focusHex = null;
-          this.path = [];
-          this.blockingInfo = ["", "", "Battle has ended", "", ""];
-          break;
-      }
-    }
-  },
-  mounted() {
-    var stage = this.$refs.layer.getStage();
-    this.blockWidth = this.blocking ? stage.getWidth() : 0;
-    this.blockHeight = this.blocking ? stage.getHeight() : 0;
   },
   methods: {
     handleDragStart(evt) {
@@ -101,6 +91,10 @@ export default {
     },
     handleDragEnd(evt) {
       evt.evt.cancelBubble = true;
+    },
+    blockingSizeUpdated(size){
+      this.blockingInfoWidth = size.width;
+      this.blockingInfoHeight = size.height;
     }
   }
 };
