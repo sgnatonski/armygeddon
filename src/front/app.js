@@ -12,7 +12,6 @@ var jwt = require('express-jwt');
 var index = require('./routes/index');
 var login = require('./routes/login');
 var singlebattle = require('./routes/single_battle');
-var single = require('./routes/single');
 var battle = require('./routes/battle');
 var design = require('./routes/design');
 var armies = require('./routes/armies');
@@ -58,14 +57,9 @@ app.use(jwt({
 
 app.use('/', index);
 app.use('/', login);
+app.use('/', battle);
 if (app.get('env') === 'development') {
   app.use('/design', design);
-  app.use('/battle', battle.dev());
-  app.use('/single', single.dev());
-}
-else {
-  app.use('/battle', battle.prod());
-  app.use('/single', single.prod());
 }
 app.use('/singlebattle', singlebattle);
 app.use('/armies', armies);

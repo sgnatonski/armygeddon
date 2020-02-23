@@ -1,4 +1,5 @@
 var express = require('express');
+var router = express.Router();
 var cote = require('cote');
 var jwt = require('jsonwebtoken');
 var token_secret = process.env.TOKEN_SECRET;
@@ -12,8 +13,6 @@ var registerRequester = new cote.Requester({
   name: 'register requester',
   namespace: 'register'
 });
-
-var router = express.Router();
 
 router.post('/login', async (req, res, next) => {
   try {

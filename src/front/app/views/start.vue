@@ -23,7 +23,7 @@
       <div class="pure-u-1 pure-u-md-1-8"></div>
       <div class="pure-u-1 pure-u-md-3-4">
         <Panel>
-          <h2>Open battles</h2>
+          <OpenBattles />
         </Panel>
       </div>
     </div>
@@ -32,11 +32,13 @@
 
 <script>
 import Ranking from "../components/ranking.vue";
+import OpenBattles from "../components/open-battles.vue";
 import Title from "../components/title.vue";
 import Panel from "../components/ui/panel.vue";
 export default {
   components: {
     Title,
+    OpenBattles,
     Ranking,
     Panel
   }

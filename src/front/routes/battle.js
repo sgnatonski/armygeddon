@@ -7,30 +7,27 @@ var battleRequester = new cote.Requester({
     namespace: 'battle'
 });
 
-function battle(prod) {
-    return function battle(req, res, next) {
-        res.render('battle', { title: 'Battle', prod: prod });
-    }
-}
+var battleTrackerRequester = new cote.Requester({
+    name: 'battle tracker requester',
+    namespace: 'battle_tracker'
+});
 
-async function start(req, res, next) {
+router.get('/open', async (req, res, next) => {
+    try {
+        var battles = await battleTrackerRequester.send({ type: 'getOpen' });
+    res.json(battles);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.post('/battle/start', async (req, res, next) => {
     try {
         var battleId = await battleRequester.send({ type: 'start', playerId: req.user.id, name: req.user.name });
         res.json(battleId);
     } catch (error) {
         next(error);
     }
-}
+});
 
-module.exports = {
-    dev: () => {
-        router.get('/', battle(false));
-        router.post('/start', start);
-        return router;
-    },
-    prod: () => {
-        router.get('/', battle(true));
-        router.post('/start', start);
-        return router;
-    }
-};
+module.exports = router;
