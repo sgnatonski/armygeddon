@@ -1,44 +1,45 @@
 <template>
   <div>
     <Title />
-    <div class="pure-g">
+    <v-content>
       <div class="pure-u-1 pure-u-sm-1-8 pure-u-md-1-4"></div>
       <div class="pure-u-1 pure-u-sm-3-4 pure-u-md-1-2">
         <Panel>
-          <h2>Register yourself, Sir</h2>
-          <div class="pure-form pure-form-aligned">
-            <fieldset>
-              <div class="pure-control-group">
-                <label for="name">Username</label>
-                <input type="text" name="name" v-model="name" placeholder="Username" />
-              </div>
-              <div class="pure-control-group">
-                <label for="mail">Email</label>
-                <input type="text" name="mail" v-model="mail" placeholder="Email" />
-              </div>
-              <div class="pure-control-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" v-model="password" placeholder="Password" />
-              </div>
-              <div class="pure-control-group">
-                <label for="confirm">Confirm password</label>
-                <input type="password" name="confirm" v-model="confirm" placeholder="Confirm password" />
-              </div>
-              <div>{{error}}</div>
-              <div>
-                <a href="#"
-                  v-on:click="register"
-                  :disabled="sending"
-                  class="btn btn_normal"
-                >Register</a>
-                <div style="margin: 0 auto; width: 16px;">or</div>
-                <router-link class="btn btn_normal" to="/login">Login</router-link>
-              </div>
-            </fieldset>
-          </div>
+          <v-container>
+            <h2>Register thyself, Sir</h2>
+            <v-row>
+              <v-col cols="12" sm="12" md="8" xl="6" offset-md="2" offset-xl="3">
+                <v-form ref="form" v-model="valid">
+                  <v-text-field label="Username" v-model="name" :rules="nameRules"></v-text-field>
+                  <v-text-field label="Email" v-model="mail" :rules="emailRules"></v-text-field>
+                  <v-text-field
+                    label="Password"
+                    type="password"
+                    v-model="password"
+                    :rules="passwordRules"
+                  ></v-text-field>
+                  <v-text-field
+                    label="Confirm password"
+                    type="password"
+                    v-model="confirm"
+                    :rules="[passwordConfirmationRule]"
+                  ></v-text-field>
+                  <v-alert v-if="error && !valid" type="error">{{error}}</v-alert>
+                  <a
+                    href="#"
+                    v-on:click="register"
+                    :disabled="!valid || sending"
+                    class="btn btn_normal"
+                  >Register</a>
+                  <div style="margin: 0 auto; width: 16px;">or</div>
+                  <router-link class="btn btn_normal" to="/login">Login</router-link>
+                </v-form>
+              </v-col>
+            </v-row>
+          </v-container>
         </Panel>
       </div>
-    </div>
+    </v-content>
   </div>
 </template>
 
@@ -58,20 +59,45 @@ export default {
       password: "",
       confirm: "",
       sending: false,
-      error: undefined
+      error: undefined,
+      valid: false,
+      nameRules: [        
+        v => !!v || "Required.",
+        v => v.length >= 5 || "Name must have at least 5 characters"
+      ],
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      ],
+      passwordRules: [
+        v => !!v || "Required.",
+        v => v.length >= 3 || "Password must have at least 3 characters"
+      ]
     };
+  },
+  computed: {
+    passwordConfirmationRule() {
+      return this.password === this.confirm || "Password must match";
+    }
   },
   methods: {
     register() {
       this.sending = true;
-      mutations.register({ name: this.name, mail: this.mail, password: this.password, confirm: this.confirm }).then(
-        r => this.$router.push("/"),
-        e => {
-          this.sending = false;
-          this.password = this.confirm = "";
-          this.error = e;
-        }
-      );
+      mutations
+        .register({
+          name: this.name,
+          mail: this.mail,
+          password: this.password,
+          confirm: this.confirm
+        })
+        .then(
+          r => this.$router.push("/"),
+          e => {
+            this.sending = false;
+            this.password = this.confirm = "";
+            this.error = e;
+          }
+        );
     }
   }
 };

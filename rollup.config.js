@@ -32,7 +32,7 @@ export default [
             ].concat(isProduction ? [terser()] : [])
     },
     {
-        external: ['konva', 'vue', 'vue-konva', 'vue-router', 'axios', 'jsnlog', 'bhex'],
+        external: ['konva', 'vue', 'vue-konva', 'vue-router', 'vuetify', 'axios', 'jsnlog', 'bhex'],
         input: { app: `src/front/app/main.${isProduction ? "prod" : "dev"}.js` },
         output: {
             format: 'iife',
@@ -42,6 +42,7 @@ export default [
             globals: {
                 'konva': 'Konva',
                 'vue': 'Vue',
+                'vuetify': 'Vuetify',
                 'vue-konva': 'VueKonva',
                 'vue-router': 'VueRouter',
                 'axios': 'axios',

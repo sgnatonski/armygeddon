@@ -43,6 +43,11 @@ body > div > div#battle-scene:before {
   filter: blur(6px);
 }
 
+#app.theme--light.v-application {
+  background-color: initial;
+  color: initial;
+}
+
 a {
   color: rgb(0, 94, 131);
   text-shadow: 1px 2px 2px #999;
