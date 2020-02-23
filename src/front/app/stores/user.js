@@ -15,7 +15,7 @@ function doesHttpOnlyCookieExist(cookiename) {
  }
 
 const state = Vue.observable({
-    name: "",
+    name: localStorage.getItem('username') || '',
     authenticated: false
 });
 
@@ -29,6 +29,7 @@ export const mutations = {
         return new Promise((resolve, reject) => {
             axios.post('/login', data).then(r => {
                 state.name = r.data.name;
+                localStorage.setItem('username', state.name);
                 state.authenticated = true;
                 resolve();
             }, e => {
@@ -41,6 +42,7 @@ export const mutations = {
         return new Promise((resolve, reject) => {
             axios.post('/register', data).then(r => {
                 state.name = r.data.name;
+                localStorage.setItem('username', state.name);
                 state.authenticated = true;
                 resolve();
             }, e => {

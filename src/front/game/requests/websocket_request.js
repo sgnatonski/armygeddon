@@ -3,6 +3,7 @@ import eventBus from "../../app/eventBus";
 import fetch from "../fetch";
 
 var ws = null;
+var wsPort = WSPORT == 'undefined' ? window.location.port : WSPORT;
 
 export function initWebSocket(){
     return new Promise((resolve, reject) => {
@@ -21,7 +22,7 @@ export function initWebSocket(){
             if (window.location.protocol === "https:") {
                 wsProtocol = 'wss';
             }
-            ws = new WebSocket(`${wsProtocol}://${window.location.hostname}:${window.location.port}?bid=${battleId}`);
+            ws = new WebSocket(`${wsProtocol}://${window.location.hostname}:${wsPort}?bid=${battleId}`);
             ws.onmessage =  (event) => {
                 var data = JSON.parse(event.data);
                 if (data.msg == 'data'){

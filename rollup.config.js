@@ -53,7 +53,9 @@ export default [
         plugins:
             [
                 replace({
-                    'process.env.NODE_ENV': `"${isProduction ? "production" : "development"}"`
+                    exclude: 'node_modules/**',
+                    'ENV': `"${isProduction ? "production" : "development"}"`,
+                    'WSPORT': `"${isProduction ? undefined : "3000"}"`
                 }),
                 vue({ needMap: false /* hack from https://github.com/vuejs/rollup-plugin-vue/issues/238 */ }),
                 htmlTemplate({

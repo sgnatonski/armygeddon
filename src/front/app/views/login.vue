@@ -39,7 +39,7 @@
 <script>
 import Title from "../components/title.vue";
 import Panel from "../components/ui/panel.vue";
-import { mutations } from "../stores/user";
+import { mutations, getters } from "../stores/user";
 export default {
   components: {
     Title,
@@ -47,7 +47,7 @@ export default {
   },
   data() {
     return {
-      name: "",
+      name: getters.name(),
       password: "",
       sending: false,
       error: undefined,
