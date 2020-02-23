@@ -7,20 +7,6 @@ networks:
     driver: overlay
 
 services:
-  lb:
-    image: dockercloud/haproxy
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager
-    networks:
-      - lb
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - 80:80
-      - 443:443
-
   app:
     networks:
       - lb
@@ -34,14 +20,14 @@ services:
     image: 127.0.1.1:5000/armygeddon_front_x64:0.2.0
     command: node front/app.js
     environment:
-      - PORT=3000
-      - SERVICE_PORTS=3000
-      - BALANCE=source
+      - PORT=80
       - TOKEN_SECRET=my secret
       - COTE_DISCOVERY_REDIS_HOST=redis
     depends_on:
       - arango
       - redis
+    ports: 
+      - 80:80
       
   login-service:
     networks:
