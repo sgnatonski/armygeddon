@@ -75,6 +75,7 @@ export default {
             "Battle has ended", 
             "", 
             ""];
+        default: return [];
       }
     },
     blocking: args => args.blockingInfo.length > 0,

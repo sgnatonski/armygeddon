@@ -96,7 +96,7 @@ export const getters = {
     unitHexes: () => state.unitHexes,
     units: () => {
         if (!state.firstArmy) {
-            return null;
+            return [];
         }
         if (!state.secondArmy) {
             return state.firstArmy.getArmy();
@@ -149,13 +149,15 @@ export const getters = {
 export const mutations = {
     loadData(data) {
         var armies = Object.keys(data.armies).map(key => data.armies[key]);
-        state.battleState = 'created';
         state.battleId = data.id;
         state.selfArmy = data.selfArmy;
         state.terrain = data.terrain;
         state.sceneSize = data.sceneSize;
         state.unitQueue = data.turns[data.turns.length - 1].readyUnits;
-        state.firstArmy = new Army(armies[0], data.unitTypes);
+        if (armies[0]){
+            state.battleState = 'created';
+            state.firstArmy = new Army(armies[0], data.unitTypes);
+        }
 
         state.grid = Grid(state.sceneSize, state.terrain, getters);
 
@@ -194,6 +196,9 @@ export const mutations = {
         state.height = height;
         state.center = { x: width / 2, y: height / 2 };
     },
+    setTerrain(terrain) {
+        state.terrain = terrain;
+    },
     setSelectedHex(hex) {
         state.selectedHex = hex;
     },
@@ -220,6 +225,12 @@ export const mutations = {
             mutations.setPendingAnimations(null);
         }
         state.animating = anim;
+    },
+    setImageShapes(images){
+        state.imageShapes = {
+            plains: images.plains,
+            forrests: images.forrests
+        };
     }
 };
 
@@ -233,11 +244,8 @@ export const actions = {
             var images = result[0];
             var data = result[1];
 
-            state.imageShapes = {
-                plains: images.plains,
-                forrests: images.forrests
-            };
             sessionStorage.setItem('singlebattleid', data.id);
+            mutations.setImageShapes(images);
             mutations.loadData(data);
         });
     },
@@ -248,11 +256,8 @@ export const actions = {
             var images = result[0];
             var data = result[1];
 
-            state.imageShapes = {
-                plains: images.plains,
-                forrests: images.forrests
-            };
             sessionStorage.setItem('battleid', data.id);
+            mutations.setImageShapes(images);
             mutations.loadData(data);
         });
     },
@@ -260,6 +265,11 @@ export const actions = {
         mutations.setSize(width, height);
     },
     setSelectedHex(hex) {
+        if (!getters.currentUnit()){
+            mutations.setSelectedHex(hex);
+            return;
+        }
+
         var action = state.grid.getHexAction(hex);
         switch (action) {
             case 'moving': actions.unitMoving(getters.currentUnit(), hex.x, hex.y); break;

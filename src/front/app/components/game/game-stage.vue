@@ -92,11 +92,10 @@ export default {
       this.focusHex = this.animating ? null : hex;
     },
     centerHex(hex) {
-      var unit = getters.unitAt(hex.x, hex.y);
-      if (!unit) {
+      if (!hex){
         return;
       }
-      var margin = 150;
+      var margin = 60;
       var center = this.center;
       var stage = this.$refs.stage.getStage();
       var c = {

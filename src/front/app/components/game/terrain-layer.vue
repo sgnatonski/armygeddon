@@ -43,7 +43,7 @@ export default {
   computed: {
     imageShapes: () => getters.imageShapes(),
     center: () => getters.center(),
-    hexes: () => (getters.grid() ? getters.grid().getHexes() : [])
+    hexes: () => (getters.grid() && getters.terrain() ? getters.grid().getHexes() : [])
   },
   methods: {
     getHexTerrainImage(hex) {

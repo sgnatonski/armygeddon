@@ -10,6 +10,7 @@
               <h2>Select battle</h2>
               <router-link to="/duel" class="btn btn_normal">Duel</router-link>
               <router-link to="/single" class="btn btn_normal">Hot seat</router-link>
+              <router-link to="/design" class="btn btn_normal">Design</router-link>
             </Panel>
           </div>
           <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-2-3">
