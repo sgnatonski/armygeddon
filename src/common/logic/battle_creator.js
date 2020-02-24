@@ -4,8 +4,9 @@ var uh = require('./unit_helper');
 
 function battleLogic(battle, playerId, playerName, helper) {
     return {
-        init: (unitTypes, army) => {
+        init: (unitTypes, army, mode) => {
             battle.created = new Date().toISOString();
+            battle.mode = mode;
             battle.armies = {};
             battle.armies[playerId] = {};
             battle.armies[playerId].units = rand(battle.terrain, army, false);

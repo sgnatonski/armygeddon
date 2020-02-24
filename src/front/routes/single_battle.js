@@ -17,7 +17,7 @@ router.post('/join/:battleid?', async (req, res, next) => {
             }
         }
 
-        var battleId = await battleRequester.send({ type: 'start', playerId: req.user.id, name: req.user.name });
+        var battleId = await battleRequester.send({ type: 'start', playerId: req.user.id, name: req.user.name, mode: 'single' });
         var battle = await battleRequester.send({ type: 'selfjoin', battleId: battleId, playerId: req.user.id, name: req.user.name });
         res.json(battle);
     } catch (error) {
@@ -27,7 +27,7 @@ router.post('/join/:battleid?', async (req, res, next) => {
 
 router.post('/:battleid/:uid/:cmd/:x/:y', async (req, res, next) => {
     try {
-        var cmd = { cmd: req.params.cmd, uid: req.params.uid, x: parseInt(req.params.x), y: parseInt(req.params.y), single: true };
+        var cmd = { cmd: req.params.cmd, uid: req.params.uid, x: parseInt(req.params.x), y: parseInt(req.params.y) };
         var result = await battleRequester.send({ type: 'process', battleId: req.params.battleid, playerId: req.user.id, name: req.user.name, cmd: cmd });
         if (result.success) {
             if (result.ended) {

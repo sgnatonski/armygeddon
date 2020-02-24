@@ -31,7 +31,7 @@ responder.on('getOpen', async () => {
     try {
         const cursor = await storage.query(aql`
         FOR b IN battles
-        FILTER !HAS(b, "winningArmy") AND DATE_DIFF(b.created, DATE_NOW(), 'i') < 60
+        FILTER b.mode != 'single' AND !HAS(b, "winningArmy") AND DATE_DIFF(b.created, DATE_NOW(), 'i') < 60
         AND (CONCAT('_', ATTRIBUTES(b.armies)[0]) != ATTRIBUTES(b.armies)[1])
         RETURN { 
             id: b._key, 

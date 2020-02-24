@@ -30,9 +30,9 @@ responder.on('start', async req => {
     var data = await storage.battleTemplates.get(`battle.${templateName}`);
     var ut = await storage.battleTemplates.get('unittypes');
     var army = await storage.armies.getBy('playerId', req.playerId);
-    var battle = battleScope(data, req.playerId, req.name).init(ut, army);
+    var battle = battleScope(data, req.playerId, req.name).init(ut, army, req.mode);
     await storage.battles.store(battle);
-    await battleTrackerRequester.send({ type: 'addOpen', battleId: battle.id, player: req.name });    
+    await battleTrackerRequester.send({ type: 'addOpen', battleId: battle.id, player: req.name });
     return battle.id;
 });
 
@@ -56,21 +56,20 @@ responder.on('selfjoin', async req => {
     army.units.forEach(x => x.id = '_' + x.id);
     var battle = battleScope(data, '_' + req.playerId, req.name).join(army);
     await storage.battles.store(battle);
-    await battleTrackerRequester.send({ type: 'updateOpen', battleId: battle.id, player: req.name });
     return battle;
 });
 
 responder.on('process', async req => {
     var data = await storage.battles.get(req.battleId);
-    // hotseat hack
-    var pid = req.playerId;
-    if (req.cmd.uid.startsWith('_') && !pid.startsWith('_')){
-        pid = '_' + pid;
+    if (data.mode == 'single') {
+        var pid = req.playerId;
+        if (req.cmd.uid.startsWith('_') && !pid.startsWith('_')) {
+            pid = '_' + pid;
+        }
+        else if (!req.cmd.uid.startsWith('_') && pid.startsWith('_')) {
+            pid = pid.substr(1);
+        }
     }
-    else if (!req.cmd.uid.startsWith('_') && pid.startsWith('_')){
-        pid = pid.substr(1);
-    }
-    // hotseat hack end
     var result = battleScope(data, pid, req.name).processCommand(req.cmd);
     if (result && result.success) {
         await storage.battles.store(result.battle);

@@ -6,7 +6,7 @@ var bv = require('./battle_validator');
 function processor(battle, playerId, helper){
     var validator = bv(battle);
     
-    function processMove (unitId, x, y, isSingle) {
+    function processMove (unitId, x, y) {
         var turn = helper.getCurrentTurn();
         var unit = helper.getPlayerUnit(playerId, unitId);
 
@@ -45,7 +45,7 @@ function processor(battle, playerId, helper){
 
         return finalize(battle, turn, unit);
     }
-    function processTurn (unitId, x, y, isSingle) {
+    function processTurn (unitId, x, y) {
         var turn = helper.getCurrentTurn();
         var unit = helper.getPlayerUnit(playerId, unitId);
 
@@ -70,7 +70,7 @@ function processor(battle, playerId, helper){
 
         return finalize(battle, turn, unit);
     }
-    function processAttack (unitId, x, y, isSingle) {
+    function processAttack (unitId, x, y) {
         var turn = helper.getCurrentTurn();
         var unit = helper.getPlayerUnit(playerId, unitId);
 
@@ -108,7 +108,7 @@ function processor(battle, playerId, helper){
         if (!isSkippingAttack && isValidAttack && inRangeAttack) {
             dmg = damage.applyDamage(unit, targetUnit);
 
-            if (!isSingle){
+            if (battle.mode == 'duel'){
                 if (targetUnit.endurance == 0){
                     unitExp = dmg;
                 }
@@ -129,13 +129,13 @@ function processor(battle, playerId, helper){
     return {
         processCommand(command){
             if (command.cmd == 'move'){
-                return processMove(command.uid, command.x, command.y, command.single);
+                return processMove(command.uid, command.x, command.y);
             }
             else if (command.cmd == 'turn'){
-                return processTurn(command.uid, command.x, command.y, command.single);
+                return processTurn(command.uid, command.x, command.y);
             }
             else if (command.cmd == 'attack'){
-                return processAttack(command.uid, command.x, command.y, command.single);
+                return processAttack(command.uid, command.x, command.y);
             }
         }
     };

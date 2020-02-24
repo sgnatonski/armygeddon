@@ -23,7 +23,7 @@ router.get('/open', async (req, res, next) => {
 
 router.post('/battle/start', async (req, res, next) => {
     try {
-        var battleId = await battleRequester.send({ type: 'start', playerId: req.user.id, name: req.user.name });
+        var battleId = await battleRequester.send({ type: 'start', playerId: req.user.id, name: req.user.name, mode: 'duel' });
         res.json(battleId);
     } catch (error) {
         next(error);
