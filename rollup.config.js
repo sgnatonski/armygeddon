@@ -6,7 +6,8 @@ import dev from 'rollup-plugin-dev'
 import livereload from 'rollup-plugin-livereload'
 import replace from '@rollup/plugin-replace'
 import { terser } from "rollup-plugin-terser";
-import clear from 'rollup-plugin-clear'
+import clear from 'rollup-plugin-clear';
+import pkg from "./package.json";
 
 const isProduction = process.env.production;
 const distDir = 'src/front/dist';
@@ -62,6 +63,7 @@ export default [
                     template: `${distDir}/_coreindex.html`,
                     target: `${distDir}/index.html`,
                     attrs: ['defer'],
+                    replaceVars: { '__CACHE_BUST__': pkg.version }
                 }),
                 resolve({
                     jsnext: true, browser: true
