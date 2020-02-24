@@ -94,6 +94,12 @@ export default {
         : { x: 0, y: 0 }
   },
   watch: {
+    animating(newVal, oldVal) {
+      if (newVal){
+        this.activeStats = null;
+        this.targetStats = null;
+      }
+    },
     targetHex(newVal, oldVal) {
       this.targetStats = null;
       if (!newVal || !this.activeUnit) {
