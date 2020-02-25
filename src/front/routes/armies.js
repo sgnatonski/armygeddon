@@ -10,7 +10,7 @@ var armyRequester = new cote.Requester({
 router.get('/', async (req, res, next) => {
   try {
     var armies = await armyRequester.send({ type: 'armies', playerId: req.user.id });
-    res.render('armies', { title: 'Armies', armies: armies });
+    res.json(armies);
   } catch (error) {
     next(error);
   }

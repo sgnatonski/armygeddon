@@ -4,7 +4,7 @@ import Login from "./views/login.vue";
 import Register from "./views/register.vue";
 import Tutorial from "./views/tutorial.vue";
 import Start from "./views/start.vue";
-import Battle from "./views/battle.vue";
+import Army from "./views/army.vue";
 import Single from "./views/single.vue";
 import Duel from "./views/duel.vue";
 import Design from "./views/design.vue";
@@ -27,7 +27,7 @@ const routes = [
     { path: '/register', component: Register },
     { path: '/tutorial', component: Tutorial, beforeEnter: ifAuthenticated },
     { path: '/start', component: Start, beforeEnter: ifAuthenticated },
-    { path: '/battle', component: Battle, beforeEnter: ifAuthenticated },
+    { path: '/army', component: Army, beforeEnter: ifAuthenticated },
     { path: '/single', component: Single, beforeEnter: ifAuthenticated },
     { path: '/duel', component: Duel, beforeEnter: ifAuthenticated },
     { path: '/design', component: Design, beforeEnter: ifAuthenticated },

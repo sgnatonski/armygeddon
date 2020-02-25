@@ -15,7 +15,7 @@ var battleTrackerRequester = new cote.Requester({
 router.get('/open', async (req, res, next) => {
     try {
         var battles = await battleTrackerRequester.send({ type: 'getOpen' });
-    res.json(battles);
+        res.json(battles);
     } catch (error) {
         next(error);
     }

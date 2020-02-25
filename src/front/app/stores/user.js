@@ -5,14 +5,14 @@ function doesHttpOnlyCookieExist(cookiename) {
     var d = new Date();
     d.setTime(d.getTime() + (1000));
     var expires = "expires=" + d.toUTCString();
- 
+
     document.cookie = cookiename + "=undefined;path=/;" + expires;
     if (document.cookie.indexOf(cookiename + '=') == -1) {
         return true;
-     } else {
+    } else {
         return false;
-     }
- }
+    }
+}
 
 const state = Vue.observable({
     name: localStorage.getItem('username') || '',

@@ -18,19 +18,14 @@
 
               <v-list-item-action>
                 <v-list-item-action-text v-text="item.created"></v-list-item-action-text>
-                <v-icon
-                  v-if="!active"
-                  color="grey lighten-1"
-                >
-                  star_border
-                </v-icon>
-
-                <v-icon
-                  v-else
-                  color="yellow"
-                >
-                  star
-                </v-icon>
+                <v-btn-toggle v-if="active" dense tile>
+                  <v-btn @click="watch(item)">
+                    <v-icon>mdi-eye</v-icon>
+                  </v-btn>
+                  <v-btn @click="join(item)">
+                    <v-icon>mdi-sword</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
               </v-list-item-action>
             </template>
           </v-list-item>
@@ -63,6 +58,14 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer);
+  },
+  methods:{
+    watch(item){
+      actions.watchBattle(item).then(() => this.$router.push("/duel"));
+    },
+    join(item){
+      actions.joinBattle(item).then(() => this.$router.push("/duel"));
+    }
   }
 };
 </script>

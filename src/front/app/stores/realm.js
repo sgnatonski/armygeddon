@@ -22,5 +22,17 @@ export const actions ={
                 reject();
             });
         });
+    },
+    joinBattle(battle){
+        return new Promise((resolve, reject) => {
+            sessionStorage.setItem('battle', battle.id);
+            resolve();
+        });
+    },
+    watchBattle(battle){
+        return new Promise((resolve, reject) => {
+            sessionStorage.setItem('battle', battle.id);
+            resolve();
+        });
     }
 };
