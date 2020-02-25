@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "@internal/front": "file:src/front",
-    "@internal/services": "file:src/services"
+    "@internal/services": "file:src/services",
+    "brain.js": "^2.0.0-alpha.12"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.2",
