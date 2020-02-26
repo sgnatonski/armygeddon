@@ -10,6 +10,7 @@ import Duel from "./views/duel.vue";
 import Design from "./views/design.vue";
 import Error from "./views/error.vue";
 import NotFount from "./views/notfound.vue";
+import PatternTester from "./views/pattern-tester.vue";
 
 import { getters } from "./stores/user";
 
@@ -31,6 +32,7 @@ const routes = [
     { path: '/single', component: Single, beforeEnter: ifAuthenticated },
     { path: '/duel', component: Duel, beforeEnter: ifAuthenticated },
     { path: '/design', component: Design, beforeEnter: ifAuthenticated },
+    { path: '/pattern-tester', component: PatternTester, beforeEnter: ifAuthenticated },
     { path: "/error", name: 'error', component: Error, props: true },
     { path: "*", component: NotFount }
 ]

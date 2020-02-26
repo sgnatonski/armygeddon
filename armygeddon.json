@@ -106,6 +106,18 @@
                 "ARANGO_USER": "",
                 "ARANGO_PASS": ""
             }
+        },
+        {
+            "name": "pattern-service",
+            "script": "src/services/pattern-service.js",
+            "watch": "src/services/pattern-service.js",
+            "node_args": "--inspect=localhost:9230",
+            "env": {
+                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_DB": "armygeddon",
+                "ARANGO_USER": "",
+                "ARANGO_PASS": ""
+            }
         }
     ]
 }
