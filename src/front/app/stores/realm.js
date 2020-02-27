@@ -25,13 +25,13 @@ export const actions ={
     },
     joinBattle(battle){
         return new Promise((resolve, reject) => {
-            sessionStorage.setItem('battle', battle.id);
+            sessionStorage.setItem('battleid', battle.id);
             resolve();
         });
     },
     watchBattle(battle){
         return new Promise((resolve, reject) => {
-            sessionStorage.setItem('battle', battle.id);
+            sessionStorage.setItem('battleid', battle.id);
             resolve();
         });
     }
