@@ -34,9 +34,9 @@ responder.on('login', async req => {
         if (!req.user.password || !req.user.name) {
             return null;
         }
-        var user = await users.getBy('name', req.user.name);
+        var user = await storage.users.getBy('name', req.user.name);
         if (!user) {
-            user = await users.getBy('mail', req.user.name);
+            user = await storage.users.getBy('mail', req.user.name);
         }
         if (!user || !await bcrypt.compare(req.user.password, user.pwdHash)) {
             return null;

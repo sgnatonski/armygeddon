@@ -132,6 +132,23 @@ services:
       - arango
       - redis
 
+    ruleset-service:
+      networks:
+        - internal
+      deploy:
+        placement:
+          constraints:
+            - node.labels.arch == arm6
+      image: 127.0.1.1:5000/armygeddon_srv_arm6:0.2.0
+      command: node services/ruleset-service.js
+      environment:
+        - COTE_DISCOVERY_REDIS_HOST=redis
+        - ARANGO_URL=http://arango:8529
+        - ARANGO_DB=armygeddon
+      depends_on:
+        - arango
+        - redis
+
   pattern-service:
     networks:
       - internal

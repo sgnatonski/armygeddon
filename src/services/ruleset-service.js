@@ -102,6 +102,7 @@ responder.on('calculatePlayer', async req => {
         };
 
         await storage.rulesets.store(ruleset);
+        return ruleset;
     }
     catch (error) {
         log.error(error.message);

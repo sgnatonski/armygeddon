@@ -114,4 +114,4 @@ async function init() {
     return db;
 };
 
-module.exports = init();
+module.exports = init;

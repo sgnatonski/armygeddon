@@ -1,6 +1,5 @@
 var validator = require('validator');
 var storage = require('../storage/arango/arango_storage');
-var users = storage.users;
 
 module.exports = async function validateRegistration(reg) {
     if (!reg.password || reg.password.length < 3) {
@@ -19,12 +18,12 @@ module.exports = async function validateRegistration(reg) {
         return { error: 'Email is required' };
     }
 
-    var existing = await users.getBy('name', reg.name);
+    var existing = await storage.users.getBy('name', reg.name);
     if (existing) {
         return { error: 'User name conflict' };
     }
 
-    existing = await users.getBy('mail', reg.mail);
+    existing = await storage.users.getBy('mail', reg.mail);
     if (existing) {
         return { error: 'Email conflict' };
     }

@@ -46,7 +46,8 @@ async function assignNextCoords() {
             FILTER t.sides[*].active ANY == false
             LET sides = (FOR s in t.sides FILTER s.active == false RETURN DISTINCT POSITION(t.sides, s, true))
             RETURN { 
-                tile: t,
+                id: t._key,
+                coord: t.coord,
                 sides: sides
             } 
             `);

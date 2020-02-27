@@ -2,6 +2,8 @@ var db = require('./init_database');
 var aql = require("arangojs").aql;
 var log = require('../../logger');
 
+const dbPromise = db();
+
 function undoc(doc){
     doc.id = doc._key;
     delete doc._key;
@@ -17,7 +19,7 @@ async function get(id) {
     }
 
     try {    
-        var collection = (await db).collection(this);
+        var collection = (await dbPromise).collection(this);
         var doc = await collection.document(id);
         return undoc(doc);
     }
@@ -34,7 +36,7 @@ async function getBy(prop, val) {
     var example = {};
     example[prop] = val;
     try {    
-        var collection = (await db).collection(this);
+        var collection = (await dbPromise).collection(this);
         var doc = await collection.firstExample(example);
         return undoc(doc);
     }
@@ -51,7 +53,7 @@ async function getAllBy(prop, val) {
     var example = {};
     example[prop] = val;
     try {    
-        var collection = (await db).collection(this);
+        var collection = (await dbPromise).collection(this);
         var docs = await collection.byExample(example);
         return docs.map(d => undoc(d));
     }
@@ -67,7 +69,7 @@ async function getAllBy(prop, val) {
 async function store(data) {
     data._key = data.id;
     var existing = await exists.bind(this)(data._key);
-    var collection = (await db).collection(this);
+    var collection = (await dbPromise).collection(this);
     if (existing){
         collection.update(data._key, data);        
     }
@@ -100,7 +102,7 @@ module.exports = {
     models: interface("models"),
     rulesets: interface("rulesets"),
     query: async(...args) => {
-        var d = await db;
+        var d = await dbPromise;
         return await d.query.bind(d)(...args);
     }
 };

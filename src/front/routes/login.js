@@ -33,7 +33,7 @@ router.post('/register', async (req, res, next) => {
   try {
     var user = await playerRequester.send({ type: 'register', user: req.body });
 
-    var token = jwt.sign({ id: userId, name: user.name }, token_secret, {
+    var token = jwt.sign({ id: user.id, name: user.name }, token_secret, {
       expiresIn: 86400000 // expires in 24 hours
     });
 
