@@ -11,31 +11,6 @@
             }
         },
         {
-            "name": "login-service",
-            "script": "src/services/login-service.js",
-            "watch": "src/services/login-service.js",
-            "node_args": "--inspect=localhost:9221",
-            "env": {
-                "ARANGO_URL": "http://localhost:8529",
-                "ARANGO_DB": "armygeddon",
-                "ARANGO_USER": "",
-                "ARANGO_PASS": "",
-                "ARANGO_INIT": "1"
-            }
-        },
-        {
-            "name": "register-service",
-            "script": "src/services/register-service.js",
-            "watch": "src/services/register-service.js",
-            "node_args": "--inspect=localhost:9223",
-            "env": {
-                "ARANGO_URL": "http://localhost:8529",
-                "ARANGO_DB": "armygeddon",
-                "ARANGO_USER": "",
-                "ARANGO_PASS": ""
-            }
-        },
-        {
             "name": "army-service",
             "script": "src/services/army-service.js",
             "watch": "src/services/army-service.js",
@@ -109,8 +84,8 @@
         },
         {
             "name": "pattern-service",
-            "script": "src/services/pattern-service.js",
-            "watch": "src/services/pattern-service.js",
+            "script": "src/ai_services/pattern-service.js",
+            "watch": "src/ai_services/pattern-service.js",
             "node_args": "--inspect=localhost:9230",
             "env": {
                 "ARANGO_URL": "http://localhost:8529",

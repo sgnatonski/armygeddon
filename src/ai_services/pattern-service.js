@@ -1,7 +1,6 @@
 var cote = require('cote');
 const brain = require('brain.js');
 var storage = require('@internal/common/storage/arango/arango_storage');
-const armytypesdata = require('./dl_data/armytypes.json');
 
 function character(strings) {
     return strings
@@ -68,6 +67,7 @@ subscriber.on('*', console.log);
 
 subscriber.on('train', async req => {
     if (req == 'armytypes') {
+        const armytypesdata = require('./dl_data/armytypes.json');
         const net = new brain.NeuralNetwork({
             //activation: 'sigmoid',
             hiddenLayers: [14, 14]

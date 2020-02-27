@@ -4,19 +4,14 @@ var cote = require('cote');
 var jwt = require('jsonwebtoken');
 var token_secret = process.env.TOKEN_SECRET;
 
-var loginRequester = new cote.Requester({
-  name: 'login requester',
-  namespace: 'login'
-});
-
-var registerRequester = new cote.Requester({
-  name: 'register requester',
-  namespace: 'register'
+var playerRequester = new cote.Requester({
+  name: 'player requester',
+  namespace: 'player'
 });
 
 router.post('/login', async (req, res, next) => {
   try {
-    var user = await loginRequester.send({ type: 'login', user: req.body });
+    var user = await playerRequester.send({ type: 'login', user: req.body });
     if (!user) {
       var err = new Error('User not found'); 
       err.status = 401;
@@ -36,7 +31,7 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/register', async (req, res, next) => {
   try {
-    var user = await registerRequester.send({ type: 'register', user: req.body });
+    var user = await playerRequester.send({ type: 'register', user: req.body });
 
     var token = jwt.sign({ id: userId, name: user.name }, token_secret, {
       expiresIn: 86400000 // expires in 24 hours

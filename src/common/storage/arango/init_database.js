@@ -104,6 +104,7 @@ async function init() {
         await ensureCollectionExists(db, 'inits');
         await ensureCollectionExists(db, 'map');
         await ensureCollectionExists(db, 'models');
+        await ensureCollectionExists(db, 'rulesets');
         await createInitData(db);
         if (process.env.FAKER_SEED) {
             //await createRandomData(db);

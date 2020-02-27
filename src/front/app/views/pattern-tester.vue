@@ -47,7 +47,7 @@
         color="green darken-3"
         track-color="gray"
         @end="update"
-        label="Org"
+        label="Score"
       ></v-range-slider>
       <v-range-slider
         v-model="param[4]"
@@ -59,7 +59,7 @@
         color="green darken-3"
         track-color="gray"
         @end="update"
-        label="Mob"
+        label="Org"
       ></v-range-slider>
       <v-range-slider
         v-model="param[5]"
@@ -71,10 +71,22 @@
         color="green darken-3"
         track-color="gray"
         @end="update"        
-        label="Def"
+        label="Mob"
       ></v-range-slider>
       <v-range-slider
         v-model="param[6]"
+        :min="0"
+        :max="8"
+        step="1"
+        ticks="always"
+        tick-size="4"
+        color="green darken-3"
+        track-color="gray"
+        @end="update"
+        label="Def"
+      ></v-range-slider>
+      <v-range-slider
+        v-model="param[7]"
         :min="0"
         :max="8"
         step="1"
@@ -131,6 +143,7 @@ export default {
   },
   data: () => ({
     param: [
+      [0, 8],
       [0, 8],
       [0, 8],
       [0, 8],

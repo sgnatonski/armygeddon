@@ -1,6 +1,10 @@
 var cote = require('cote');
-var storage = require('@internal/common/storage/arango/arango_storage');
+var crypto = require("crypto");
+var bcrypt = require("bcryptjs");
+var util =  require('util');
 var aql = require("arangojs").aql;
+var validateRegistration = require('@internal/common/logic/registration_validator');
+var storage = require('@internal/common/storage/arango/arango_storage');
 var log = require('@internal/common/logger');
 
 var players = [];
@@ -10,10 +14,75 @@ var lastFetch = new Date().setMinutes(-30);
 var responder = new cote.Responder({
     name: 'player responder',
     namespace: 'player',
-    respondsTo: ['getRanking']
+    respondsTo: ['login', 'register', 'getRanking']
+});
+
+var armyRequester = new cote.Requester({
+    name: 'army requester',
+    namespace: 'army'
+});
+
+var rulesetRequester = new cote.Requester({
+    name: 'ruleset requester',
+    namespace: 'ruleset'
 });
 
 responder.on('*', console.log);
+
+responder.on('login', async req => {
+    try {
+        if (!req.user.password || !req.user.name) {
+            return null;
+        }
+        var user = await users.getBy('name', req.user.name);
+        if (!user) {
+            user = await users.getBy('mail', req.user.name);
+        }
+        if (!user || !await bcrypt.compare(req.user.password, user.pwdHash)) {
+            return null;
+        }
+
+        return user;
+    }
+    catch (err) {
+        throw util.inspect(err);
+    }
+});
+
+responder.on('register', async req => {
+    var validation = await validateRegistration(req.user);
+    if (!validation.ok) {
+        var err = new Error(validation.error);
+        err.status = 422;
+        throw err;
+    }
+
+    try {
+        var userId = crypto.randomBytes(8).toString("hex");
+        
+        await rulesetRequester.send({ type: 'calculatePlayer', userId: userId });
+        var tiles = await armyRequester.send({ type: 'create', userId: userId });
+
+        var user = {
+            id: userId,
+            name: req.user.name,
+            mail: req.user.mail,
+            pwdHash: await bcrypt.hash(req.user.password, 8),
+            created: new Date().toISOString(),
+            area: {
+                name: `Area of ${req.user.name}`,
+                tiles: tiles
+            }
+        };
+
+        await storage.users.store(user);
+
+        return user;
+    } catch (error) {
+        log.error(error);
+        throw error;
+    }
+});
 
 responder.on('getRanking', async () => {
     if (lastFetch >= new Date().setMinutes(-30)){
