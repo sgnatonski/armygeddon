@@ -1,12 +1,11 @@
 {
-  "name": "@internal/services",
+  "name": "@internal/ai_services",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
     "@internal/common": "file:../common",
-    "bcryptjs": "^2.4.3",
     "cote": "^1.0.0",
     "debug": "^2.6.9",
-    "timeago.js": "^3.0.2"
+    "brain.js": "^2.0.0-alpha.12"
   }
 }

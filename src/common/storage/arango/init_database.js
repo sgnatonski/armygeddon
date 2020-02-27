@@ -1,5 +1,4 @@
 var arangojs = require("arangojs");
-var faker = require('faker');
 var log = require('../../logger');
 
 async function ensureDbExists(db, dbname) {

@@ -4,29 +4,35 @@ services:
     build:
       context: .
       target: front_x64
-      dockerfile: Dockerfile.front
+      dockerfile: src/front/Dockerfile
     image: ${REPO_URL}/armygeddon_front_x64:${VERSION}    
   front_arm7:
     build:
       context: .
       target: front_arm7
-      dockerfile: Dockerfile.front 
+      dockerfile: src/front/Dockerfile 
     image: ${REPO_URL}/armygeddon_front_arm7:${VERSION}
   services_x64:
     build:
       context: .
       target: services_x64      
-      dockerfile: Dockerfile.srv
+      dockerfile: src/services/Dockerfile
     image: ${REPO_URL}/armygeddon_srv_x64:${VERSION}
   services_arm7:
     build:
       context: .
       target: services_arm7
-      dockerfile: Dockerfile.srv
+      dockerfile: src/services/Dockerfile
     image: ${REPO_URL}/armygeddon_srv_arm7:${VERSION}
   services_arm6:
     build:
       context: .
       target: services_arm6
-      dockerfile: Dockerfile.srv
+      dockerfile: src/services/Dockerfile
     image: ${REPO_URL}/armygeddon_srv_arm6:${VERSION}
+  ai_services_x64:
+    build:
+      context: .
+      target: ai_services_x64      
+      dockerfile: src/ai_services/Dockerfile
+    image: ${REPO_URL}/armygeddon_srvai_x64:${VERSION}
