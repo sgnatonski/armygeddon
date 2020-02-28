@@ -116,7 +116,7 @@
                 <v-list dense>
                   <v-list-item>
                     <v-list-item-content>Influence:</v-list-item-content>
-                    <v-list-item-content class="align-end">{{ item.prob.toFixed(3) }}</v-list-item-content>
+                    <v-list-item-content class="align-end">{{ item.influence.toFixed(0) }}</v-list-item-content>
                   </v-list-item>
 
                   <v-list-item>

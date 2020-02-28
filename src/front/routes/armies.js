@@ -38,15 +38,7 @@ router.get('/trainarmytypes', async (req, res, next) => {
 
 router.post('/matchunit', async (req, res, next) => {
   try {
-    function convertRangeToChar(range){
-      var char = '.'.repeat(range[0]);
-      for(var i = range[0]; i <= range[1]; i++){
-        char += '#';
-      }
-      return char.padEnd(9, '.');
-    }
-    var pattern = req.body.map(p => convertRangeToChar(p));
-    var result = await patternRequester.send({ type: 'getMatchingUnitPattern', pattern: pattern });
+    var result = await patternRequester.send({ type: 'getMatchingUnitPattern', pattern: req.body });
     res.json(result);
   } catch (error) {
     next(error);

@@ -28,13 +28,20 @@ function sortObject(obj) {
         if (obj.hasOwnProperty(prop)) {
             arr.push({
                 'key': prop,
-                'prob': obj[prop],
-                'cost': 1 - Math.ceil(obj[prop] * 100) / 100
+                'prob': obj[prop]
             });
         }
     }
     arr.sort((a, b) => b.prob - a.prob);
     return arr;
+}
+
+function toInfluence(obj){
+    return {
+        key: obj.key,
+        influence: Math.sqrt(obj.prob * 10000) * 10,
+        cost: Math.max(0.5, 1 - obj.prob * 0.5)
+    };
 }
 
 var responder = new cote.Responder({
@@ -53,8 +60,17 @@ responder.on('getMatchingUnitPattern', async req => {
         const net = new brain.NeuralNetwork();
         armytypesNN = net.fromJSON(model.model);
     }
-    const prob = sortObject(armytypesNN.run(character(req.pattern)));
-    return prob;
+    function convertRangeToChar(range){
+        var char = '.'.repeat(range[0]);
+        for(var i = range[0]; i <= range[1]; i++){
+          char += '#';
+        }
+        return char.padEnd(9, '.');
+      }
+      var p = req.pattern.map(p => convertRangeToChar(p));
+
+    const prob = sortObject(armytypesNN.run(character(p)));
+    return prob.map(p => toInfluence(p));
 });
 
 var subscriber = new cote.Subscriber({
