@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <v-row>
+    <v-col cols="12" xs="12" lg="8" xl="6" offset-lg="2" offset-xl="3">
     <Panel>
       <v-range-slider
         v-model="param[0]"
@@ -130,7 +131,8 @@
         </template>
       </v-data-iterator>
     </Panel>
-  </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

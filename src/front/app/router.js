@@ -7,6 +7,7 @@ import Start from "./views/start.vue";
 import Army from "./views/army.vue";
 import Single from "./views/single.vue";
 import Duel from "./views/duel.vue";
+import RealmMap from "./views/map.vue";
 import Design from "./views/design.vue";
 import Error from "./views/error.vue";
 import NotFount from "./views/notfound.vue";
@@ -31,6 +32,7 @@ const routes = [
     { path: '/army', component: Army, beforeEnter: ifAuthenticated },
     { path: '/single', component: Single, beforeEnter: ifAuthenticated },
     { path: '/duel', component: Duel, beforeEnter: ifAuthenticated },
+    { path: '/map', component: RealmMap, beforeEnter: ifAuthenticated },
     { path: '/design', component: Design, beforeEnter: ifAuthenticated },
     { path: '/pattern-tester', component: PatternTester, beforeEnter: ifAuthenticated },
     { path: "/error", name: 'error', component: Error, props: true },

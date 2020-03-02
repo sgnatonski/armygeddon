@@ -7,9 +7,13 @@ var requester = new cote.Requester({
   namespace: 'map'
 });
 
-router.get('/', async function(req, res, next) {    
-    var map = await requester.send({ type: 'get' });
-    res.render('map', { title: 'Map', map: map } );
-  });
-  
-  module.exports = router;
+router.get('/', async (req, res, next) => {
+  try {
+    var map = await requester.send({ type: 'get', userId: req.user.id });
+    res.json(map);
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = router;

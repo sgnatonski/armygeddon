@@ -1,4 +1,5 @@
 var arangojs = require("arangojs");
+
 var log = require('../../logger');
 
 async function ensureDbExists(db, dbname) {
@@ -16,6 +17,20 @@ async function ensureCollectionExists(db, colname) {
     var cols = await db.collections();
     if (!cols.some(n => n.name == colname)) {
         await db.collection(colname).create();
+    }
+}
+
+async function ensureGraphExists(db, graphName) {
+    console.log(graphName);
+    const graph = db.graph(graphName);
+    if (!await graph.exists()) {
+        await graph.create({
+            edgeDefinitions: [{
+              collection: 'passages',
+              from: ['tiles'],
+              to: ['tiles']
+            }]
+        });
     }
 }
 
@@ -105,6 +120,7 @@ async function init() {
         await ensureCollectionExists(db, 'map');
         await ensureCollectionExists(db, 'models');
         await ensureCollectionExists(db, 'rulesets');
+        await ensureGraphExists(db, 'map');
         await createInitData(db);
         if (process.env.FAKER_SEED) {
             //await createRandomData(db);

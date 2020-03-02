@@ -14,8 +14,18 @@ function undoc(doc){
 
 async function get(id) {
     if (!id) {
-        log.warn(`Requested empty "${this}" collection key`);
-        return null;
+        try {    
+            var collection = (await dbPromise).collection(this);
+            var docs = await collection.all();
+            return docs.map(d => undoc(d));
+        }
+        catch(err) {
+            if (err.code == 404){
+                log.warn(`${err.errorNum == 1202 ? "Document": "Collection"} "${this}" not found`);
+                return null;
+            }
+            throw err;
+        }
     }
 
     try {    
@@ -80,7 +90,12 @@ async function store(data) {
 }
 
 async function exists(id) {
-    return await get.bind(this)(id) ? true : false;
+    var collection = (await dbPromise).collection(this);
+    return await collection.documentExists(id);
+}
+
+async function graph(){
+    return await (await dbPromise).graph(this);
 }
 
 var interface = (colName) => {
@@ -89,7 +104,8 @@ var interface = (colName) => {
         store: store.bind(colName),
         exists: exists.bind(colName),
         getBy: getBy.bind(colName),
-        getAllBy: getAllBy.bind(colName)
+        getAllBy: getAllBy.bind(colName),
+        graph: graph.bind(colName)
     }
 };
 
@@ -98,7 +114,7 @@ module.exports = {
     battles: interface("battles"),
     users: interface("users"),
     armies: interface("armies"),
-    map: interface("map"),
+    map: interface("map").graph(),
     models: interface("models"),
     rulesets: interface("rulesets"),
     query: async(...args) => {

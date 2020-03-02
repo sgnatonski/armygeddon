@@ -7,7 +7,8 @@
             "node_args": "--inspect=localhost:9220",
             "env": {
                 "PORT" : "3000",
-                "TOKEN_SECRET": "my secret"
+                "TOKEN_SECRET": "my secret",
+                "COTE_HELLO_LOGS_ENABLED": 0
             }
         },
         {
@@ -16,10 +17,11 @@
             "watch": "src/services/army-service.js",
             "node_args": "--inspect=localhost:9224",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
-                "ARANGO_PASS": ""
+                "ARANGO_PASS": "",
+                "COTE_HELLO_LOGS_ENABLED": 0
             }
         },
         {
@@ -28,10 +30,11 @@
             "watch": "src/services/battle-tracker-service.js",
             "node_args": "--inspect=localhost:9225",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
-                "ARANGO_PASS": ""
+                "ARANGO_PASS": "",
+                "COTE_HELLO_LOGS_ENABLED": 0
             }
         },
         {
@@ -40,10 +43,11 @@
             "watch": "src/services/player-service.js",
             "node_args": "--inspect=localhost:9226",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
-                "ARANGO_PASS": ""
+                "ARANGO_PASS": "",
+                "COTE_HELLO_LOGS_ENABLED": 0
             }
         },
         {
@@ -52,10 +56,11 @@
             "watch": "src/services/battle-service.js",
             "node_args": "--inspect=localhost:9227",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
-                "ARANGO_PASS": ""
+                "ARANGO_PASS": "",
+                "COTE_HELLO_LOGS_ENABLED": 0
             }
         },
         {
@@ -64,10 +69,12 @@
             "watch": "src/services/map-service.js",
             "node_args": "--inspect=localhost:9228",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
-                "ARANGO_PASS": ""
+                "ARANGO_PASS": "",
+                "ARANGO_INIT": 1,
+                "COTE_HELLO_LOGS_ENABLED": 0
             }
         },
         {
@@ -76,10 +83,11 @@
             "watch": "src/services/battle-template-service.js",
             "node_args": "--inspect=localhost:9229",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
-                "ARANGO_PASS": ""
+                "ARANGO_PASS": "",
+                "COTE_HELLO_LOGS_ENABLED": 0
             }
         },
         {
@@ -88,10 +96,11 @@
             "watch": "src/ai_services/pattern-service.js",
             "node_args": "--inspect=localhost:9230",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
-                "ARANGO_PASS": ""
+                "ARANGO_PASS": "",
+                "COTE_HELLO_LOGS_ENABLED": 0
             }
         },
         {
@@ -100,10 +109,11 @@
             "watch": "src/services/ruleset-service.js",
             "node_args": "--inspect=localhost:9231",
             "env": {
-                "ARANGO_URL": "http://localhost:8529",
+                "ARANGO_URL": "http://r200:8529",
                 "ARANGO_DB": "armygeddon",
                 "ARANGO_USER": "",
-                "ARANGO_PASS": ""
+                "ARANGO_PASS": "",
+                "COTE_HELLO_LOGS_ENABLED": 0
             }
         }
     ]

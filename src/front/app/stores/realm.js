@@ -2,17 +2,29 @@ import Vue from "vue";
 import axios from "axios";
 
 const state = Vue.observable({
-    openBattles: []
+    openBattles: [],
+    map: []
 });
 
 export const getters = {
-    openBattles: () => state.openBattles
+    openBattles: () => state.openBattles,
+    map: () => state.map
 };
 
 export const mutations = {
 };
 
 export const actions ={
+    loadMap(){
+        return new Promise((resolve, reject) => {
+            axios.get('/map').then(r => {
+                state.map = r.data;
+                resolve();
+            }, e => {
+                reject();
+            });
+        });
+    },
     refreshOpenBattles() {
         return new Promise((resolve, reject) => {
             axios.get('/open').then(r => {
