@@ -36,7 +36,7 @@ function sortObject(obj) {
     return arr;
 }
 
-function toInfluence(obj){
+function toInfluence(obj) {
     return {
         key: obj.key,
         influence: Math.sqrt(obj.prob * 10000) * 10,
@@ -55,21 +55,21 @@ responder.on('*', console.log);
 var armytypesNN = null;
 
 responder.on('getMatchingUnitPattern', async req => {
-    if (!armytypesNN){
+    if (!armytypesNN) {
         var model = await storage.models.get('armytypes');
         const net = new brain.NeuralNetwork();
         armytypesNN = net.fromJSON(model.model);
     }
-    function convertRangeToChar(range){
-        var char = '.'.repeat(range[0]);
-        for(var i = range[0]; i <= range[1]; i++){
-          char += '#';
+    function convertRangeToInput(range) {
+        var input = Array(9).fill(0);
+        for (var i = range[0]; i <= range[1]; i++) {
+            input[i] = 1;
         }
-        return char.padEnd(9, '.');
-      }
-      var p = req.pattern.map(p => convertRangeToChar(p));
+        return input;
+    }
+    var p = [].concat.apply([], req.pattern.map(p => convertRangeToInput(p)));
 
-    const prob = sortObject(armytypesNN.run(character(p)));
+    const prob = sortObject(armytypesNN.run(p));
     return prob.map(p => toInfluence(p));
 });
 
@@ -88,14 +88,14 @@ subscriber.on('train', async req => {
             //activation: 'sigmoid',
             hiddenLayers: [14, 14]
         });
-        
+
         net.train(toTrainData(armytypesdata), {
             errorThresh: 0.0005,
             iterations: 100000
         });
-        
+
         var modelJSON = net.toJSON();
         storage.models.store({ id: 'armytypes', model: modelJSON });
-        armytypesNN = null;
+        armytypesNN = net;
     }
 });
