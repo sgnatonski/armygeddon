@@ -61,13 +61,14 @@ responder.on('register', async req => {
         var userId = crypto.randomBytes(8).toString("hex");
         
         await rulesetRequester.send({ type: 'calculatePlayer', userId: userId });
-        await armyRequester.send({ type: 'create', userId: userId, userName: req.user.name });
+        var startingTileId = await armyRequester.send({ type: 'create', userId: userId, userName: req.user.name });
 
         var user = {
             id: userId,
             name: req.user.name,
             mail: req.user.mail,
             pwdHash: await bcrypt.hash(req.user.password, 8),
+            capital: startingTileId,
             created: new Date().toISOString()
         };
 

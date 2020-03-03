@@ -20,12 +20,12 @@ function undoc(doc){
 responder.on('*', console.log);
 
 responder.on('get', async req => {
-    //var user = await storage.users.get(req.userId);
+    var user = await storage.users.get(req.userId);
     try {
         const cursor = await storage.query(aql`WITH passages
         FOR vertex
           IN 0..10
-          ANY 'tiles/3580745'
+          ANY '${user.capital}'
           GRAPH 'map'
           OPTIONS { bfs: true, uniqueVertices: 'global' }
           RETURN vertex`);
