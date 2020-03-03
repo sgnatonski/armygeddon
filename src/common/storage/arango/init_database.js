@@ -26,9 +26,9 @@ async function ensureGraphExists(db, graphName) {
     if (!await graph.exists()) {
         await graph.create({
             edgeDefinitions: [{
-              collection: 'passages',
-              from: ['tiles'],
-              to: ['tiles']
+                collection: 'passages',
+                from: ['tiles'],
+                to: ['tiles']
             }]
         });
     }
@@ -41,7 +41,7 @@ async function createInitData(db) {
     }
     catch (err) {
         if (err.code == 404) {
-            var unittypes = require("../../../data/init.unittypes.json");            
+            var unittypes = require("../../../data/init.unittypes.json");
             await inits.save(unittypes);
         }
         else throw err;

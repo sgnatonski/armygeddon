@@ -24,7 +24,7 @@ responder.on('create', async req => {
     }, u));
   
     await storage.armies.store(army);
-    await mapRegistry.assignStartingTile(req.userName, req.userId, army.id);
+    return await mapRegistry.assignStartingTile(req.userName, req.userId, army.id);
 });
 
 responder.on('armies', async req => {

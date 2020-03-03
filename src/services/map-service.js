@@ -25,7 +25,7 @@ responder.on('get', async req => {
         const cursor = await storage.query(aql`WITH passages
         FOR vertex
           IN 0..10
-          ANY '${user.capital}'
+          ANY ${user.capital}
           GRAPH 'map'
           OPTIONS { bfs: true, uniqueVertices: 'global' }
           RETURN vertex`);
