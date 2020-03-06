@@ -33,7 +33,7 @@ export default [
             ].concat(isProduction ? [terser()] : [])
     },
     {
-        external: ['konva', 'vue', 'vue-konva', 'vue-router', 'vuetify', 'axios', 'jsnlog', 'bhex'],
+        external: ['konva', 'vue', 'vue-konva', 'vue-router', 'vuetify', 'axios', 'jsnlog', 'bhex', 'leaflet', 'vue2-leaflet'],
         input: { app: `src/front/app/main.${isProduction ? "prod" : "dev"}.js` },
         output: {
             format: 'iife',
@@ -48,7 +48,9 @@ export default [
                 'vue-router': 'VueRouter',
                 'axios': 'axios',
                 'jsnlog': 'JL',
-                'bhex': 'BHex'
+                'bhex': 'BHex',
+                'leaflet': 'L',
+                'vue2-leaflet': 'Vue2Leaflet'
             }
         },
         plugins:
