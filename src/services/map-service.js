@@ -23,12 +23,19 @@ responder.on('get', async req => {
     var user = await storage.users.get(req.userId);
     try {
         const cursor = await storage.query(aql`WITH passages
-        FOR vertex
+        FOR v
           IN 0..10
           ANY ${user.capital}
           GRAPH 'map'
           OPTIONS { bfs: true, uniqueVertices: 'global' }
-          RETURN vertex`);
+          RETURN { 
+            id: v._key, 
+            coord: v.coord, 
+            owner: v.owner,
+            owned: v.userId == ${user.id},
+            armyId: v.armyId,
+            type: v.type
+        }`);
         var tiles = await cursor.all();
         return tiles.map(t => undoc(t));
     }

@@ -9,34 +9,14 @@
         :center="center"
         :crs="crs"
         :attributionControl="false"
+        @zoomstart="zoomstart"
+        @zoomend="zoomend"
       >
-        <l-polygon-fill-pattern
+        <MapTile
           v-for="tile in tiles"
           :key="tile.name"
-          :lat-lngs="tile.latlngs"
-          :fillPattern="tile.image"
-          imageScale="0.2"
-        ></l-polygon-fill-pattern>
-        <l-marker v-for="tile in tiles" :key="tile.name" :lat-lng="tile" :icon="tile.icon">
-          <l-popup>
-            <v-card class="mx-auto" max-width="344">
-              <v-card-text>
-                <div>{{tile.name}}</div>
-                <p class="display-1 text--primary">be•nev•o•lent</p>
-                <p>adjective</p>
-                <div class="text--primary">
-                  well meaning and kindly.
-                  <br />"a benevolent smile"
-                </div>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn text color="deep-purple accent-4">Learn More</v-btn>
-              </v-card-actions>
-            </v-card>
-          </l-popup>
-        </l-marker>
-        <l-marker v-for="unit in units" :key="unit.name" :lat-lng="unit" :icon="unit.icon">
-        </l-marker>
+          :tile="tile"
+        ></MapTile>
       </l-map>
     </Panel>
   </div>
@@ -45,70 +25,46 @@
 <script>
 import Menu from "../components/game/menu.vue";
 import Panel from "../components/ui/panel.vue";
+import MapTile from "../components/map/map-tile.vue";
 import { getters, actions } from "../stores/realm";
-const s = 50;
-const t = 30;
-const u = 56;
-
-const grid = [
-  [0, -u],
-  [s, -t],
-  [s, t],
-  [0, u],
-  [-s, t],
-  [-s, -t]
-];
 
 export default {
   components: {
     Menu,
     Panel,
-    LMap: window.Vue2Leaflet.LMap,
-    LTileLayer: window.Vue2Leaflet.LTileLayer,
-    LMarker: window.Vue2Leaflet.LMarker,
-    LPolygon: window.Vue2Leaflet.LPolygon,
-    LPopup: window.Vue2Leaflet.LPopup
+    MapTile,
+    LMap: window.Vue2Leaflet.LMap
   },
   data() {
     return {
-      minZoom: -1,
+      minZoom: 0,
       maxZoom: 3,
       zoom: 1,
       crs: window.L.CRS.Simple,
-      center: [0, 0]
+      center: [0, 0],
+      showMarkers: true,
+      showUnits: true
     };
   },
   computed: {
-    tiles: () =>
-      getters.map().map(t => ({
-        name: t.name,
-        lng: t.coord.x,
-        lat: t.coord.y,
-        latlngs: grid.map(g => [g[1] + t.coord.y, g[0] + t.coord.x]),
-        image: "/images/Geographical Features/Grass Group5.png",
-        icon: window.L.icon({
-          iconUrl: "/images/Settlements/C-Fort.png",
-          iconSize: [64, 64],
-          iconAnchor: [32, 32]
-        })
-      })),
-    units: () =>
-      getters
-        .map()
-        .filter(t => t.armyId)
-        .map(t => ({
-          name: t.name,
-          lng: t.coord.x,
-          lat: t.coord.y,
-          icon: window.L.icon({
-            iconUrl: "/images/Embelishment Icons/Pendant4.png",
-            iconSize: [40, 40],
-            iconAnchor: [80, 80]
-          })
-        }))
+    tiles: args => (args.showMarkers ? getters.map() : []),
+    units: args =>
+      args.showMarkers && args.showUnits
+        ? getters.map().filter(t => t.armyId)
+        : []
   },
   created() {
     actions.loadMap();
+  },
+  methods: {
+    zoomstart(evt) {
+      this.showMarkers = false;
+    },
+    zoomend(evt) {
+      var z = this.$refs.map.mapObject.getZoom();
+      this.showUnits = z > 0;
+      this.showMarkers = true;
+    }
   }
 };
 </script>

@@ -75,9 +75,9 @@ module.exports = {
             var map = await storage.map;
             var startingTile = await map.vertexCollection('tiles').save({
                 owner: userName,
-                name: `Area of ${userName}`,
                 userId: userId,
                 armyId: armyId,
+                type: "fort",
                 coord: coord
             });
 
