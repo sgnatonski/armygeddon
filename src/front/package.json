@@ -19,6 +19,7 @@
     "timeago.js": "^3.0.2",
     "validator": "^10.2.0",
     "ws": "^5.1.1",
-    "vue-headful": "^2.1.0"
+    "vue-headful": "^2.1.0",
+    "vue2-leaflet-polygonfillpattern": "^2.0.2"
   }
 }

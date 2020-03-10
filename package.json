@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "rollup:watch": "rollup -c -w",
-    "backend": "pm2 start armygeddon.json --no-daemon",
+    "backend": "pm2 start ecosystem.config.js --no-daemon",
     "compose:build": "docker-compose build",
     "compose:push": "docker-compose push",
     "front:dev": "rollup -c",
@@ -21,6 +21,7 @@
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@rollup/plugin-replace": "^2.3.1",
+    "dotenv": "^8.2.0",
     "npm-run-all": "^4.1.5",
     "rollup": "^1.31.1",
     "rollup-plugin-clear": "^2.0.7",
