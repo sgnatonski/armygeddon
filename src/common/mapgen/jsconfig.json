@@ -9,5 +9,5 @@
         "checkJs": true,
         "lib": [ "dom", "webworker", "es2017" ]
     },
-    "include": ["*.js"]
+    "include": ["*.js", "core/config.js", "core/generate-points.js", "../../front/mapgen/geometry.js", "../../front/mapgen/colormap.js", "../../front/mapgen/map.js", "../../front/mapgen/mapgen4.js", "../../front/mapgen/mapgen.worker.js", "../../front/mapgen/mesh.js", "../../front/mapgen/painting.js", "../../front/mapgen/render.js"]
 }

@@ -7,12 +7,12 @@
  */
 'use strict';
 
-const DualMesh = require('@redblobgames/dual-mesh');
-const Map      = require('./map');
-const Geometry = require('./geometry');
+import DualMesh from '/DualMesh.js';
+import Map from './map.js';
+import { setMapGeometry, setRiverTextures } from './geometry.js';
 
 /**
- * @typedef { import("./types").Mesh } Mesh
+ * @typedef { import("@internal/common/mapgen/types").Mesh } Mesh
  */
 
 function Worker(self) {
@@ -42,9 +42,9 @@ function Worker(self) {
             if (run.biomes) { map.assignRainfall(param.biomes); }
             if (run.rivers) { map.assignRivers(param.rivers); }
             if (run.elevation || run.rivers) {
-                Geometry.setMapGeometry(map, new Int32Array(quad_elements_buffer), new Float32Array(a_quad_em_buffer));
+                setMapGeometry(map, new Int32Array(quad_elements_buffer), new Float32Array(a_quad_em_buffer));
             }
-            if (run.rivers) { numRiverTriangles = Geometry.setRiverTextures(map, param.spacing, param.rivers, new Float32Array(a_river_xyuv_buffer)); }
+            if (run.rivers) { numRiverTriangles = setRiverTextures(map, param.spacing, param.rivers, new Float32Array(a_river_xyuv_buffer)); }
             let elapsed = performance.now() - start_time;
 
             self.postMessage(
@@ -66,4 +66,4 @@ function Worker(self) {
     self.addEventListener('message', event => handler(event));
 }
 
-module.exports = Worker;
+export default Worker;

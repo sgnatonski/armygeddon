@@ -1,24 +1,54 @@
 <template>
   <div id="map-scene">
-    <Panel class="map-panel">
-      <l-map
-        ref="map"
-        :zoom="zoom"
-        :min-zoom="minZoom"
-        :max-zoom="maxZoom"
-        :center="center"
-        :crs="crs"
-        :attributionControl="false"
-        @zoomstart="zoomstart"
-        @zoomend="zoomend"
-      >
-        <MapTile
-          v-for="tile in tiles"
-          :key="tile.name"
-          :tile="tile"
-        ></MapTile>
-      </l-map>
-    </Panel>
+    <div id="map">
+      <canvas id="mapgen4" width="2048" height="2048" />
+    </div>
+    <div id="ui">
+      <button id="small">
+        <svg viewBox="-50 -50 100 100">
+          <circle r="20" />
+        </svg>
+      </button>
+      <button id="medium">
+        <svg viewBox="-50 -50 100 100">
+          <circle r="35" />
+        </svg>
+      </button>
+      <button id="large">
+        <svg viewBox="-50 -50 100 100">
+          <circle r="50" />
+        </svg>
+      </button>
+
+      <button id="ocean" title="Ocean">
+        <svg viewBox="-50 -50 100 100">
+          <text y="45">Ocean</text>
+          <path d="M -60,-30 Q 0,80 60,-30 z" fill="hsl(240,50%,40%)" />
+        </svg>
+      </button>
+      <button id="shallow" title="Water">
+        <svg viewBox="-50 -50 100 100">
+          <text y="45">Water</text>
+          <path d="M -60,-10 Q 0,30 60,-10 z" fill="hsl(200,50%,70%)" />
+        </svg>
+      </button>
+      <button id="valley" title="Valley">
+        <svg viewBox="-50 -50 100 100">
+          <text y="45">Valley</text>
+          <path d="M -60,10 L -50,-10 L 50,-10 L 60,10 z" fill="hsl(100,50%,70%)" />
+        </svg>
+      </button>
+      <button id="mountain" title="Mountain">
+        <svg viewBox="-50 -50 100 100">
+          <text y="45">Mountain</text>
+          <path d="M -60,30 L 0,-30 L 60,30 z" fill="hsl(60,50%,40%)" />
+        </svg>
+      </button>
+
+      <div id="sliders">
+        <button id="button-reset">Reset</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,12 +58,13 @@ import Panel from "../components/ui/panel.vue";
 import MapTile from "../components/map/map-tile.vue";
 import { getters, actions } from "../stores/realm";
 
+import mapgen4 from "../../mapgen/mapgen4";
+
 export default {
   components: {
     Menu,
     Panel,
-    MapTile,
-    LMap: window.Vue2Leaflet.LMap
+    MapTile
   },
   data() {
     return {
@@ -54,7 +85,7 @@ export default {
         : []
   },
   created() {
-    actions.loadMap();
+    actions.loadMap().then(() => mapgen4());
   },
   methods: {
     zoomstart(evt) {

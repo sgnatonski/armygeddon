@@ -8,16 +8,17 @@
 
 'use strict';
 
-const {vec4, mat4} = require('gl-matrix');
-const colormap = require('./colormap');
-const Geometry = require('./geometry');
-const regl = require('regl')({
+import { vec4, mat4 } from 'gl-matrix';
+import { width as _width, height as _height, data as _data } from './colormap';
+import { createRiverBitmap, setMeshGeometry } from './geometry';
+import reglFunc from 'regl';
+const regl = reglFunc({
     canvas: "#mapgen4",
     extensions: ['OES_element_index_uint']
 });
 
 
-const river_texturemap = regl.texture({data: Geometry.createRiverBitmap(), mipmap: 'nice', min: 'mipmap', mag: 'linear', premultiplyAlpha: true});
+const river_texturemap = regl.texture({data: createRiverBitmap(), mipmap: 'nice', min: 'mipmap', mag: 'linear', premultiplyAlpha: true});
 const fbo_texture_size = 2048;
 const fbo_land_texture = regl.texture({width: fbo_texture_size, height: fbo_texture_size});
 const fbo_land = regl.framebuffer({color: [fbo_land_texture]});
@@ -276,7 +277,7 @@ void main() {
     uniforms: {
         u_projection: regl.prop('u_projection'),
         u_depth: regl.prop('u_depth'),
-        u_colormap: regl.texture({width: colormap.width, height: colormap.height, data: colormap.data, wrapS: 'clamp', wrapT: 'clamp'}),
+        u_colormap: regl.texture({width: _width, height: _height, data: _data, wrapS: 'clamp', wrapT: 'clamp'}),
         u_mapdata: () => fbo_land_texture,
         u_water: regl.prop('u_water'),
         u_inverse_texture_size: 1.5 / fbo_texture_size,
@@ -352,7 +353,7 @@ class Renderer {
         this.a_river_xyuv = new Float32Array(1.5 * 3 * 4 * mesh.numSolidTriangles);
         this.numRiverTriangles = 0;
         
-        Geometry.setMeshGeometry(mesh, this.a_quad_xy);
+        setMeshGeometry(mesh, this.a_quad_xy);
         
         this.buffer_quad_xy = regl.buffer({
             usage: 'static',
@@ -550,4 +551,4 @@ class Renderer {
     }
 }
 
-exports.Renderer = Renderer;
+export default Renderer;

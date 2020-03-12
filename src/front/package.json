@@ -19,6 +19,14 @@
     "timeago.js": "^3.0.2",
     "validator": "^10.2.0",
     "ws": "^5.1.1",
-    "vue-headful": "^2.1.0"
+    "vue-headful": "^2.1.0",
+    "simplex-noise": "^2.4.0",
+    "@redblobgames/dual-mesh": "https://github.com/redblobgames/dual-mesh",
+    "@redblobgames/prng": "https://github.com/redblobgames/prng",
+    "flatqueue": "^1.1.0",
+    "gl-matrix": "^3.2.1",
+    "hash-int": "^1.0.0",
+    "regl": "^1.4.2",
+    "delaunator": "4.0.1"
   }
 }

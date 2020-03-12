@@ -19,14 +19,13 @@
  */
 'use strict';
 
-const param       = require('./config');
-const DualMesh    = require('@redblobgames/dual-mesh');
-const MeshBuilder = require('@redblobgames/dual-mesh/create');
-const {makeRandInt, makeRandFloat} = require('@redblobgames/prng');
+const param       = require('@internal/common/mapgen/core/config');
+const MeshBuilder = require('DualMesh');
+const { makeRandFloat } = require('@redblobgames/prng');
 
 
 /**
- * @typedef { import("./types").Mesh } Mesh
+ * @typedef { import("@internal/common/mapgen/types").Mesh } Mesh
  */
 
 
@@ -123,7 +122,7 @@ async function choosePoints() {
     let points = undefined, peaks_index = undefined;
     const jitter = 0.5;
     if (param.spacing === 5) {
-        let buffer = await fetch("build/points-5.data").then(response => response.arrayBuffer());
+        let buffer = window.TEST_mapPoints;//await fetch("build/points-5.data").then(response => response.arrayBuffer());
         let extraction = extractPoints(buffer);
         points = applyJitter(extraction.points, param.spacing * jitter * 0.5, makeRandFloat(param.mesh.seed));
         peaks_index = extraction.peaks_index;

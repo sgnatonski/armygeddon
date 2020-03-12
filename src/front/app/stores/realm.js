@@ -3,12 +3,14 @@ import axios from "axios";
 
 const state = Vue.observable({
     openBattles: [],
-    map: []
+    map: [],
+    mapPoints: []
 });
 
 export const getters = {
     openBattles: () => state.openBattles,
-    map: () => state.map
+    map: () => state.map,
+    mapPoints: () => state.mapPoints
 };
 
 export const mutations = {
@@ -19,6 +21,7 @@ export const actions ={
         return new Promise((resolve, reject) => {
             axios.get('/map').then(r => {
                 state.map = r.data;
+                window.TEST_mapPoints = Uint16Array.from(r.data);
                 resolve();
             }, e => {
                 reject();

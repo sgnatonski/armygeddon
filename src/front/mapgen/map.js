@@ -8,9 +8,9 @@
  */
 'use strict';
 
-const SimplexNoise = require('simplex-noise');
-const FlatQueue = require('flatqueue');
-const {makeRandInt, makeRandFloat} = require('@redblobgames/prng');
+import SimplexNoise from 'simplex-noise';
+import FlatQueue from 'flatqueue';
+import { makeRandFloat } from '@redblobgames/prng';
 
 const mountain = {
     slope: 20,
@@ -18,7 +18,7 @@ const mountain = {
 };
 
 /**
- * @typedef { import("./types").Mesh } Mesh
+ * @typedef { import("@internal/common/mapgen/types").Mesh } Mesh
  */
 
 /**
@@ -396,4 +396,4 @@ function assignFlow(mesh, riversParam, order_t, t_elevation, t_moisture, t_downs
 }
 
 
-module.exports = Map;
+export default Map;

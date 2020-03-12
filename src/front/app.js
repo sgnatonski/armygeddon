@@ -37,6 +37,7 @@ app.use(favicon(path.join(__dirname, 'assets', 'favicon.png')));
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'dist'), { maxAge: '30d' }));
 app.use(express.static(path.join(__dirname, 'assets'), { maxAge: '30d' }));
+app.use(express.static(path.join(__dirname, 'mapgen'), { maxAge: '10s' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(appCookieParser);

@@ -1,11 +1,9 @@
 import Vue from 'vue';
 import VueHeadful from 'vue-headful';
-import PolygonFillpattern from "vue2-leaflet-polygonfillpattern";
 import App from './app.vue';
 
 Konva.pixelRatio = 1;
 Vue.component('vue-headful', VueHeadful);
-Vue.use(PolygonFillpattern);
 
 export default (router) => {
     return new Vue({

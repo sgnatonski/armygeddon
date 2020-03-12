@@ -13,9 +13,9 @@
     "server:dev": "run-p rollup:watch backend"
   },
   "dependencies": {
+    "@internal/ai_services": "file:src/ai_services",
     "@internal/front": "file:src/front",
-    "@internal/services": "file:src/services",
-    "@internal/ai_services": "file:src/ai_services"
+    "@internal/services": "file:src/services"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.2",
