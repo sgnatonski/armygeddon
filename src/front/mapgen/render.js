@@ -380,11 +380,6 @@ class Renderer {
             type: 'float',
             length: 4 * this.a_river_xyuv.length,
         });
-
-        this.screenshotCanvas = document.createElement('canvas');
-        this.screenshotCanvas.width = fbo_texture_size;
-        this.screenshotCanvas.height = fbo_texture_size;
-        this.screenshotCallback = null;
         
         this.renderParam = undefined;
         this.startDrawingLoop();
@@ -508,26 +503,6 @@ class Renderer {
             drawFinal({
                 u_offset: [0.5 / fbo_texture_size, 0.5 / fbo_texture_size],
             });
-
-            if (this.screenshotCallback) {
-                // TODO: regl says I need to use preserveDrawingBuffer
-                const gl = regl._gl;
-                const ctx = this.screenshotCanvas.getContext('2d');
-                const imageData = ctx.getImageData(0, 0, fbo_texture_size, fbo_texture_size);
-                const bytesPerRow = 4 * fbo_texture_size;
-                const buffer = new Uint8Array(bytesPerRow * fbo_texture_size);
-                gl.readPixels(0, 0, fbo_texture_size, fbo_texture_size, gl.RGBA, gl.UNSIGNED_BYTE, buffer);
-
-                // Flip row order from WebGL to Canvas
-                for (let y = 0; y < fbo_texture_size; y++) {
-                    const rowBuffer = new Uint8Array(buffer.buffer, y * bytesPerRow, bytesPerRow);
-                    imageData.data.set(rowBuffer, (fbo_texture_size-y-1) * bytesPerRow);
-                }
-                ctx.putImageData(imageData, 0, 0);
-
-                this.screenshotCallback();
-                this.screenshotCallback = null;
-            }
                 
             // I don't have to clear fbo_em because it doesn't have depth
             // and will be redrawn every frame. I do have to clear

@@ -20,7 +20,7 @@
 'use strict';
 
 const param       = require('@internal/common/mapgen/core/config');
-const MeshBuilder = require('DualMesh');
+const MeshBuilder = require('@redblobgames/dual-mesh/create');
 const { makeRandFloat } = require('@redblobgames/prng');
 
 

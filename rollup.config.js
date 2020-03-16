@@ -28,31 +28,12 @@ export default [
                 commonJS(),
                 htmlTemplate({
                     template: 'src/front/app/index.html',
-                    target: `${distDir}/_coreindex_bhex.html`
-                })
-            ].concat(isProduction ? [terser()] : [])
-    },
-    {
-        input: { DualMesh: 'node_modules/@redblobgames/dual-mesh/create.js' },
-        output: {
-            format: 'iife',
-            dir: distDir,
-            name: 'DualMesh',
-        },
-        plugins:
-            [
-                resolve({
-                    jsnext: true, browser: true
-                }),
-                commonJS(),
-                htmlTemplate({
-                    template: `${distDir}/_coreindex_bhex.html`,
                     target: `${distDir}/_coreindex.html`
                 })
             ].concat(isProduction ? [terser()] : [])
     },
     {
-        external: ['konva', 'vue', 'vue-konva', 'vue-router', 'vuetify', 'axios', 'jsnlog', 'bhex', 'leaflet', 'vue2-leaflet', 'DualMesh'],
+        external: ['konva', 'vue', 'vue-konva', 'vue-router', 'vuetify', 'axios', 'jsnlog', 'bhex', 'leaflet', 'vue2-leaflet'],
         input: { app: `src/front/app/main.${isProduction ? "prod" : "dev"}.js` },
         output: {
             format: 'iife',
@@ -69,8 +50,7 @@ export default [
                 'jsnlog': 'JL',
                 'bhex': 'BHex',
                 'leaflet': 'L',
-                'vue2-leaflet': 'Vue2Leaflet',
-                'DualMesh': 'DualMesh'
+                'vue2-leaflet': 'Vue2Leaflet'
             }
         },
         plugins:

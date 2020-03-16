@@ -27,6 +27,7 @@
     "gl-matrix": "^3.2.1",
     "hash-int": "^1.0.0",
     "regl": "^1.4.2",
-    "delaunator": "4.0.1"
+    "delaunator": "4.0.1",
+    "poisson-disk-sampling": "^2.2.0"
   }
 }

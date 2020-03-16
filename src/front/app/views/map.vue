@@ -1,54 +1,8 @@
 <template>
   <div id="map-scene">
-    <div id="map">
+    <Panel id="map">
       <canvas id="mapgen4" width="2048" height="2048" />
-    </div>
-    <div id="ui">
-      <button id="small">
-        <svg viewBox="-50 -50 100 100">
-          <circle r="20" />
-        </svg>
-      </button>
-      <button id="medium">
-        <svg viewBox="-50 -50 100 100">
-          <circle r="35" />
-        </svg>
-      </button>
-      <button id="large">
-        <svg viewBox="-50 -50 100 100">
-          <circle r="50" />
-        </svg>
-      </button>
-
-      <button id="ocean" title="Ocean">
-        <svg viewBox="-50 -50 100 100">
-          <text y="45">Ocean</text>
-          <path d="M -60,-30 Q 0,80 60,-30 z" fill="hsl(240,50%,40%)" />
-        </svg>
-      </button>
-      <button id="shallow" title="Water">
-        <svg viewBox="-50 -50 100 100">
-          <text y="45">Water</text>
-          <path d="M -60,-10 Q 0,30 60,-10 z" fill="hsl(200,50%,70%)" />
-        </svg>
-      </button>
-      <button id="valley" title="Valley">
-        <svg viewBox="-50 -50 100 100">
-          <text y="45">Valley</text>
-          <path d="M -60,10 L -50,-10 L 50,-10 L 60,10 z" fill="hsl(100,50%,70%)" />
-        </svg>
-      </button>
-      <button id="mountain" title="Mountain">
-        <svg viewBox="-50 -50 100 100">
-          <text y="45">Mountain</text>
-          <path d="M -60,30 L 0,-30 L 60,30 z" fill="hsl(60,50%,40%)" />
-        </svg>
-      </button>
-
-      <div id="sliders">
-        <button id="button-reset">Reset</button>
-      </div>
-    </div>
+    </Panel>
   </div>
 </template>
 
@@ -84,7 +38,7 @@ export default {
         ? getters.map().filter(t => t.armyId)
         : []
   },
-  created() {
+  mounted() {
     actions.loadMap().then(() => mapgen4());
   },
   methods: {
